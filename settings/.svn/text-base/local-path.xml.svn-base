@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+<project name="path-local" default="donothingToMakeAValidAntFile" basedir=".">
+
+    <target name="donothingToMakeAValidAntFile"/>
+	
+	<path id="path.productionlibs">
+		<fileset dir="lib/default" />
+		<fileset dir="lib/local" />
+	</path>
+</project>

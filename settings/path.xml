@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<project name="path" default="donothingToMakeAValidAntFile" basedir=".">
+
+	<property name="target.build" value="target/artifacts" />
+	<property name="main.src" value="src/main/java" />
+	<property name="main.target" value="target/main/classes" />
+	<property name="main.resources" value="src/main/resources" />
+	<property name="test.src" value="src/test/java" />
+	<property name="test.target" value="target/test/classes" />
+	<property name="test.reports" value="target/test/reports" />
+	<property name="test.resources" value="src/test/resources" />
+	<property name="functionaltest.src" value="src/functionaltest/java" />
+	<property name="functionaltest.target" value="target/functionaltest/classes" />
+	<property name="functionaltest.reports" value="target/functionaltest/reports" />
+	<property name="functionaltest.resources" value="src/functionaltest/resources" />
+
+	
+    <target name="donothingToMakeAValidAntFile"/>
+	
+	<path id="path.productionlibs">
+		<fileset dir="lib/default" />
+	</path>
+
+	<path id="path.testing">
+<!--		<fileset dir="lib/test" /> -->
+		<path refid="path.productionlibs" />
+		<dirset dir="${main.target}"/>
+		<dirset dir="${test.target}"/>
+	</path>
+	
+	<path id="path.functionaltesting">
+		<path refid="path.productionlibs" />
+		<path refid="path.testing" />
+		<dirset dir="${functionaltest.target}"/>
+	</path>
+	
+</project>

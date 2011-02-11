@@ -1,0 +1,75 @@
+<project name="neo4j-tutorial" default="functional-test" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
+	<property name="settings.dir" location="settings" />
+	<property name="lib.dir" location="lib" />
+
+	<import file="${settings.dir}/install-ivy.xml" />
+	<import file="${settings.dir}/path.xml" />
+	<import file="${settings.dir}/test.xml" />
+
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="tools/ant/ant-contrib-0.6.jar" />
+
+	<target name="lib.retrieve" depends="install-ivy">
+		<mkdir dir="${lib.dir}" />
+		<ivy:settings file="${settings.dir}/ivysettings.xml" />
+        <ivy:resolve file="${settings.dir}/ivy.xml" />
+		<ivy:retrieve type="jar" pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" />
+		<ivy:retrieve type="bundle" conf="default" pattern="${lib.dir}/[artifact]-[revision].[ext]"/>
+	</target>
+
+	<target name="ivy-report" depends="lib.retrieve">
+		<ivy:report todir="target/reports/ivy" />
+	</target>
+
+	<target name="lib.clean-cache">
+		<ivy:cleancache />
+		<delete dir="${lib.dir}" />
+	</target>
+
+	<target name="clean" description="Compile production classes">
+		<delete dir="target" />
+		<delete dir="build" />
+	</target>
+
+	<target name="compile" description="Compile production classes" depends="lib.retrieve">
+		<mkdir dir="${main.target}" />
+		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.productionlibs" target="1.6" debug="true" includeAntRuntime="false" />
+		<property environment="cruise" />
+		<tstamp>
+			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>		
+		<copy file="src/main/resources/version.txt" todir="${main.target}" overwrite="true">
+			<filterset>
+				<filter token="BUILD_DATE" value="${build.timestamp}"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="compile-tests" description="Compile unit test classes" depends="compile">
+		<mkdir dir="${test.target}" />
+		<javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.5" />
+	</target>
+
+	<target name="compile-functional-tests" description="Compile functional test classes" depends="compile-tests">
+		<mkdir dir="${functionaltest.target}" />
+		<javac srcdir="${functionaltest.src}" destdir="${functionaltest.target}" classpathref="path.functionaltesting" debug="true" target="1.5" />
+	</target>
+
+
+	<target name="test" depends="clean, compile, compile-tests">
+		<fileset id="unittest.source.files" dir="${test.src}">
+			<include name="**/*Test*.java" />
+		</fileset>
+		<run_junit_tests testclasspath="path.testing" testfileset="unittest.source.files" outputdir="${test.reports}" />
+		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
+	</target>
+
+	<target name="functional-test" depends="clean, compile-functional-tests">
+		<fileset id="functionaltest.source.files" dir="${functionaltest.src}">
+			<include name="**/functionaltests/*.java" />
+		</fileset>
+		<run_junit_tests testclasspath="path.functionaltesting" testfileset="functionaltest.source.files" outputdir="${functionaltest.reports}" />
+		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
+	</target>
+
+</project>

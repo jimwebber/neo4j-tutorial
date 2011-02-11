@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+
+<project name="path-build-server" default="donothingToMakeAValidAntFile" basedir=".">
+    <target name="donothingToMakeAValidAntFile"/>
+</project>
