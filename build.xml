@@ -22,7 +22,6 @@
 	</target>
 
 	<target name="lib.clean-cache">
-		<ivy:cleancache />
 		<delete dir="${lib.dir}" />
 	</target>
 
