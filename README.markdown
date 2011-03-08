@@ -6,7 +6,7 @@ This set of Koans will provide practical guidance for getting to grips with grap
 Prerequisites
 -------------
 
-You'll need to be familiar with the Java programming language, and it'd be helpful if you understood a unit testing too. All the graph database knowledge you'll needed will be developed as part of completing the Koans. 
+You'll need to be familiar with the Java programming language, and it'd be helpful if you understood unit testing too. All the graph database knowledge you'll needed will be developed as part of completing the Koans. 
 
 Authors <a name="authors">
 -------
