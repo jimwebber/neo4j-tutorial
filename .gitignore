@@ -1,7 +1,6 @@
 .classpath
 .project
 bin
-lib
 target
 .ivy
 .DS_Store

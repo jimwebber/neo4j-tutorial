@@ -1,0 +1,762 @@
+Tue Mar 08 18:15:58 GMT 2011: Creating new db @ DoctorWhoDB/neostore
+Tue Mar 08 18:15:58 GMT 2011: Opened [DoctorWhoDB/nioneo_logical.log.1] clean empty log, version=0
+Tue Mar 08 18:15:58 GMT 2011: Opened [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] clean empty log, version=0
+Tue Mar 08 18:15:58 GMT 2011: TM new log: tm_tx_log.1
+Tue Mar 08 18:15:58 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:15:58 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:15:58 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:15:58 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:15:58 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:15:58 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:15:58 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:15:58 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:15:58 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:15:58 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:15:58 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:15:58 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:15:58 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:15:58 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:15:58 GMT 2011: 
+Tue Mar 08 18:15:58 GMT 2011: create=true
+Tue Mar 08 18:15:58 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:15:58 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:15:58 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:15:58 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:15:58 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:15:58 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:15:58 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:15:58 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:15:58 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:15:58 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:15:58 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:15:58 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:15:58 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:15:58 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:15:58 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:15:58 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:16:21 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:16:21 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:16:21 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:16:21 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:16:21 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:16:21 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:16:21 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:16:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:16:21 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:16:21 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:16:21 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:16:21 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:16:21 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:16:21 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:16:21 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:16:21 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:16:21 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:16:21 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:16:21 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:16:21 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:16:21 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:16:21 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:16:21 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:16:21 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:16:21 GMT 2011: 
+Tue Mar 08 18:16:21 GMT 2011: create=true
+Tue Mar 08 18:16:21 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:16:21 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:16:21 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:16:21 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:16:21 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:16:21 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:16:21 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:16:21 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:16:21 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:16:21 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:16:21 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:16:21 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:16:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:16:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:16:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:16:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:16:30 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:16:31 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:16:31 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:16:31 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:16:31 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:16:31 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:16:31 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:16:31 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:16:31 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:16:31 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:16:31 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:16:31 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:16:31 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:16:31 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:16:31 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:16:31 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:16:31 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:16:31 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:16:31 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:16:31 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:16:31 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:16:31 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:16:31 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:16:31 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:16:31 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:16:31 GMT 2011: 
+Tue Mar 08 18:16:31 GMT 2011: create=true
+Tue Mar 08 18:16:31 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:16:31 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:16:31 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:16:31 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:16:31 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:16:31 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:16:31 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:16:31 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:16:31 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:16:31 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:16:31 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:16:31 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:16:31 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:16:31 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:16:31 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:16:31 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:17:20 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:17:20 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:17:20 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:17:20 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:17:20 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:17:20 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:17:20 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:17:20 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:17:20 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:17:20 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:17:20 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:17:20 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:17:20 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:17:20 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:17:20 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:17:20 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:17:20 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:17:20 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:17:20 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:17:20 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:17:20 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:17:20 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:17:20 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:17:20 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:17:20 GMT 2011: 
+Tue Mar 08 18:17:20 GMT 2011: create=true
+Tue Mar 08 18:17:20 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:17:20 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:17:20 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:17:20 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:17:20 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:17:20 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:17:20 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:17:20 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:17:20 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:17:20 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:17:20 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:17:20 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:17:20 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:17:20 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:17:20 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:17:20 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:20:59 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:20:59 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:20:59 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:20:59 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:20:59 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:20:59 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:20:59 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:21:00 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:21:00 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:21:00 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:21:00 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:21:00 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:21:00 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:21:00 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:21:00 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:21:00 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:21:00 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:21:00 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:21:00 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:21:00 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:21:00 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:21:00 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:21:00 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:21:00 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:21:00 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:21:00 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:21:00 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:21:00 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:21:00 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:21:00 GMT 2011: 
+Tue Mar 08 18:21:00 GMT 2011: create=true
+Tue Mar 08 18:21:00 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:21:00 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:21:00 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:21:00 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:21:00 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:21:00 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:21:00 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:21:00 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:21:00 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:21:00 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:21:00 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:21:00 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:21:00 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:21:00 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:21:00 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:21:00 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:22:23 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:22:23 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:22:23 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:22:23 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:22:23 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:22:23 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:22:23 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:22:23 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:22:23 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:22:23 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:22:23 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:22:23 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:22:23 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:22:23 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:22:23 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:22:23 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:22:23 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:22:23 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:22:23 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:22:23 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:22:23 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:22:23 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:22:23 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:22:23 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:22:23 GMT 2011: 
+Tue Mar 08 18:22:23 GMT 2011: create=true
+Tue Mar 08 18:22:23 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:22:23 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:22:23 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:22:23 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:22:23 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:22:23 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:22:23 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:22:23 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:22:23 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:22:23 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:22:23 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:22:23 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:22:23 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:22:23 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:22:23 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:22:23 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:22:53 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:22:53 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:22:53 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:22:53 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:22:53 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:22:53 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:22:53 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:22:53 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:22:53 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:22:53 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:22:53 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:22:53 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:22:53 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:22:53 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:22:53 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:22:53 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:22:53 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:22:53 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:22:53 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:22:53 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:22:53 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:22:53 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:22:53 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:22:53 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:22:53 GMT 2011: 
+Tue Mar 08 18:22:53 GMT 2011: create=true
+Tue Mar 08 18:22:53 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:22:53 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:22:53 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:22:53 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:22:53 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:22:53 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:22:53 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:22:53 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:22:53 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:22:53 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:22:53 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:22:53 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:22:53 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:22:53 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:22:53 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:22:53 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:23:33 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:23:33 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:33 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:23:33 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:23:33 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:23:33 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:33 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:33 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:23:33 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:23:33 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:23:33 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:23:33 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:23:33 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:33 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:33 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:23:33 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:23:33 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:23:33 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:23:33 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:23:33 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:23:33 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:23:33 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:23:33 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:23:33 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:23:33 GMT 2011: 
+Tue Mar 08 18:23:33 GMT 2011: create=true
+Tue Mar 08 18:23:33 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:23:33 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:23:33 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:23:33 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:23:33 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:23:33 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:23:33 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:23:33 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:23:33 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:23:33 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:23:33 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:23:33 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:23:33 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:23:34 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:23:34 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:23:34 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:23:44 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:23:44 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:44 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:23:44 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:23:44 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:23:44 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:44 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:44 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:23:44 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:23:44 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:23:44 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:23:44 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:23:44 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:44 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:44 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:23:44 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:23:44 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:23:44 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:23:44 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:23:44 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:23:44 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:23:44 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:23:44 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:23:44 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:23:44 GMT 2011: 
+Tue Mar 08 18:23:44 GMT 2011: create=true
+Tue Mar 08 18:23:44 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:23:44 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:23:44 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:23:44 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:23:44 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:23:44 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:23:44 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:23:44 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:23:44 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:23:44 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:23:44 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:23:44 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:23:44 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:23:44 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:23:44 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:23:44 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:23:56 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:23:56 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:56 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:23:57 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:23:57 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:23:57 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:23:57 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:23:57 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:23:57 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:23:57 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:23:57 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:23:57 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:23:57 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:57 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:23:57 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:23:57 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:23:57 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:23:57 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:23:57 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:23:57 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:23:57 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:23:57 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:23:57 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:23:57 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:23:57 GMT 2011: 
+Tue Mar 08 18:23:57 GMT 2011: create=true
+Tue Mar 08 18:23:57 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:23:57 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:23:57 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:23:57 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:23:57 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:23:57 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:23:57 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:23:57 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:23:57 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:23:57 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:23:57 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:23:57 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:23:57 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:23:57 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:23:57 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:23:57 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:25:08 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:25:08 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:25:08 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:25:08 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:25:08 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:25:08 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:25:08 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:25:08 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:25:08 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:25:08 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:25:08 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:25:08 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:25:08 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:25:08 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:25:08 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:25:08 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:25:08 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:25:08 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:25:08 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:25:08 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:25:08 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:25:08 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:25:08 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:25:08 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:25:08 GMT 2011: 
+Tue Mar 08 18:25:08 GMT 2011: create=true
+Tue Mar 08 18:25:08 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:25:08 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:25:08 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:25:08 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:25:08 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:25:08 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:25:08 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:25:08 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:25:08 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:25:08 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:25:08 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:25:08 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:25:08 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:25:08 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:25:08 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:25:08 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.nodestore.db non clean shutdown detected
+Tue Mar 08 18:25:21 GMT 2011: Non clean shutdown detected on log [DoctorWhoDB/nioneo_logical.log.1]. Recovery started ...
+Tue Mar 08 18:25:21 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:25:21 GMT 2011: [DoctorWhoDB/nioneo_logical.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] sorting 0 xids
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.relationshiptypestore.db.names rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index.keys rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.index rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.strings rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db.arrays rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.propertystore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.relationshipstore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore.nodestore.db rebuild id generator, highId=1 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: DoctorWhoDB/neostore rebuild id generator, highId=4 defragged count=0
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[DoctorWhoDB/nioneo_logical.log] recovery completed.
+Tue Mar 08 18:25:21 GMT 2011: Recovery on log [DoctorWhoDB/nioneo_logical.log.1] completed.
+Tue Mar 08 18:25:21 GMT 2011: Non clean shutdown detected on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1]. Recovery started ...
+Tue Mar 08 18:25:21 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] logVersion=0 with committed tx=1
+Tue Mar 08 18:25:21 GMT 2011: [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] entries found=0 lastEntryPos=16
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] sorting 0 xids
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] checkRecoveryComplete 0 xids
+Tue Mar 08 18:25:21 GMT 2011: XaResourceManager[/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log] recovery completed.
+Tue Mar 08 18:25:21 GMT 2011: Recovery on log [/Users/jim/Documents/Neo/Development/neo4j-tutorial/DoctorWhoDB/index/lucene.log.1] completed.
+Tue Mar 08 18:25:21 GMT 2011: TM opening log: DoctorWhoDB/tm_tx_log.1
+Tue Mar 08 18:25:21 GMT 2011: --- CONFIGURATION START ---
+Tue Mar 08 18:25:21 GMT 2011: Physical mem: 8192MB, Heap size: 123MB
+Tue Mar 08 18:25:21 GMT 2011: Kernel version: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:25:21 GMT 2011: Neo4j - Graph Database Kernel 1.3-SNAPSHOT (revision: 1.3.M03-113-g6297344)
+Tue Mar 08 18:25:21 GMT 2011: Operating System: Mac OS X; version: 10.6.6; arch: x86_64; cpus: 4
+Tue Mar 08 18:25:21 GMT 2011: VM Name: Java HotSpot(TM) 64-Bit Server VM
+Tue Mar 08 18:25:21 GMT 2011: VM Vendor: Apple Inc.
+Tue Mar 08 18:25:21 GMT 2011: VM Version: 17.1-b03-307
+Tue Mar 08 18:25:21 GMT 2011: Boot Class Path: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+Tue Mar 08 18:25:21 GMT 2011: Class Path: /Users/jim/Documents/Neo/Development/neo4j-tutorial/bin:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/geronimo-jta_1.1_spec-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/log4j-1.2.16.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-backup-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-com-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-graph-algo-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-ha-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-kernel-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-lucene-index-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-management-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.lucene-3.0.1_2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-shell-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/neo4j-udc-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/netty-3.2.1.Final.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/server-api-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/zookeeper-3.3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/antlr-2.7.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-3.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-analysis-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-commons-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-tree-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/asm-util-3.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/blueprints-0.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-1.7.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-beanutils-core-1.8.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-collections-3.2.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-configuration-1.6.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-digester-1.8.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-io-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-lang-2.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/commons-logging-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/de.huxhorn.lilith.3rdparty.rrd4j-2.0.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/gremlin-0.7.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/groovy-1.7.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-core-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-jaxrs-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jackson-mapper-asl-1.6.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jansi-1.5.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-client-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-core-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-multipart-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jersey-server-1.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jetty-util-6.1.25.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/json-simple-1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/jsr311-api-1.1.1.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/mimepull-1.4.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT-static-web.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/neo4j-server-1.3-SNAPSHOT.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.fileinstall-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.framework-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.apache.felix.main-3.0.2.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.compendium-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/org.osgi.core-4.1.0.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-api-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pax-logging-service-1.5.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/pipes-0.3.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/servlet-api-2.5-20081211.jar:/Users/jim/Documents/Neo/Development/neo4j-tutorial/lib/system/wrapper.jar:/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar:/Applications/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/117/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/115/1/.cp/:/Applications/eclipse/configuration/org.eclipse.osgi/bundles/116/1/.cp/
+Tue Mar 08 18:25:21 GMT 2011: Library Path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+Tue Mar 08 18:25:21 GMT 2011: Garbage Collector: ParNew: [Par Eden Space, Par Survivor Space]
+Tue Mar 08 18:25:21 GMT 2011: Garbage Collector: ConcurrentMarkSweep: [Par Eden Space, Par Survivor Space, CMS Old Gen, CMS Perm Gen]
+Tue Mar 08 18:25:21 GMT 2011: VM Arguments: [-Dfile.encoding=MacRoman]
+Tue Mar 08 18:25:21 GMT 2011: 
+Tue Mar 08 18:25:21 GMT 2011: create=true
+Tue Mar 08 18:25:21 GMT 2011: logical_log=DoctorWhoDB/nioneo_logical.log
+Tue Mar 08 18:25:21 GMT 2011: neo_store=DoctorWhoDB/neostore
+Tue Mar 08 18:25:21 GMT 2011: neostore.nodestore.db.mapped_memory=20M
+Tue Mar 08 18:25:21 GMT 2011: neostore.propertystore.db.arrays.mapped_memory=130M
+Tue Mar 08 18:25:21 GMT 2011: neostore.propertystore.db.index.keys.mapped_memory=1M
+Tue Mar 08 18:25:21 GMT 2011: neostore.propertystore.db.index.mapped_memory=1M
+Tue Mar 08 18:25:21 GMT 2011: neostore.propertystore.db.mapped_memory=90M
+Tue Mar 08 18:25:21 GMT 2011: neostore.propertystore.db.strings.mapped_memory=130M
+Tue Mar 08 18:25:21 GMT 2011: neostore.relationshipstore.db.mapped_memory=100M
+Tue Mar 08 18:25:21 GMT 2011: rebuild_idgenerators_fast=true
+Tue Mar 08 18:25:21 GMT 2011: store_dir=DoctorWhoDB
+Tue Mar 08 18:25:21 GMT 2011: --- CONFIGURATION END ---
+Tue Mar 08 18:25:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[online backup] loaded ok
+Tue Mar 08 18:25:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+Tue Mar 08 18:25:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[shell] loaded ok
+Tue Mar 08 18:25:21 GMT 2011: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
