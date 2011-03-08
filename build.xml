@@ -2,35 +2,17 @@
 	<property name="settings.dir" location="settings" />
 	<property name="lib.dir" location="lib" />
 
-	<import file="${settings.dir}/install-ivy.xml" />
 	<import file="${settings.dir}/path.xml" />
 	<import file="${settings.dir}/test.xml" />
 
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="tools/ant/ant-contrib-0.6.jar" />
 
-	<target name="lib.retrieve" depends="install-ivy">
-		<mkdir dir="${lib.dir}" />
-		<ivy:settings file="${settings.dir}/ivysettings.xml" />
-        <ivy:resolve file="${settings.dir}/ivy.xml" />
-		
-		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact]-[revision].[ext]" />
-	</target>
-
-	<target name="ivy-report" depends="lib.retrieve">
-		<ivy:report todir="target/reports/ivy" />
-	</target>
-
-	<target name="lib.clean-cache">
-		<delete dir="${lib.dir}" />
-	</target>
 
 	<target name="clean" description="Compile production classes">
 		<delete dir="target" />
 		<delete dir="build" />
 	</target>
 
-	<target name="compile" description="Compile production classes" depends="lib.retrieve">
+	<target name="compile" description="Compile production classes">
 		<mkdir dir="${main.target}" />
 		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.productionlibs" target="1.6" debug="true" includeAntRuntime="false" />
 		<property environment="cruise" />
