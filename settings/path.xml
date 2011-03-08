@@ -19,7 +19,7 @@
     <target name="donothingToMakeAValidAntFile"/>
 	
 	<path id="path.productionlibs">
-		<fileset dir="lib/default" />
+		<fileset dir="lib" />
 	</path>
 
 	<path id="path.testing">
@@ -28,11 +28,11 @@
 		<dirset dir="${main.target}"/>
 		<dirset dir="${test.target}"/>
 	</path>
-	
+	<!--
 	<path id="path.functionaltesting">
 		<path refid="path.productionlibs" />
 		<path refid="path.testing" />
 		<dirset dir="${functionaltest.target}"/>
-	</path>
+	</path>-->
 	
 </project>

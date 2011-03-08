@@ -1,4 +1,4 @@
-<project name="neo4j-tutorial" default="functional-test" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
+<project name="neo4j-tutorial" default="test" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="settings.dir" location="settings" />
 	<property name="lib.dir" location="lib" />
 
@@ -13,8 +13,8 @@
 		<mkdir dir="${lib.dir}" />
 		<ivy:settings file="${settings.dir}/ivysettings.xml" />
         <ivy:resolve file="${settings.dir}/ivy.xml" />
-		<ivy:retrieve type="jar" pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" />
-		<ivy:retrieve type="bundle" conf="default" pattern="${lib.dir}/[artifact]-[revision].[ext]"/>
+		
+		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact]-[revision].[ext]" />
 	</target>
 
 	<target name="ivy-report" depends="lib.retrieve">
@@ -63,12 +63,13 @@
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>
 
+	<!--
 	<target name="functional-test" depends="clean, compile-functional-tests">
 		<fileset id="functionaltest.source.files" dir="${functionaltest.src}">
 			<include name="**/functionaltests/*.java" />
 		</fileset>
 		<run_junit_tests testclasspath="path.functionaltesting" testfileset="functionaltest.source.files" outputdir="${functionaltest.reports}" />
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
-	</target>
+	</target> -->
 
 </project>

@@ -4,6 +4,7 @@
 	<resolvers>
 	    <chain name="chained" returnFirst="true">
 	        <ibiblio name="neo4j" root="http://m2.neo4j.org/" m2compatible="true"/>
+	        <ibiblio name="neo4j" root="http://m2.neo4j.org/snapshots/" m2compatible="true"/>
 	        <ibiblio name="maven_central" root="http://repo1.maven.org/maven2/" m2compatible="true"/>
 	        <ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true"/>
 	        <ibiblio name="sonatype" root="https://oss.sonatype.org/content/repositories/snapshots" m2compatible="true"/>
