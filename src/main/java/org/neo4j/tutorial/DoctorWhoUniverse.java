@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -12,10 +11,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class DoctorWhoUniverse {
-    private GraphDatabaseService db = new EmbeddedGraphDatabase("DoctorWhoDB");
+    private GraphDatabaseService db = DatabaseHelper.createDatabase();
 
     public DoctorWhoUniverse() throws RuntimeException {
         try {
@@ -25,6 +23,8 @@ public class DoctorWhoUniverse {
         }
     }
 
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void loadDoctors(File doctorsData) throws JsonParseException, JsonMappingException, IOException {
 
         ObjectMapper m = new ObjectMapper();
