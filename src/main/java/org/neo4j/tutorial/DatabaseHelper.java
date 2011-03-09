@@ -53,4 +53,8 @@ public class DatabaseHelper {
         }
         return count;
     }
+
+    public static boolean nodeExistsInDatabase(GraphDatabaseService db, Node node) {
+        return db.getNodeById(node.getId()) != null;
+    }
 }
