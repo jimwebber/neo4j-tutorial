@@ -12,7 +12,7 @@ public class LessonOne extends Koan {
     public void shouldCreateANodeInTheDatabase() {        
         Node node = null;
 
-        ///SNIPPET_START
+        //SNIPPET_START
         
         Transaction tx = db.beginTx();
         try {
@@ -22,7 +22,7 @@ public class LessonOne extends Koan {
             tx.finish();
         }
         
-        ///SNIPPET_END
+        //SNIPPET_END
         
         assertTrue(DatabaseHelper.nodeExistsInDatabase(db, node));
     }
@@ -31,6 +31,8 @@ public class LessonOne extends Koan {
     public void shouldCreateSomePropertiesOnANode() {
         Node node = null;
 
+        //SNIPPET_START
+        
         Transaction tx = db.beginTx();
         try {
             node = db.createNode();
@@ -40,6 +42,8 @@ public class LessonOne extends Koan {
         } finally {
             tx.finish();
         }
+        
+        //SNIPPET_END
         
         assertTrue(DatabaseHelper.nodeExistsInDatabase(db, node));
         
