@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class DatabaseHelper {
@@ -56,5 +57,15 @@ public class DatabaseHelper {
 
     public static boolean nodeExistsInDatabase(GraphDatabaseService db, Node node) {
         return db.getNodeById(node.getId()) != null;
+    }
+
+    public static int countRelationships(Iterable<Relationship> relationships) {
+        Iterator<Relationship> iterator = relationships.iterator();
+        int count = 0;
+        while(iterator.hasNext()) {
+            count ++;
+            iterator.next();
+        }
+        return count;
     }
 }
