@@ -10,10 +10,9 @@
 	<property name="test.target" value="target/test/classes" />
 	<property name="test.reports" value="target/test/reports" />
 	<property name="test.resources" value="src/test/resources" />
-	<property name="functionaltest.src" value="src/functionaltest/java" />
-	<property name="functionaltest.target" value="target/functionaltest/classes" />
-	<property name="functionaltest.reports" value="target/functionaltest/reports" />
-	<property name="functionaltest.resources" value="src/functionaltest/resources" />
+	<property name="koan.src" value="src/koan/java" />
+	<property name="koan.reports" value="target/koan/reports" />
+	
 
 	
     <target name="donothingToMakeAValidAntFile"/>
