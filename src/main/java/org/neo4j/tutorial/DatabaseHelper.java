@@ -21,6 +21,7 @@ public class DatabaseHelper {
         File d;
         try {
             d = File.createTempFile("neo4j-test", "dir");
+            System.out.println(String.format("Created a new Neo4j database at [%s]", d.getAbsolutePath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,4 +1,4 @@
-<project name="neo4j-tutorial" default="test" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
+<project name="neo4j-tutorial" default="run-koans" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="settings.dir" location="settings" />
 	<property name="lib.dir" location="lib" />
 
@@ -6,13 +6,30 @@
 	<import file="${settings.dir}/test.xml" />
 
 
+	<import file="${settings.dir}/install-ivy.xml" />
+	<import file="${settings.dir}/path.xml" />
+	<import file="${settings.dir}/test.xml" />
 
-	<target name="clean" description="Compile production classes">
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="tools/ant/ant-contrib-0.6.jar" />
+
+	<target name="lib.retrieve" depends="install-ivy">
+		<mkdir dir="${lib.dir}" />
+		<ivy:settings file="${settings.dir}/ivysettings.xml" />
+		<ivy:resolve file="${settings.dir}/ivy.xml" />
+		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" changing="true"/>
+	</target>
+	
+	<target name="lib.clean-cache">
+		<delete dir="${lib.dir}" />
+	</target>
+
+	<target name="clean" description="Removes the build directory, but not any cached ivy dependencies">
 		<delete dir="target" />
 		<delete dir="build" />
 	</target>
 
-	<target name="compile" description="Compile production classes">
+	<target name="compile" description="Compile production classes" depends="lib.retrieve">
 		<mkdir dir="${main.target}" />
 		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.productionlibs" target="1.6" debug="true" includeAntRuntime="false" />
 		<property environment="cruise" />
@@ -44,6 +61,14 @@
 		<run_junit_tests testclasspath="path.testing" testfileset="unittest.source.files" outputdir="${test.reports}" />
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>
+	
+	<target name="run-koans" depends="test">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/*Test*.java" />
+		</fileset>
+		<run_junit_tests testclasspath="path.testing" testfileset="koan.source.files" outputdir="${koan.reports}" />
+		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
+	</target>	
 
 	<!--
 	<target name="functional-test" depends="clean, compile-functional-tests">

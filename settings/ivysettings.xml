@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ivysettings>
+	<settings defaultResolver="chained"/>
+	<resolvers>
+	    <chain name="chained" returnFirst="false">
+	        <ibiblio name="neo4j" root="http://m2.neo4j.org/" m2compatible="true"/>
+	        <ibiblio name="maven_central" root="http://repo1.maven.org/maven2/" m2compatible="true"/>
+	        <ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true"/>
+	    </chain>
+	</resolvers>
+	<caches>
+	    <cache name="default-cache" basedir="${ivy.cache.dir}" />
+	</caches>
+</ivysettings>
