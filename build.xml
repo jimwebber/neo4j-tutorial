@@ -31,7 +31,7 @@
 
 	<target name="compile" description="Compile production classes" depends="lib.retrieve">
 		<mkdir dir="${main.target}" />
-		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.productionlibs" target="1.6" debug="true" includeAntRuntime="false" />
+		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.libs" target="1.6" debug="true" includeAntRuntime="false" />
 		<property environment="cruise" />
 		<tstamp>
 			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -48,12 +48,6 @@
 		<javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.5" />
 	</target>
 
-	<target name="compile-functional-tests" description="Compile functional test classes" depends="compile-tests">
-		<mkdir dir="${functionaltest.target}" />
-		<javac srcdir="${functionaltest.src}" destdir="${functionaltest.target}" classpathref="path.functionaltesting" debug="true" target="1.5" />
-	</target>
-
-
 	<target name="test" depends="clean, compile, compile-tests">
 		<fileset id="unittest.source.files" dir="${test.src}">
 			<include name="**/*Test*.java" />
@@ -62,21 +56,17 @@
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>
 	
-	<target name="run-koans" depends="test">
+	<target name="compile-koans" description="Compile unit test classes">
+		<mkdir dir="${koan.target}" />
+		<javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6" />
+	</target>
+	
+	<target name="run-koans" depends="test, compile-koans">
 		<fileset id="koan.source.files" dir="${koan.src}">
-			<include name="**/*Test*.java" />
+			<include name="**/Lesson*.java" />
 		</fileset>
-		<run_junit_tests testclasspath="path.testing" testfileset="koan.source.files" outputdir="${koan.reports}" />
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}" />
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>	
-
-	<!--
-	<target name="functional-test" depends="clean, compile-functional-tests">
-		<fileset id="functionaltest.source.files" dir="${functionaltest.src}">
-			<include name="**/functionaltests/*.java" />
-		</fileset>
-		<run_junit_tests testclasspath="path.functionaltesting" testfileset="functionaltest.source.files" outputdir="${functionaltest.reports}" />
-		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
-	</target> -->
 
 </project>
