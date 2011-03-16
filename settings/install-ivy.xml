@@ -1,4 +1,4 @@
-<project xmlns:ivy="antlib:org.apache.ivy.ant">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="..">
         
     <property name="ivy.install.version" value="2.2.0" />
     <property name="ivy.jar.dir" location="${basedir}/.ivy" />
