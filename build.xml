@@ -18,6 +18,7 @@
 		<ivy:settings file="${settings.dir}/ivysettings.xml" />
 		<ivy:resolve file="${settings.dir}/ivy.xml" />
 		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" changing="true"/>
+		<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" changing="true"/>
 	</target>
 	
 	<target name="lib.clean-cache">
