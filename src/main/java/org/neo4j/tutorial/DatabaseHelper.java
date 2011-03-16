@@ -46,6 +46,24 @@ public class DatabaseHelper {
         }
     }
 
+    public static int countNodesWithAllGivenProperties(Iterable<Node> allNodes, String... propertyNames) {
+        Iterator<Node> iterator = allNodes.iterator();
+        int count = 0;
+        while(iterator.hasNext()) {
+            Node next = iterator.next();
+            
+            boolean hasAllPropertyNames = true;
+            for(String propertyName : propertyNames) {
+                hasAllPropertyNames = hasAllPropertyNames && next.hasProperty(propertyName);
+                if(!hasAllPropertyNames) break; // Modest optimisation
+            }
+            if(hasAllPropertyNames) {
+                count ++;
+            }
+        }
+        return count;
+    }
+    
     public static int countNodes(Iterable<Node> allNodes) {
         Iterator<Node> iterator = allNodes.iterator();
         int count = 0;
