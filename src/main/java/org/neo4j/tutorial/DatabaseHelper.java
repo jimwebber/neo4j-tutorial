@@ -2,14 +2,16 @@ package org.neo4j.tutorial;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 
-public class DatabaseHelper {
+public class DatabaseHelper<T> {
 
     public static GraphDatabaseService createDatabase() {
 
@@ -86,5 +88,23 @@ public class DatabaseHelper {
             iterator.next();
         }
         return count;
+    }
+
+    public static void dumpNode(Node node) {
+        for(String key : node.getPropertyKeys()) {
+            System.out.println(String.format("Node ID [%d]", node.getId()));
+            System.out.print(key + " : ");
+            System.out.println(node.getProperty(key));
+        }
+    }
+
+    public static List<Relationship> toList(Iterable<Relationship> relationshipsIterable) {
+        ArrayList<Relationship> relationships = new ArrayList<Relationship>();
+        
+        for(Relationship r : relationshipsIterable) {
+            relationships.add(r);
+        }
+        
+        return relationships;
     }
 }
