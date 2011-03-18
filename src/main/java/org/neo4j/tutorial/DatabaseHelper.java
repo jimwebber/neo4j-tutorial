@@ -9,6 +9,7 @@ import java.util.List;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.index.IndexHits;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class DatabaseHelper<T> {
@@ -67,13 +68,7 @@ public class DatabaseHelper<T> {
     }
     
     public static int countNodes(Iterable<Node> allNodes) {
-        Iterator<Node> iterator = allNodes.iterator();
-        int count = 0;
-        while(iterator.hasNext()) {
-            count ++;
-            iterator.next();
-        }
-        return count;
+        return destructivelyCount(allNodes);
     }
 
     public static boolean nodeExistsInDatabase(GraphDatabaseService db, Node node) {
@@ -81,13 +76,7 @@ public class DatabaseHelper<T> {
     }
 
     public static int countRelationships(Iterable<Relationship> relationships) {
-        Iterator<Relationship> iterator = relationships.iterator();
-        int count = 0;
-        while(iterator.hasNext()) {
-            count ++;
-            iterator.next();
-        }
-        return count;
+        return destructivelyCount(relationships);
     }
 
     public static void dumpNode(Node node) {
@@ -106,5 +95,19 @@ public class DatabaseHelper<T> {
         }
         
         return relationships;
+    }
+
+    public static int count(IndexHits<Node> indexHits) {
+        return destructivelyCount(indexHits);
+    }
+    
+    private static int destructivelyCount(Iterable<?> iterable) {
+        int count = 0;
+        
+        for(@SuppressWarnings("unused") Object o : iterable) {
+            count ++;
+        }
+        
+        return count;
     }
 }

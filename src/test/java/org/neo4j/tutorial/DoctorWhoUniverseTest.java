@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -12,10 +13,12 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.index.IndexService;
 
 public class DoctorWhoUniverseTest {
 
+    private static final DynamicRelationshipType REGNERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
+    private static final DynamicRelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
+    
     private DoctorWhoUniverse doctorWhoUniverse = new DoctorWhoUniverse();
     private GraphDatabaseService doctorWhoDatabase;
 
@@ -32,28 +35,55 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldHave11Doctors() {
         int numberOfDoctors = 11;
-        int referenceNodeCount = 1;
-        assertEquals(numberOfDoctors + referenceNodeCount, DatabaseHelper.countNodes(doctorWhoDatabase.getAllNodes()));
-
+        
+        Node theDoctor = doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Doctor");
+        assertNotNull(theDoctor);
+        assertEquals(numberOfDoctors, DatabaseHelper.countRelationships(theDoctor.getRelationships(PLAYED, Direction.INCOMING)));
     }
 
     @Test
     public void shouldBeTenRegenerationRelationshipsBetweenTheElevenDoctors() {
-        IndexService index = doctorWhoUniverse.getIndex();
-        Node currentDoctor = index.getSingleNode("lastname", "Hartnell");
+        Node currentDoctor = doctorWhoUniverse.getIndex().getSingleNode("lastname", "Hartnell");
+        int numberOfDoctorsRegenerations = 10;
+        assertEquals(numberOfDoctorsRegenerations, countRelationships(currentDoctor));
+    }
+    
+    @Test
+    public void shouldBeSevenRegenerationRelationshipsBetweenTheEightMasters() {
+        Node currentDoctor = doctorWhoUniverse.getIndex().getSingleNode("lastname", "Delgado");
+        int numberOfMastersRegenerations = 7;
+        assertEquals(numberOfMastersRegenerations, countRelationships(currentDoctor));
+    }
+
+    private int countRelationships(Node timelord) {
         int regenerationCount = 0;
         while (true) {
-            List<Relationship> relationships = DatabaseHelper.toList(currentDoctor.getRelationships(DynamicRelationshipType.withName("REGENERATED_TO"),
+            List<Relationship> relationships = DatabaseHelper.toList(timelord.getRelationships(REGNERATED_TO,
                     Direction.OUTGOING));
 
             if (relationships.size() == 1) {
                 Relationship regeneratedTo = relationships.get(0);
-                currentDoctor = regeneratedTo.getEndNode();
+                timelord = regeneratedTo.getEndNode();
                 regenerationCount++;
             } else {
                 break;
             }
         }
-        assertEquals(10, regenerationCount);
+        return regenerationCount;
+    }
+
+    @Test
+    public void shouldHave8Masters() {
+        int numberOfMasters = 8;
+        
+        Node theMaster = doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Master");
+        assertNotNull(theMaster);
+        assertEquals(numberOfMasters, DatabaseHelper.countRelationships(theMaster.getRelationships(PLAYED, Direction.INCOMING)));
+    }
+    
+    @Test
+    public void shouldContainMasterAndDoctorInTheIndex() {
+        assertNotNull(doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Master"));
+        assertNotNull(doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Doctor"));
     }
 }
