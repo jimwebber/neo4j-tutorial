@@ -16,6 +16,13 @@ import org.neo4j.index.IndexService;
 import org.neo4j.index.lucene.LuceneIndexService;
 
 public class DoctorWhoUniverse {
+
+    public static final DynamicRelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
+    public static final DynamicRelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
+    public static final DynamicRelationshipType ENEMY_OF = DynamicRelationshipType.withName("ENEMY_OF");
+    public static final DynamicRelationshipType FROM = DynamicRelationshipType.withName("FROM");
+    public static final DynamicRelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
+
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
     private IndexService index = new LuceneIndexService(db);
 
@@ -26,19 +33,69 @@ public class DoctorWhoUniverse {
 
             makeDoctorAndMasterEnemies();
 
+            makeDoctorAndMasterTimelords();
+
+            makeTimelordsComeFromGalifrey();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void makeTimelordsComeFromGalifrey() {
+        Transaction tx = db.beginTx();
+        try {
+
+            Node galifrey = createPlanet("Galifrey");
+
+            Node timelord = index.getSingleNode("species", "Timelord");
+
+            timelord.createRelationshipTo(galifrey, FROM);
+
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+    }
+
+    private Node createPlanet(String name) {
+        Node planet = db.createNode();
+        planet.setProperty("planet", name);
+
+        index.index(planet, "planet", planet.getProperty("planet"));
+        
+        return planet;
+    }
+
+    private void makeDoctorAndMasterTimelords() {
+        Transaction tx = db.beginTx();
+        try {
+
+            Node theDoctor = index.getSingleNode("timelord-name", "Doctor");
+            Node theMaster = index.getSingleNode("timelord-name", "Master");
+
+            Node timelord = db.createNode();
+            timelord.setProperty("species", "Timelord");
+
+            theDoctor.createRelationshipTo(timelord, IS_A);
+            theMaster.createRelationshipTo(timelord, IS_A);
+
+            index.index(timelord, "species", timelord.getProperty("species"));
+
+            tx.success();
+        } finally {
+            tx.finish();
         }
     }
 
     private void makeDoctorAndMasterEnemies() {
         Transaction tx = db.beginTx();
         try {
-            
+
             Node theDoctor = index.getSingleNode("timelord-name", "Doctor");
             Node theMaster = index.getSingleNode("timelord-name", "Master");
-            theDoctor.createRelationshipTo(theMaster, DynamicRelationshipType.withName("ENEMY_OF"));
-            theMaster.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("ENEMY_OF"));
+            theDoctor.createRelationshipTo(theMaster, ENEMY_OF);
+            theMaster.createRelationshipTo(theDoctor, ENEMY_OF);
 
             tx.success();
         } finally {
@@ -67,7 +124,7 @@ public class DoctorWhoUniverse {
                 addTimelordActorToIndex(currentActor);
 
                 if (previousActor != null) {
-                    previousActor.createRelationshipTo(currentActor, DynamicRelationshipType.withName("REGENERATED_TO"));
+                    previousActor.createRelationshipTo(currentActor, REGENERATED_TO);
                 }
 
                 previousActor = currentActor;
@@ -79,7 +136,7 @@ public class DoctorWhoUniverse {
     }
 
     private void linkToTimelord(Node currentActor, Node timelord) {
-        currentActor.createRelationshipTo(timelord, DynamicRelationshipType.withName("PLAYED"));
+        currentActor.createRelationshipTo(timelord, PLAYED);
     }
 
     private void addTimelordToIndex(Node timelord) {
