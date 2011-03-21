@@ -34,7 +34,7 @@ public class LessonOne extends Koan {
 
         // SNIPPET_END
 
-        assertTrue(DatabaseHelper.nodeExistsInDatabase(db, node));
+        assertTrue(databaseHelper.nodeExistsInDatabase(node));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class LessonOne extends Koan {
 
         // SNIPPET_END
 
-        assertTrue(DatabaseHelper.nodeExistsInDatabase(db, theDoctor));
+        assertTrue(databaseHelper.nodeExistsInDatabase(theDoctor));
 
         Node storedNode = db.getNodeById(theDoctor.getId());
         assertEquals("William", storedNode.getProperty("firstname"));
@@ -151,7 +151,7 @@ public class LessonOne extends Koan {
 
         // SNIPPET_END
         
-        assertEquals(1, DatabaseHelper.countRelationships(susan.getRelationships()));
+        assertEquals(1, databaseHelper.countRelationships(susan.getRelationships()));
     }
 
     private Node createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor() {

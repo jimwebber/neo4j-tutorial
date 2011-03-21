@@ -6,10 +6,12 @@ import org.neo4j.graphdb.GraphDatabaseService;
 
 public abstract class Koan {
     protected GraphDatabaseService db;
+    protected DatabaseHelper databaseHelper;
 
     @Before
     public void createADatabase() {
         db = DatabaseHelper.createDatabase();
+        databaseHelper = new DatabaseHelper(db);
     }
     
     @After
