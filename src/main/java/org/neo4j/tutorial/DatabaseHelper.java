@@ -12,10 +12,15 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.index.IndexHits;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 
-public class DatabaseHelper<T> {
+public class DatabaseHelper {
 
+    private final GraphDatabaseService db;
+
+    public DatabaseHelper(GraphDatabaseService db) {
+        this.db = db;
+    }
+    
     public static GraphDatabaseService createDatabase() {
-
         return new EmbeddedGraphDatabase(createTempDatabaseDir().getAbsolutePath());
     }
 
@@ -39,7 +44,7 @@ public class DatabaseHelper<T> {
     }
     
     
-    public static void dumpGraphToConsole(GraphDatabaseService db) {
+    public void dumpGraphToConsole() {
         for(Node n : db.getAllNodes()) {
             Iterable<String> propertyKeys = n.getPropertyKeys();
             for(String key : propertyKeys) {
@@ -49,7 +54,7 @@ public class DatabaseHelper<T> {
         }
     }
 
-    public static int countNodesWithAllGivenProperties(Iterable<Node> allNodes, String... propertyNames) {
+    public int countNodesWithAllGivenProperties(Iterable<Node> allNodes, String... propertyNames) {
         Iterator<Node> iterator = allNodes.iterator();
         int count = 0;
         while(iterator.hasNext()) {
@@ -67,19 +72,19 @@ public class DatabaseHelper<T> {
         return count;
     }
     
-    public static int countNodes(Iterable<Node> allNodes) {
+    public int countNodes(Iterable<Node> allNodes) {
         return destructivelyCount(allNodes);
     }
 
-    public static boolean nodeExistsInDatabase(GraphDatabaseService db, Node node) {
+    public boolean nodeExistsInDatabase(Node node) {
         return db.getNodeById(node.getId()) != null;
     }
 
-    public static int countRelationships(Iterable<Relationship> relationships) {
+    public int countRelationships(Iterable<Relationship> relationships) {
         return destructivelyCount(relationships);
     }
 
-    public static void dumpNode(Node node) {
+    public void dumpNode(Node node) {
         for(String key : node.getPropertyKeys()) {
             System.out.println(String.format("Node ID [%d]", node.getId()));
             System.out.print(key + " : ");
@@ -87,21 +92,27 @@ public class DatabaseHelper<T> {
         }
     }
 
-    public static List<Relationship> toList(Iterable<Relationship> relationshipsIterable) {
-        ArrayList<Relationship> relationships = new ArrayList<Relationship>();
-        
-        for(Relationship r : relationshipsIterable) {
-            relationships.add(r);
+    public List<Relationship> toListOfRelationships(Iterable<Relationship> iterable) {
+        ArrayList<Relationship> rels = new ArrayList<Relationship>();
+        for(Relationship r : iterable) {
+            rels.add(r);
         }
-        
-        return relationships;
+        return rels;
+    }
+    
+    public List<Node> toListOfNodes(Iterable<Node> nodes) {
+        ArrayList<Node> rels = new ArrayList<Node>();
+        for(Node n : nodes) {
+            rels.add(n);
+        }
+        return rels;
     }
 
-    public static int count(IndexHits<Node> indexHits) {
+    public int count(IndexHits<Node> indexHits) {
         return destructivelyCount(indexHits);
     }
     
-    private static int destructivelyCount(Iterable<?> iterable) {
+    private int destructivelyCount(Iterable<?> iterable) {
         int count = 0;
         
         for(@SuppressWarnings("unused") Object o : iterable) {

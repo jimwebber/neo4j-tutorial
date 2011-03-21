@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.index.IndexService;
 import org.neo4j.index.lucene.LuceneIndexService;
@@ -26,135 +27,97 @@ public class DoctorWhoUniverse {
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
     private IndexService index = new LuceneIndexService(db);
 
-    public DoctorWhoUniverse() throws RuntimeException {
-        try {
-            loadAndIndexTimelordActors("Doctor", new File("src/main/resources/doctors.json"));
-            loadAndIndexTimelordActors("Master", new File("src/main/resources/masters.json"));
-
-            makeDoctorAndMasterEnemies();
-
-            makeDoctorAndMasterTimelords();
-
-            makeTimelordsComeFromGalifrey();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void makeTimelordsComeFromGalifrey() {
+    public DoctorWhoUniverse() throws RuntimeException, JsonParseException, JsonMappingException, IOException {
         Transaction tx = db.beginTx();
         try {
-
-            Node galifrey = createPlanet("Galifrey");
-
-            Node timelord = index.getSingleNode("species", "Timelord");
-
-            timelord.createRelationshipTo(galifrey, FROM);
-
+            Node timelord = createSpecies("Timelord", "Gallifrey");
+            
+            Node theDoctor = loadActors("Doctor", timelord, REGENERATED_TO, new File("src/main/resources/doctors.json"));
+            Node theMaster = loadActors("Master", timelord, REGENERATED_TO, new File("src/main/resources/masters.json"));
+            
+            Node cyberman = createSpecies("Cyberman", "Mondas"); // Not Telos, that was just occupied
+            Node dalek = createSpecies("Dalek", "Skaro");
+            
+            makeEnemies(theDoctor, theMaster);
+            makeEnemies(dalek, cyberman);
+            makeEnemies(theDoctor, dalek);
+            makeEnemies(theDoctor, cyberman);
+            
             tx.success();
         } finally {
             tx.finish();
         }
     }
 
-    private Node createPlanet(String name) {
-        Node planet = db.createNode();
-        planet.setProperty("planet", name);
-
-        index.index(planet, "planet", planet.getProperty("planet"));
+    private Node createSpecies(String species, String homePlanetName) {
+        Node speciesNode = db.createNode();
+        speciesNode.setProperty("species", species);
+        index.index(speciesNode, "species", species);
         
-        return planet;
+        Node homePlanetNode = db.createNode();
+        homePlanetNode.setProperty("planet", homePlanetName);
+        index.index(homePlanetNode, "planet", homePlanetName);
+        
+        
+        speciesNode.createRelationshipTo(homePlanetNode, FROM);
+        
+        
+        return speciesNode;
     }
 
-    private void makeDoctorAndMasterTimelords() {
-        Transaction tx = db.beginTx();
-        try {
-
-            Node theDoctor = index.getSingleNode("timelord-name", "Doctor");
-            Node theMaster = index.getSingleNode("timelord-name", "Master");
-
-            Node timelord = db.createNode();
-            timelord.setProperty("species", "Timelord");
-
-            theDoctor.createRelationshipTo(timelord, IS_A);
-            theMaster.createRelationshipTo(timelord, IS_A);
-
-            index.index(timelord, "species", timelord.getProperty("species"));
-
-            tx.success();
-        } finally {
-            tx.finish();
-        }
-    }
-
-    private void makeDoctorAndMasterEnemies() {
-        Transaction tx = db.beginTx();
-        try {
-
-            Node theDoctor = index.getSingleNode("timelord-name", "Doctor");
-            Node theMaster = index.getSingleNode("timelord-name", "Master");
-            theDoctor.createRelationshipTo(theMaster, ENEMY_OF);
-            theMaster.createRelationshipTo(theDoctor, ENEMY_OF);
-
-            tx.success();
-        } finally {
-            tx.finish();
-        }
+    private void makeEnemies(Node a, Node b) {
+        a.createRelationshipTo(b, ENEMY_OF);
+        b.createRelationshipTo(a, ENEMY_OF);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void loadAndIndexTimelordActors(String timelordName, File timelordActorData) throws JsonParseException, JsonMappingException, IOException {
+    private Node loadActors(String characterName, Node species, RelationshipType relationshipType, File actorData) throws JsonParseException, JsonMappingException, IOException {
 
         ObjectMapper m = new ObjectMapper();
-        List<ArrayList> timelordActorList = m.readValue(timelordActorData, List.class);
+        List<ArrayList> actorList = m.readValue(actorData, List.class);
 
-        Transaction tx = db.beginTx();
-        try {
-            Node timelord = db.createNode();
-            timelord.setProperty("timelord-name", timelordName);
-            addTimelordToIndex(timelord);
+        Node character = db.createNode();
+        character.setProperty("name", characterName);
+        index.index(character, "name", characterName);
 
-            Node previousActor = null;
-            for (int i = 0; i < timelordActorList.size(); i++) {
-                int incarnation = i + 1;
-                Node currentActor = createTimelordActor(((ArrayList<String>) timelordActorList.get(i)).get(0),
-                        ((ArrayList<String>) timelordActorList.get(i)).get(1), incarnation);
-                linkToTimelord(currentActor, timelord);
-                addTimelordActorToIndex(currentActor);
+        character.createRelationshipTo(species, IS_A);
+        
+        if(actorList.size() > 1) {
+            insertCharacterActorsInChronologicalOrder(character, relationshipType, actorList);
+        } else {
+            
+        }
 
-                if (previousActor != null) {
-                    previousActor.createRelationshipTo(currentActor, REGENERATED_TO);
-                }
+        return character;
+    }
 
-                previousActor = currentActor;
+    private void insertCharacterActorsInChronologicalOrder(Node character, RelationshipType relationshipType, @SuppressWarnings("rawtypes") List<ArrayList> actorList) {
+       
+        Node previousActor = null;
+        for (int i = 0; i < actorList.size(); i++) {
+            @SuppressWarnings("unchecked")
+            Node currentActor = createActor(((ArrayList<String>) actorList.get(i)).get(0),
+                    ((ArrayList<String>) actorList.get(i)).get(1));
+            
+            currentActor.createRelationshipTo(character, PLAYED);
+            
+            if (previousActor != null) {
+                previousActor.createRelationshipTo(currentActor, relationshipType);
             }
-            tx.success();
-        } finally {
-            tx.finish();
+
+            previousActor = currentActor;
         }
     }
 
-    private void linkToTimelord(Node currentActor, Node timelord) {
-        currentActor.createRelationshipTo(timelord, PLAYED);
-    }
-
-    private void addTimelordToIndex(Node timelord) {
-        index.index(timelord, "timelord-name", timelord.getProperty("timelord-name"));
-    }
-
-    private void addTimelordActorToIndex(Node actor) {
-        index.index(actor, "firstname", actor.getProperty("firstname"));
-        index.index(actor, "lastname", actor.getProperty("lastname"));
-    }
-
-    private Node createTimelordActor(String firstname, String lastname, int incarnation) {
-        Node timelord = db.createNode();
-        timelord.setProperty("firstname", firstname);
-        timelord.setProperty("lastname", lastname);
-        timelord.setProperty("incarnation", incarnation);
-
-        return timelord;
+   
+    private Node createActor(String firstname, String lastname) {
+        Node actor = db.createNode();
+        actor.setProperty("firstname", firstname);
+        actor.setProperty("lastname", lastname);
+        
+        index.index(actor, "lastname", lastname);
+        
+        return actor;
     }
 
     public GraphDatabaseService getDatabase() {
