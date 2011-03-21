@@ -9,10 +9,17 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphalgo.GraphAlgoFactory;
+import org.neo4j.graphalgo.PathFinder;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipExpander;
+import org.neo4j.kernel.StandardExpander;
+
+import org.neo4j.kernel.Traversal;
 
 public class DoctorWhoUniverseTest {
     
@@ -95,13 +102,26 @@ public class DoctorWhoUniverseTest {
     }
     
     @Test
-    public void timelordsAreFromGalifrey() {
+    public void timelordsShouldComeFromGalifrey() {
         Node planet = doctorWhoUniverse.getIndex().getSingleNode("planet", "Galifrey");
        
         Iterable<Relationship> relationships = planet.getRelationships(DoctorWhoUniverse.FROM, Direction.INCOMING);
         
         int numberOfSpeciesFromGalifrey = 1;
         assertEquals(numberOfSpeciesFromGalifrey, DatabaseHelper.countRelationships(relationships));
+    }
+    
+    @Test
+    public void shortestPathBetweenDoctorAndMasterShouldBeLengthOneTypeEnemyOf() {
+        Node theMaster = doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Master");
+        Node theDoctor = doctorWhoUniverse.getIndex().getSingleNode("timelord-name", "Doctor");
+        
+        int maxDepth = 5; // No more than 5, or we find Kevin Bacon!
+        PathFinder<Path> shortestPathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForAllTypes(), maxDepth);
+        
+        Path shortestPath = shortestPathFinder.findSinglePath(theDoctor, theMaster);
+        assertEquals(1, shortestPath.length());
+        assertEquals(DoctorWhoUniverse.ENEMY_OF, shortestPath.lastRelationship().getType());
     }
     
 }
