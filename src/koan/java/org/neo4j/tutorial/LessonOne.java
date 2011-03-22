@@ -133,6 +133,8 @@ public class LessonOne extends Koan {
     public void shouldRemoveIncorrectEnemyOfRelationshipBetweenSusanAndTheDoctor() {
         Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();
         
+        // SNIPPET_START
+        
         Transaction tx = db.beginTx();
         try {
             
@@ -196,5 +198,4 @@ public class LessonOne extends Koan {
             tx.finish();
         }
     }
-    
 }
