@@ -18,9 +18,10 @@ public class DatabaseHelper {
 
     public DatabaseHelper(GraphDatabaseService db) {
         this.db = db;
+        
     }
     
-    public static GraphDatabaseService createDatabase() {
+    public static EmbeddedGraphDatabase createDatabase() {
         return new EmbeddedGraphDatabase(createTempDatabaseDir().getAbsolutePath());
     }
 
