@@ -5,8 +5,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.DynamicRelationshipType;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
@@ -16,8 +19,22 @@ import org.neo4j.graphdb.Transaction;
  * This first programming Koan will get you started with the basics of managing nodes and relationships with the core API.
  * It will also introduce you to the earliest Doctor Who storylines! 
  */
-public class KoanTwo extends Koan {
+public class KoanTwo {
 
+    private GraphDatabaseService db;
+    private DatabaseHelper databaseHelper;
+
+    @Before
+    public void createADatabase() {
+        db = DatabaseHelper.createDatabase();
+        databaseHelper = new DatabaseHelper(db);
+    }
+    
+    @After
+    public void closeTheDatabase() {
+        db.shutdown();
+    }
+    
     @Test
     public void shouldCreateANodeInTheDatabase() {
         Node node = null;
