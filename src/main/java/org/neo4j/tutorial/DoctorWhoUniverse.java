@@ -13,8 +13,8 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.index.IndexService;
-import org.neo4j.index.lucene.LuceneIndexService;
+import org.neo4j.graphdb.index.Index;
+
 
 public class DoctorWhoUniverse {
 
@@ -25,7 +25,12 @@ public class DoctorWhoUniverse {
     public static final DynamicRelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
 
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
-    private IndexService index = new LuceneIndexService(db);
+
+
+    Index<Node> actorIndex = db.index().forNodes("actors");
+    Index<Node> characterIndex = db.index().forNodes("characters");
+    Index<Node> planetIndex = db.index().forNodes("planets");
+    Index<Node> speciesIndex = db.index().forNodes("species");
 
     public DoctorWhoUniverse() throws RuntimeException, JsonParseException, JsonMappingException, IOException {
         Transaction tx = db.beginTx();
@@ -37,11 +42,15 @@ public class DoctorWhoUniverse {
             
             Node cyberman = createSpecies("Cyberman", "Mondas"); // Not Telos, that was just occupied
             Node dalek = createSpecies("Dalek", "Skaro");
+            Node sontaran = createSpecies("Sontaran", "Sontar");
+            Node silurian = createSpecies("Silurian", "Earth");
             
             makeEnemies(theDoctor, theMaster);
             makeEnemies(dalek, cyberman);
             makeEnemies(theDoctor, dalek);
             makeEnemies(theDoctor, cyberman);
+            makeEnemies(theDoctor, sontaran);
+            makeEnemies(theDoctor, silurian);
             
             tx.success();
         } finally {
@@ -52,11 +61,11 @@ public class DoctorWhoUniverse {
     private Node createSpecies(String species, String homePlanetName) {
         Node speciesNode = db.createNode();
         speciesNode.setProperty("species", species);
-        index.index(speciesNode, "species", species);
+        speciesIndex.add(speciesNode, "species", species);
         
         Node homePlanetNode = db.createNode();
         homePlanetNode.setProperty("planet", homePlanetName);
-        index.index(homePlanetNode, "planet", homePlanetName);
+        planetIndex.add(homePlanetNode, "planet", homePlanetName);
         
         
         speciesNode.createRelationshipTo(homePlanetNode, FROM);
@@ -78,7 +87,7 @@ public class DoctorWhoUniverse {
 
         Node character = db.createNode();
         character.setProperty("name", characterName);
-        index.index(character, "name", characterName);
+        characterIndex.add(character, "name", characterName);
 
         character.createRelationshipTo(species, IS_A);
         
@@ -115,7 +124,7 @@ public class DoctorWhoUniverse {
         actor.setProperty("firstname", firstname);
         actor.setProperty("lastname", lastname);
         
-        index.index(actor, "lastname", lastname);
+        actorIndex.add(actor, "lastname", lastname);
         
         return actor;
     }
@@ -123,8 +132,20 @@ public class DoctorWhoUniverse {
     public GraphDatabaseService getDatabase() {
         return db;
     }
+    
+    public Index<Node> getActorIndex() {
+        return actorIndex;
+    }
 
-    public IndexService getIndex() {
-        return index;
+    public Index<Node> getCharacterIndex() {
+        return characterIndex;
+    }
+
+    public Index<Node> getPlanetIndex() {
+        return planetIndex;
+    }
+
+    public Index<Node> getSpeciesIndex() {
+        return speciesIndex;
     }
 }
