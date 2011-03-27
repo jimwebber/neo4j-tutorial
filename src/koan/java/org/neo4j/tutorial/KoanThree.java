@@ -1,7 +1,6 @@
 package org.neo4j.tutorial;
 
 import org.junit.Test;
-import org.neo4j.graphdb.index.IndexManager;
 
 /**
  * This Koan will introduce indexing. It'll make sure you remember important
