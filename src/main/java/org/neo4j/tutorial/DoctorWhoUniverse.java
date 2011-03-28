@@ -23,6 +23,7 @@ public class DoctorWhoUniverse {
     public static final DynamicRelationshipType ENEMY_OF = DynamicRelationshipType.withName("ENEMY_OF");
     public static final DynamicRelationshipType FROM = DynamicRelationshipType.withName("FROM");
     public static final DynamicRelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
+    public static final DynamicRelationshipType COMPANION_OF = DynamicRelationshipType.withName("COMPANION_OF");
 
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
 
@@ -37,8 +38,10 @@ public class DoctorWhoUniverse {
         try {
             Node timelord = createSpecies("Timelord", "Gallifrey");
             
-            Node theDoctor = loadActors("Doctor", timelord, REGENERATED_TO, new File("src/main/resources/doctors.json"));
-            Node theMaster = loadActors("Master", timelord, REGENERATED_TO, new File("src/main/resources/masters.json"));
+            Node theDoctor = loadTimelordActors("Doctor", timelord, REGENERATED_TO, new File("src/main/resources/doctors.json"));
+            Node theMaster = loadTimelordActors("Master", timelord, REGENERATED_TO, new File("src/main/resources/masters.json"));
+            
+            loadCompanions(theDoctor, new File("src/main/resources/companions.json"));
             
             Node cyberman = createSpecies("Cyberman", "Mondas"); // Not Telos, that was just occupied
             Node dalek = createSpecies("Dalek", "Skaro");
@@ -56,6 +59,39 @@ public class DoctorWhoUniverse {
         } finally {
             tx.finish();
         }
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void loadCompanions(Node theDoctor, File companionsData) throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper m = new ObjectMapper();
+        List<ArrayList> companionsList = m.readValue(companionsData, List.class);
+        
+        for(ArrayList companionData : companionsList) {
+            addCompanion(theDoctor, companionData);
+        }
+    }
+
+    private void addCompanion(Node theDoctor, ArrayList companionData) {
+        if(companionData.size() < 1 || companionData.size() > 2) {
+            return;
+        }
+        
+        Node companion = db.createNode();
+        if(companionData.size() == 1) {
+            Object characterName = companionData.get(0);
+            companion.setProperty("name", characterName);
+            characterIndex.add(companion, "name", characterName);
+        } else if(companionData.size() ==2) {
+            Object firstName = companionData.get(0);
+            companion.setProperty("firstname", firstName);
+            characterIndex.add(companion, "firstname", firstName);
+            
+            Object lastName = companionData.get(1);
+            companion.setProperty("lastname", lastName);
+            characterIndex.add(companion, "lastname", lastName);
+        }
+        
+        companion.createRelationshipTo(theDoctor, COMPANION_OF);
     }
 
     private Node createSpecies(String species, String homePlanetName) {
@@ -80,7 +116,7 @@ public class DoctorWhoUniverse {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Node loadActors(String characterName, Node species, RelationshipType relationshipType, File actorData) throws JsonParseException, JsonMappingException, IOException {
+    private Node loadTimelordActors(String characterName, Node species, RelationshipType relationshipType, File actorData) throws JsonParseException, JsonMappingException, IOException {
 
         ObjectMapper m = new ObjectMapper();
         List<ArrayList> actorList = m.readValue(actorData, List.class);

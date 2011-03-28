@@ -3,6 +3,7 @@ package org.neo4j.tutorial;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.neo4j.tutorial.DoctorWhoUniverse.COMPANION_OF;
 import static org.neo4j.tutorial.DoctorWhoUniverse.PLAYED;
 
 import java.util.List;
@@ -223,4 +224,16 @@ public class DoctorWhoUniverseTest {
         return false;
     }
     
+    @Test
+    public void shouldHave46Companions() {
+        int numberOfCompanions = 46;
+
+        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
+        assertEquals(1, indexHits.size());
+        
+        Node theDoctor = indexHits.getSingle();
+        assertNotNull(theDoctor);
+        
+        assertEquals(numberOfCompanions , databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
+    }
 }
