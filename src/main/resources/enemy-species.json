@@ -1,0 +1,31 @@
+{
+    "Autons" : {},
+	"Axons" : {},
+	"Clockwork Robot" : {},
+	"Cybermen" : {
+		"planet" : "Mondas"
+	},
+	"Daleks" : {
+		"planet" : "Skaro"
+	},
+	"Ice Warriors" : {
+		"planet" : "Mars"
+	},
+	"Jagrafess" : {},
+	"Ood" : {},
+	"Sea Devils" : {},
+	"Silurians" : {
+		"planet" : "Earth"
+	},
+	"Slitheen" : {
+		"planet" : "Raxacoricofallapatorius"
+	},
+	"Sontarans" : {
+		"planet" : "Sontar"
+	},
+	"Vashta Nerada" : {},
+	"Wirrn" : {},
+	"Yeti" : {},
+	"Zarbi" : {},
+	"Zygon" : {}
+}

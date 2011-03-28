@@ -1,0 +1,54 @@
+{
+	"Helen A" : {
+		"species" : "Human",
+		"planet" : "Terra Alpha"
+	},
+	"Abzorbaloff" : {    
+		"species" : "Abrobvian",
+		"planet" : "Clom"
+	},    
+	"Beast" : {
+		"species" : "Devil"
+    },
+	"Bok" : {
+		"species" : "Gargoyle"
+	},
+	"Cassandra" : {
+		"species" : "Human",
+		"planet" : "Earth"	
+	},
+	"Daemon" : {},
+	"Davros" : {
+			"species" : "Kaled",
+			"planet" : "Skaro"
+	},
+	"Destroyer" : {},
+	"Empress of Racnoss" : {},
+	"Fendahl" : {},
+	"Miss Hartigan" : {
+		"species" : "Human",
+		"species" : "Cyberman",
+		"planet" : "Earth"
+    },	
+	"Scaroth" : {
+		"species" : "Jagaroth"
+	},
+	"Loch Ness Monster" : {
+		"species" : "Skarasen"
+	},
+	"Macra" : {},
+	"Morbious" : {
+		"species" : "Timelord"
+	},
+	"Omega" : {
+		"species" : "Timelord"
+	},
+	"Ogron" : {},
+	"Pyrovile" : {},
+	"Reaper" : {},
+	"Robot" : {},
+	"Sutekh" : {
+		"species" : "Osiron"
+	},
+	"Terileptils" : {}
+}

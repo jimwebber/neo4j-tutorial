@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.tutorial.DoctorWhoUniverse.COMPANION_OF;
+import static org.neo4j.tutorial.DoctorWhoUniverse.ENEMY_OF;
 import static org.neo4j.tutorial.DoctorWhoUniverse.PLAYED;
 
 import java.util.List;
@@ -154,7 +155,7 @@ public class DoctorWhoUniverseTest {
     
     @Test
     public void daleksShouldBeEnemiesOfTheDoctor() {
-        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Dalek").getSingle();
+        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Daleks").getSingle();
         assertNotNull(dalek);
         Iterable<Relationship> enemiesOf = dalek.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
@@ -162,7 +163,7 @@ public class DoctorWhoUniverseTest {
     
     @Test
     public void cybermenShouldBeEnemiesOfTheDoctor() {
-        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cyberman").getSingle();
+        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cybermen").getSingle();
         assertNotNull(cyberman);
         Iterable<Relationship> enemiesOf = cyberman.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
@@ -182,10 +183,10 @@ public class DoctorWhoUniverseTest {
     public void shouldFindEnemiesOfEnemies() {
         
         Node theMaster = doctorWhoUniverse.getCharacterIndex().get("name", "Master").getSingle();
-        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Dalek").getSingle();
-        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cyberman").getSingle();
-        Node silurian = doctorWhoUniverse.getSpeciesIndex().get("species", "Silurian").getSingle();
-        Node sontaran = doctorWhoUniverse.getSpeciesIndex().get("species", "Sontaran").getSingle();
+        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Daleks").getSingle();
+        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cybermen").getSingle();
+        Node silurian = doctorWhoUniverse.getSpeciesIndex().get("species", "Silurians").getSingle();
+        Node sontaran = doctorWhoUniverse.getSpeciesIndex().get("species", "Sontarans").getSingle();
         
         Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)).depthFirst().evaluator(new Evaluator() {
             
@@ -208,7 +209,8 @@ public class DoctorWhoUniverseTest {
         assertNotNull(nodes);
 
         List<Node> listOfNodes = databaseHelper.toListOfNodes(nodes);
-        assertEquals(4, databaseHelper.countNodes(nodes));
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 39;
+        assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, databaseHelper.countNodes(nodes));
         assertTrue(isInList(dalek, listOfNodes));
         assertTrue(isInList(cyberman, listOfNodes));
         assertTrue(isInList(silurian, listOfNodes));
@@ -226,7 +228,7 @@ public class DoctorWhoUniverseTest {
     
     @Test
     public void shouldHave46Companions() {
-        int numberOfCompanions = 46;
+        int numberOfNonTimelordCompanions = 44;
 
         IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
         assertEquals(1, indexHits.size());
@@ -234,6 +236,19 @@ public class DoctorWhoUniverseTest {
         Node theDoctor = indexHits.getSingle();
         assertNotNull(theDoctor);
         
-        assertEquals(numberOfCompanions , databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
+        assertEquals(numberOfNonTimelordCompanions , databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
+    }
+    
+    @Test
+    public void shouldHave40EnemiesInTotal() {
+        int numberOfEnemies = 40;
+
+        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
+        assertEquals(1, indexHits.size());
+        
+        Node theDoctor = indexHits.getSingle();
+        
+        assertEquals(numberOfEnemies, databaseHelper.countRelationships(theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING)));
+        
     }
 }
