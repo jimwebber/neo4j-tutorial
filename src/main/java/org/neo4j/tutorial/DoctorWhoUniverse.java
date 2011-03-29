@@ -116,7 +116,7 @@ public class DoctorWhoUniverse {
         }
     }
 
-    private void addCompanion(Node theDoctor, ArrayList companionData) {
+    private void addCompanion(Node theDoctor, ArrayList<?> companionData) {
         if (companionData.size() < 1 || companionData.size() > 2) {
             return;
         }
