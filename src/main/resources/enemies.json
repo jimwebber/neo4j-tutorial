@@ -10,6 +10,7 @@
 	"Beast" : {
 		"species" : "Devil"
     },
+    "Black Guardian" : {},
 	"Bok" : {
 		"species" : "Gargoyle"
 	},
@@ -17,7 +18,31 @@
 		"species" : "Human",
 		"planet" : "Earth"	
 	},
+	"Cybercontroller" : {
+		"species" : "Cyberman",
+		"planet" : "Mondas"	
+	},
+	"Cyberleader" : {
+		"species" : "Cyberman",
+		"planet" : "Mondas"	
+	},
 	"Daemon" : {},
+	"Dalek Caan" : {
+			"species" : "Dalek",
+			"planet" : "Skaro"
+	},
+	"Dalek Jast" : {
+			"species" : "Dalek",
+			"planet" : "Skaro"
+	},
+	"Dalek Sec" : {
+			"species" : "Dalek",
+			"planet" : "Skaro"
+	},
+	"Dalek Thay" : {
+			"species" : "Dalek",
+			"planet" : "Skaro"
+	},
 	"Davros" : {
 			"species" : "Kaled",
 			"planet" : "Skaro"
@@ -37,6 +62,10 @@
 		"species" : "Skarasen"
 	},
 	"Macra" : {},
+	"Master" : {
+		"species" : "Timelord",
+		"planet" : "Gallifrey"
+	}, 
 	"Morbious" : {
 		"species" : "Timelord"
 	},
