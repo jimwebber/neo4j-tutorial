@@ -19,6 +19,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
@@ -138,7 +139,7 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldBeSevenRegenerationRelationshipsBetweenTheEightMasters() {
         int numberOfMastersRegenerations = 7;
-
+        
         IndexHits<Node> indexHits = doctorWhoUniverse.getActorIndex().get("lastname", "Delgado");
         assertEquals(1, indexHits.size());
         
