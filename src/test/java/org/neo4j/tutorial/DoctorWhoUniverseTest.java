@@ -201,7 +201,7 @@ public class DoctorWhoUniverseTest {
     
     @Test
     public void daleksShouldBeEnemiesOfTheDoctor() {
-        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Daleks").getSingle();
+        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Dalek").getSingle();
         assertNotNull(dalek);
         Iterable<Relationship> enemiesOf = dalek.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
@@ -209,7 +209,7 @@ public class DoctorWhoUniverseTest {
     
     @Test
     public void cybermenShouldBeEnemiesOfTheDoctor() {
-        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cybermen").getSingle();
+        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cyberman").getSingle();
         assertNotNull(cyberman);
         Iterable<Relationship> enemiesOf = cyberman.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
