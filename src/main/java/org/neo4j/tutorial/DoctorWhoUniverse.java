@@ -38,16 +38,15 @@ public class DoctorWhoUniverse {
         addDoctorActors();
         addMasterActors();
     }
-
     private void addMasterActors() {
         Node theMaster = enemiesIndex.get("name", "Master").getSingle();
         Actors actors = new Actors(theMaster, new File("src/main/resources/master-actors.json"));
-        actors.insertAndIndex(db, actorIndex);
+        actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
     }
     
     private void addDoctorActors() {
         Actors actors = new Actors(theDoctor(), new File("src/main/resources/doctor-actors.json"));
-        actors.insertAndIndex(db, actorIndex);
+        actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
     }
 
     private void addEnemySpecies() {

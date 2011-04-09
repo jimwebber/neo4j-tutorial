@@ -229,12 +229,12 @@ public class DoctorWhoUniverseTest {
     public void shouldFindEnemiesOfEnemies() {
         
         Node theMaster = doctorWhoUniverse.theMaster();
-        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Daleks").getSingle();
-        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cybermen").getSingle();
-        Node silurian = doctorWhoUniverse.getSpeciesIndex().get("species", "Silurians").getSingle();
-        Node sontaran = doctorWhoUniverse.getSpeciesIndex().get("species", "Sontarans").getSingle();
+        Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Dalek").getSingle();
+        Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cyberman").getSingle();
+        Node silurian = doctorWhoUniverse.getSpeciesIndex().get("species", "Silurian").getSingle();
+        Node sontaran = doctorWhoUniverse.getSpeciesIndex().get("species", "Sontaran").getSingle();
         
-        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)).depthFirst().evaluator(new Evaluator() {
+        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.BOTH)).depthFirst().evaluator(new Evaluator() {
             
             @Override
             public Evaluation evaluate(Path path) {
@@ -255,7 +255,8 @@ public class DoctorWhoUniverseTest {
         assertNotNull(nodes);
 
         List<Node> listOfNodes = databaseHelper.toListOfNodes(nodes);
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 39;
+        
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 40;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, databaseHelper.countNodes(nodes));
         assertTrue(isInList(dalek, listOfNodes));
         assertTrue(isInList(cyberman, listOfNodes));
@@ -305,7 +306,15 @@ public class DoctorWhoUniverseTest {
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
         
-        assertEquals(numberOfEnemies, databaseHelper.countRelationships(theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING)));
+        int count = 0;
+        Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF);
+        for(Relationship rel : relationships) {
+            if(rel.getStartNode().hasProperty("name")) {
+                count ++;
+            }
+        }
+        
+        assertEquals(numberOfEnemies, count);
         
     }
 }

@@ -1,20 +1,20 @@
 package org.neo4j.tutorial;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 
 public class Actors {
 
     private Node character;
-    private Set<Actor> actors = new HashSet<Actor>();
+    protected List<Actor> actors = new ArrayList<Actor>();
 
     @SuppressWarnings("unchecked")
     public Actors(Node character, File data) {
@@ -32,17 +32,27 @@ public class Actors {
     }
 
     public void insertAndIndex(GraphDatabaseService db, Index<Node> actorIndex) {
+        insertAndIndex(db, actorIndex, null);
+    }
+    
+    public void insertAndIndex(GraphDatabaseService db, Index<Node> actorIndex, RelationshipType linkBetweenActors) {
         Transaction tx = db.beginTx();
         try {
+            Node previousActor = null;
             for (Actor actor : actors) {
-                Node actorNode = db.createNode();
-                actorNode.setProperty("firstname", actor.firstName);
-                actorNode.setProperty("lastname", actor.lastName);
+                Node currentActor = db.createNode();
+                currentActor.setProperty("firstname", actor.firstName);
+                currentActor.setProperty("lastname", actor.lastName);
 
-                actorNode.createRelationshipTo(character, DoctorWhoUniverse.PLAYED);
+                currentActor.createRelationshipTo(character, DoctorWhoUniverse.PLAYED);
 
-                actorIndex.add(actorNode, "lastname", actor.lastName);
-
+                actorIndex.add(currentActor, "lastname", actor.lastName);
+                
+                if(linkBetweenActors != null && previousActor != null) {
+                    previousActor.createRelationshipTo(currentActor, linkBetweenActors);
+                }
+                
+                previousActor = currentActor;
             }
             tx.success();
         } finally {
@@ -50,7 +60,7 @@ public class Actors {
         }
     }
 
-    private static class Actor {
+    static class Actor {
         public String firstName;
         public String lastName;
 
