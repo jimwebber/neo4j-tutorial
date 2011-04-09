@@ -43,15 +43,82 @@ public class DoctorWhoUniverseTest {
     public void stopDatabase() {
         doctorWhoDatabase.shutdown();
     }
+    
+    @SuppressWarnings("unused")
+    @Test
+    public void shouldHave446Planets() {
+        IndexHits<Node> indexHits = doctorWhoUniverse.planetIndex.query("planet", "*");
+        int planetCount = 0;
+        for(Node n : indexHits) {
+            planetCount++;
+        }
+        
+        int numberOfPlanetsMentionedInTVEpisodes = 446;
+        assertEquals(numberOfPlanetsMentionedInTVEpisodes, planetCount);
+    }
+    
+    @Test
+    public void shouldHave46Friendlies() {
+        IndexHits<Node> indexHits = doctorWhoUniverse.friendliesIndex.query("name", "*");
+        int friendlyCount = 0;
+        
+        for(Node n : indexHits) {
+            friendlyCount++;
+        }
+        
+        int numberOfFriendlies = 46;
+        assertEquals(numberOfFriendlies, friendlyCount);
+    }
+    
+    @Test
+    public void shouldHave40HumanFriendlies() {
+        Node humanSpeciesNode = doctorWhoUniverse.speciesIndex.get("species", "Human").getSingle();
+        int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
+        
+        int knownNumberOfHumanFriendlies = 40;
+        assertEquals(knownNumberOfHumanFriendlies, numberOfHumansFriendliesInTheDB);
+    }
+    
+    @Test
+    public void shouldHave30Enemies() {
+        IndexHits<Node> indexHits = doctorWhoUniverse.enemiesIndex.query("name", "*");
+        int enemyCount = 0;
+        
+        for(Node n : indexHits) {
+            enemyCount++;
+        }
+        
+        int numberOfEnemies = 30;
+        assertEquals(numberOfEnemies, enemyCount);
+    }
+    
+    @Test
+    public void shouldBe6Timelords() {
+        Node timelordSpeciesNode = doctorWhoUniverse.speciesIndex.get("species", "Timelord").getSingle();
+       
+        int numberOfTimelordsInTheDb = databaseHelper.countRelationships(timelordSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
+        
+        int knownNumberOfTimelords = 6;
+        assertEquals(knownNumberOfTimelords, numberOfTimelordsInTheDb);
+    }
+    
+    @Test
+    public void shouldHave16Species() {
+        IndexHits<Node> indexHits = doctorWhoUniverse.speciesIndex.query("species", "*");
+        int speciesCount = 0;
+        for(Node n : indexHits) {
+            speciesCount++;
+        }
+        
+        int numberOfSpecies = 16;
+        assertEquals(numberOfSpecies, speciesCount); 
+    }
 
     @Test
-    public void shouldHave11Doctors() {
+    public void shouldHave11ActorsThatHavePlayedTheDoctor() {
         int numberOfDoctors = 11;
         
-        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
-        assertEquals(1, indexHits.size());
-        
-        Node theDoctor = indexHits.getSingle();
+        Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
         assertEquals(numberOfDoctors, databaseHelper.countRelationships(theDoctor.getRelationships(PLAYED, Direction.INCOMING)));
     }
@@ -99,52 +166,31 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldHave8Masters() {
         int numberOfMasters = 8;
+        Node theMaster = doctorWhoUniverse.theMaster();
         
-        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Master");
-        assertEquals(1, indexHits.size());
-        
-        Node theMaster = indexHits.getSingle(); 
         assertNotNull(theMaster);
         assertEquals(numberOfMasters, databaseHelper.countRelationships(theMaster.getRelationships(PLAYED, Direction.INCOMING)));
     }
     
     @Test
-    public void shouldContainMasterAndDoctorInTheIndex() {
-        assertEquals(1, doctorWhoUniverse.getCharacterIndex().get("name", "Master").size());
-        assertEquals(1, doctorWhoUniverse.getCharacterIndex().get("name", "Doctor").size());
-    }
-    
-    @Test
-    public void doctorAndMasterAreTimelords() {
-        int numberOfTimelords = 2;
-
-        Node timelord = doctorWhoUniverse.getSpeciesIndex().get("species", "Timelord").getSingle();
-        
-        Iterable<Relationship> relationships = timelord.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING);
-        
-        assertNotNull(timelord);
-        assertEquals(numberOfTimelords, databaseHelper.countRelationships(relationships));
-    }
-    
-    @Test
     public void timelordsShouldComeFromGallifrey() {
         Node gallifrey = doctorWhoUniverse.getPlanetIndex().get("planet", "Gallifrey").getSingle();
+        Node timelord = doctorWhoUniverse.getSpeciesIndex().get("species", "Timelord").getSingle();
         assertNotNull(gallifrey);
+        assertNotNull(timelord);
         
+        Iterable<Relationship> relationships = timelord.getRelationships(DoctorWhoUniverse.FROM, Direction.OUTGOING);
+        List<Relationship> listOfRelationships = databaseHelper.toListOfRelationships(relationships);
         
-        Iterable<Relationship> relationships = gallifrey.getRelationships(DoctorWhoUniverse.FROM, Direction.INCOMING);
-        
-        int numberOfSpeciesFromGallifrey = 1;
-        assertEquals(numberOfSpeciesFromGallifrey, databaseHelper.countRelationships(relationships));
+        assertEquals(1, listOfRelationships.size());
+        assertTrue(listOfRelationships.get(0).getEndNode().equals(gallifrey));
     }
     
     @Test
     public void shortestPathBetweenDoctorAndMasterShouldBeLengthOneTypeEnemyOf() {
-        Node theMaster = doctorWhoUniverse.getCharacterIndex().get("name", "Master").getSingle();
-        Node theDoctor = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor").getSingle();
-        
-        
-        
+        Node theMaster = doctorWhoUniverse.theMaster();
+        Node theDoctor = doctorWhoUniverse.theDoctor();
+
         int maxDepth = 5; // No more than 5, or we find Kevin Bacon!
         PathFinder<Path> shortestPathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForAllTypes(), maxDepth);
         
@@ -170,7 +216,7 @@ public class DoctorWhoUniverseTest {
     }
 
     private boolean containsTheDoctor(Iterable<Relationship> enemiesOf) {
-        Node theDoctor = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor").getSingle();
+        Node theDoctor = doctorWhoUniverse.theDoctor();
         for(Relationship r : enemiesOf) {
             if(r.getEndNode().equals(theDoctor)) {
                 return true;
@@ -182,7 +228,7 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldFindEnemiesOfEnemies() {
         
-        Node theMaster = doctorWhoUniverse.getCharacterIndex().get("name", "Master").getSingle();
+        Node theMaster = doctorWhoUniverse.theMaster();
         Node dalek = doctorWhoUniverse.getSpeciesIndex().get("species", "Daleks").getSingle();
         Node cyberman = doctorWhoUniverse.getSpeciesIndex().get("species", "Cybermen").getSingle();
         Node silurian = doctorWhoUniverse.getSpeciesIndex().get("species", "Silurians").getSingle();
@@ -227,26 +273,37 @@ public class DoctorWhoUniverseTest {
     }
     
     @Test
-    public void shouldHave46Companions() {
-        int numberOfNonTimelordCompanions = 44;
-
-        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
-        assertEquals(1, indexHits.size());
+    public void shouldBe11EnemySpecies() {
+        int numberOfEnemySpecies = 11;
+        Node theDoctor = doctorWhoUniverse.theDoctor();
         
-        Node theDoctor = indexHits.getSingle();
-        assertNotNull(theDoctor);
+        Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
+        int enemySpeciesFound = 0;
+        for(Relationship rel : relationships) {
+            if(rel.getStartNode().hasProperty("species")) {
+                enemySpeciesFound++;
+            }
+        }
         
-        assertEquals(numberOfNonTimelordCompanions , databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
+        assertEquals(numberOfEnemySpecies, enemySpeciesFound);
     }
     
     @Test
-    public void shouldHave40EnemiesInTotal() {
-        int numberOfEnemies = 40;
+    public void shouldHave42CompanionsInTotal() {
+        int numberOfCompanions = 42;
 
-        IndexHits<Node> indexHits = doctorWhoUniverse.getCharacterIndex().get("name", "Doctor");
-        assertEquals(1, indexHits.size());
+        Node theDoctor = doctorWhoUniverse.theDoctor();
+        assertNotNull(theDoctor);
         
-        Node theDoctor = indexHits.getSingle();
+        assertEquals(numberOfCompanions , databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
+    }
+    
+    @Test
+    public void shouldHave30IndividualEnemyCharactersInTotal() {
+        int numberOfEnemies = 30;
+
+        Node theDoctor = doctorWhoUniverse.theDoctor();
+        assertNotNull(theDoctor);
         
         assertEquals(numberOfEnemies, databaseHelper.countRelationships(theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING)));
         

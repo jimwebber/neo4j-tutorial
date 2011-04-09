@@ -1,0 +1,42 @@
+{
+    "Auton" : {
+    	"planet" : "Polymos"
+    	},
+	"Axon" : {},
+	"Cyberman" : {
+		"planet" : "Mondas"
+	},
+	"Dalek" : {
+		"planet" : "Skaro"
+	},
+	"Ice Warrior" : {
+		"planet" : "Mars"
+	},
+	"Human" : {
+		"planet" :"Earth"
+	}, 
+	"Humanoid" : {}, 
+	"Jagrafess" : {},
+	"Ood" : {
+		"planet" : "Ood Sphere"
+	},
+	"Robotic Canine" : {
+		"planet" : "Ood Sphere"
+	},	
+	"Sea Devil" : {
+		"planet" : "Earth"
+	},
+	"Silurian" : {
+		"planet" : "Earth"
+	},
+	"Slitheen" : {
+		"planet" : "Raxacoricofallapatorius"
+	},
+	"Sontaran" : {
+		"planet" : "Sontar"
+	},
+	"Timelord" : {
+		"planet" : "Gallifrey"
+	},
+	"Vashta Nerada" : {}
+}

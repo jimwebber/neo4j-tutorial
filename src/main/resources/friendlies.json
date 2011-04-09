@@ -1,0 +1,182 @@
+{
+	"Doctor" : {
+		"species" : "Timelord",
+		"planet" : "Gallifrey"
+	}, 
+	"Susan Foreman" : {
+		"species" : "Timelord",
+		"planet" : "Gallifrey"
+	}, 
+	"Romana" : {
+		"species" : "Timelord",
+		"planet" : "Gallifrey"
+	},
+	"Barbara Wright" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Ian Chesterton" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Vicki" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Steven Taylor" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Katarina" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Sara Kingdom" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	}, 
+	"Dodo Chaplet" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Polly" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	}, 
+	"Ben Jackson" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Jamie McCrimmon" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Hamish Wilson" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Victoria Waterfield" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Zoe Heriot" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Brigadier Lethbridge-Stewart" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Liz Shaw" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Jo Grant" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Sarah Jane Smith" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Sergeant Benton" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Mike Yates" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Harry Sullivan" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	}, 
+	"Leela" : {
+		"species" : "Human"
+	},
+	"K9" : {
+		"species" : "Robotic Canine"
+	},
+	"Adric" : {
+		"planet" : "Alzarius",
+		"species" : "Humanoid"
+	},
+	"Nyssa" : {
+		"species" : "Humanoid"
+	},
+	"Tegan Jovanka" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Vislor Turlough" : {
+		"species" : "Trion",
+		"Planet" : "Trion"
+	},
+	"Kamelion" : {
+		"species" : "Android",
+		"planet" : "Xeriphas"
+	},
+	"Peri Brown" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Melanie Bush" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Ace" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Grace Holloway" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Rose Tyler" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Adam Mitchell" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Jack Harkness" : {
+		"species" : "Human"
+	},
+	"Mickey Smith" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Donna Noble" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Martha Jones" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Astrid Peth" : {
+		"species" : "Human",
+		"planet" : "Sto"
+	},
+	"Jackson Lake" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Rosita Farisi" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Lady Christina de Souza" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Adelaide Brooke" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	},
+	"Wilfred Mott" : {
+		"species" : "Human",
+		"planet" : "Earth"
+	}
+}
