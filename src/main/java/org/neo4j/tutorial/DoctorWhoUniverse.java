@@ -87,18 +87,6 @@ public class DoctorWhoUniverse {
         return db;
     }
 
-    public Index<Node> getActorIndex() {
-        return actorIndex;
-    }
-
-    public Index<Node> getPlanetIndex() {
-        return planetIndex;
-    }
-
-    public Index<Node> getSpeciesIndex() {
-        return speciesIndex;
-    }
-
     public Node theMaster() {
         return enemiesIndex.get("name", "Master").getSingle();
     }
