@@ -85,7 +85,7 @@ public class KoanThree {
 
         // SNIPPET_START
 
-        indexHits = universe.getSpeciesIndex().query("species", "S*n");
+        indexHits = universe.getDatabase().index().forNodes("species").query("species", "S*n");
 
         // SNIPPET_END
 
