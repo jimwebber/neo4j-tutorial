@@ -159,6 +159,9 @@
 		"species" : "Human",
 		"planet" : "Sto"
 	},
+	"River Song" : {
+		"species" : "Human"
+	},
 	"Jackson Lake" : {
 		"species" : "Human",
 		"planet" : "Earth"
