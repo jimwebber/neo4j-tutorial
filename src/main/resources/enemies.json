@@ -28,28 +28,32 @@
 	},
 	"Daemon" : {},
 	"Dalek Caan" : {
-			"species" : "Dalek",
-			"planet" : "Skaro"
+		"species" : "Dalek",
+		"planet" : "Skaro"
 	},
 	"Dalek Jast" : {
-			"species" : "Dalek",
-			"planet" : "Skaro"
+		"species" : "Dalek",
+		"planet" : "Skaro"
 	},
 	"Dalek Sec" : {
-			"species" : "Dalek",
-			"planet" : "Skaro"
+		"species" : "Dalek",
+		"planet" : "Skaro"
 	},
 	"Dalek Thay" : {
-			"species" : "Dalek",
-			"planet" : "Skaro"
+		"species" : "Dalek",
+		"planet" : "Skaro"
 	},
 	"Davros" : {
-			"species" : "Kaled",
-			"planet" : "Skaro"
+		"species" : "Kaled",
+		"planet" : "Skaro"
 	},
 	"Destroyer" : {},
 	"Empress of Racnoss" : {},
 	"Fendahl" : {},
+	"General Staal" : {
+		"species" : "Sontaran",
+		"planet" : "Sontar"
+	},
 	"Miss Hartigan" : {
 		"species" : "Human",
 		"species" : "Cyberman",
