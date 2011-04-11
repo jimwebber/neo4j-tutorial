@@ -60,7 +60,7 @@ public class DoctorWhoUniverseTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHave46Friendlies() {
+    public void shouldHaveCorrectNumberOfFriendlies() {
         IndexHits<Node> indexHits = doctorWhoUniverse.friendliesIndex.query("name", "*");
         int friendlyCount = 0;
 
@@ -68,22 +68,22 @@ public class DoctorWhoUniverseTest {
             friendlyCount++;
         }
 
-        int numberOfFriendlies = 46;
+        int numberOfFriendlies = 47;
         assertEquals(numberOfFriendlies, friendlyCount);
     }
 
     @Test
-    public void shouldHave40HumanFriendlies() {
+    public void shouldHaveCorrectNumberOfHumanFriendlies() {
         Node humanSpeciesNode = doctorWhoUniverse.speciesIndex.get("species", "Human").getSingle();
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
-        int knownNumberOfHumanFriendlies = 40;
+        int knownNumberOfHumanFriendlies = 41;
         assertEquals(knownNumberOfHumanFriendlies, numberOfHumansFriendliesInTheDB);
     }
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHave30Enemies() {
+    public void shouldHaveCorrectNumberOfEnemies() {
         IndexHits<Node> indexHits = doctorWhoUniverse.enemiesIndex.query("name", "*");
         int enemyCount = 0;
 
@@ -91,7 +91,7 @@ public class DoctorWhoUniverseTest {
             enemyCount++;
         }
 
-        int numberOfEnemies = 30;
+        int numberOfEnemies = 31;
         assertEquals(numberOfEnemies, enemyCount);
     }
 
@@ -260,7 +260,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> listOfNodes = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 40;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 41;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, databaseHelper.countNodes(nodes));
         assertTrue(isInList(dalek, listOfNodes));
         assertTrue(isInList(cyberman, listOfNodes));
@@ -305,7 +305,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHave30IndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 30;
+        int numberOfEnemies = 31;
 
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
