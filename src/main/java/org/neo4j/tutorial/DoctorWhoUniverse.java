@@ -1,10 +1,7 @@
 package org.neo4j.tutorial;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -28,7 +25,7 @@ public class DoctorWhoUniverse {
     Index<Node> planetIndex = db.index().forNodes("planets");
     Index<Node> speciesIndex = db.index().forNodes("species");
 
-    public DoctorWhoUniverse() throws RuntimeException, JsonParseException, JsonMappingException, IOException {
+    public DoctorWhoUniverse() {
         addPlanets();
         addSpecies();
         addFriendlies();
