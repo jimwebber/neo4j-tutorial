@@ -1,8 +1,7 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 	<info organisation="org.jimwebber" module="neo4j-koans"/>
 	<dependencies>
-		<dependency org="org.neo4j" name="neo4j" rev="1.3.M05"/>
-		<dependency org="org.neo4j.app" name="neo4j-server" rev="1.3.M05"/>
+		<dependency org="org.neo4j" name="neo4j-community" rev="1.3"/>
 		<dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
 		<dependency org="junit" name="junit" rev="4.7"/>
 	</dependencies>
