@@ -21,7 +21,7 @@
 		<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" changing="true"/>
 	</target>
 	
-	<target name="lib.clean-cache">
+	<target name="lib.clean">
 		<delete dir="${lib.dir}" />
 	</target>
 
