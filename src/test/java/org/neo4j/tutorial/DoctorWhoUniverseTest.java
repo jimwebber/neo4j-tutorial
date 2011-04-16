@@ -238,7 +238,7 @@ public class DoctorWhoUniverseTest {
         Node silurian = getSpeciesIndex().get("species", "Silurian").getSingle();
         Node sontaran = getSpeciesIndex().get("species", "Sontaran").getSingle();
 
-        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.BOTH)).depthFirst()
+        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)).depthFirst()
                 .evaluator(new Evaluator() {
 
                     @Override
@@ -311,7 +311,7 @@ public class DoctorWhoUniverseTest {
         assertNotNull(theDoctor);
 
         int count = 0;
-        Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF);
+        Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
         for (Relationship rel : relationships) {
             if (rel.getStartNode().hasProperty("name")) {
                 count++;

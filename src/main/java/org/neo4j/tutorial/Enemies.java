@@ -36,7 +36,7 @@ public class Enemies extends Characters {
 
                 connectToSpecies(enemyNode, enemiesMap.get(friendlyName), speciesIndex);
                 Species.connectToHomeworld(enemyNode, enemiesMap.get(friendlyName), planetIndex);
-                makeEnemyOfDoctor(enemyNode);
+                makeEnemies(enemyNode);
             }
 
             tx.success();
@@ -45,7 +45,8 @@ public class Enemies extends Characters {
         }
     }
 
-    private void makeEnemyOfDoctor(Node enemyNode) {
+    private void makeEnemies(Node enemyNode) {
         enemyNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+        theDoctor.createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
     }
 }
