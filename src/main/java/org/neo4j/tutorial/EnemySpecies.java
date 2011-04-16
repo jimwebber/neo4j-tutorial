@@ -33,6 +33,7 @@ public class EnemySpecies {
                 Node speciesNode = speciesIndex.get("species", enemySpecies).getSingle();
                 if(speciesNode != null) {
                     speciesNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+                    theDoctor.createRelationshipTo(speciesNode, DoctorWhoUniverse.ENEMY_OF);
                 } else {
                     throw new RuntimeException(String.format("Species [%s] is not known in the Doctor Who universe, unable to add EMENY_OF relationship to the Doctor with node id [%d]", enemySpecies, theDoctor.getId()));
                 }

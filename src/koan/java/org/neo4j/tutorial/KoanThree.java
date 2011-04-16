@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 
@@ -11,7 +12,6 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-import org.neo4j.tutorial.DoctorWhoUniverse;
 
 /**
  * This Koan will introduce indexing based on the builtin index framework based
@@ -30,8 +30,6 @@ public class KoanThree {
     @Test
     public void shouldCreateAnIndexOfHumanCompanions() {
         HashSet<Node> humanCompanions = getHumanCompanions();
-        
-        System.out.println(humanCompanions.size());
         
         Index<Node> humanCompanionsIndex = null;
         
@@ -52,7 +50,6 @@ public class KoanThree {
     private boolean containsAllHumanCompanions(Index<Node> humanCompanionsIndex) {
         HashSet<Node> humanCompanions = getHumanCompanions();
         for(Node n : humanCompanions) {
-            System.out.println(humanCompanionsIndex.get("name", n.getProperty("name")));
             if(!n.equals(humanCompanionsIndex.get("name", n.getProperty("name")))) {
                 return false;
             }
