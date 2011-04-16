@@ -230,7 +230,7 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldFindEnemiesOfEnemies() {
+    public void shouldFindEnemiesOfTheMastersEnemies() {
 
         Node theMaster = doctorWhoUniverse.theMaster();
         Node dalek = getSpeciesIndex().get("species", "Dalek").getSingle();
@@ -258,14 +258,14 @@ public class DoctorWhoUniverseTest {
         Iterable<Node> nodes = traverser.nodes();
         assertNotNull(nodes);
 
-        List<Node> listOfNodes = databaseHelper.toListOfNodes(nodes);
+        List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
         int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 41;
-        assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, databaseHelper.countNodes(nodes));
-        assertTrue(isInList(dalek, listOfNodes));
-        assertTrue(isInList(cyberman, listOfNodes));
-        assertTrue(isInList(silurian, listOfNodes));
-        assertTrue(isInList(sontaran, listOfNodes));
+        assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
+        assertTrue(isInList(dalek, enemiesOfEnemies));
+        assertTrue(isInList(cyberman, enemiesOfEnemies));
+        assertTrue(isInList(silurian, enemiesOfEnemies));
+        assertTrue(isInList(sontaran, enemiesOfEnemies));
     }
 
     private boolean isInList(Node candidateNode, List<Node> listOfNodes) {
