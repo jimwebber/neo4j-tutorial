@@ -1,0 +1,31 @@
+{
+    "Auton" : [
+    	"Human"
+    ],
+	"Axon" : [
+		 "Human"
+	],
+	"Cyberman" : [
+		"Human",
+		"Dalek"
+	],
+	"Dalek" : [
+		"Human",
+		"Cyberman"
+	],
+	"Sea Devil" : [
+		"Human"
+	],
+	"Silurian" : [
+		"Human"
+	],
+	"Slitheen" : [
+		"Human"
+	],
+	"Sontaran" : [
+		"Human"
+	],
+	"Timelord" : [
+		"Dalek"
+	]
+}

@@ -36,7 +36,7 @@ public class Companions {
                     companionsIndex.add(companionNode, "name", companion);
                 } else {
                     throw new RuntimeException(String.format(
-                            "Companion [%s] is not know as a friendly in the Doctor Who universe, unable to add COMPANION_OF to the Doctor node with id [%d]",
+                            "Companion [%s] is not known as a friendly in the Doctor Who universe, unable to add COMPANION_OF to the Doctor node with id [%d]",
                             companion, theDoctor.getId()));
                 }
             }

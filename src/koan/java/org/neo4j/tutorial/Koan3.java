@@ -1,5 +1,6 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -8,8 +9,10 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 
@@ -18,7 +21,7 @@ import org.neo4j.graphdb.index.IndexHits;
  * on Lucene. It'll give you a feeling for the wealth of bad guys the Doctor has
  * faced.
  */
-public class KoanThree {
+public class Koan3 {
 
     private DoctorWhoUniverse universe;
 
@@ -28,56 +31,53 @@ public class KoanThree {
     }
 
     @Test
-    public void shouldCreateAnIndexOfHumanCompanions() {
-        HashSet<Node> humanCompanions = getHumanCompanions();
-        
-        Index<Node> humanCompanionsIndex = null;
-        
-        // SNIPPET_START
-        
-        humanCompanionsIndex = universe.getDatabase().index().forNodes("human-companions");
-        
-        for(Node humanCompanion : humanCompanions) {
-            humanCompanions.add(humanCompanion);
-        }
+    public void shouldRetrieveAnIndexOfCharacters() {
 
-        // SNIPPET_END
-        
-        assertEquals("human-companions", humanCompanionsIndex.getName());
-        assertTrue(containsAllHumanCompanions(humanCompanionsIndex));
-    }
-
-    private boolean containsAllHumanCompanions(Index<Node> humanCompanionsIndex) {
-        HashSet<Node> humanCompanions = getHumanCompanions();
-        for(Node n : humanCompanions) {
-            if(!n.equals(humanCompanionsIndex.get("name", n.getProperty("name")))) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-
-    private HashSet<Node> getHumanCompanions() {
-        IndexHits<Node> indexHits = universe.speciesIndex.get("species", "Human");
-        HashSet<Node> humanCompanions = new HashSet<Node>();
-
-        for (Node n : indexHits) {
-            if (n.getProperty("species").equals("Human")) {
-                
-                if (n.hasRelationship(DoctorWhoUniverse.COMPANION_OF, Direction.OUTGOING)) {
-                    Relationship relationship = n.getSingleRelationship(DoctorWhoUniverse.COMPANION_OF, Direction.OUTGOING);
-                    if (relationship.getEndNode().getProperty("name").equals("Doctor")) {
-                        humanCompanions.add(n);
-                    }
-                }
-            }
-        }
-        return humanCompanions;
     }
 
     @Test
-    public void shouldFindSontaransSlitheenAndSiluriansAsSpeciesBeginningWithTheLetterSAndEndingWithTheLetterN() throws Exception {
+    public void shouldKeepDatabaseAndIndexInSync() throws Exception {
+        
+    }
+    
+    @Test
+    public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
+        Node nixon = createNewCharacterNode("Richard Nixon");
+        
+        GraphDatabaseService db = universe.getDatabase();
+        // SNIPPET_START
+        
+        Transaction tx = db.beginTx();
+        try {
+            db.index().forNodes("characters").add(nixon, "name", nixon.getProperty("name"));
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+        
+        // SNIPPET_END
+        
+        assertNotNull(db.index().forNodes("characters").get("name", "Richard Nixon").getSingle());
+    }
+
+    private Node createNewCharacterNode(String characterName) {
+        Node character = null;
+        GraphDatabaseService db = universe.getDatabase();
+        Transaction tx = db.beginTx();
+        try {
+            character = db.createNode();
+            character.setProperty("name", characterName);
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+        
+        return character;
+    }
+    
+
+    @Test
+    public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
         IndexHits<Node> indexHits = null;
 
         // SNIPPET_START
@@ -89,6 +89,9 @@ public class KoanThree {
         assertTrue(containsOnlySontaranSlitheenAndSilurian(indexHits));
     }
 
+
+
+    
     private boolean containsOnlySontaranSlitheenAndSilurian(IndexHits<Node> indexHits) {
         boolean foundSilurian = false;
         boolean foundSlitheen = false;
