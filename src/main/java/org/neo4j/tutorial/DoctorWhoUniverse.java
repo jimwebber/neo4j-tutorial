@@ -5,6 +5,7 @@ import java.io.File;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 
 public class DoctorWhoUniverse {
@@ -32,15 +33,22 @@ public class DoctorWhoUniverse {
         addCompanions();
         addEnemySpecies();
         addEnemyIndividuals();
+        addInterspeciesEnemies();
         addDoctorActors();
         addMasterActors();
     }
+
+    private void addInterspeciesEnemies() {
+        InterSpeciesEnemies ise = new InterSpeciesEnemies(new File("src/main/resources/inter-species-enemies.json"));
+        ise.insert(db);
+    }
+
     private void addMasterActors() {
         Node theMaster = enemiesIndex.get("name", "Master").getSingle();
         Actors actors = new Actors(theMaster, new File("src/main/resources/master-actors.json"));
         actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
     }
-    
+
     private void addDoctorActors() {
         Actors actors = new Actors(theDoctor(), new File("src/main/resources/doctor-actors.json"));
         actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
@@ -52,7 +60,7 @@ public class DoctorWhoUniverse {
     }
 
     private void addCompanions() {
-        Companions companions = new Companions( new File("src/main/resources/companions.json"));
+        Companions companions = new Companions(new File("src/main/resources/companions.json"));
         companions.insertAndIndex(db, friendliesIndex, companionsIndex);
     }
 

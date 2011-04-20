@@ -19,6 +19,10 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ReturnableEvaluator;
+import org.neo4j.graphdb.StopEvaluator;
+import org.neo4j.graphdb.TraversalPosition;
+import org.neo4j.graphdb.Traverser.Order;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
@@ -331,5 +335,31 @@ public class DoctorWhoUniverseTest {
 
     private Index<Node> getSpeciesIndex() {
         return this.doctorWhoDatabase.index().forNodes("species");
+    }
+    
+    @Test
+    public void severalSpeciesShouldBeEnemies() {
+        assertTrue(areMututalEnemySpecies("Dalek", "Cyberman"));
+        assertTrue(areMututalEnemySpecies("Dalek", "Human"));
+        assertTrue(areMututalEnemySpecies("Human", "Auton"));
+        assertTrue(areMututalEnemySpecies("Timelord", "Dalek"));
+    }
+
+    private boolean areMututalEnemySpecies(String enemy1, String enemy2) {
+        Index<Node> speciesIndex = doctorWhoDatabase.index().forNodes("species");
+        
+        Node n1 = speciesIndex.get("species", enemy1).getSingle();
+        Node n2 = speciesIndex.get("species", enemy2).getSingle();
+        
+        return isEnemyOf(n1, n2) && isEnemyOf(n2, n1); 
+    }
+
+    private boolean isEnemyOf(Node n1, Node n2) {
+        for(Relationship r : n1.getRelationships(ENEMY_OF, Direction.OUTGOING)) {
+            if(r.getEndNode().equals(n2)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
