@@ -31,22 +31,41 @@ public class Koan3 {
     }
 
     @Test
-    public void shouldRetrieveAnIndexOfCharacters() {
+    public void shouldRetrieveCompanionsIndexFromTheDatabase() {
+        Index<Node> companions = null;
 
+        // SNIPPET_START
+
+        companions = universe.getDatabase().index().forNodes("companions");
+
+        // SNIPPET_END
+
+        assertNotNull(companions);
+        assertTrue(indexContains(companions, "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
+    }
+
+    private boolean indexContains(Index<Node> companions, String... names) {
+        for (String name : names) {
+            if(companions.get("name", name).getSingle() == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Test
     public void shouldKeepDatabaseAndIndexInSync() throws Exception {
-        
+
     }
-    
+
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
         Node nixon = createNewCharacterNode("Richard Nixon");
-        
+
         GraphDatabaseService db = universe.getDatabase();
         // SNIPPET_START
-        
+
         Transaction tx = db.beginTx();
         try {
             db.index().forNodes("characters").add(nixon, "name", nixon.getProperty("name"));
@@ -54,27 +73,11 @@ public class Koan3 {
         } finally {
             tx.finish();
         }
-        
+
         // SNIPPET_END
-        
+
         assertNotNull(db.index().forNodes("characters").get("name", "Richard Nixon").getSingle());
     }
-
-    private Node createNewCharacterNode(String characterName) {
-        Node character = null;
-        GraphDatabaseService db = universe.getDatabase();
-        Transaction tx = db.beginTx();
-        try {
-            character = db.createNode();
-            character.setProperty("name", characterName);
-            tx.success();
-        } finally {
-            tx.finish();
-        }
-        
-        return character;
-    }
-    
 
     @Test
     public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
@@ -89,9 +92,6 @@ public class Koan3 {
         assertTrue(containsOnlySontaranSlitheenAndSilurian(indexHits));
     }
 
-
-
-    
     private boolean containsOnlySontaranSlitheenAndSilurian(IndexHits<Node> indexHits) {
         boolean foundSilurian = false;
         boolean foundSlitheen = false;
@@ -116,5 +116,20 @@ public class Koan3 {
         }
 
         return false;
+    }
+
+    private Node createNewCharacterNode(String characterName) {
+        Node character = null;
+        GraphDatabaseService db = universe.getDatabase();
+        Transaction tx = db.beginTx();
+        try {
+            character = db.createNode();
+            character.setProperty("name", characterName);
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+
+        return character;
     }
 }
