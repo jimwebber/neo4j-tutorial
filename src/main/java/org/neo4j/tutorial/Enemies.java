@@ -29,13 +29,13 @@ public class Enemies extends Characters {
     public void insertAndIndex(GraphDatabaseService db, Index<Node> enemiesIndex, Index<Node> speciesIndex, Index<Node> planetIndex) {
         Transaction tx = db.beginTx();
         try {
-            for (String friendlyName : enemiesMap.keySet()) {
+            for (String enemyName : enemiesMap.keySet()) {
                 Node enemyNode = db.createNode();
-                enemyNode.setProperty("name", friendlyName);
-                enemiesIndex.add(enemyNode, "name", friendlyName);
+                enemyNode.setProperty("name", enemyName);
+                enemiesIndex.add(enemyNode, "name", enemyName);
 
-                connectToSpecies(enemyNode, enemiesMap.get(friendlyName), speciesIndex);
-                Species.connectToHomeworld(enemyNode, enemiesMap.get(friendlyName), planetIndex);
+                connectToSpecies(enemyNode, enemiesMap.get(enemyName), speciesIndex);
+                Species.connectToHomeworld(enemyNode, enemiesMap.get(enemyName), planetIndex);
                 makeEnemies(enemyNode);
             }
 
