@@ -1,17 +1,12 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
@@ -44,19 +39,9 @@ public class Koan3 {
         assertTrue(indexContains(companions, "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
     }
 
-    private boolean indexContains(Index<Node> companions, String... names) {
-        for (String name : names) {
-            if(companions.get("name", name).getSingle() == null) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     @Test
-    public void shouldKeepDatabaseAndIndexInSync() throws Exception {
-
+    public void shouldKeepDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
+        
     }
 
     @Test
@@ -116,6 +101,16 @@ public class Koan3 {
         }
 
         return false;
+    }
+    
+    private boolean indexContains(Index<Node> companions, String... names) {
+        for (String name : names) {
+            if(companions.get("name", name).getSingle() == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private Node createNewCharacterNode(String characterName) {

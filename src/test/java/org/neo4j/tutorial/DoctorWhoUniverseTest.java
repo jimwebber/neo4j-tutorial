@@ -19,10 +19,6 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.ReturnableEvaluator;
-import org.neo4j.graphdb.StopEvaluator;
-import org.neo4j.graphdb.TraversalPosition;
-import org.neo4j.graphdb.Traverser.Order;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
@@ -77,12 +73,12 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldHaveCorrectNumberOfHumanFriendlies() {
+    public void shouldHaveCorrectNumberOfHumans() {
         Node humanSpeciesNode = doctorWhoUniverse.speciesIndex.get("species", "Human").getSingle();
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
-        int knownNumberOfHumanFriendlies = 41;
-        assertEquals(knownNumberOfHumanFriendlies, numberOfHumansFriendliesInTheDB);
+        int knownNumberOfHumans = 41;
+        assertEquals(knownNumberOfHumans, numberOfHumansFriendliesInTheDB);
     }
 
     @SuppressWarnings("unused")
