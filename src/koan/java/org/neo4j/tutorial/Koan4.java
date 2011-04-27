@@ -1,8 +1,8 @@
 package org.neo4j.tutorial;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
-import static org.junit.Assert.*;
 
 import java.util.HashSet;
 
