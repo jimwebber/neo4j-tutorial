@@ -67,15 +67,16 @@ public class Koan3 {
 
     @Test
     public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
-        IndexHits<Node> indexHits = null;
+        IndexHits<Node> species = null;
 
         // SNIPPET_START
 
-        indexHits = universe.getDatabase().index().forNodes("species").query("species", "S*n");
+        species = universe.getDatabase().index().forNodes("species").query("species", "S*n");
 
         // SNIPPET_END
 
-        assertTrue(containsOnlySontaranSlitheenAndSilurian(indexHits));
+        //assertTrue(containsOnlySontaranSlitheenAndSilurian(indexHits));
+       assertThat(species, contains("Silurian", "Slitheen", "Sontaran"));
     }
     
     @Test
