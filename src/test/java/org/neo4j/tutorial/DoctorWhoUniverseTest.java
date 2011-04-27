@@ -44,7 +44,7 @@ public class DoctorWhoUniverseTest {
     public void stopDatabase() {
         doctorWhoDatabase.shutdown();
     }
-
+    
     @SuppressWarnings("unused")
     @Test
     public void shouldHave446Planets() {
@@ -60,7 +60,7 @@ public class DoctorWhoUniverseTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHaveCorrectNumberOfFriendlies() {
+    public void shouldHaveCorrectNumberOfFriendlies() {      
         IndexHits<Node> indexHits = doctorWhoUniverse.friendliesIndex.query("name", "*");
         int friendlyCount = 0;
 

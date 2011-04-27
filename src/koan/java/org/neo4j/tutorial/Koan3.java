@@ -1,18 +1,22 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 
 /**
- * This Koan will introduce indexing based on the builtin index framework based
+ * This Koan will introduce indexing based on the built-in index framework based
  * on Lucene. It'll give you a feeling for the wealth of bad guys the Doctor has
  * faced.
  */
@@ -37,11 +41,6 @@ public class Koan3 {
 
         assertNotNull(companions);
         assertTrue(indexContains(companions, "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
-    }
-
-    @Test
-    public void shouldKeepDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
-        
     }
 
     @Test
@@ -76,6 +75,38 @@ public class Koan3 {
 
         assertTrue(containsOnlySontaranSlitheenAndSilurian(indexHits));
     }
+    
+    @Test
+    public void shouldKeepDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
+        GraphDatabaseService db = universe.getDatabase();
+
+        Index<Node> enemies = db.index().forNodes("enemies");
+        Node cyberleader = enemies.get("name", "Cyberleader").getSingle();
+
+        // SNIPPET_START
+
+        Transaction tx = db.beginTx();
+        try {
+            enemies.remove(cyberleader);
+            for (Relationship rel : cyberleader.getRelationships()) {
+                rel.delete();
+            }
+            cyberleader.delete();
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+
+        // SNIPPET_END
+
+        assertNull("Cyberleader has not been deleted from the enemies index.", enemies.get("name", "Cyberleader").getSingle());
+
+        try {
+            db.getNodeById(cyberleader.getId());
+            fail("Cyberleader has not been deleted from the database.");
+        } catch (NotFoundException nfe) {
+        }
+    }
 
     private boolean containsOnlySontaranSlitheenAndSilurian(IndexHits<Node> indexHits) {
         boolean foundSilurian = false;
@@ -102,10 +133,10 @@ public class Koan3 {
 
         return false;
     }
-    
+
     private boolean indexContains(Index<Node> companions, String... names) {
         for (String name : names) {
-            if(companions.get("name", name).getSingle() == null) {
+            if (companions.get("name", name).getSingle() == null) {
                 return false;
             }
         }
