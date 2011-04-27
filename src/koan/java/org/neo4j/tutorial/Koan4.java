@@ -1,6 +1,8 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
+import static org.junit.Assert.*;
 
 import java.util.HashSet;
 
@@ -23,19 +25,26 @@ public class Koan4 {
 
     @Before
     public void createADatabase() {
-        
+
         universe = new DoctorWhoUniverse();
     }
 
     @Test
     public void givenTheCompanionsIndexShouldFindHumanCompanionsUsingCoreApi() {
-        IndexHits<Node> companions = universe.getDatabase().index().forNodes("companions").query("name", "*");
-        
+        IndexHits<Node> companions = null;
+
+        // SNIPPET_START
+
+        companions = universe.getDatabase().index().forNodes("companions").query("name", "*");
+
+        // SNIPPET_END
+
         HashSet<Node> humanCompanions = new HashSet<Node>();
 
+        // SNIPPET_START
+
         for (Node n : companions) {
-            
-            
+
             if (n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING)) {
                 Relationship relationship = n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
                 if (relationship.getEndNode().getProperty("species").equals("Human")) {
@@ -43,8 +52,11 @@ public class Koan4 {
                 }
             }
         }
-        
+
+        // SNIPPET_END
+
         int numberOfKnownHumanCompanions = 35;
         assertEquals(numberOfKnownHumanCompanions, humanCompanions.size());
+        assertThat(humanCompanions, containsOnlyHumanCompanions());
     }
 }

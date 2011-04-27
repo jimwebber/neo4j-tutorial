@@ -2,8 +2,10 @@ package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +42,7 @@ public class Koan3 {
         // SNIPPET_END
 
         assertNotNull(companions);
-        assertTrue(indexContains(companions, "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
+        assertThat(companions, contains("Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
     }
 
     @Test
@@ -132,16 +134,6 @@ public class Koan3 {
         }
 
         return false;
-    }
-
-    private boolean indexContains(Index<Node> companions, String... names) {
-        for (String name : names) {
-            if (companions.get("name", name).getSingle() == null) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private Node createNewCharacterNode(String characterName) {
