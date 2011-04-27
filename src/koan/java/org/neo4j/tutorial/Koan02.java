@@ -16,7 +16,7 @@ import org.neo4j.graphdb.Transaction;
  * This first programming Koan will get you started with the basics of managing nodes and relationships with the core API.
  * It will also introduce you to the earliest Doctor Who storylines! 
  */
-public class Koan2 {
+public class Koan02 {
 
     private GraphDatabaseService db;
     private DatabaseHelper databaseHelper;

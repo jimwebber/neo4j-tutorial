@@ -19,7 +19,7 @@ import org.neo4j.graphdb.index.IndexHits;
  * just how many companions the Doctor has taken over the years.
  * 
  */
-public class Koan4 {
+public class Koan04 {
 
     private DoctorWhoUniverse universe;
 
