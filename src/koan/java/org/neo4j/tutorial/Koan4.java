@@ -13,7 +13,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 /**
  * In this Koan we start to mix indexing and core API to perform more targeted
- * graph operations.
+ * graph operations. We'll mix indexes and core graph operations to find out
+ * just how many companions the Doctor has taken over the years.
  * 
  */
 public class Koan4 {
