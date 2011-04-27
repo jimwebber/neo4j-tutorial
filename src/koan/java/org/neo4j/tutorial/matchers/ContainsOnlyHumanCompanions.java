@@ -1,0 +1,34 @@
+package org.neo4j.tutorial.matchers;
+
+import java.util.Set;
+
+import org.hamcrest.Description;
+import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
+import org.junit.internal.matchers.TypeSafeMatcher;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.Node;
+import org.neo4j.tutorial.DoctorWhoUniverse;
+
+public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>> {
+
+    @Override
+    public void describeTo(Description description) {
+        description.appendText("Checks whether each node in the presented arguments has an IS_A relationship to the species node for humans.");
+    }
+
+    @Override
+    public boolean matchesSafely(Set<Node> nodes) {
+        for(Node n : nodes) {
+            if (!(n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING) && n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING).getEndNode().getProperty("species").equals("Human"))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    @Factory
+    public static <T> Matcher<Set<Node>> containsOnlyHumanCompanions() {
+      return new ContainsOnlyHumanCompanions();
+    }
+}
