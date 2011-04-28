@@ -1,8 +1,6 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.Description;
@@ -30,30 +28,18 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<IndexHits<Node>
 
     @Override
     public boolean matchesSafely(IndexHits<Node> indexHits) {
-
-        List<Node> indexNodes = toList(indexHits);
-        if(indexNodes.size() != species.size()) {
-            return false;
-        }
         
-        
-        for (Node n : indexNodes) {
+        for (Node n : indexHits) {
             String property = String.valueOf(n.getProperty("species"));
  
             if (species.contains(property)) {
                 species.remove(property);
+            } else {
+                return false;
             }
         }
 
         return species.size() == 0;
-    }
-
-    private List<Node> toList(IndexHits<Node> indexHits) {
-        List<Node> result = new ArrayList<Node>();
-        for(Node n : indexHits) {
-            result.add(n);
-        }
-        return result;
     }
 
     @Factory
