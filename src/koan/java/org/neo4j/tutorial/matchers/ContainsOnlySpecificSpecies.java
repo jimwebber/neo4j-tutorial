@@ -32,11 +32,10 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<IndexHits<Node>
         for (Node n : indexHits) {
             String property = String.valueOf(n.getProperty("species"));
  
-            if (species.contains(property)) {
-                species.remove(property);
-            } else {
+            if (!species.contains(property)) {
                 return false;
-            }
+            } 
+            species.remove(property);
         }
 
         return species.size() == 0;
