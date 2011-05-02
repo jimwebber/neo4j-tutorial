@@ -110,7 +110,7 @@
 	},
 	"Vislor Turlough" : {
 		"species" : "Trion",
-		"Planet" : "Trion"
+		"planet" : "Trion"
 	},
 	"Kamelion" : {
 		"species" : "Android",
