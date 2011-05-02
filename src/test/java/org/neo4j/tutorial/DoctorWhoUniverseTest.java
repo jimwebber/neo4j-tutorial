@@ -91,7 +91,7 @@ public class DoctorWhoUniverseTest {
             enemyCount++;
         }
 
-        int numberOfEnemies = 31;
+        int numberOfEnemies = 32;
         assertEquals(numberOfEnemies, enemyCount);
     }
 
@@ -107,14 +107,15 @@ public class DoctorWhoUniverseTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHave16Species() {
+    public void shouldHaveCorrectNumberOfSpecies() {
         IndexHits<Node> indexHits = doctorWhoUniverse.speciesIndex.query("species", "*");
         int speciesCount = 0;
         for (Node n : indexHits) {
+            System.out.println(n.getProperty("species"));
             speciesCount++;
         }
 
-        int numberOfSpecies = 16;
+        int numberOfSpecies = 27;
         assertEquals(numberOfSpecies, speciesCount);
     }
 
@@ -260,7 +261,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 41;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 48;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
         assertTrue(isInList(dalek, enemiesOfEnemies));
         assertTrue(isInList(cyberman, enemiesOfEnemies));
@@ -278,8 +279,8 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldBe11EnemySpecies() {
-        int numberOfEnemySpecies = 11;
+    public void shouldBe12EnemySpecies() {
+        int numberOfEnemySpecies = 12;
         Node theDoctor = doctorWhoUniverse.theDoctor();
 
         Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
@@ -304,8 +305,8 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldHave30IndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 31;
+    public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
+        int numberOfEnemies = 37;
 
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
