@@ -17,6 +17,7 @@ public class Episodes {
         try {
             season01();
             season02();
+            season02();
             
             tx.success();
         } finally {
