@@ -65,32 +65,62 @@ public class EpisodeBuilder {
 
         GraphDatabaseService db = universe.getDatabase();
 
-        Node episode = db.createNode();
-        episode.setProperty("episode", episodeNumber);
-        episode.setProperty("title", title);
+        Node episode = ensureEpisodeNodeInDb(db);
 
-        Node theDoctorActor = setDoctorActor(universe);
-
+        Node theDoctorActor = ensureDoctorActorInDb(universe);
         theDoctorActor.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
 
-        Set<Node> companions = setCompanions(universe);
-        for (Node companion : companions) {
-            companion.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
-        }
+        ensureCompanionsInDb(universe, episode);
 
-        if (enemySpecies != null) {
-            for (String es : enemySpecies) {
-                Node enemySpeciesNode = ensureEnemySpeciesInDb(es, universe);
-                enemySpeciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
-            }
-        }
+        ensureEnemySpeciesInDb(universe, episode);
 
+        ensureEnemiesInDb(universe, episode);
+    }
+
+    private void ensureEnemiesInDb(DoctorWhoUniverse universe, Node episode) {
         if (enemies != null) {
             for (String enemy : enemies) {
                 Node enemyNode = ensureEnemyNodeInDb(enemy, universe);
                 enemyNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
             }
         }
+    }
+
+    private void ensureEnemySpeciesInDb(DoctorWhoUniverse universe, Node episode) {
+        if (enemySpecies != null) {
+            for (String es : enemySpecies) {
+                Node enemySpeciesNode = ensureEnemySpeciesInDb(es, universe);
+                enemySpeciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+            }
+        }
+    }
+
+    private void ensureCompanionsInDb(DoctorWhoUniverse universe, Node episode) {
+        Set<Node> companions = setCompanions(universe);
+        for (Node companion : companions) {
+            companion.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+        }
+    }
+
+    private Node ensureEpisodeNodeInDb(GraphDatabaseService db) {
+        Iterable<Node> allNodes = db.getAllNodes();
+        Node episode = null;
+        for(Node n : allNodes) {
+            if(n.hasProperty("episode") && n.hasProperty("title")) {
+                if(n.getProperty("title").equals(this.title) && n.getProperty("episode").equals(this.episodeNumber)) {
+                    episode = n;
+                    break;
+                }
+            }
+        }
+        
+        if(episode == null) {
+            episode = db.createNode();
+            episode.setProperty("episode", episodeNumber);
+            episode.setProperty("title", title);
+        }
+        
+        return episode;
     }
 
     private Node ensureEnemyNodeInDb(String enemy, DoctorWhoUniverse universe) {
@@ -187,7 +217,7 @@ public class EpisodeBuilder {
         return null;
     }
 
-    private Node setDoctorActor(DoctorWhoUniverse universe) {
+    private Node ensureDoctorActorInDb(DoctorWhoUniverse universe) {
         Node theDoctor = universe.theDoctor();
         Iterable<Relationship> relationships = theDoctor.getRelationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING);
         for (Relationship r : relationships) {
