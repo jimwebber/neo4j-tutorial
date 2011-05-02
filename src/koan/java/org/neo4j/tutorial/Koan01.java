@@ -1,6 +1,6 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ import org.junit.Test;
 public class Koan01 {
     @Test
     public void justEmitsThePathToTheDatabase() throws Exception {
-        DoctorWhoUniverse universe = new DoctorWhoUniverse();
+        DoctorWhoUniverse universe = new DoctorWhoUniverse();       
         assertNotNull(universe.getDatabase());
     }
 }

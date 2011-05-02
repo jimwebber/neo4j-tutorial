@@ -75,7 +75,7 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        assertThat(species, containsOnly("Silurian", "Slitheen", "Sontaran"));
+        assertThat(species, containsOnly("Silurian", "Slitheen", "Sontaran", "Skarasen"));
     }
 
     @Test

@@ -33,7 +33,7 @@ public class Episodes {
         episode(13).title("The Web Planet").doctor("William", "Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(universe);
         episode(14).title("The Crusade").doctor("William", "Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(universe);
         episode(15).title("The Space Museum").doctor("William", "Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(universe);
-        episode(16).title("The Chase").doctor("William", "Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor").fact(universe);
+        episode(16).title("The Chase").doctor("William", "Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor").enemySpecies("Dalek").fact(universe);
         episode(17).title("The Time Meddler").doctor("William", "Hartnell").companion("Vicki", "Steven Taylor").fact(universe);
     }
 
