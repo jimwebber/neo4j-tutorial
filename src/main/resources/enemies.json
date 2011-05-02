@@ -83,5 +83,8 @@
 	"Sutekh" : {
 		"species" : "Osiron"
 	},
-	"Terileptils" : {}
+	"Terileptils" : {},
+	"Yartek" : {
+		"species" : "Voord"
+	}
 }

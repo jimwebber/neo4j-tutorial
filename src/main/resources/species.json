@@ -1,14 +1,22 @@
 {
+	"Abrobvian" : {
+		"planet" : "Clom"
+	},
+	"Android" : {},
     "Auton" : {
     	"planet" : "Polymos"
-    	},
+    },
 	"Axon" : {},
+	"Devil" : {
+		"planet" : "Impossible Planet"
+	},
 	"Cyberman" : {
 		"planet" : "Mondas"
 	},
 	"Dalek" : {
 		"planet" : "Skaro"
 	},
+	"Gargoyle" : {},
 	"Ice Warrior" : {
 		"planet" : "Mars"
 	},
@@ -17,9 +25,14 @@
 	}, 
 	"Humanoid" : {}, 
 	"Jagrafess" : {},
+	"Jagaroth" : {},
+	"Kaled" : {
+		"planet" : "Skaro"
+	},
 	"Ood" : {
 		"planet" : "Ood Sphere"
 	},
+	"Osiron" : {},
 	"Robotic Canine" : {
 		"planet" : "Ood Sphere"
 	},	
@@ -29,6 +42,7 @@
 	"Silurian" : {
 		"planet" : "Earth"
 	},
+	"Skarasen" : {},
 	"Slitheen" : {
 		"planet" : "Raxacoricofallapatorius"
 	},
@@ -38,5 +52,9 @@
 	"Timelord" : {
 		"planet" : "Gallifrey"
 	},
-	"Vashta Nerada" : {}
+	"Trion" : {
+		"planet" : "Trion"
+	},
+	"Vashta Nerada" : {},
+	"Voord" : {}
 }

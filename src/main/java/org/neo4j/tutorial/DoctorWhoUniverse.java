@@ -5,6 +5,7 @@ import java.io.File;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.Index;
 
 public class DoctorWhoUniverse {
@@ -15,6 +16,7 @@ public class DoctorWhoUniverse {
     public static final DynamicRelationshipType FROM = DynamicRelationshipType.withName("FROM");
     public static final DynamicRelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
     public static final DynamicRelationshipType COMPANION_OF = DynamicRelationshipType.withName("COMPANION_OF");
+    public static final RelationshipType APPEARED_IN = DynamicRelationshipType.withName("APPEARED_IN");
 
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
 
@@ -35,6 +37,12 @@ public class DoctorWhoUniverse {
         addInterspeciesEnemies();
         addDoctorActors();
         addMasterActors();
+        addEpisodes();
+    }
+
+    private void addEpisodes() {
+        Episodes episodes = new Episodes(this);
+        episodes.insert();
     }
 
     private void addInterspeciesEnemies() {
