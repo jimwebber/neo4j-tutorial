@@ -51,7 +51,7 @@ public class Species {
         if(indexHits != null) {
             Node planet = indexHits.getSingle();
             if(planet != null) {
-                speciesNode.createRelationshipTo(planet, DoctorWhoUniverse.FROM);
+                speciesNode.createRelationshipTo(planet, DoctorWhoUniverse.COMES_FROM);
             }
         } else {
             throw new RuntimeException(String.format("Planet [%s] is not known in the Doctor Who universe, unable to add FROM relationship for species [%s]", planetName, speciesNode.getProperty("species")));
