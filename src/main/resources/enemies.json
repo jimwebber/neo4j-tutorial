@@ -48,9 +48,18 @@
 		"planet" : "Skaro"
 	},
 	"Destroyer" : {},
+	"Eldrad" : {
+		"species" : "Kastrian",
+		"planet" : "Kastria"
+	},
 	"Empress of Racnoss" : {},
 	"Fendahl" : {},
 	"General Staal" : {
+		"species" : "Sontaran",
+		"planet" : "Sontar"
+	},
+	"K1 Robot" : {},
+	"Linx" : {
 		"species" : "Sontaran",
 		"planet" : "Sontar"
 	},
@@ -59,9 +68,6 @@
 		"species" : "Cyberman",
 		"planet" : "Earth"
     },	
-	"Scaroth" : {
-		"species" : "Jagaroth"
-	},
 	"Loch Ness Monster" : {
 		"species" : "Skarasen"
 	},
@@ -79,7 +85,17 @@
 	"Ogron" : {},
 	"Pyrovile" : {},
 	"Reaper" : {},
-	"Robot" : {},
+	"Scaroth" : {
+		"species" : "Jagaroth"
+	},
+	"Stor" : {
+		"species" : "Sontaran",
+		"planet" : "Sontar"
+	},
+	"Styre" : {
+		"species" : "Sontaran",
+		"planet" : "Sontar"
+	},
 	"Sutekh" : {
 		"species" : "Osiron"
 	},
