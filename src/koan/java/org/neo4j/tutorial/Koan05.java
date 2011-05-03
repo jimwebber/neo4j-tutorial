@@ -57,7 +57,7 @@ public class Koan05 {
     
     @Test
     public void shouldFindAllTheEpisodesTheMasterAndDavidTennantWereInTogether() {
-        Node theMaster = universe.theMaster();
+        Node theMaster = universe.characterIndex.get("name", "Master").getSingle();
         Traverser t = null;
 
         // SNIPPET_START
