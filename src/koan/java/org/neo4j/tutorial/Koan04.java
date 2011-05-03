@@ -30,10 +30,10 @@ public class Koan04 {
     
     @Test
     public void shouldCountTheNumberOfDoctorsRegenerations() {
-        Node firstDoctor = universe.getDatabase().index().forNodes("actors").get("lastname", "Hartnell").getSingle();
         int numberOfRegenerations = 1;
 
         // SNIPPET_START
+        Node firstDoctor = universe.getDatabase().index().forNodes("actors").get("lastname", "Hartnell").getSingle();
 
         Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
 
@@ -81,6 +81,6 @@ public class Koan04 {
 
     @Test
     public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks() {
-        
+        te
     }
 }
