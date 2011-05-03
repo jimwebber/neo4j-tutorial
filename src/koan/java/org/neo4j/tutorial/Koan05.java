@@ -1,15 +1,17 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.ReturnableEvaluator;
 import org.neo4j.graphdb.StopEvaluator;
+import org.neo4j.graphdb.TraversalPosition;
 import org.neo4j.graphdb.Traverser;
 import org.neo4j.graphdb.Traverser.Order;
 
@@ -19,10 +21,10 @@ import org.neo4j.graphdb.Traverser.Order;
  */
 public class Koan05 {
 
-    private DoctorWhoUniverse universe;
+    private static DoctorWhoUniverse universe;
 
-    @Before
-    public void createADatabase() {
+    @BeforeClass
+    public static void createADatabase() {
 
         universe = new DoctorWhoUniverse();
     }
@@ -46,5 +48,38 @@ public class Koan05 {
 
         int knownNumberOfCompanions = 46;
         assertEquals(knownNumberOfCompanions, foundCompanions.size());
+    }
+    
+    @Test
+    public void shouldFindAllTheEpisodesTheMasterAndDavidTennantWereInTogether() {
+        Node theMaster = universe.theMaster();
+        Traverser t = null;
+
+        // SNIPPET_START
+
+        t = theMaster.traverse(Order.DEPTH_FIRST,
+                StopEvaluator.END_OF_GRAPH,
+                new ReturnableEvaluator() {
+                    @Override
+                    public boolean isReturnableNode(TraversalPosition currentPos) {
+                        if(currentPos.currentNode().hasProperty("episode")) {
+                            Node episode = currentPos.currentNode();
+                            
+                            for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
+                                if(r.getStartNode().hasProperty("lastname") && r.getStartNode().getProperty("lastname").equals("Tennant")) {
+                                    return true;
+                                }
+                            }
+                        }
+                        
+                        return false;
+                    }},
+                DoctorWhoUniverse.APPEARED_IN,
+                Direction.OUTGOING);
+
+        // SNIPPET_END
+
+        int numberOfEpisodesWithTennantVersusTheMaster = 4;
+        assertEquals(numberOfEpisodesWithTennantVersusTheMaster, t.getAllNodes().size());
     }
 }
