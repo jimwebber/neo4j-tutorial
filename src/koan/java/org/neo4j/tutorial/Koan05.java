@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
@@ -24,9 +25,13 @@ public class Koan05 {
     private static DoctorWhoUniverse universe;
 
     @BeforeClass
-    public static void createADatabase() {
-
+    public static void createDatabase() throws Exception {
         universe = new DoctorWhoUniverse();
+    }
+    
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
     }
 
     @Test

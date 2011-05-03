@@ -102,4 +102,8 @@ public class DoctorWhoUniverse {
     public Node theMaster() {
         return enemiesIndex.get("name", "Master").getSingle();
     }
+
+    public void stop() {
+        db.shutdown();
+    }
 }

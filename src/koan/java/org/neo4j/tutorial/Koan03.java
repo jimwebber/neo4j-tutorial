@@ -7,7 +7,8 @@ import static org.junit.Assert.fail;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnly;
 import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -24,11 +25,16 @@ import org.neo4j.graphdb.index.IndexHits;
  */
 public class Koan03 {
 
-    private DoctorWhoUniverse universe;
+    private static DoctorWhoUniverse universe;
 
-    @Before
-    public void createDatabase() throws Exception {
+    @BeforeClass
+    public static void createDatabase() throws Exception {
         universe = new DoctorWhoUniverse();
+    }
+    
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
     }
 
     @Test
