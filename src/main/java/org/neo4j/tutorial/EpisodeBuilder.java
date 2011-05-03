@@ -15,10 +15,19 @@ public class EpisodeBuilder {
     private String title;
     private List<String> companionNames = new ArrayList<String>();
     private int episodeNumber = 0;
-    private String actorFirstname;
-    private String actorLastname;
+    private List<DoctorActor> doctorActor = new ArrayList<DoctorActor>();
     private List<String> enemySpecies = new ArrayList<String>();
     private List<String> enemies = new ArrayList<String>();
+
+    private static class DoctorActor {
+        public final String firstname;
+        public final String lastname;
+
+        public DoctorActor(String firstname, String lastname) {
+            this.firstname = firstname;
+            this.lastname = lastname;
+        }
+    }
 
     private EpisodeBuilder(int episodeNumber) {
         this.episodeNumber = episodeNumber;
@@ -34,8 +43,7 @@ public class EpisodeBuilder {
     }
 
     public EpisodeBuilder doctor(String actorfirstName, String actorLastname) {
-        this.actorFirstname = actorfirstName;
-        this.actorLastname = actorLastname;
+        doctorActor.add(new DoctorActor(actorfirstName, actorLastname));
         return this;
     }
 
@@ -47,14 +55,14 @@ public class EpisodeBuilder {
     }
 
     public EpisodeBuilder enemySpecies(String... enemySpecies) {
-        for(String str : enemySpecies) {
+        for (String str : enemySpecies) {
             this.enemySpecies.add(str);
         }
         return this;
     }
 
     public EpisodeBuilder enemy(String... enemies) {
-        for(String str : enemies) {
+        for (String str : enemies) {
             this.enemies.add(str);
         }
         return this;
@@ -67,14 +75,22 @@ public class EpisodeBuilder {
 
         Node episode = ensureEpisodeNodeInDb(db);
 
-        Node theDoctorActor = ensureDoctorActorInDb(universe);
-        theDoctorActor.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+        ensureDoctorActorsAreInDb(universe, episode);
 
         ensureCompanionsInDb(universe, episode);
 
         ensureEnemySpeciesInDb(universe, episode);
 
         ensureEnemiesInDb(universe, episode);
+    }
+
+    private void ensureDoctorActorsAreInDb(DoctorWhoUniverse universe, Node episode) {
+        if (doctorActor != null) {
+            for (DoctorActor da : doctorActor) {
+                Node theDoctorActor = ensureDoctorActorInDb(da, universe);
+                theDoctorActor.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+            }
+        }
     }
 
     private void ensureEnemiesInDb(DoctorWhoUniverse universe, Node episode) {
@@ -105,21 +121,21 @@ public class EpisodeBuilder {
     private Node ensureEpisodeNodeInDb(GraphDatabaseService db) {
         Iterable<Node> allNodes = db.getAllNodes();
         Node episode = null;
-        for(Node n : allNodes) {
-            if(n.hasProperty("episode") && n.hasProperty("title")) {
-                if(n.getProperty("title").equals(this.title) && n.getProperty("episode").equals(this.episodeNumber)) {
+        for (Node n : allNodes) {
+            if (n.hasProperty("episode") && n.hasProperty("title")) {
+                if (n.getProperty("title").equals(this.title) && n.getProperty("episode").equals(this.episodeNumber)) {
                     episode = n;
                     break;
                 }
             }
         }
-        
-        if(episode == null) {
+
+        if (episode == null) {
             episode = db.createNode();
             episode.setProperty("episode", episodeNumber);
             episode.setProperty("title", title);
         }
-        
+
         return episode;
     }
 
@@ -217,20 +233,21 @@ public class EpisodeBuilder {
         return null;
     }
 
-    private Node ensureDoctorActorInDb(DoctorWhoUniverse universe) {
+    private Node ensureDoctorActorInDb(DoctorActor doctorActor, DoctorWhoUniverse universe) {
         Node theDoctor = universe.theDoctor();
         Iterable<Relationship> relationships = theDoctor.getRelationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING);
+
         for (Relationship r : relationships) {
             Node current = r.getStartNode();
-            if (current.getProperty("firstname").equals(actorFirstname) && current.getProperty("lastname").equals(actorLastname)) {
+            if (current.getProperty("firstname").equals(doctorActor.firstname) && current.getProperty("lastname").equals(doctorActor.lastname)) {
                 return current;
             }
         }
 
-        Node doctorActor = universe.getDatabase().createNode();
-        doctorActor.setProperty("firstname", actorFirstname);
-        doctorActor.setProperty("lastname", actorLastname);
-        doctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
-        return doctorActor;
+        Node doctorActorNode = universe.getDatabase().createNode();
+        doctorActorNode.setProperty("firstname", doctorActor.firstname);
+        doctorActorNode.setProperty("lastname", doctorActor.lastname);
+        doctorActorNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+        return doctorActorNode;
     }
 }
