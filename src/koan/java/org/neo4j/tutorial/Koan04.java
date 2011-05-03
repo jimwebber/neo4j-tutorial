@@ -7,7 +7,8 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnl
 
 import java.util.HashSet;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -22,12 +23,16 @@ import org.neo4j.graphdb.index.IndexHits;
  */
 public class Koan04 {
 
-    private DoctorWhoUniverse universe;
+    private static DoctorWhoUniverse universe;
 
-    @Before
-    public void createADatabase() {
-
+    @BeforeClass
+    public static void createDatabase() throws Exception {
         universe = new DoctorWhoUniverse();
+    }
+    
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
     }
 
     @Test

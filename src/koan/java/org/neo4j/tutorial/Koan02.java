@@ -1,9 +1,12 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -18,17 +21,17 @@ import org.neo4j.graphdb.Transaction;
  */
 public class Koan02 {
 
-    private GraphDatabaseService db;
-    private DatabaseHelper databaseHelper;
+    private static GraphDatabaseService db;
+    private static DatabaseHelper databaseHelper;
 
-    @Before
-    public void createADatabase() {
+    @BeforeClass
+    public static void createADatabase() {
         db = DatabaseHelper.createDatabase();
         databaseHelper = new DatabaseHelper(db);
     }
     
-    @After
-    public void closeTheDatabase() {
+    @AfterClass
+    public static void closeTheDatabase() {
         db.shutdown();
     }
     
