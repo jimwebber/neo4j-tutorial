@@ -15,9 +15,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 /**
  * In this Koan we start to mix indexing and core API to perform more targeted
- * graph operations. We'll mix indexes and core graph operations to find out
- * just how many companions the Doctor has taken over the years.
- * 
+ * graph operations. We'll mix indexes and core graph operations to explore the
+ * Doctor's universe.
  */
 public class Koan04 {
 
@@ -28,9 +27,28 @@ public class Koan04 {
 
         universe = new DoctorWhoUniverse();
     }
+    
+    @Test
+    public void shouldCountTheNumberOfDoctorsRegenerations() {
+        Node firstDoctor = universe.getDatabase().index().forNodes("actors").get("lastname", "Hartnell").getSingle();
+        int numberOfRegenerations = 1;
+
+        // SNIPPET_START
+
+        Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+
+        while (regeneratedTo != null) {
+            numberOfRegenerations++;
+            regeneratedTo = regeneratedTo.getEndNode().getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+        }
+
+        // SNIPPET_END
+
+        assertEquals(11, numberOfRegenerations);
+    }
 
     @Test
-    public void givenTheCompanionsIndexShouldFindHumanCompanionsUsingCoreApi() {
+    public void shouldFindHumanCompanionsUsingCoreApi() {
         IndexHits<Node> companions = null;
 
         // SNIPPET_START
@@ -58,5 +76,11 @@ public class Koan04 {
         int numberOfKnownHumanCompanions = 35;
         assertEquals(numberOfKnownHumanCompanions, humanCompanions.size());
         assertThat(humanCompanions, containsOnlyHumanCompanions());
+    }
+
+
+    @Test
+    public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks() {
+        
     }
 }
