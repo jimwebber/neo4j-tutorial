@@ -3,7 +3,6 @@ package org.neo4j.tutorial;
 import static org.neo4j.tutorial.EpisodeBuilder.episode;
 
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class Episodes {
 
@@ -39,16 +38,143 @@ public class Episodes {
             episode(129).title("The Five Doctors").doctor("Richard", "Hurndall").doctor("William", "Hartnell").doctor("Patrick", "Troughton").doctor("Jon","Pertwee").doctor("Tom","Baker").doctor("Peter", "Davison").companion("Tegan Jovanka", "Vislor Turlough", "Susan Foreman", "Brigadier Lethbridge-Stewart", "Sarah Jane Smith", "Romana").enemy("Master").fact(universe);
             season21();
             season22();
-            
-            episode(143).title("The Mysterious Planet").doctor("Colin", "Baker").companion("Peri Brown").fact(universe);
-            episode(143).title("Mindwarp").doctor("Colin", "Baker").companion("Peri Brown").fact(universe);
-            episode(143).title("Terror of the Vervoids").doctor("Colin", "Baker").companion("Melanie Bush").fact(universe);
-            episode(143).title("The Ultimate Foe").doctor("Colin", "Baker").companion("Melanie Bush").enemy("Master").fact(universe);
-            
+            season23();
+            season24();
+            season25();
+            season26();
+            episode(156).title("Doctor Who").doctor("Paul", "McGann").doctor("Sylvester", "McCoy").companion("Grace Holloway").enemy("Master").fact(universe);
+            series01();
+            episode(167).title("The Christmas Invasion").doctor("David", "Tennant").companion("Rose Tyler").enemySpecies("Sycorax").fact(universe);
+            series02();
+            episode(178).title("The Runaway Bride").doctor("David", "Tennant").companion("Donna Noble").enemy("Empress of Racnoss").fact(universe);
+            series03();
+            episode(188).title("Voyage of the Damned").doctor("David", "Tennant").companion("Astrid Peth").fact(universe);
+            series04();
+            series05();
+            episode(213).title("A Christmas Carol").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").enemy("Kazran Sardick").fact(universe);
+            series06();
+
             tx.success();
         } finally {
             tx.finish();
         }
+    }
+
+    private void series06() {
+        episode(214).title("The Impossible Astronaut").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams", "River Song").enemy("Silence").fact(universe);
+        episode(214).title("Day of the Moon").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams", "River Song").enemy("Silence").fact(universe);
+    }
+
+    private void series05() {
+        episode(199).title("The Next Doctor").doctor("David", "Tennant").companion("Jackson Lake", "Rosita Farisi").enemy("Miss Hartigan").enemySpecies("Cyberman").fact(universe);
+        episode(200).title("Planet of the Dead").doctor("David", "Tennant").companion("Lady Christina de Souza").fact(universe);
+        episode(201).title("The Waters of Mars").doctor("David", "Tennant").companion("Adelaide Brooke").fact(universe);
+        episode(202).title("The End of Time").doctor("David", "Tennant").doctor("Matt", "Smith").companion("Wilfred Mott").enemy("Master", "Lord President").fact(universe);
+        episode(203).title("The Eleventh Hour").doctor("Matt", "Smith").companion("Amy Pond").enemy("Prisoner Zero").fact(universe);
+        episode(204).title("The Beast Below").doctor("Matt", "Smith").companion("Amy Pond").enemy("Prisoner Zero").fact(universe);
+        episode(206).title("Victory of the Daleks").doctor("Matt", "Smith").companion("Amy Pond").enemySpecies("Dalek").fact(universe);
+        episode(206).title("The Time of Angels").doctor("Matt", "Smith").companion("Amy Pond").enemySpecies("Weeping Angel").fact(universe);
+        episode(206).title("Flesh and Stone").doctor("Matt", "Smith").companion("Amy Pond").enemySpecies("Weeping Angel").fact(universe);
+        episode(207).title("The Vampires of Venice").doctor("Matt", "Smith").companion("Amy Pond").enemy("Signora Calvierri").fact(universe);
+        episode(208).title("Amy's Choice").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Eknodine").fact(universe);
+        episode(209).title("The Hungry Earth").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Silurian").fact(universe);
+        episode(209).title("Cold Blood").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Silurian").fact(universe);
+        episode(210).title("Vincent and the Doctor").doctor("Matt", "Smith").companion("Amy Pond").fact(universe);
+        episode(211).title("The Lodger").doctor("Matt", "Smith").companion("Amy Pond").fact(universe);
+        episode(212).title("The Pandorica Opens").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Dalek", "Auton", "Cyberman", "Sontaran", "Judoon", "Sycorax", "Hoix", "Silurian", "Roboform").fact(universe);
+        episode(212).title("The Big Bang").doctor("Matt", "Smith").companion("Amy Pond", "Rory Williams").fact(universe);
+    }
+
+    private void series04() {
+        episode(189).title("Partners in Crime").doctor("David", "Tennant").companion("Donna Noble").enemy("Miss Foster").fact(universe);
+        episode(190).title("The Fires of Pompeii").doctor("David", "Tennant").companion("Donna Noble").enemy("Pyrovile").fact(universe);
+        episode(191).title("Planet of the Ood").doctor("David", "Tennant").companion("Donna Noble").fact(universe);
+        episode(192).title("The Sontaran Stratagem").doctor("David", "Tennant").companion("Donna Noble", "Martha Jones").enemy("General Staal").fact(universe);
+        episode(192).title("The Poison Sky").doctor("David", "Tennant").companion("Donna Noble", "Martha Jones").enemy("General Staal").fact(universe);
+        episode(193).title("The Doctor's Daughter").doctor("David", "Tennant").companion("Donna Noble", "Martha Jones").enemy("General Cobb").fact(universe);
+        episode(194).title("The Unicorn and the Wasp").doctor("David", "Tennant").companion("Donna Noble").fact(universe);
+        episode(195).title("Silence in the Library").doctor("David", "Tennant").companion("Donna Noble").enemySpecies("Vashta Nerada").fact(universe);
+        episode(195).title("Forest of the Dead").doctor("David", "Tennant").companion("Donna Noble").enemySpecies("Vashta Nerada").fact(universe);
+        episode(196).title("Midnight").doctor("David", "Tennant").companion("Donna Noble").fact(universe);
+        episode(197).title("Turn Left").doctor("David", "Tennant").companion("Donna Noble", "Rose Tyler").fact(universe);
+        episode(198).title("The Stolen Earth").doctor("David", "Tennant").companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith").enemySpecies("Dalek").fact(universe);
+        episode(198).title("Journey's End").doctor("David", "Tennant").companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith").enemySpecies("Dalek").fact(universe);
+    }
+
+    private void series03() {
+        episode(179).title("Smith and Jones").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Plasmavore").fact(universe);
+        episode(180).title("The Shakespeare Code").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Carrionite").fact(universe);
+        episode(181).title("Gridlock").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Macra").fact(universe);
+        episode(182).title("Daleks in Manhattan").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Dalek").fact(universe);
+        episode(182).title("Evolution of the Daleks").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Dalek").fact(universe);
+        episode(183).title("The Lazarus Experiment").doctor("David", "Tennant").companion("Martha Jones").enemy("Lazarus").fact(universe);
+        episode(184).title("42").doctor("David", "Tennant").companion("Martha Jones").fact(universe);
+        episode(185).title("Human Nature").doctor("David", "Tennant").companion("Martha Jones").enemy("Family of Blood").fact(universe);
+        episode(185).title("Family of Blood").doctor("David", "Tennant").companion("Martha Jones").enemy("Family of Blood").fact(universe);
+        episode(186).title("Blink").doctor("David", "Tennant").companion("Martha Jones").enemySpecies("Weeping Angel").fact(universe);
+        episode(187).title("Utopia").doctor("David", "Tennant").companion("Martha Jones", "Jack Harkness").enemy("Master").fact(universe);
+        episode(187).title("The Sound of Drums").doctor("David", "Tennant").companion("Martha Jones", "Jack Harkness").enemy("Master").fact(universe);
+        episode(187).title("Last of the Time Lords").doctor("David", "Tennant").companion("Martha Jones", "Jack Harkness").enemy("Master").fact(universe);
+    }
+
+    private void series02() {
+        episode(168).title("New Earth").doctor("David", "Tennant").companion("Rose Tyler").fact(universe);
+        episode(169).title("Tooth and Claw").doctor("David", "Tennant").companion("Rose Tyler").fact(universe);
+        episode(170).title("School Reunion").doctor("David", "Tennant").companion("Rose Tyler", "Mickey Smith", "Sarah Jane Smith").enemySpecies("Krillitane").fact(universe);
+        episode(171).title("The Girl in the Fireplace").doctor("David", "Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Clockwork Android").fact(universe);
+        episode(172).title("Rise of the Cybermen").doctor("David", "Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Cyberman").fact(universe);
+        episode(172).title("The Age of Steel").doctor("David", "Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Cyberman").fact(universe);
+        episode(173).title("The Idiot's Lantern").doctor("David", "Tennant").companion("Rose Tyler").enemy("The Wire").fact(universe);
+        episode(174).title("The Impossible Planet").doctor("David", "Tennant").companion("Rose Tyler").enemy("Beast").fact(universe);
+        episode(174).title("The Satan Pit").doctor("David", "Tennant").companion("Rose Tyler").enemy("Beast").fact(universe);
+        episode(175).title("Love & Monsters").doctor("David", "Tennant").companion("Rose Tyler").enemy("Abzorbaloff").fact(universe);
+        episode(176).title("Fear Her").doctor("David", "Tennant").companion("Rose Tyler").fact(universe);
+        episode(177).title("Army of Ghosts").doctor("David", "Tennant").companion("Rose Tyler").enemySpecies("Cyberman", "Dalek").fact(universe);
+        episode(177).title("Doomsday").doctor("David", "Tennant").companion("Rose Tyler").enemySpecies("Cyberman", "Dalek").fact(universe);
+    }
+
+    private void series01() {
+        episode(157).title("Rose").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemySpecies("Auton").fact(universe);
+        episode(158).title("The End of the World").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemy("Cassandra").fact(universe);
+        episode(159).title("The Unquiet Dead").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemy("Gabriel Sneed").fact(universe);
+        episode(160).title("Aliens of London").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemySpecies("Slitheen").fact(universe);
+        episode(160).title("World War Three").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemySpecies("Slitheen").fact(universe);
+        episode(161).title("Dalek").doctor("Christopher", "Eccleston").companion("Rose Tyler").enemySpecies("Dalek").fact(universe);
+        episode(162).title("The Long Game").doctor("Christopher", "Eccleston").companion("Rose Tyler").fact(universe);
+        episode(163).title("Father's Day").doctor("Christopher", "Eccleston").companion("Rose Tyler").fact(universe);
+        episode(164).title("The Empty Child").doctor("Christopher", "Eccleston").companion("Rose Tyler", "Jack Harkness").fact(universe);
+        episode(164).title("The Doctor Dances").doctor("Christopher", "Eccleston").companion("Rose Tyler", "Jack Harkness").fact(universe);
+        episode(165).title("Boom Town").doctor("Christopher", "Eccleston").companion("Rose Tyler", "Jack Harkness").enemySpecies("Slitheen").fact(universe);
+        episode(166).title("Bad Wolf").doctor("Christopher", "Eccleston").companion("Rose Tyler", "Jack Harkness").enemySpecies("Dalek").fact(universe);
+        episode(166).title("The Parting of the Ways").doctor("Christopher", "Eccleston").doctor("David", "Tennant").companion("Rose Tyler", "Jack Harkness").enemySpecies("Dalek").fact(universe);
+    }
+
+    private void season26() {
+        episode(151).title("Battlefield").doctor("Sylvester", "McCoy").companion("Ace").fact(universe);
+        episode(152).title("Ghost Light").doctor("Sylvester", "McCoy").companion("Ace").enemy("Josiah Samuel Smith").fact(universe);
+        episode(153).title("The Curse of Fenric").doctor("Sylvester", "McCoy").companion("Ace").enemy("Fenric").fact(universe);
+        episode(154).title("Survival").doctor("Sylvester", "McCoy").companion("Ace").enemy("Master").fact(universe);
+    }
+
+    private void season25() {
+        episode(148).title("Remembrance of the Daleks").doctor("Sylvester", "McCoy").companion("Ace").enemy("Davros").enemySpecies("Dalek").fact(universe);
+        episode(149).title("The Happiness Patrol").doctor("Sylvester", "McCoy").companion("Ace").enemy("Helen A").fact(universe);
+        episode(150).title("Silver Nemesis").doctor("Sylvester", "McCoy").companion("Ace").enemySpecies("Cyberman").fact(universe);
+        episode(151).title("The Greatest Show in the Galaxy").doctor("Sylvester", "McCoy").companion("Ace").fact(universe);
+    }
+
+    private void season24() {
+        episode(144).title("Time and the Rani").doctor("Colin", "Baker").doctor("Sylvester", "McCoy").companion("Melanie Bush").enemy("Rani").fact(universe);
+        episode(145).title("Paradise Towers").doctor("Sylvester", "McCoy").companion("Melanie Bush").enemy("Kroagnon").fact(universe);
+        episode(146).title("Delta and the Bannermen").doctor("Sylvester", "McCoy").companion("Melanie Bush").enemy("Gavrok").fact(universe);
+        episode(147).title("Dragonfire").doctor("Sylvester", "McCoy").companion("Melanie Bush", "Ace").enemy("Kane").fact(universe);
+    }
+
+    private void season23() {
+        episode(143).title("The Mysterious Planet").doctor("Colin", "Baker").companion("Peri Brown").fact(universe);
+        episode(143).title("Mindwarp").doctor("Colin", "Baker").companion("Peri Brown").fact(universe);
+        episode(143).title("Terror of the Vervoids").doctor("Colin", "Baker").companion("Melanie Bush").fact(universe);
+        episode(143).title("The Ultimate Foe").doctor("Colin", "Baker").companion("Melanie Bush").enemy("Master").fact(universe);
     }
 
     private void season22() {
