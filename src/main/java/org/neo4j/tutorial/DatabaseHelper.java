@@ -86,8 +86,8 @@ public class DatabaseHelper {
     }
 
     public void dumpNode(Node node) {
+        System.out.println(String.format("Node ID [%d]", node.getId()));
         for(String key : node.getPropertyKeys()) {
-            System.out.println(String.format("Node ID [%d]", node.getId()));
             System.out.print(key + " : ");
             System.out.println(node.getProperty(key));
         }
