@@ -9,8 +9,8 @@ import static org.neo4j.tutorial.DoctorWhoUniverse.PLAYED;
 
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
@@ -27,24 +27,31 @@ import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 import org.neo4j.kernel.Uniqueness;
 
+/**
+ * Be careful when adding tests here - each test in this class uses the same
+ * database instance and so can pollute. This was done for performance reasons
+ * since loading the database for each test takes a long time, even on fast
+ * hardware.
+ * 
+ */
 public class DoctorWhoUniverseTest {
 
-    private DoctorWhoUniverse doctorWhoUniverse;
-    private GraphDatabaseService doctorWhoDatabase;
-    private DatabaseHelper databaseHelper;
+    private static DoctorWhoUniverse doctorWhoUniverse;
+    private static GraphDatabaseService doctorWhoDatabase;
+    private static DatabaseHelper databaseHelper;
 
-    @Before
-    public void startDatabase() throws Exception {
+    @BeforeClass
+    public static void startDatabase() throws Exception {
         doctorWhoUniverse = new DoctorWhoUniverse();
         doctorWhoDatabase = doctorWhoUniverse.getDatabase();
         databaseHelper = new DatabaseHelper(doctorWhoDatabase);
     }
 
-    @After
-    public void stopDatabase() {
+    @AfterClass
+    public static void stopDatabase() {
         doctorWhoDatabase.shutdown();
     }
-    
+
     @SuppressWarnings("unused")
     @Test
     public void shouldHave446Planets() {
@@ -60,7 +67,7 @@ public class DoctorWhoUniverseTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHaveCorrectNumberOfFriendlies() {      
+    public void shouldHaveCorrectNumberOfFriendlies() {
         IndexHits<Node> indexHits = doctorWhoUniverse.friendliesIndex.query("name", "*");
         int friendlyCount = 0;
 
@@ -91,7 +98,7 @@ public class DoctorWhoUniverseTest {
             enemyCount++;
         }
 
-        int numberOfEnemies = 32;
+        int numberOfEnemies = 36;
         assertEquals(numberOfEnemies, enemyCount);
     }
 
@@ -111,17 +118,17 @@ public class DoctorWhoUniverseTest {
         IndexHits<Node> indexHits = doctorWhoUniverse.speciesIndex.query("species", "*");
         int speciesCount = 0;
         for (Node n : indexHits) {
-            System.out.println(n.getProperty("species"));
             speciesCount++;
         }
 
-        int numberOfSpecies = 27;
+        int numberOfSpecies = 28;
         assertEquals(numberOfSpecies, speciesCount);
     }
 
     @Test
-    public void shouldHave11ActorsThatHavePlayedTheDoctor() {
-        int numberOfDoctors = 11;
+    public void shouldHave12ActorsThatHavePlayedTheDoctor() {
+        int numberOfDoctors = 12; // 12 Because the first doctor was played by 2
+                                  // actors over the course of the franchise
 
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
@@ -261,7 +268,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 48;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 131;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
         assertTrue(isInList(dalek, enemiesOfEnemies));
         assertTrue(isInList(cyberman, enemiesOfEnemies));
@@ -279,8 +286,8 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldBe12EnemySpecies() {
-        int numberOfEnemySpecies = 12;
+    public void shouldBeCorrectNumberOfEnemySpecies() {
+        int numberOfEnemySpecies = 33;
         Node theDoctor = doctorWhoUniverse.theDoctor();
 
         Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
@@ -295,8 +302,8 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldHave42CompanionsInTotal() {
-        int numberOfCompanions = 42;
+    public void shouldHaveCorrectNumberOfCompanionsInTotal() {
+        int numberOfCompanions = 46;
 
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
@@ -306,7 +313,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 37;
+        int numberOfEnemies = 99;
 
         Node theDoctor = doctorWhoUniverse.theDoctor();
         assertNotNull(theDoctor);
@@ -333,7 +340,7 @@ public class DoctorWhoUniverseTest {
     private Index<Node> getSpeciesIndex() {
         return this.doctorWhoDatabase.index().forNodes("species");
     }
-    
+
     @Test
     public void severalSpeciesShouldBeEnemies() {
         assertTrue(areMututalEnemySpecies("Dalek", "Cyberman"));
@@ -344,16 +351,16 @@ public class DoctorWhoUniverseTest {
 
     private boolean areMututalEnemySpecies(String enemy1, String enemy2) {
         Index<Node> speciesIndex = doctorWhoDatabase.index().forNodes("species");
-        
+
         Node n1 = speciesIndex.get("species", enemy1).getSingle();
         Node n2 = speciesIndex.get("species", enemy2).getSingle();
-        
-        return isEnemyOf(n1, n2) && isEnemyOf(n2, n1); 
+
+        return isEnemyOf(n1, n2) && isEnemyOf(n2, n1);
     }
 
     private boolean isEnemyOf(Node n1, Node n2) {
-        for(Relationship r : n1.getRelationships(ENEMY_OF, Direction.OUTGOING)) {
-            if(r.getEndNode().equals(n2)) {
+        for (Relationship r : n1.getRelationships(ENEMY_OF, Direction.OUTGOING)) {
+            if (r.getEndNode().equals(n2)) {
                 return true;
             }
         }
