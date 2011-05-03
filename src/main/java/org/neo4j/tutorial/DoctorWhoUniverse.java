@@ -6,7 +6,6 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 
 public class DoctorWhoUniverse {
@@ -20,6 +19,7 @@ public class DoctorWhoUniverse {
     public static final RelationshipType APPEARED_IN = DynamicRelationshipType.withName("APPEARED_IN");
     public static final RelationshipType LOVES = DynamicRelationshipType.withName("LOVES");
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
+    public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
 
     private GraphDatabaseService db = DatabaseHelper.createDatabase();
 
