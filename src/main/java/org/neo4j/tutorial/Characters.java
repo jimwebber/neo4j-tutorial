@@ -27,10 +27,45 @@ public class Characters {
 
     private void loadEnemies() {
         character("Master").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(universe);
+        character("Helen A").isA("Human").isFrom("Terra Alpha").isEnemy().fact(universe);
+        character("Abzorbaloff").isA("Abrobvian").isFrom("Clom").isEnemy().fact(universe);
+        character("Beast").isA("Devil").isEnemy().fact(universe);
+        character("Black Guardian").isEnemy().fact(universe);
+        character("Bok").isA("Gargoyle").isEnemy().fact(universe);
+        character("Cassandra").isA("Human").isFrom("Earth").isEnemy().fact(universe);
+        character("Cybercontroller").isA("Cyberman").isFrom("Mondas").isEnemy().fact(universe);
+        character("Cyberleader").isA("Cyberman").isFrom("Mondas").isEnemy().fact(universe);
+        character("Daemon").isEnemy().fact(universe);
+        character("Dalek Caan").isA("Dalek").isFrom("Skaro").isEnemy().fact(universe);
+        character("Dalek Jast").isA("Dalek").isFrom("Skaro").isEnemy().fact(universe);
+        character("Dalek Sec").isA("Dalek").isFrom("Skaro").isEnemy().fact(universe);
+        character("Dalek Thay").isA("Dalek").isFrom("Skaro").isEnemy().fact(universe);
+        character("Davros").isA("Kaled").isFrom("Skaro").isEnemy().fact(universe);
+        character("Destroyer").isEnemy().fact(universe);
+        character("Eldrad").isA("Kastrian").isFrom("Kastria").isEnemy().fact(universe);
+        character("Empress of Racnoss").isEnemy().fact(universe);
+        character("Fendahl").isEnemy().fact(universe);
+        character("General Staal").isA("Sontaran").isFrom("Sontar").isEnemy().fact(universe);
+        character("K1 Robot").isEnemy().fact(universe);
+        character("Linx").isA("Sontaran").isFrom("Sontar").isEnemy().fact(universe);
+        character("Miss Hartigan").isA("Human").isA("Cyberman").isFrom("Earth").isEnemy().fact(universe);
+        character("Loch Ness Monster").isA("Skarasen").isEnemy().fact(universe);
+        character("Macra").isEnemy().fact(universe);
+        character("Morbious").isA("Timelord").isEnemy().fact(universe);
+        character("Omega").isA("Timelord").isEnemy().fact(universe);
+        character("Ogron").isEnemy().fact(universe);
+        character("Pyrovile").isEnemy().fact(universe);
+        character("Reaper").isEnemy().fact(universe);
+        character("Scaroth").isA("Jagaroth").isEnemy().fact(universe);
+        character("Stor").isA("Sontaran").isFrom("Sontar").isEnemy().fact(universe);
+        character("Styre").isA("Sontaran").isFrom("Sontar").isEnemy().fact(universe);
+        character("Sutekh").isA("Osiron").isEnemy().fact(universe);
+        character("Terileptils").isEnemy().fact(universe);
+        character("Yartek").isA("Voord").isEnemy().fact(universe);
     }
 
     private void loadAllies() {
-        character("River Song").isA("Human").loves("Doctor").fact(universe);
+        character("River Song").isA("Human").loves("Doctor").isAlly().fact(universe);
     }
 
     private void loadCompanions() {

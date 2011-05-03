@@ -38,17 +38,17 @@ public class Koan03 {
     }
 
     @Test
-    public void shouldRetrieveCompanionsIndexFromTheDatabase() {
-        Index<Node> companions = null;
+    public void shouldRetrieveCharactersIndexFromTheDatabase() {
+        Index<Node> characters = null;
 
         // SNIPPET_START
 
-        companions = universe.getDatabase().index().forNodes("companions");
+        characters = universe.getDatabase().index().forNodes("characters");
 
         // SNIPPET_END
 
-        assertNotNull(companions);
-        assertThat(companions, contains("Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
+        assertNotNull(characters);
+        assertThat(characters, contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class Koan03 {
     public void shouldKeepDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
         GraphDatabaseService db = universe.getDatabase();
 
-        Index<Node> enemies = db.index().forNodes("enemies");
+        Index<Node> enemies = db.index().forNodes("characters");
         Node cyberleader = enemies.get("name", "Cyberleader").getSingle();
 
         // SNIPPET_START
@@ -107,7 +107,7 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        assertNull("Cyberleader has not been deleted from the enemies index.", enemies.get("name", "Cyberleader").getSingle());
+        assertNull("Cyberleader has not been deleted from the characters index.", enemies.get("name", "Cyberleader").getSingle());
 
         try {
             db.getNodeById(cyberleader.getId());

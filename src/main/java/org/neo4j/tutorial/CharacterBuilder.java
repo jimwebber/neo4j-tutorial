@@ -11,6 +11,7 @@ public class CharacterBuilder {
     private String planet;
     private String[] things;
     private boolean enemy;
+    private boolean ally;
 
     public static CharacterBuilder character(String characterName) {
         return new CharacterBuilder(characterName);
@@ -44,6 +45,10 @@ public class CharacterBuilder {
 
         if(enemy) {
             characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
+        }
+        
+        if(ally) {
+            characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ALLY_OF);
         }
         
         if (loverNames != null) {
@@ -134,6 +139,11 @@ public class CharacterBuilder {
 
     public CharacterBuilder isEnemy() {
         this.enemy = true;
+        return this;
+    }
+
+    public CharacterBuilder isAlly() {
+        ally = true;
         return this;
     }
 }
