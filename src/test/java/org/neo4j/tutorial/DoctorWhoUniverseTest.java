@@ -330,15 +330,15 @@ public class DoctorWhoUniverseTest {
     }
 
     private Index<Node> getActorIndex() {
-        return this.doctorWhoDatabase.index().forNodes("actors");
+        return doctorWhoDatabase.index().forNodes("actors");
     }
 
     private Index<Node> getPlanetIndex() {
-        return this.doctorWhoDatabase.index().forNodes("planets");
+        return doctorWhoDatabase.index().forNodes("planets");
     }
 
     private Index<Node> getSpeciesIndex() {
-        return this.doctorWhoDatabase.index().forNodes("species");
+        return doctorWhoDatabase.index().forNodes("species");
     }
 
     @Test
