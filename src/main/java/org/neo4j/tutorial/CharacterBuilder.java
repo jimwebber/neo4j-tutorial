@@ -44,60 +44,60 @@ public class CharacterBuilder {
             characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.COMPANION_OF);
         }
 
-        if(enemy) {
+        if (enemy) {
             characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
             universe.theDoctor().createRelationshipTo(characterNode, DoctorWhoUniverse.ENEMY_OF);
         }
-        
-        if(ally) {
+
+        if (ally) {
             characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ALLY_OF);
         }
-        
+
         if (loverNames != null) {
             ensureLoversInDb(characterNode, loverNames, universe);
         }
-        
-        if(planet != null) {
+
+        if (planet != null) {
             ensurePlanetInDb(characterNode, planet, database);
         }
-        
-        if(things != null) {
+
+        if (things != null) {
             ensureThingsInDb(characterNode, things, universe);
         }
-        
-        if(actors != null) {
+
+        if (actors != null) {
             ensureActorsInDb(characterNode, actors, universe);
         }
     }
 
     public static void ensureActorsInDb(Node characterNode, String[] actors, DoctorWhoUniverse universe) {
         Node previousActorNode = null;
-        for(String actor : actors) {
+        for (String actor : actors) {
             Node theActorNode = universe.getDatabase().index().forNodes("actors").get("actor", actor).getSingle();
-            if(theActorNode == null) {
+            if (theActorNode == null) {
                 theActorNode = universe.getDatabase().createNode();
                 theActorNode.setProperty("actor", actor);
                 universe.getDatabase().index().forNodes("actors").add(theActorNode, "actor", actor);
             }
             theActorNode.createRelationshipTo(characterNode, DoctorWhoUniverse.PLAYED);
-            
-            if(previousActorNode != null) {
+
+            if (previousActorNode != null) {
                 previousActorNode.createRelationshipTo(theActorNode, DoctorWhoUniverse.REGENERATED_TO);
             }
-            
+
             previousActorNode = theActorNode;
         }
     }
 
     private static void ensureThingsInDb(Node characterNode, String[] things, DoctorWhoUniverse universe) {
-        for(String thing : things) {
+        for (String thing : things) {
             characterNode.createRelationshipTo(ensureThingInDb(thing, universe.getDatabase()), DoctorWhoUniverse.OWNS);
         }
     }
 
     private static Node ensureThingInDb(String thing, GraphDatabaseService database) {
         Node theThingNode = database.index().forNodes("things").get("thing", thing).getSingle();
-        if(theThingNode == null) {
+        if (theThingNode == null) {
             theThingNode = database.createNode();
             theThingNode.setProperty("thing", thing);
             ensureThingIsIndexed(theThingNode, database);
@@ -117,9 +117,9 @@ public class CharacterBuilder {
             thePlanetNode.setProperty("planet", planet);
             ensurePlanetIsIndexed(thePlanetNode, database);
         }
-        
+
         characterNode.createRelationshipTo(thePlanetNode, DoctorWhoUniverse.COMES_FROM);
-        
+
         return thePlanetNode;
     }
 
@@ -138,13 +138,13 @@ public class CharacterBuilder {
     }
 
     private static void ensureCharacterIsIndexed(Node characterNode, GraphDatabaseService database) {
-        if(database.index().forNodes("characters").get("name", characterNode.getProperty("name")).getSingle() == null) {
+        if (database.index().forNodes("characters").get("name", characterNode.getProperty("name")).getSingle() == null) {
             database.index().forNodes("characters").add(characterNode, "name", characterNode.getProperty("name"));
         }
     }
 
     private static void ensureLoversInDb(Node characterNode, String[] loverNames, DoctorWhoUniverse universe) {
-        for(String lover : loverNames) {
+        for (String lover : loverNames) {
             characterNode.createRelationshipTo(ensureCharacterIsInDb(lover, universe), DoctorWhoUniverse.LOVES);
         }
     }
@@ -174,7 +174,7 @@ public class CharacterBuilder {
         return this;
     }
 
-    public CharacterBuilder regenerationSequence(String...actors) {
+    public CharacterBuilder regenerationSequence(String... actors) {
         this.actors = actors;
         return this;
     }

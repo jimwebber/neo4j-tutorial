@@ -18,9 +18,9 @@ public class DatabaseHelper {
 
     public DatabaseHelper(GraphDatabaseService db) {
         this.db = db;
-        
+
     }
-    
+
     public static EmbeddedGraphDatabase createDatabase() {
         return new EmbeddedGraphDatabase(createTempDatabaseDir().getAbsolutePath());
     }
@@ -43,13 +43,12 @@ public class DatabaseHelper {
         d.deleteOnExit();
         return d;
     }
-    
-    
+
     public void dumpGraphToConsole() {
-        for(Node n : db.getAllNodes()) {
+        for (Node n : db.getAllNodes()) {
             Iterable<String> propertyKeys = n.getPropertyKeys();
-            for(String key : propertyKeys) {
-                System.out.print(key + " : " );
+            for (String key : propertyKeys) {
+                System.out.print(key + " : ");
                 System.out.println(n.getProperty(key));
             }
         }
@@ -58,21 +57,22 @@ public class DatabaseHelper {
     public int countNodesWithAllGivenProperties(Iterable<Node> allNodes, String... propertyNames) {
         Iterator<Node> iterator = allNodes.iterator();
         int count = 0;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Node next = iterator.next();
-            
+
             boolean hasAllPropertyNames = true;
-            for(String propertyName : propertyNames) {
+            for (String propertyName : propertyNames) {
                 hasAllPropertyNames = hasAllPropertyNames && next.hasProperty(propertyName);
-                if(!hasAllPropertyNames) break; // Modest optimisation
+                if (!hasAllPropertyNames)
+                    break; // Modest optimisation
             }
-            if(hasAllPropertyNames) {
-                count ++;
+            if (hasAllPropertyNames) {
+                count++;
             }
         }
         return count;
     }
-    
+
     public int countNodes(Iterable<Node> allNodes) {
         return destructivelyCount(allNodes);
     }
@@ -87,7 +87,7 @@ public class DatabaseHelper {
 
     public void dumpNode(Node node) {
         System.out.println(String.format("Node ID [%d]", node.getId()));
-        for(String key : node.getPropertyKeys()) {
+        for (String key : node.getPropertyKeys()) {
             System.out.print(key + " : ");
             System.out.println(node.getProperty(key));
         }
@@ -95,15 +95,15 @@ public class DatabaseHelper {
 
     public List<Relationship> toListOfRelationships(Iterable<Relationship> iterable) {
         ArrayList<Relationship> rels = new ArrayList<Relationship>();
-        for(Relationship r : iterable) {
+        for (Relationship r : iterable) {
             rels.add(r);
         }
         return rels;
     }
-    
+
     public List<Node> toListOfNodes(Iterable<Node> nodes) {
         ArrayList<Node> rels = new ArrayList<Node>();
-        for(Node n : nodes) {
+        for (Node n : nodes) {
             rels.add(n);
         }
         return rels;
@@ -112,14 +112,15 @@ public class DatabaseHelper {
     public int count(IndexHits<Node> indexHits) {
         return destructivelyCount(indexHits);
     }
-    
+
     private int destructivelyCount(Iterable<?> iterable) {
         int count = 0;
-        
-        for(@SuppressWarnings("unused") Object o : iterable) {
-            count ++;
+
+        for (@SuppressWarnings("unused")
+        Object o : iterable) {
+            count++;
         }
-        
+
         return count;
     }
 }

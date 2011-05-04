@@ -89,7 +89,7 @@ public class EpisodeBuilder {
 
     private void ensureDoctorActorsAreInDb(DoctorWhoUniverse universe, Node episode) {
         if (doctorActors != null) {
-            for(String actor : doctorActors) {
+            for (String actor : doctorActors) {
                 Node actorNode = ensureDoctorActorInDb(actor, universe);
                 actorNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
             }
@@ -117,21 +117,6 @@ public class EpisodeBuilder {
         return episode;
     }
 
-//    private Node ensureEnemyNodeInDb(String enemy, DoctorWhoUniverse universe) {
-//        GraphDatabaseService db = universe.getDatabase();
-//
-//        Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
-//        if (enemyNode == null) {
-//
-//            enemyNode = db.createNode();
-//            enemyNode.setProperty("name", enemy);
-//
-//            enemyNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
-//            universe.theDoctor().createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
-//        }
-//        return enemyNode;
-//    }
-
     private void checkEpisodeNumberAndTitle() {
         if (title == null) {
             throw new RuntimeException("Episodes must have a title");
@@ -141,47 +126,6 @@ public class EpisodeBuilder {
             throw new RuntimeException("Episodes must have a number");
         }
     }
-
-//    private Set<Node> setCompanions(DoctorWhoUniverse universe) {
-//        HashSet<Node> result = new HashSet<Node>();
-//        for (String companionName : companionNames) {
-//            result.add(ensureCompanionExists(companionName, universe));
-//        }
-//
-//        return result;
-//    }
-
-//    private Node ensureCompanionExists(String companionName, DoctorWhoUniverse universe) {
-//        if (companionExists(companionName, universe)) {
-//            return getCompanion(companionName, universe);
-//        } else {
-//            return createCompanion(companionName, universe);
-//        }
-//    }
-
-//    private Node createCompanion(String companion, DoctorWhoUniverse universe) {
-//        GraphDatabaseService db = universe.getDatabase();
-//        Node companionNode = db.createNode();
-//        companionNode.setProperty("name", companion);
-//        companionNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.COMPANION_OF);
-//        universe.characterIndex.add(companionNode, "name", companion);
-//        return companionNode;
-//    }
-//
-//    private boolean companionExists(String companion, DoctorWhoUniverse universe) {
-//        return getCompanion(companion, universe) != null ? true : false;
-//    }
-//
-//    private Node getCompanion(String companion, DoctorWhoUniverse universe) {
-//        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(DoctorWhoUniverse.COMPANION_OF, Direction.INCOMING);
-//        for (Relationship r : relationships) {
-//            Node currentNode = r.getStartNode();
-//            if (currentNode.getProperty("name").equals(companion)) {
-//                return currentNode;
-//            }
-//        }
-//        return null;
-//    }
 
     private Node ensureDoctorActorInDb(String doctorActor, DoctorWhoUniverse universe) {
         Node theDoctor = universe.theDoctor();

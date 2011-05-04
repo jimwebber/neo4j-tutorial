@@ -14,11 +14,11 @@ public class PlanetBuilder {
     private PlanetBuilder(String planetName) {
         this.planetName = planetName;
     }
-    
+
     public void fact(DoctorWhoUniverse universe) {
         ensurePlanetInDb(planetName, universe);
     }
-    
+
     public static Node ensurePlanetInDb(String planet, DoctorWhoUniverse universe) {
 
         GraphDatabaseService db = universe.getDatabase();
@@ -32,7 +32,5 @@ public class PlanetBuilder {
         }
 
         return planetNode;
-
     }
-
 }

@@ -25,8 +25,6 @@ public class DoctorWhoUniverse {
     Index<Node> planetIndex = db.index().forNodes("planets");
     Index<Node> speciesIndex = db.index().forNodes("species");
     Index<Node> thingsIndex = db.index().forNodes("things");
-    
-
 
     public DoctorWhoUniverse() {
         addCharacters();
@@ -39,7 +37,7 @@ public class DoctorWhoUniverse {
         Episodes episodes = new Episodes(this);
         episodes.insert();
     }
-    
+
     private void addCharacters() {
         Characters characters = new Characters(this);
         characters.insert();
@@ -54,7 +52,7 @@ public class DoctorWhoUniverse {
         Planets planets = new Planets(this);
         planets.insert();
     }
-    
+
     public Node theDoctor() {
         return characterIndex.get("name", "Doctor").getSingle();
     }
