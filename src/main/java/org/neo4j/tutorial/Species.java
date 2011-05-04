@@ -1,60 +1,52 @@
 package org.neo4j.tutorial;
 
-import java.io.File;
-import java.util.Map;
+import static org.neo4j.tutorial.SpeciesBuilder.species;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexHits;
 
 public class Species {
 
-    private Map<String, Map<String, String>> speciesMap;
+    private final DoctorWhoUniverse universe;
 
-    @SuppressWarnings("unchecked")
-    public Species(File data) {
-        ObjectMapper m = new ObjectMapper();
-        try {
-            speciesMap = m.readValue(data, Map.class);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public Species(DoctorWhoUniverse universe) {
+        this.universe = universe;
     }
 
-    public void insertAndIndex(GraphDatabaseService db, Index<Node> speciesIndex, final Index<Node> planetIndex) {
-        Transaction tx = db.beginTx();
+    public void insert() {
+        Transaction tx = universe.getDatabase().beginTx();
         try {
-            for (String speciesName : speciesMap.keySet()) {
-                Node speciesNode = db.createNode();
-                speciesNode.setProperty("species", speciesName);
-                speciesIndex.add(speciesNode, "species", speciesName);
-
-                connectToHomeworld(speciesNode, speciesMap.get(speciesName), planetIndex);
-            }
+            species("Timelord").isEnemyOfSpecies("Dalek").isFrom("Gallifrey").fact(universe);
+            species("Abrobvian").isEnemyOf("Doctor").isFrom("Clom").fact(universe);
+            species("Android").fact(universe);
+            species("Auton").isEnemyOf("Doctor").isEnemyOfSpecies("Human").isFrom("Polymos").fact(universe);
+            species("Axon").isEnemyOf("Doctor").isEnemyOfSpecies("Human").fact(universe);
+            species("Devil").isEnemyOf("Doctor", "Rose Tyler").isFrom("Impossible Planet").fact(universe);
+            species("Cyberman").isEnemyOf("Doctor").isEnemyOfSpecies("Dalek").isFrom("Mondas").fact(universe);
+            species("Dalek").isEnemyOf("Doctor").isEnemyOfSpecies("Cyberman", "Thaal", "Mechonoids", "Human").isFrom("Skaro").fact(universe);
+            species("Gargoyle").isEnemyOf("Doctor").fact(universe);
+            species("Ice Warrior").isEnemyOf("Doctor").isFrom("Mars").fact(universe);
+            species("Human").isFrom("Earth").fact(universe);
+            species("Humanoid").fact(universe);
+            species("Jagrafess").isEnemyOf("Doctor").fact(universe);
+            species("Jagaroth").fact(universe);
+            species("Kaled").isEnemyOf("Doctor").isFrom("Skaro").fact(universe);
+            species("Kastrian").isFrom("Kastria").fact(universe);
+            species("Mechonoids").isFrom("Mechanus").fact(universe);
+            species("Ood").isFrom("Ood Sphere").fact(universe);
+            species("Osiron").isEnemyOf("Doctor").fact(universe);
+            species("Robotic Canine").fact(universe);
+            species("Sea Devil").isEnemyOf("Doctor").isEnemyOfSpecies("Human").isFrom("Earth").fact(universe);
+            species("Silurian").isEnemyOf("Doctor").isEnemyOfSpecies("Human").isFrom("Earth").fact(universe);
+            species("Skarasen").isEnemyOf("Doctor").fact(universe);
+            species("Slitheen").isEnemyOf("Doctor").isEnemyOfSpecies("Human").isFrom("Raxacoricofallapatorius").fact(universe);
+            species("Sontaran").isEnemyOf("Doctor", "Martha Jones").isEnemyOfSpecies("Human").isFrom("Sontar").fact(universe);
+            species("Trion").isFrom("Trion").fact(universe);
+            species("Vashta Nerada").isEnemyOf("Doctor", "Donna Noble").fact(universe);
+            species("Voord").fact(universe);
             tx.success();
         } finally {
             tx.finish();
         }
     }
-    
-    public static void connectToHomeworld(Node speciesNode, Map<String, String> map, Index<Node> planetIndex) {
-        if(map == null || !map.containsKey("planet")) {
-            return; // no planet known for this species
-        }
-        
-        String planetName = map.get("planet");
-        IndexHits<Node> indexHits = planetIndex.get("planet", planetName);
-        if(indexHits != null) {
-            Node planet = indexHits.getSingle();
-            if(planet != null) {
-                speciesNode.createRelationshipTo(planet, DoctorWhoUniverse.COMES_FROM);
-            }
-        } else {
-            throw new RuntimeException(String.format("Planet [%s] is not known in the Doctor Who universe, unable to add FROM relationship for species [%s]", planetName, speciesNode.getProperty("species")));
-        }
-    }
+
 }

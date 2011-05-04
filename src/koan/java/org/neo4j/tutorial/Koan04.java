@@ -42,7 +42,7 @@ public class Koan04 {
         int numberOfRegenerations = 1;
 
         // SNIPPET_START
-        Node firstDoctor = actorsIndex.get("lastname", "Hartnell").getSingle();
+        Node firstDoctor = actorsIndex.get("actor", "William Hartnell").getSingle();
 
         Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
 
@@ -58,11 +58,11 @@ public class Koan04 {
 
     @Test
     public void shouldFindHumanCompanionsUsingCoreApi() {
-        IndexHits<Node> companions = null;
+        IndexHits<Node> characters = null;
 
         // SNIPPET_START
 
-        companions = universe.getDatabase().index().forNodes("companions").query("name", "*");
+        characters = universe.getDatabase().index().forNodes("characters").query("name", "*");
 
         // SNIPPET_END
 
@@ -70,9 +70,9 @@ public class Koan04 {
 
         // SNIPPET_START
 
-        for (Node n : companions) {
+        for (Node n : characters) {
 
-            if (n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING)) {
+            if (n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING) && n.hasRelationship(DoctorWhoUniverse.COMPANION_OF, Direction.OUTGOING)) {
                 Relationship relationship = n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
                 if (relationship.getEndNode().getProperty("species").equals("Human")) {
                     humanCompanions.add(n);
@@ -89,7 +89,7 @@ public class Koan04 {
 
     @Test
     public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks() {
-        Index<Node> friendliesIndex = universe.getDatabase().index().forNodes("friendlies");
+        Index<Node> friendliesIndex = universe.getDatabase().index().forNodes("characters");
         Index<Node> speciesIndex = universe.getDatabase().index().forNodes("species");
         HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<Node>();
 

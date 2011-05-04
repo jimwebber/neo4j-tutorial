@@ -51,7 +51,7 @@ public class Koan05 {
 
         Collection<Node> foundCompanions = t.getAllNodes();
 
-        int knownNumberOfCompanions = 46;
+        int knownNumberOfCompanions = 42;
         assertEquals(knownNumberOfCompanions, foundCompanions.size());
     }
     
@@ -71,7 +71,7 @@ public class Koan05 {
                             Node episode = currentPos.currentNode();
                             
                             for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
-                                if(r.getStartNode().hasProperty("lastname") && r.getStartNode().getProperty("lastname").equals("Tennant")) {
+                                if(r.getStartNode().hasProperty("actor") && r.getStartNode().getProperty("actor").equals("David Tennant")) {
                                     return true;
                                 }
                             }

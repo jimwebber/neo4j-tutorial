@@ -1,7 +1,5 @@
 package org.neo4j.tutorial;
 
-import java.io.File;
-
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -31,20 +29,11 @@ public class DoctorWhoUniverse {
 
 
     public DoctorWhoUniverse() {
-        //addTheDoctor();
-        
-        
-//        addPlanets();
-//        addSpecies();
         addCharacters();
-//        addEnemySpecies();
-//        addInterspeciesEnemies();
-//        addDoctorActors();
-//        addMasterActors();
-//        addEpisodes();
+        addSpecies();
+        addPlanets();
+        addEpisodes();
     }
-
-
 
     private void addEpisodes() {
         Episodes episodes = new Episodes(this);
@@ -56,41 +45,18 @@ public class DoctorWhoUniverse {
         characters.insert();
     }
 
-    private void addInterspeciesEnemies() {
-        InterSpeciesEnemies ise = new InterSpeciesEnemies(new File("src/main/resources/inter-species-enemies.json"));
-        ise.insert(db);
-    }
-
-//    private void addMasterActors() {
-//        Node theMaster = enemiesIndex.get("name", "Master").getSingle();
-//        Actors actors = new Actors(theMaster, new File("src/main/resources/master-actors.json"));
-//        actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
-//    }
-
-//    private void addDoctorActors() {
-//        Actors actors = new Actors(theDoctor(), new File("src/main/resources/doctor-actors.json"));
-//        actors.insertAndIndex(db, actorIndex, REGENERATED_TO);
-//    }
-
-    private void addEnemySpecies() {
-        EnemySpecies enemySpecies = new EnemySpecies(theDoctor(), new File("src/main/resources/enemy-species.json"));
-        enemySpecies.insertEnemySpeciesRelationships(db, speciesIndex);
-    }
-
-
-
-    public Node theDoctor() {
-        return characterIndex.get("name", "Doctor").getSingle();
-    }
-
     private void addSpecies() {
-        Species species = new Species(new File("src/main/resources/species.json"));
-        species.insertAndIndex(db, speciesIndex, planetIndex);
+        Species species = new Species(this);
+        species.insert();
     }
 
     private void addPlanets() {
-        Planets planets = new Planets(new File("src/main/resources/planets.json"));
-        planets.insertAndIndex(db, planetIndex);
+        Planets planets = new Planets(this);
+        planets.insert();
+    }
+    
+    public Node theDoctor() {
+        return characterIndex.get("name", "Doctor").getSingle();
     }
 
     public GraphDatabaseService getDatabase() {

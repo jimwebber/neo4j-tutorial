@@ -1,9 +1,7 @@
 package org.neo4j.tutorial;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -15,19 +13,9 @@ public class EpisodeBuilder {
     private String title;
     private List<String> companionNames = new ArrayList<String>();
     private int episodeNumber = 0;
-    private List<DoctorActor> doctorActor = new ArrayList<DoctorActor>();
+    private List<String> doctorActors = new ArrayList<String>();
     private List<String> enemySpecies = new ArrayList<String>();
     private List<String> enemies = new ArrayList<String>();
-
-    private static class DoctorActor {
-        public final String firstname;
-        public final String lastname;
-
-        public DoctorActor(String firstname, String lastname) {
-            this.firstname = firstname;
-            this.lastname = lastname;
-        }
-    }
 
     private EpisodeBuilder(int episodeNumber) {
         this.episodeNumber = episodeNumber;
@@ -42,8 +30,8 @@ public class EpisodeBuilder {
         return this;
     }
 
-    public EpisodeBuilder doctor(String actorfirstName, String actorLastname) {
-        doctorActor.add(new DoctorActor(actorfirstName, actorLastname));
+    public EpisodeBuilder doctor(String actorName) {
+        doctorActors.add(actorName);
         return this;
     }
 
@@ -77,44 +65,34 @@ public class EpisodeBuilder {
 
         ensureDoctorActorsAreInDb(universe, episode);
 
-        ensureCompanionsInDb(universe, episode);
-
-        ensureEnemySpeciesInDb(universe, episode);
-
-        ensureEnemiesInDb(universe, episode);
-    }
-
-    private void ensureDoctorActorsAreInDb(DoctorWhoUniverse universe, Node episode) {
-        if (doctorActor != null) {
-            for (DoctorActor da : doctorActor) {
-                Node theDoctorActor = ensureDoctorActorInDb(da, universe);
-                theDoctorActor.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+        if (this.companionNames != null) {
+            for (String companionName : companionNames) {
+                Node companionNode = CharacterBuilder.ensureCharacterIsInDb(companionName, universe);
+                companionNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
             }
         }
-    }
 
-    private void ensureEnemiesInDb(DoctorWhoUniverse universe, Node episode) {
-        if (enemies != null) {
+        if (this.enemySpecies != null) {
+            for (String eSpecies : enemySpecies) {
+                Node speciesNode = SpeciesBuilder.ensureSpeciesInDb(eSpecies, universe);
+                speciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+            }
+        }
+
+        if (this.enemies != null) {
             for (String enemy : enemies) {
-                Node enemyNode = ensureEnemyNodeInDb(enemy, universe);
+                Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
                 enemyNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
             }
         }
     }
 
-    private void ensureEnemySpeciesInDb(DoctorWhoUniverse universe, Node episode) {
-        if (enemySpecies != null) {
-            for (String es : enemySpecies) {
-                Node enemySpeciesNode = SpeciesBuilder.ensureSpeciesInDb(es, universe);
-                enemySpeciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+    private void ensureDoctorActorsAreInDb(DoctorWhoUniverse universe, Node episode) {
+        if (doctorActors != null) {
+            for(String actor : doctorActors) {
+                Node actorNode = ensureDoctorActorInDb(actor, universe);
+                actorNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
             }
-        }
-    }
-
-    private void ensureCompanionsInDb(DoctorWhoUniverse universe, Node episode) {
-        Set<Node> companions = setCompanions(universe);
-        for (Node companion : companions) {
-            companion.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
         }
     }
 
@@ -139,29 +117,20 @@ public class EpisodeBuilder {
         return episode;
     }
 
-    private Node ensureEnemyNodeInDb(String enemy, DoctorWhoUniverse universe) {
-        GraphDatabaseService db = universe.getDatabase();
-        Iterable<Node> allNodes = db.getAllNodes();
-
-        for (Node n : allNodes) {
-            if (n.hasRelationship(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)) {
-                for (Relationship r : n.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)) {
-                    if (r.getEndNode().equals(universe.theDoctor()) && r.getStartNode().hasProperty("name")
-                            && r.getStartNode().getProperty("name").equals(enemy)) {
-                        return r.getStartNode();
-                    }
-                }
-            }
-        }
-
-        Node newEnemyNode = db.createNode();
-        newEnemyNode.setProperty("name", enemy);
-        newEnemyNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
-        universe.theDoctor().createRelationshipTo(newEnemyNode, DoctorWhoUniverse.ENEMY_OF);
-        return newEnemyNode;
-    }
-
-
+//    private Node ensureEnemyNodeInDb(String enemy, DoctorWhoUniverse universe) {
+//        GraphDatabaseService db = universe.getDatabase();
+//
+//        Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
+//        if (enemyNode == null) {
+//
+//            enemyNode = db.createNode();
+//            enemyNode.setProperty("name", enemy);
+//
+//            enemyNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
+//            universe.theDoctor().createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
+//        }
+//        return enemyNode;
+//    }
 
     private void checkEpisodeNumberAndTitle() {
         if (title == null) {
@@ -173,61 +142,60 @@ public class EpisodeBuilder {
         }
     }
 
-    private Set<Node> setCompanions(DoctorWhoUniverse universe) {
-        HashSet<Node> result = new HashSet<Node>();
-        for (String companionName : companionNames) {
-            result.add(ensureCompanionExists(companionName, universe));
-        }
+//    private Set<Node> setCompanions(DoctorWhoUniverse universe) {
+//        HashSet<Node> result = new HashSet<Node>();
+//        for (String companionName : companionNames) {
+//            result.add(ensureCompanionExists(companionName, universe));
+//        }
+//
+//        return result;
+//    }
 
-        return result;
-    }
+//    private Node ensureCompanionExists(String companionName, DoctorWhoUniverse universe) {
+//        if (companionExists(companionName, universe)) {
+//            return getCompanion(companionName, universe);
+//        } else {
+//            return createCompanion(companionName, universe);
+//        }
+//    }
 
-    private Node ensureCompanionExists(String companionName, DoctorWhoUniverse universe) {
-        if (companionExists(companionName, universe)) {
-            return getCompanion(companionName, universe);
-        } else {
-            return createCompanion(companionName, universe);
-        }
-    }
+//    private Node createCompanion(String companion, DoctorWhoUniverse universe) {
+//        GraphDatabaseService db = universe.getDatabase();
+//        Node companionNode = db.createNode();
+//        companionNode.setProperty("name", companion);
+//        companionNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.COMPANION_OF);
+//        universe.characterIndex.add(companionNode, "name", companion);
+//        return companionNode;
+//    }
+//
+//    private boolean companionExists(String companion, DoctorWhoUniverse universe) {
+//        return getCompanion(companion, universe) != null ? true : false;
+//    }
+//
+//    private Node getCompanion(String companion, DoctorWhoUniverse universe) {
+//        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(DoctorWhoUniverse.COMPANION_OF, Direction.INCOMING);
+//        for (Relationship r : relationships) {
+//            Node currentNode = r.getStartNode();
+//            if (currentNode.getProperty("name").equals(companion)) {
+//                return currentNode;
+//            }
+//        }
+//        return null;
+//    }
 
-    private Node createCompanion(String companion, DoctorWhoUniverse universe) {
-        GraphDatabaseService db = universe.getDatabase();
-        Node companionNode = db.createNode();
-        companionNode.setProperty("name", companion);
-        companionNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.COMPANION_OF);
-        universe.characterIndex.add(companionNode, "name", companion);
-        return companionNode;
-    }
-
-    private boolean companionExists(String companion, DoctorWhoUniverse universe) {
-        return getCompanion(companion, universe) != null ? true : false;
-    }
-
-    private Node getCompanion(String companion, DoctorWhoUniverse universe) {
-        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(DoctorWhoUniverse.COMPANION_OF, Direction.INCOMING);
-        for (Relationship r : relationships) {
-            Node currentNode = r.getStartNode();
-            if (currentNode.getProperty("name").equals(companion)) {
-                return currentNode;
-            }
-        }
-        return null;
-    }
-
-    private Node ensureDoctorActorInDb(DoctorActor doctorActor, DoctorWhoUniverse universe) {
+    private Node ensureDoctorActorInDb(String doctorActor, DoctorWhoUniverse universe) {
         Node theDoctor = universe.theDoctor();
         Iterable<Relationship> relationships = theDoctor.getRelationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING);
 
         for (Relationship r : relationships) {
             Node current = r.getStartNode();
-            if (current.getProperty("firstname").equals(doctorActor.firstname) && current.getProperty("lastname").equals(doctorActor.lastname)) {
+            if (current.getProperty("actor").equals(doctorActor)) {
                 return current;
             }
         }
 
         Node doctorActorNode = universe.getDatabase().createNode();
-        doctorActorNode.setProperty("firstname", doctorActor.firstname);
-        doctorActorNode.setProperty("lastname", doctorActor.lastname);
+        doctorActorNode.setProperty("actor", doctorActor);
         doctorActorNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
         return doctorActorNode;
     }
