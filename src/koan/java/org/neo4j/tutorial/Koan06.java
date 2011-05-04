@@ -2,6 +2,7 @@ package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsSpecificActor.containsOnly;
+import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.contains;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -33,50 +34,55 @@ public class Koan06 {
     }
 
     @Test
+    public void shouldDiscoverHowManyTimesTheDoctorHasRegenerated() throws Exception {
+        Node theDoctor = universe.theDoctor();
+        Traverser traverser = null;
+
+        // SNIPPET_START
+
+        traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
+                .evaluator(new Evaluator() {
+                    @Override
+                    public Evaluation evaluate(Path path) {
+                        if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
+                            return Evaluation.INCLUDE_AND_CONTINUE;
+                        } else {
+                            return Evaluation.EXCLUDE_AND_PRUNE;
+                        }
+                    }
+                }).traverse(theDoctor);
+
+        // SNIPPET_END
+
+        assertThat(traverser.nodes(), contains(11));
+    }
+    
+    @Test
     public void shouldFindTheFirstDoctor() {
         Node theDoctor = universe.theDoctor();
         Traverser traverser = null;
-        
+
         // SNIPPET_START
-        
+
         traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
                 .evaluator(new Evaluator() {
                     @Override
                     public Evaluation evaluate(Path path) {
                         if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
                             return Evaluation.EXCLUDE_AND_CONTINUE;
-                        } else if(!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-                            return Evaluation.EXCLUDE_AND_CONTINUE; // Catches Richard Hurdnall who stepped in for William Hartnell when the latter was to frail to work
+                        } else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
+                            // Catches Richard Hurdnall who stepped in for
+                            // William Hartnell when the latter was to frail to
+                            // work
+                            return Evaluation.EXCLUDE_AND_CONTINUE;
                         } else {
                             return Evaluation.INCLUDE_AND_PRUNE;
                         }
                     }
                 }).traverse(theDoctor);
-        
+
         // SNIPPET_END
 
         assertThat(traverser.nodes(), containsOnly("William Hartnell"));
-    }
-
-    @Test
-    public void shouldDiscoverHowManyTimesTheDoctorHasRegenerated() throws Exception {
-        // Node firstDoctor = universe
-        // Traverser traverser =
-        // Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.IS_A)).depthFirst()
-        // .evaluator(new Evaluator() {
-        //
-        // @Override
-        // public Evaluation evaluate(Path path) {
-        // if(path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO,
-        // Direction.OUTGOING)) {
-        // return Evaluation.INCLUDE_AND_CONTINUE;
-        // } else
-        // return Evaluation.INCLUDE_AND_PRUNE;
-        // }
-        // }).traverse(firstDoctor);
-        //
-        // for(Node n : traverser.nodes()) {
-        // new DatabaseHelper(universe.getDatabase()).dumpNode(n);
-        // }
     }
 }
