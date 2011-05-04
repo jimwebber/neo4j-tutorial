@@ -1,5 +1,6 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNode.contains;
 
@@ -30,11 +31,27 @@ public class Koan07 {
     public static void closeTheDatabase() {
         universe.stop();
     }
+    
+    @Test
+    public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay() {
+        Node delgado = universe.actorIndex.get("actor", "Roger Delgado").getSingle();
+        Node simm = universe.actorIndex.get("actor", "John Simm").getSingle();
+        
+        // SNIPPET_START
+
+        PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForTypes(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING), 100);
+        Path path = pathFinder.findSinglePath(delgado, simm);
+
+        // SNIPPET_END
+        
+        int numberOfMasterRegenerations = 7;
+        assertEquals(numberOfMasterRegenerations, path.length());
+    }
 
     @Test
     public void shouldEpisodeWhenTennantRegeneratedToSmith() {
-        Node tennant = universe.doctorActorIndex.get("actor", "David Tennant").getSingle();
-        Node smith = universe.doctorActorIndex.get("actor", "Matt Smith").getSingle();
+        Node tennant = universe.actorIndex.get("actor", "David Tennant").getSingle();
+        Node smith = universe.actorIndex.get("actor", "Matt Smith").getSingle();
 
         // SNIPPET_START
 

@@ -25,7 +25,7 @@ public class DoctorWhoUniverse {
     Index<Node> planetIndex = db.index().forNodes("planets");
     Index<Node> speciesIndex = db.index().forNodes("species");
     Index<Node> thingsIndex = db.index().forNodes("things");
-    Index<Node> doctorActorIndex = db.index().forNodes("actors");
+    Index<Node> actorIndex = db.index().forNodes("actors");
     Index<Node> episodeIndex = db.index().forNodes("episodes");
 
     public DoctorWhoUniverse() {

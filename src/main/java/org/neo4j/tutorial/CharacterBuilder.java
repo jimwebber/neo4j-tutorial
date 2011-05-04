@@ -87,7 +87,7 @@ public class CharacterBuilder {
                 universe.getDatabase().index().forNodes("actors").add(theActorNode, "actor", actor);
             }
             theActorNode.createRelationshipTo(characterNode, DoctorWhoUniverse.PLAYED);
-            universe.doctorActorIndex.add(theActorNode, "actor", actor);
+            universe.actorIndex.add(theActorNode, "actor", actor);
 
             if (previousActorNode != null) {
                 previousActorNode.createRelationshipTo(theActorNode, DoctorWhoUniverse.REGENERATED_TO);
