@@ -70,7 +70,7 @@ public class DoctorWhoUniverseTest {
         Node humanSpeciesNode = universe.speciesIndex.get("species", "Human").getSingle();
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
-        int knownNumberOfHumans = 45;
+        int knownNumberOfHumans = 46;
         assertEquals(knownNumberOfHumans, numberOfHumansFriendliesInTheDB);
     }
 
