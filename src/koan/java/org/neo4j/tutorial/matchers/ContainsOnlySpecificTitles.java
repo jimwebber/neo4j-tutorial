@@ -12,6 +12,7 @@ import org.neo4j.graphdb.Node;
 public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Set<Node>> {
 
     private final Set<String> titles;
+    private Node failedNode;
 
     public ContainsOnlySpecificTitles(String... specificTitles) {
         this.titles = new HashSet<String>();
@@ -22,16 +23,17 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Set<Node>> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("Checks whether each member in the supplied list of titles is present in the presented arguments.");
+        description.appendText(String.format("Node [%d] does not contain any of the specified titles", failedNode.getId()));
     }
 
     @Override
-    public boolean matchesSafely(Set<Node> indexHits) {
+    public boolean matchesSafely(Set<Node> candidateNodes) {
         
-        for (Node n : indexHits) {
+        for (Node n : candidateNodes) {
             String property = String.valueOf(n.getProperty("title"));
             
             if (!titles.contains(property)) {
+                failedNode = n;
                 return false;
             } 
             titles.remove(property);
