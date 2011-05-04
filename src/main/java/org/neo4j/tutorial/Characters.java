@@ -15,7 +15,10 @@ public class Characters {
     public void insert() {
         Transaction tx = universe.getDatabase().beginTx();
         try {
-            character("Doctor").regenerationSequence("William Hartnell", "Patrick Troughton", "Jon Pertwee", "Tom Baker", "Peter Davison", "Colin Baker", "Sylvester McCoy", "Paul McGann", "Christopher Eccleston", "David Tennant", "Matt Smith").loves("Rose Tyler", "River Song").isA("Timelord").isFrom("Gallifrey").owns("Tarids", "Sonic Screwdriver").fact(universe);
+            character("Doctor")
+                    .regenerationSequence("William Hartnell", "Patrick Troughton", "Jon Pertwee", "Tom Baker", "Peter Davison", "Colin Baker",
+                            "Sylvester McCoy", "Paul McGann", "Christopher Eccleston", "David Tennant", "Matt Smith").loves("Rose Tyler", "River Song")
+                    .isA("Timelord").isFrom("Gallifrey").owns("Tarids", "Sonic Screwdriver").fact(universe);
             loadCompanions();
             loadEnemies();
             loadAllies();
@@ -26,7 +29,9 @@ public class Characters {
     }
 
     private void loadEnemies() {
-        character("Master").regenerationSequence("Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley", "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(universe);
+        character("Master")
+                .regenerationSequence("Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley", "Gordon Tipple", "Eric Roberts", "Derek Jacobi",
+                        "John Simm").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(universe);
         character("Helen A").isA("Human").isFrom("Terra Alpha").isEnemy().fact(universe);
         character("Abzorbaloff").isA("Abrobvian").isFrom("Clom").isEnemy().fact(universe);
         character("Beast").isA("Devil").isEnemy().fact(universe);
