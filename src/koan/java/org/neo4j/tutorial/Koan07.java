@@ -1,23 +1,21 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsSpecificActor.containsOnly;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.contains;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNode.contains;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.neo4j.graphalgo.GraphAlgoFactory;
+import org.neo4j.graphalgo.PathFinder;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.traversal.Evaluation;
-import org.neo4j.graphdb.traversal.Evaluator;
-import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 
 /**
- * In this Koan we start using the new traversal framework to find interesting
- * information from the graph about the Doctor's love life.
+ * In this Koan we use some of the pre-canned graph algorithms that come with
+ * Neo4j to gain more insight into the Doctor's universe.
  */
 public class Koan07 {
 
@@ -34,55 +32,18 @@ public class Koan07 {
     }
 
     @Test
-    public void shouldDiscoverHowManyTimesTheDoctorHasRegenerated() throws Exception {
-        Node theDoctor = universe.theDoctor();
-        Traverser traverser = null;
+    public void shouldEpisodeWhenTennantRegeneratedToSmith() {
+        Node tennant = universe.doctorActorIndex.get("actor", "David Tennant").getSingle();
+        Node smith = universe.doctorActorIndex.get("actor", "Matt Smith").getSingle();
 
         // SNIPPET_START
 
-        traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
-                .evaluator(new Evaluator() {
-                    @Override
-                    public Evaluation evaluate(Path path) {
-                        if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
-                            return Evaluation.INCLUDE_AND_CONTINUE;
-                        } else {
-                            return Evaluation.EXCLUDE_AND_PRUNE;
-                        }
-                    }
-                }).traverse(theDoctor);
+        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
+        Path path = pathFinder.findSinglePath(tennant, smith);
 
         // SNIPPET_END
 
-        assertThat(traverser.nodes(), contains(11));
-    }
-    
-    @Test
-    public void shouldFindTheFirstDoctor() {
-        Node theDoctor = universe.theDoctor();
-        Traverser traverser = null;
-
-        // SNIPPET_START
-
-        traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
-                .evaluator(new Evaluator() {
-                    @Override
-                    public Evaluation evaluate(Path path) {
-                        if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        } else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-                            // Catches Richard Hurdnall who stepped in for
-                            // William Hartnell when the latter was to frail to
-                            // work
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        } else {
-                            return Evaluation.INCLUDE_AND_PRUNE;
-                        }
-                    }
-                }).traverse(theDoctor);
-
-        // SNIPPET_END
-
-        assertThat(traverser.nodes(), containsOnly("William Hartnell"));
+        Node endOfTimeEpisode = universe.episodeIndex.get("title", "The End of Time").getSingle();
+        assertThat(path, contains(endOfTimeEpisode));
     }
 }
