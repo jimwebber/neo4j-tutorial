@@ -5,7 +5,6 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.Index;
 
 public class ContainsSpecificActor extends TypeSafeMatcher<Iterable<Node>> {
 
