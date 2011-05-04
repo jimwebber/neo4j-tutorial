@@ -1,11 +1,13 @@
 package org.neo4j.tutorial;
 
+import java.util.HashSet;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
 public class CharacterBuilder {
     private final String characterName;
-    private String species;
+    private HashSet<String> species;
     private boolean companion = false;
     private String[] loverNames;
     private String planet;
@@ -22,8 +24,11 @@ public class CharacterBuilder {
         this.characterName = characterName;
     }
 
-    public CharacterBuilder isA(String species) {
-        this.species = species;
+    public CharacterBuilder isA(String speciesString) {
+        if(species == null) {
+            species = new HashSet<String>(); 
+        }
+        species.add(speciesString);
         return this;
     }
 
@@ -37,7 +42,9 @@ public class CharacterBuilder {
         Node characterNode = ensureCharacterIsInDb(characterName, universe);
 
         if (species != null) {
-            characterNode.createRelationshipTo(SpeciesBuilder.ensureSpeciesInDb(species, universe), DoctorWhoUniverse.IS_A);
+            for(String speciesString : species) {
+                characterNode.createRelationshipTo(SpeciesBuilder.ensureSpeciesInDb(speciesString, universe), DoctorWhoUniverse.IS_A);
+            }
         }
 
         if (companion) {
