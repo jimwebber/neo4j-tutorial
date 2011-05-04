@@ -44,8 +44,8 @@ public class Koan07 {
 
         // SNIPPET_END
         
-        int numberOfMasterRegenerations = 7;
-        assertEquals(numberOfMasterRegenerations, path.length());
+        int numberOfMasterRegenerations = 8;
+        assertEquals(numberOfMasterRegenerations, path.length() +1);
     }
 
     @Test
