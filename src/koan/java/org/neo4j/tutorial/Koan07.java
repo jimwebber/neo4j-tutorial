@@ -17,9 +17,9 @@ import org.neo4j.kernel.Traversal;
 
 /**
  * In this Koan we start using the new traversal framework to find interesting
- * information from the graph about the Doctor's past life.
+ * information from the graph about the Doctor's love life.
  */
-public class Koan06 {
+public class Koan07 {
 
     private static DoctorWhoUniverse universe;
 
