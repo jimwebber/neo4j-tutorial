@@ -54,14 +54,14 @@ public class DoctorWhoUniverseTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void shouldHave446Planets() {
+    public void shouldHaveCorrectNumberOfPlanetsInIndex() {
         IndexHits<Node> indexHits = universe.planetIndex.query("planet", "*");
         int planetCount = 0;
         for (Node n : indexHits) {
             planetCount++;
         }
 
-        int numberOfPlanetsMentionedInTVEpisodes = 446;
+        int numberOfPlanetsMentionedInTVEpisodes = 447;
         assertEquals(numberOfPlanetsMentionedInTVEpisodes, planetCount);
     }
 
@@ -70,7 +70,7 @@ public class DoctorWhoUniverseTest {
         Node humanSpeciesNode = universe.speciesIndex.get("species", "Human").getSingle();
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
-        int knownNumberOfHumans = 41;
+        int knownNumberOfHumans = 45;
         assertEquals(knownNumberOfHumans, numberOfHumansFriendliesInTheDB);
     }
 
@@ -93,7 +93,7 @@ public class DoctorWhoUniverseTest {
             speciesCount++;
         }
 
-        int numberOfSpecies = 28;
+        int numberOfSpecies = 52;
         assertEquals(numberOfSpecies, speciesCount);
     }
 
@@ -111,7 +111,7 @@ public class DoctorWhoUniverseTest {
     public void shouldBeTenRegenerationRelationshipsBetweenTheElevenDoctors() {
         int numberOfDoctorsRegenerations = 10;
 
-        IndexHits<Node> indexHits = getActorIndex().get("lastname", "Hartnell");
+        IndexHits<Node> indexHits = getActorIndex().get("actor", "William Hartnell");
         assertEquals(1, indexHits.size());
 
         Node firstDoctor = indexHits.getSingle();
@@ -123,7 +123,7 @@ public class DoctorWhoUniverseTest {
     public void shouldBeSevenRegenerationRelationshipsBetweenTheEightMasters() {
         int numberOfMastersRegenerations = 7;
 
-        IndexHits<Node> indexHits = getActorIndex().get("lastname", "Delgado");
+        IndexHits<Node> indexHits = getActorIndex().get("actor", "Roger Delgado");
         assertEquals(1, indexHits.size());
 
         Node currentMaster = indexHits.getSingle();
@@ -240,7 +240,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 131;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 52;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
         assertTrue(isInList(dalek, enemiesOfEnemies));
         assertTrue(isInList(cyberman, enemiesOfEnemies));
@@ -259,7 +259,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldBeCorrectNumberOfEnemySpecies() {
-        int numberOfEnemySpecies = 33;
+        int numberOfEnemySpecies = 17;
         Node theDoctor = universe.theDoctor();
 
         Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
@@ -275,7 +275,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberOfCompanionsInTotal() {
-        int numberOfCompanions = 46;
+        int numberOfCompanions = 42;
 
         Node theDoctor = universe.theDoctor();
         assertNotNull(theDoctor);
@@ -285,7 +285,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 99;
+        int numberOfEnemies = 36;
 
         Node theDoctor = universe.theDoctor();
         assertNotNull(theDoctor);

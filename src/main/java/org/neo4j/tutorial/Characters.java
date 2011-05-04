@@ -15,7 +15,7 @@ public class Characters {
     public void insert() {
         Transaction tx = universe.getDatabase().beginTx();
         try {
-            character("Doctor").loves("Rose Tyler", "River Song").isA("Timelord").isFrom("Galifrey").owns("Tarids", "Sonic Screwdriver").fact(universe);
+            character("Doctor").regenerationSequence("William Hartnell", "Patrick Troughton", "Jon Pertwee", "Tom Baker", "Peter Davison", "Colin Baker", "Sylvester McCoy", "Paul McGann", "Christopher Eccleston", "David Tennant", "Matt Smith").loves("Rose Tyler", "River Song").isA("Timelord").isFrom("Gallifrey").owns("Tarids", "Sonic Screwdriver").fact(universe);
             loadCompanions();
             loadEnemies();
             loadAllies();
@@ -26,7 +26,7 @@ public class Characters {
     }
 
     private void loadEnemies() {
-        character("Master").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(universe);
+        character("Master").regenerationSequence("Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley", "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(universe);
         character("Helen A").isA("Human").isFrom("Terra Alpha").isEnemy().fact(universe);
         character("Abzorbaloff").isA("Abrobvian").isFrom("Clom").isEnemy().fact(universe);
         character("Beast").isA("Devil").isEnemy().fact(universe);
@@ -66,11 +66,19 @@ public class Characters {
 
     private void loadAllies() {
         character("River Song").isA("Human").loves("Doctor").isAlly().fact(universe);
+        character("Sergeant Benton").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Mike Yates").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Brigadier Lethbridge-Stewart").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Professor Travers").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Alpha Centauri").isA("Alpha Centauran").isFrom("Earth").isAlly().fact(universe);
+        character("Duggan").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Richard Mace").isA("Human").isFrom("Earth").isAlly().fact(universe);
+        character("Chang Lee").isA("Human").isFrom("Earth").isAlly().fact(universe);
     }
 
     private void loadCompanions() {
-        character("Susan Foreman").isA("Timelord").isFrom("Galifrey").isCompanion().fact(universe);
-        character("Romana").isA("Timelord").isFrom("Galifrey").isCompanion().fact(universe);
+        character("Susan Foreman").isA("Timelord").isFrom("Gallifrey").isCompanion().fact(universe);
+        character("Romana").isA("Timelord").isFrom("Gallifrey").isCompanion().fact(universe);
         character("Barbara Wright").isA("Human").isFrom("Earth").isCompanion().fact(universe);
         character("Ian Chesterton").isA("Human").isFrom("Earth").isCompanion().fact(universe);
         character("Vicki").isA("Human").isFrom("Earth").isCompanion().fact(universe);
