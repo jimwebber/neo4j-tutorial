@@ -114,6 +114,9 @@ public class EpisodeBuilder {
             episode.setProperty("title", title);
         }
 
+        db.index().forNodes("episodes").add(episode, "title", title);
+        db.index().forNodes("episodes").add(episode, "episode", episodeNumber);
+        
         return episode;
     }
 
