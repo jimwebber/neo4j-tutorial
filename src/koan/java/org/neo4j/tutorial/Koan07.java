@@ -50,8 +50,7 @@ public class Koan07 {
         
         // SNIPPET_END
         
-        HashSet<Node> roseVersusDaleksEpisodes = knownRoseVersusDaleksEpisodes();
-        assertThat(paths, consistPreciselyOf(rose, roseVersusDaleksEpisodes, daleks));
+        assertThat(paths, consistPreciselyOf(rose, knownRoseVersusDaleksEpisodes(), daleks));
     }
 
     private HashSet<Node> knownRoseVersusDaleksEpisodes() {
