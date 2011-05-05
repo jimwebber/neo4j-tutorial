@@ -41,27 +41,26 @@ public class Koan07 {
     public void shouldRevealTheEpisodesWhereRoseTylerFoughtTheDaleks() {
         Node rose = universe.characterIndex.get("name", "Rose Tyler").getSingle();
         Node daleks = universe.speciesIndex.get("species", "Dalek").getSingle();
-
-        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
-
-        Iterable<Path> paths = pathFinder.findAllPaths(rose, daleks);
-//
-//        for (Path p : paths) {
-//            for (Node n : p.nodes()) {
-//                if (n.hasProperty("title")) {
-//                    System.out.println(n.getProperty("title"));
-//                }
-//            }
-//        }
+        Iterable<Path> paths = null;
         
+        // SNIPPET_START
+        
+        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
+        paths = pathFinder.findAllPaths(rose, daleks);
+        
+        // SNIPPET_END
+        
+        HashSet<Node> roseVersusDaleksEpisodes = knownRoseVersusDaleksEpisodes();
+        assertThat(paths, consistPreciselyOf(rose, roseVersusDaleksEpisodes, daleks));
+    }
+
+    private HashSet<Node> knownRoseVersusDaleksEpisodes() {
         List<String> roseVersusDaleksEpisodeTitles = Arrays.asList("Dalek", "Army of Ghosts", "Doomsday", "The Parting of the Ways", "The Stolen Earth", "Bad Wolf", "Journey's End");
-//        List<String> roseVersusDaleksEpisodeTitles = Arrays.asList("Dalek", "Army of Ghosts");
         HashSet<Node> roseVersusDaleksEpisodes = new HashSet<Node>();
         for(String title : roseVersusDaleksEpisodeTitles) {
             roseVersusDaleksEpisodes.add(universe.episodeIndex.get("title", title).getSingle());
         }
-        
-        assertThat(paths, consistPreciselyOf(rose, roseVersusDaleksEpisodes, daleks));
+        return roseVersusDaleksEpisodes;
     }
 
 
