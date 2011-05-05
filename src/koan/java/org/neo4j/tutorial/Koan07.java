@@ -2,7 +2,11 @@ package org.neo4j.tutorial;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNode.contains;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,6 +17,7 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.kernel.Traversal;
+import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
 /**
  * In this Koan we use some of the pre-canned graph algorithms that come with
@@ -31,26 +36,55 @@ public class Koan07 {
     public static void closeTheDatabase() {
         universe.stop();
     }
-    
+
+    @Test
+    public void shouldRevealTheEpisodesWhereRoseTylerFoughtTheDaleks() {
+        Node rose = universe.characterIndex.get("name", "Rose Tyler").getSingle();
+        Node daleks = universe.speciesIndex.get("species", "Dalek").getSingle();
+
+        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
+
+        Iterable<Path> paths = pathFinder.findAllPaths(rose, daleks);
+//
+//        for (Path p : paths) {
+//            for (Node n : p.nodes()) {
+//                if (n.hasProperty("title")) {
+//                    System.out.println(n.getProperty("title"));
+//                }
+//            }
+//        }
+        
+        List<String> roseVersusDaleksEpisodeTitles = Arrays.asList("Dalek", "Army of Ghosts", "Doomsday", "The Parting of the Ways", "The Stolen Earth", "Bad Wolf", "Journey's End");
+//        List<String> roseVersusDaleksEpisodeTitles = Arrays.asList("Dalek", "Army of Ghosts");
+        HashSet<Node> roseVersusDaleksEpisodes = new HashSet<Node>();
+        for(String title : roseVersusDaleksEpisodeTitles) {
+            roseVersusDaleksEpisodes.add(universe.episodeIndex.get("title", title).getSingle());
+        }
+        
+        assertThat(paths, consistPreciselyOf(rose, roseVersusDaleksEpisodes, daleks));
+    }
+
+
+
     @Test
     public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay() {
         Node delgado = universe.actorIndex.get("actor", "Roger Delgado").getSingle();
         Node simm = universe.actorIndex.get("actor", "John Simm").getSingle();
-        
+
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForTypes(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING), 100);
         Path path = pathFinder.findSinglePath(delgado, simm);
 
         // SNIPPET_END
-        
+
         int numberOfMasterRegenerations = 8;
-        int numberOfActorsFound = path.length() +1;
+        int numberOfActorsFound = path.length() + 1;
         assertEquals(numberOfMasterRegenerations, numberOfActorsFound);
     }
 
     @Test
-    public void shouldEpisodeWhenTennantRegeneratedToSmith() {
+    public void shouldRevealEpisodeWhenTennantRegeneratedToSmith() {
         Node tennant = universe.actorIndex.get("actor", "David Tennant").getSingle();
         Node smith = universe.actorIndex.get("actor", "Matt Smith").getSingle();
 
@@ -62,6 +96,6 @@ public class Koan07 {
         // SNIPPET_END
 
         Node endOfTimeEpisode = universe.episodeIndex.get("title", "The End of Time").getSingle();
-        assertThat(path, contains(endOfTimeEpisode));
+        assertThat(path, containsOnly(tennant, smith, endOfTimeEpisode));
     }
 }
