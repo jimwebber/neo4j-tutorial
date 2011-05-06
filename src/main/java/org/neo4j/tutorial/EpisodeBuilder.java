@@ -76,6 +76,8 @@ public class EpisodeBuilder {
             for (String eSpecies : enemySpecies) {
                 Node speciesNode = SpeciesBuilder.ensureSpeciesInDb(eSpecies, universe);
                 speciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                speciesNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
+                universe.theDoctor().createRelationshipTo(speciesNode, DoctorWhoUniverse.ENEMY_OF);
             }
         }
 
@@ -83,6 +85,8 @@ public class EpisodeBuilder {
             for (String enemy : enemies) {
                 Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
                 enemyNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                enemyNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
+                universe.theDoctor().createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
             }
         }
     }
