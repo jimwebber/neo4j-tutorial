@@ -93,7 +93,7 @@ public class DoctorWhoUniverseTest {
             speciesCount++;
         }
 
-        int numberOfSpecies = 52;
+        int numberOfSpecies = 53;
         assertEquals(numberOfSpecies, speciesCount);
     }
 
@@ -240,7 +240,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 52;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 137;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
         assertTrue(isInList(dalek, enemiesOfEnemies));
         assertTrue(isInList(cyberman, enemiesOfEnemies));
@@ -259,7 +259,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldBeCorrectNumberOfEnemySpecies() {
-        int numberOfEnemySpecies = 17;
+        int numberOfEnemySpecies = 41;
         Node theDoctor = universe.theDoctor();
 
         Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
@@ -275,7 +275,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberOfCompanionsInTotal() {
-        int numberOfCompanions = 42;
+        int numberOfCompanions = 45;
 
         Node theDoctor = universe.theDoctor();
         assertNotNull(theDoctor);
@@ -285,7 +285,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 36;
+        int numberOfEnemies = 97;
 
         Node theDoctor = universe.theDoctor();
         assertNotNull(theDoctor);

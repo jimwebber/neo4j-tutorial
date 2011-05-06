@@ -82,7 +82,7 @@ public class Koan04 {
 
         // SNIPPET_END
 
-        int numberOfKnownHumanCompanions = 35;
+        int numberOfKnownHumanCompanions = 36;
         assertEquals(numberOfKnownHumanCompanions, humanCompanions.size());
         assertThat(humanCompanions, containsOnlyHumanCompanions());
     }

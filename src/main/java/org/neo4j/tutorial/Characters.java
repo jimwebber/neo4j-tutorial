@@ -55,7 +55,6 @@ public class Characters {
         character("Linx").isA("Sontaran").isFrom("Sontar").isEnemy().fact(universe);
         character("Miss Hartigan").isA("Human").isA("Cyberman").isFrom("Earth").isEnemy().fact(universe);
         character("Loch Ness Monster").isA("Skarasen").isEnemy().fact(universe);
-        character("Macra").isEnemy().fact(universe);
         character("Morbious").isA("Timelord").isEnemy().fact(universe);
         character("Omega").isA("Timelord").isEnemy().fact(universe);
         character("Ogron").isEnemy().fact(universe);
