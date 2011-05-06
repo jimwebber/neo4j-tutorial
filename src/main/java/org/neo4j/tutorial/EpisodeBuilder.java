@@ -1,5 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.CharacterBuilder.ensureCompanionRelationshipInDb;
+import static org.neo4j.tutorial.CharacterBuilder.ensureEnemyOfRelationshipInDb;
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +63,7 @@ public class EpisodeBuilder {
     public void fact(DoctorWhoUniverse universe) {
         checkEpisodeNumberAndTitle();
 
-        GraphDatabaseService db = universe.getDatabase();
-
-        Node episode = ensureEpisodeNodeInDb(db);
+        Node episode = ensureEpisodeNodeInDb(universe);
 
         ensureDoctorActorsAreInDb(universe, episode);
 
@@ -69,6 +71,7 @@ public class EpisodeBuilder {
             for (String companionName : companionNames) {
                 Node companionNode = CharacterBuilder.ensureCharacterIsInDb(companionName, universe);
                 companionNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                ensureCompanionRelationshipInDb(companionNode, universe);
             }
         }
 
@@ -76,8 +79,7 @@ public class EpisodeBuilder {
             for (String eSpecies : enemySpecies) {
                 Node speciesNode = SpeciesBuilder.ensureSpeciesInDb(eSpecies, universe);
                 speciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
-                speciesNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
-                universe.theDoctor().createRelationshipTo(speciesNode, DoctorWhoUniverse.ENEMY_OF);
+                ensureEnemyOfRelationshipInDb(speciesNode, universe);
             }
         }
 
@@ -85,8 +87,7 @@ public class EpisodeBuilder {
             for (String enemy : enemies) {
                 Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
                 enemyNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
-                enemyNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
-                universe.theDoctor().createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
+                ensureEnemyOfRelationshipInDb(enemyNode, universe);
             }
         }
     }
@@ -95,31 +96,24 @@ public class EpisodeBuilder {
         if (doctorActors != null) {
             for (String actor : doctorActors) {
                 Node actorNode = ensureDoctorActorInDb(actor, universe);
-                actorNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                ensureRelationshipInDb(actorNode, DoctorWhoUniverse.APPEARED_IN, episode);
             }
         }
     }
 
-    private Node ensureEpisodeNodeInDb(GraphDatabaseService db) {
-        Iterable<Node> allNodes = db.getAllNodes();
-        Node episode = null;
-        for (Node n : allNodes) {
-            if (n.hasProperty("episode") && n.hasProperty("title")) {
-                if (n.getProperty("title").equals(this.title) && n.getProperty("episode").equals(this.episodeNumber)) {
-                    episode = n;
-                    break;
-                }
-            }
-        }
-
+    private Node ensureEpisodeNodeInDb(DoctorWhoUniverse universe) {
+        GraphDatabaseService db = universe.getDatabase();
+       
+        Node episode = universe.episodeIndex.get("title", this.title).getSingle();
+        
         if (episode == null) {
             episode = db.createNode();
             episode.setProperty("episode", episodeNumber);
             episode.setProperty("title", title);
         }
 
-        db.index().forNodes("episodes").add(episode, "title", title);
-        db.index().forNodes("episodes").add(episode, "episode", episodeNumber);
+        universe.episodeIndex.add(episode, "title", title);
+        universe.episodeIndex.add(episode, "episode", episodeNumber);
         
         return episode;
     }

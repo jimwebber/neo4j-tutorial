@@ -1,5 +1,7 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+
 import java.util.HashSet;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -25,8 +27,8 @@ public class CharacterBuilder {
     }
 
     public CharacterBuilder isA(String speciesString) {
-        if(species == null) {
-            species = new HashSet<String>(); 
+        if (species == null) {
+            species = new HashSet<String>();
         }
         species.add(speciesString);
         return this;
@@ -42,22 +44,21 @@ public class CharacterBuilder {
         Node characterNode = ensureCharacterIsInDb(characterName, universe);
 
         if (species != null) {
-            for(String speciesString : species) {
-                characterNode.createRelationshipTo(SpeciesBuilder.ensureSpeciesInDb(speciesString, universe), DoctorWhoUniverse.IS_A);
+            for (String speciesString : species) {
+                ensureRelationshipInDb(characterNode, DoctorWhoUniverse.IS_A, SpeciesBuilder.ensureSpeciesInDb(speciesString, universe));
             }
         }
 
         if (companion) {
-            characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.COMPANION_OF);
+            ensureCompanionRelationshipInDb(characterNode, universe);
         }
 
         if (enemy) {
-            characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF);
-            universe.theDoctor().createRelationshipTo(characterNode, DoctorWhoUniverse.ENEMY_OF);
+            ensureEnemyOfRelationshipInDb(characterNode, universe);
         }
 
         if (ally) {
-            characterNode.createRelationshipTo(universe.theDoctor(), DoctorWhoUniverse.ALLY_OF);
+            ensureRelationshipInDb(characterNode, DoctorWhoUniverse.ALLY_OF, universe.theDoctor());
         }
 
         if (loverNames != null) {
@@ -77,6 +78,15 @@ public class CharacterBuilder {
         }
     }
 
+    public static void ensureEnemyOfRelationshipInDb(Node enemyNode, DoctorWhoUniverse universe) {
+        ensureRelationshipInDb(enemyNode, DoctorWhoUniverse.ENEMY_OF, universe.theDoctor());
+        ensureRelationshipInDb(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF, enemyNode);
+    }
+
+    public static void ensureCompanionRelationshipInDb(Node companionNode, DoctorWhoUniverse universe) {
+        ensureRelationshipInDb(companionNode, DoctorWhoUniverse.COMPANION_OF, universe.theDoctor());
+    }
+
     public static void ensureActorsInDb(Node characterNode, String[] actors, DoctorWhoUniverse universe) {
         Node previousActorNode = null;
         for (String actor : actors) {
@@ -86,11 +96,12 @@ public class CharacterBuilder {
                 theActorNode.setProperty("actor", actor);
                 universe.getDatabase().index().forNodes("actors").add(theActorNode, "actor", actor);
             }
-            theActorNode.createRelationshipTo(characterNode, DoctorWhoUniverse.PLAYED);
+            
+            ensureRelationshipInDb(theActorNode, DoctorWhoUniverse.PLAYED, characterNode);
             universe.actorIndex.add(theActorNode, "actor", actor);
 
             if (previousActorNode != null) {
-                previousActorNode.createRelationshipTo(theActorNode, DoctorWhoUniverse.REGENERATED_TO);
+                ensureRelationshipInDb(previousActorNode, DoctorWhoUniverse.REGENERATED_TO, theActorNode);
             }
 
             previousActorNode = theActorNode;
@@ -99,7 +110,7 @@ public class CharacterBuilder {
 
     private static void ensureThingsInDb(Node characterNode, String[] things, DoctorWhoUniverse universe) {
         for (String thing : things) {
-            characterNode.createRelationshipTo(ensureThingInDb(thing, universe.getDatabase()), DoctorWhoUniverse.OWNS);
+            ensureRelationshipInDb(characterNode, DoctorWhoUniverse.OWNS, ensureThingInDb(thing, universe.getDatabase()));
         }
     }
 
@@ -126,7 +137,7 @@ public class CharacterBuilder {
             ensurePlanetIsIndexed(thePlanetNode, database);
         }
 
-        characterNode.createRelationshipTo(thePlanetNode, DoctorWhoUniverse.COMES_FROM);
+        ensureRelationshipInDb(characterNode, DoctorWhoUniverse.COMES_FROM, thePlanetNode);
 
         return thePlanetNode;
     }
@@ -153,7 +164,7 @@ public class CharacterBuilder {
 
     private static void ensureLoversInDb(Node characterNode, String[] loverNames, DoctorWhoUniverse universe) {
         for (String lover : loverNames) {
-            characterNode.createRelationshipTo(ensureCharacterIsInDb(lover, universe), DoctorWhoUniverse.LOVES);
+            ensureRelationshipInDb(characterNode, DoctorWhoUniverse.LOVES, ensureCharacterIsInDb(lover, universe));
         }
     }
 

@@ -9,7 +9,7 @@
 		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.11.RELEASE"/>
 		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11.RELEASE"/>
 		<dependency org="org.neo4j" name="neo4j-community" rev="1.3"/>
-		<dependency org="org.neo4j" name="graph-matching" rev="0.7-SNAPSHOT"/>
+		<!-- <dependency org="org.neo4j" name="neo4j-graph-matching" rev="0.8"/>  -->
 		<dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.7.5"/>
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.7.5"/>
 		<dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
