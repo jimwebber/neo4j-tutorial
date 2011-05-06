@@ -61,8 +61,8 @@ public class Episodes {
     }
 
     private void series06() {
-        episode(214).title("The Impossible Astronaut").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemy("Silence").fact(universe);
-        episode(214).title("Day of the Moon").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemy("Silence").fact(universe);
+        episode(214).title("The Impossible Astronaut").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemySpecies("Silence").fact(universe);
+        episode(214).title("Day of the Moon").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemySpecies("Silence").fact(universe);
     }
 
     private void series05() {
