@@ -1,7 +1,5 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.hamcrest.Description;

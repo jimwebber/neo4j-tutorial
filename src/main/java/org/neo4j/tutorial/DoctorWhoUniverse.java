@@ -8,12 +8,12 @@ import org.neo4j.graphdb.index.Index;
 
 public class DoctorWhoUniverse {
 
-    public static final DynamicRelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
-    public static final DynamicRelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
-    public static final DynamicRelationshipType ENEMY_OF = DynamicRelationshipType.withName("ENEMY_OF");
-    public static final DynamicRelationshipType COMES_FROM = DynamicRelationshipType.withName("COMES_FROM");
-    public static final DynamicRelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
-    public static final DynamicRelationshipType COMPANION_OF = DynamicRelationshipType.withName("COMPANION_OF");
+    public static final RelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
+    public static final RelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
+    public static final RelationshipType ENEMY_OF = DynamicRelationshipType.withName("ENEMY_OF");
+    public static final RelationshipType COMES_FROM = DynamicRelationshipType.withName("COMES_FROM");
+    public static final RelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
+    public static final RelationshipType COMPANION_OF = DynamicRelationshipType.withName("COMPANION_OF");
     public static final RelationshipType APPEARED_IN = DynamicRelationshipType.withName("APPEARED_IN");
     public static final RelationshipType LOVES = DynamicRelationshipType.withName("LOVES");
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");

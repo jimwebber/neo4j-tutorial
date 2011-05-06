@@ -1,23 +1,24 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
-import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
-
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphalgo.GraphAlgoFactory;
-import org.neo4j.graphalgo.PathFinder;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.DynamicRelationshipType;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.kernel.Traversal;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphmatching.CommonValueMatchers;
+import org.neo4j.graphmatching.PatternMatch;
+import org.neo4j.graphmatching.PatternMatcher;
+import org.neo4j.graphmatching.PatternNode;
+import org.neo4j.graphmatching.ValueMatcher;
+import org.neo4j.helpers.collection.IterableWrapper;
 
 /**
  * In this Koan we use the graph-matching library to look for patterns in the
@@ -35,10 +36,48 @@ public class Koan08 {
     @AfterClass
     public static void closeTheDatabase() {
         universe.stop();
+
     }
 
     @Test
     public void shouldFindDoctorsThatFoughtMoreThanOneEnemyConcurrently() {
-        
+        final PatternNode theDoctor = new PatternNode();
+        theDoctor.setAssociation(universe.theDoctor());
+
+        final PatternNode anEpisode = new PatternNode();
+        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+
+        int numberOfConcurrentEnemies = 2;
+        for (int i = 0; i < numberOfConcurrentEnemies; i++) {
+            final PatternNode enemy = new PatternNode();
+
+            theDoctor.createRelationshipTo(enemy, DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
+            enemy.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING);
+        }
+
+        PatternMatcher matcher = PatternMatcher.getMatcher();
+        final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
+
+        IterableWrapper<Node, PatternMatch> nodes = new IterableWrapper<Node, PatternMatch>(matches) {
+            @Override
+            protected Node underlyingObjectToObject(PatternMatch match) {
+                return match.getNodeFor(anEpisode);
+            }
+        };
+
+        for (Node n : nodes) {
+            new DatabaseHelper(universe.getDatabase()).dumpNode(n);
+        }
+
+        // Set<Node> myResultNodes = new HashSet<Node>();
+
+        // for (Node n : nodes) {
+        // myResultNodes.add(n);
+        // }
+        //
+        // for (Node n : myResultNodes) {
+        // new DatabaseHelper(universe.getDatabase()).dumpNode(n);
+        // }
     }
 }

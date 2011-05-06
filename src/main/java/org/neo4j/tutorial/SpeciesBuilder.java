@@ -3,6 +3,8 @@ package org.neo4j.tutorial;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+
 public class SpeciesBuilder {
 
     private final String speciesName;
@@ -23,22 +25,22 @@ public class SpeciesBuilder {
 
         if (planet != null) {
             Node planetNode = PlanetBuilder.ensurePlanetInDb(planet, universe);
-            speciesNode.createRelationshipTo(planetNode, DoctorWhoUniverse.COMES_FROM);
+            ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.COMES_FROM, planetNode);
         }
 
         if (enemies != null) {
             for (String enemy : enemies) {
                 Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
-                enemyNode.createRelationshipTo(speciesNode, DoctorWhoUniverse.ENEMY_OF);
-                speciesNode.createRelationshipTo(enemyNode, DoctorWhoUniverse.ENEMY_OF);
+                ensureRelationshipInDb(enemyNode, DoctorWhoUniverse.ENEMY_OF, speciesNode);
+                ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.ENEMY_OF, enemyNode);
             }
         }
 
         if (enemySpecies != null) {
             for (String eSpecies : enemySpecies) {
                 Node enemySpeciesNode = ensureSpeciesInDb(eSpecies, universe);
-                enemySpeciesNode.createRelationshipTo(speciesNode, DoctorWhoUniverse.ENEMY_OF);
-                speciesNode.createRelationshipTo(enemySpeciesNode, DoctorWhoUniverse.ENEMY_OF);
+                ensureRelationshipInDb(enemySpeciesNode, DoctorWhoUniverse.ENEMY_OF, speciesNode);
+                ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.ENEMY_OF, enemySpeciesNode);
             }
         }
     }
