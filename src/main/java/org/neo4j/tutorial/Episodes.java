@@ -140,7 +140,7 @@ public class Episodes {
         episode(160).title("Aliens of London").doctor("Christopher Eccleston").companion("Rose Tyler").enemySpecies("Slitheen").fact(universe);
         episode(160).title("World War Three").doctor("Christopher Eccleston").companion("Rose Tyler").enemySpecies("Slitheen").fact(universe);
         episode(161).title("Dalek").doctor("Christopher Eccleston").companion("Rose Tyler").enemySpecies("Dalek").fact(universe);
-        episode(162).title("The Long Game").doctor("Christopher Eccleston").companion("Rose Tyler").fact(universe);
+        episode(162).title("The Long Game").doctor("Christopher Eccleston").enemy("The Editor").companion("Rose Tyler").fact(universe);
         episode(163).title("Father's Day").doctor("Christopher Eccleston").companion("Rose Tyler").fact(universe);
         episode(164).title("The Empty Child").doctor("Christopher Eccleston").companion("Rose Tyler", "Jack Harkness").fact(universe);
         episode(164).title("The Doctor Dances").doctor("Christopher Eccleston").companion("Rose Tyler", "Jack Harkness").fact(universe);
