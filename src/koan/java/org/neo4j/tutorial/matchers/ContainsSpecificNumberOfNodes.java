@@ -30,7 +30,7 @@ public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node
     }
     
     @Factory
-    public static <T> Matcher<Iterable<Node>> contains(int number) {
+    public static <T> Matcher<Iterable<Node>> containsNumberOfNodes(int number) {
       return new ContainsSpecificNumberOfNodes(number);
     }
 }

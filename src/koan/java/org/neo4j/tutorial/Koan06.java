@@ -2,7 +2,7 @@ package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsSpecificActor.containsOnly;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.contains;
+import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -54,7 +54,7 @@ public class Koan06 {
 
         // SNIPPET_END
 
-        assertThat(traverser.nodes(), contains(11));
+        assertThat(traverser.nodes(), containsNumberOfNodes(11));
     }
     
     @Test
