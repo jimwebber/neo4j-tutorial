@@ -1,5 +1,6 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.CharacterBuilder.ensureAllyOfRelationshipInDb;
 import static org.neo4j.tutorial.CharacterBuilder.ensureCompanionRelationshipInDb;
 import static org.neo4j.tutorial.CharacterBuilder.ensureEnemyOfRelationshipInDb;
 import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
@@ -20,6 +21,7 @@ public class EpisodeBuilder {
     private List<String> doctorActors = new ArrayList<String>();
     private List<String> enemySpecies = new ArrayList<String>();
     private List<String> enemies = new ArrayList<String>();
+    private String[] allies;
 
     private EpisodeBuilder(int episodeNumber) {
         this.episodeNumber = episodeNumber;
@@ -90,7 +92,16 @@ public class EpisodeBuilder {
                 ensureEnemyOfRelationshipInDb(enemyNode, universe);
             }
         }
+        
+        if(this.allies != null) {
+            for(String ally : allies) {
+                Node allyNode = CharacterBuilder.ensureCharacterIsInDb(ally, universe);
+                allyNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                ensureAllyOfRelationshipInDb(allyNode, universe);                
+            }
+        }
     }
+
 
     private void ensureDoctorActorsAreInDb(DoctorWhoUniverse universe, Node episode) {
         if (doctorActors != null) {
@@ -143,5 +154,10 @@ public class EpisodeBuilder {
         doctorActorNode.setProperty("actor", doctorActor);
         doctorActorNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
         return doctorActorNode;
+    }
+
+    public EpisodeBuilder allies(String... allies) {
+        this.allies = allies;
+        return this;
     }
 }

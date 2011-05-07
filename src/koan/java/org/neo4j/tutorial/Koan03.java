@@ -53,14 +53,14 @@ public class Koan03 {
 
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
-        Node nixon = createNewCharacterNode("Richard Nixon");
+        Node abigailPettigrew = createNewCharacterNode("Abigail Pettigrew");
 
         GraphDatabaseService db = universe.getDatabase();
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
         try {
-            db.index().forNodes("characters").add(nixon, "name", nixon.getProperty("name"));
+            db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
             tx.success();
         } finally {
             tx.finish();
@@ -68,7 +68,7 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        assertNotNull(db.index().forNodes("characters").get("name", "Richard Nixon").getSingle());
+        assertNotNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
     }
 
     @Test
