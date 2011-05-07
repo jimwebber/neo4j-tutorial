@@ -6,3 +6,4 @@ lib
 target
 .ivy
 .DS_Store
+release.sh
