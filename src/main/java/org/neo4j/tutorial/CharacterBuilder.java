@@ -78,6 +78,11 @@ public class CharacterBuilder {
         }
     }
 
+    public static void ensureAllyOfRelationshipInDb(Node allyNode, DoctorWhoUniverse universe) {
+        ensureRelationshipInDb(allyNode, DoctorWhoUniverse.ALLY_OF, universe.theDoctor());
+        ensureRelationshipInDb(universe.theDoctor(), DoctorWhoUniverse.ALLY_OF, allyNode);
+    }
+    
     public static void ensureEnemyOfRelationshipInDb(Node enemyNode, DoctorWhoUniverse universe) {
         ensureRelationshipInDb(enemyNode, DoctorWhoUniverse.ENEMY_OF, universe.theDoctor());
         ensureRelationshipInDb(universe.theDoctor(), DoctorWhoUniverse.ENEMY_OF, enemyNode);
