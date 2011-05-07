@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -155,7 +156,7 @@ public class Koan02 {
         Transaction tx = db.beginTx();
         try {
             
-            Iterable<Relationship> relationships = susan.getRelationships(DynamicRelationshipType.withName("ENEMY_OF"));
+            Iterable<Relationship> relationships = susan.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
             for(Relationship r : relationships) {
                 Node n = r.getEndNode();
                 if(n.hasProperty("name") && n.getProperty("name").equals("The Doctor")) {
@@ -169,7 +170,6 @@ public class Koan02 {
         }
 
         // SNIPPET_END
-        
         assertEquals(1, databaseHelper.countRelationships(susan.getRelationships()));
     }
 
