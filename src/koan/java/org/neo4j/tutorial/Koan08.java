@@ -14,6 +14,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphmatching.CommonValueMatchers;
+import org.neo4j.graphmatching.PatternGroup;
 import org.neo4j.graphmatching.PatternMatch;
 import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
@@ -40,7 +41,35 @@ public class Koan08 {
     }
 
     @Test
-    public void shouldFindDoctorsThatFoughtMoreThanOneEnemyConcurrently() {
+    public void shouldFindEpisodesWhereTennantPlayedTheDoctor() {
+        final PatternNode tennant = new PatternNode();
+        Node realTennant = universe.actorIndex.get("actor", "David Tennant").getSingle();
+        tennant.setAssociation(realTennant);
+
+        final PatternNode anEpisode = new PatternNode();
+        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+
+        tennant.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+
+        PatternMatcher matcher = PatternMatcher.getMatcher();
+        final Iterable<PatternMatch> matches = matcher.match(tennant, realTennant);
+
+        IterableWrapper<Node, PatternMatch> nodes = new IterableWrapper<Node, PatternMatch>(matches) {
+            @Override
+            protected Node underlyingObjectToObject(PatternMatch match) {
+                return match.getNodeFor(anEpisode);
+            }
+        };
+
+        for (Node n : nodes) {
+            new DatabaseHelper(universe.getDatabase()).dumpNode(n);
+        }
+
+    }
+
+    @Test
+    public void shouldFindEpisodesWhereTheDoctorFoughtTheCybermen() {
         final PatternNode theDoctor = new PatternNode();
         theDoctor.setAssociation(universe.theDoctor());
 
@@ -48,13 +77,15 @@ public class Koan08 {
         anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
         anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
 
-        int numberOfConcurrentEnemies = 2;
-        for (int i = 0; i < numberOfConcurrentEnemies; i++) {
-            final PatternNode enemy = new PatternNode();
+        final PatternNode aDoctorActor = new PatternNode();
+        aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+        aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+        aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
-            theDoctor.createRelationshipTo(enemy, DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
-            enemy.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING);
-        }
+        final PatternNode theCybermen = new PatternNode();
+        theCybermen.setAssociation(universe.speciesIndex.get("species", "Cyberman").getSingle());
+        theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+        theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
         final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
@@ -69,15 +100,63 @@ public class Koan08 {
         for (Node n : nodes) {
             new DatabaseHelper(universe.getDatabase()).dumpNode(n);
         }
+    }
 
-        // Set<Node> myResultNodes = new HashSet<Node>();
+    @Test
+    public void shouldFindEpisodesWithMultipleEnemySpecies() {
+        
+        final PatternNode theDoctor = new PatternNode();
+        theDoctor.setAssociation(universe.theDoctor());
 
-        // for (Node n : nodes) {
-        // myResultNodes.add(n);
-        // }
-        //
-        // for (Node n : myResultNodes) {
-        // new DatabaseHelper(universe.getDatabase()).dumpNode(n);
-        // }
+        final PatternNode anEpisode = new PatternNode();
+        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+
+        final PatternNode aDoctorActor = new PatternNode();
+        aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+        aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+        aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
+
+        final PatternNode anEnemy = new PatternNode();
+        anEnemy.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+        anEnemy.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+        anEnemy.setAssociation(universe.speciesIndex.get("species", "Cyberman").getSingle());
+        
+        final PatternNode aSecondEnemy = new PatternNode();
+        aSecondEnemy.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+        aSecondEnemy.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+        aSecondEnemy.setAssociation(universe.speciesIndex.get("species", "Dalek").getSingle());
+
+        
+       
+        
+
+
+        PatternMatcher matcher = PatternMatcher.getMatcher();
+        final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
+        
+        
+        
+        for(PatternMatch pm : matches) {
+            
+            new DatabaseHelper(universe.getDatabase()).dumpNode(pm.getNodeFor(anEpisode));
+        }
+        
+       
+        
+        
+
+//        IterableWrapper<Node, PatternMatch> nodes = new IterableWrapper<Node, PatternMatch>(matches) {
+//            @Override
+//            protected Node underlyingObjectToObject(PatternMatch match) {
+//                return match.getNodeFor(anEpisode);
+//            }
+//        };
+
+        
+        
+//        for (Node n : nodes) {
+//            new DatabaseHelper(universe.getDatabase()).dumpNode(n);
+//        }
     }
 }
