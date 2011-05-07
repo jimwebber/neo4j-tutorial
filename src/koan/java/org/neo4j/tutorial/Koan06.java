@@ -1,7 +1,7 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsSpecificActor.containsOnly;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
 import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
 
 import org.junit.AfterClass;
@@ -83,6 +83,6 @@ public class Koan06 {
 
         // SNIPPET_END
 
-        assertThat(traverser.nodes(), containsOnly("William Hartnell"));
+        assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
     }
 }

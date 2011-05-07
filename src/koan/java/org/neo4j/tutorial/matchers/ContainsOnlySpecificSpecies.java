@@ -8,11 +8,12 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.IndexHits;
 
-public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<IndexHits<Node>> {
+public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>> {
 
     private final Set<String> species;
+    private String failedToFindSpecies;
+    private boolean matchedSize;
 
     public ContainsOnlySpecificSpecies(String... speciesNames) {
         this.species = new HashSet<String>();
@@ -23,26 +24,33 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<IndexHits<Node>
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("Checks whether each member in the supplied list of species is present in the presented arguments.");
+        if(failedToFindSpecies != null) {
+            description.appendText(String.format("Failed to find species [%s] in the given species names", failedToFindSpecies));
+        }
+        
+        if(!matchedSize) {
+            description.appendText(String.format("Mismatched number of species, expected [%d]", species.size()));
+        }
     }
 
     @Override
-    public boolean matchesSafely(IndexHits<Node> indexHits) {
+    public boolean matchesSafely(Iterable<Node> nodes) {
         
-        for (Node n : indexHits) {
-            String property = String.valueOf(n.getProperty("species"));
+        for (Node n : nodes) {
+            String speciesName = String.valueOf(n.getProperty("species"));
             
-            if (!species.contains(property)) {
+            if (!species.contains(speciesName)) {
+                failedToFindSpecies = speciesName;
                 return false;
             } 
-            species.remove(property);
+            species.remove(speciesName);
         }
 
-        return species.size() == 0;
+        return matchedSize = species.size() == 0;
     }
 
     @Factory
-    public static <T> Matcher<IndexHits<Node>> containsOnly(String... speciesNames) {
+    public static <T> Matcher<Iterable<Node>> containsOnlySpecies(String... speciesNames) {
         return new ContainsOnlySpecificSpecies(speciesNames);
     }
 }

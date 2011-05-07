@@ -9,7 +9,7 @@ import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 
-public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Set<Node>> {
+public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> {
 
     private final Set<String> titles;
     private Node failedNode;
@@ -27,7 +27,7 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Set<Node>> {
     }
 
     @Override
-    public boolean matchesSafely(Set<Node> candidateNodes) {
+    public boolean matchesSafely(Iterable<Node> candidateNodes) {
         
         for (Node n : candidateNodes) {
             String property = String.valueOf(n.getProperty("title"));
@@ -43,7 +43,7 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Set<Node>> {
     }
 
     @Factory
-    public static <T> Matcher<Set<Node>> containsOnly(String... titles) {
+    public static <T> Matcher<Iterable<Node>> containsOnlyTitles(String... titles) {
         return new ContainsOnlySpecificTitles(titles);
     }
 }
