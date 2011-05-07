@@ -3,7 +3,7 @@ package org.neo4j.tutorial;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnly;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 import java.util.HashSet;
 
@@ -111,6 +111,6 @@ public class Koan04 {
         // SNIPPET_END
 
         assertThat(episodesWhereRoseFightsTheDaleks,
-                containsOnly("Army of Ghosts", "The Stolen Earth", "Doomsday", "Journey's End", "Bad Wolf", "The Parting of the Ways", "Dalek"));
+                containsOnlyTitles("Army of Ghosts", "The Stolen Earth", "Doomsday", "Journey's End", "Bad Wolf", "The Parting of the Ways", "Dalek"));
     }
 }

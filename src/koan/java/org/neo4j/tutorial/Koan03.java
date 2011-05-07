@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnly;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
 import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
 import org.junit.AfterClass;
@@ -81,7 +81,7 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        assertThat(species, containsOnly("Silurian", "Slitheen", "Sontaran", "Skarasen"));
+        assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
     }
 
     @Test
