@@ -71,9 +71,7 @@ public class Koan06 {
                         if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
                             return Evaluation.EXCLUDE_AND_CONTINUE;
                         } else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-                            // Catches Richard Hurdnall who stepped in for
-                            // William Hartnell when the latter was to frail to
-                            // work
+                            // Catches Richard Hurdnall who played the William Hartnell's Doctor in The Five Doctors (William Hartnell had died by then)
                             return Evaluation.EXCLUDE_AND_CONTINUE;
                         } else {
                             return Evaluation.INCLUDE_AND_PRUNE;
