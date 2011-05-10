@@ -18,7 +18,7 @@ public class Characters {
             character("Doctor")
                     .regenerationSequence("William Hartnell", "Patrick Troughton", "Jon Pertwee", "Tom Baker", "Peter Davison", "Colin Baker",
                             "Sylvester McCoy", "Paul McGann", "Christopher Eccleston", "David Tennant", "Matt Smith").loves("Rose Tyler", "River Song")
-                    .isA("Timelord").isFrom("Gallifrey").owns("Tarids", "Sonic Screwdriver").fact(universe);
+                    .isA("Timelord").isFrom("Gallifrey").owns("Tardis", "Sonic Screwdriver").fact(universe);
             loadCompanions();
             loadEnemies();
             loadAllies();
