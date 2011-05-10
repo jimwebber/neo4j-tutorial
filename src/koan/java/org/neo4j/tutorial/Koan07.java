@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
 import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
@@ -63,19 +64,20 @@ public class Koan07 {
     }
 
 
-
     @Test
     public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay() {
         Node delgado = universe.actorIndex.get("actor", "Roger Delgado").getSingle();
         Node simm = universe.actorIndex.get("actor", "John Simm").getSingle();
-
+        Path path = null;
+        
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForTypes(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING), 100);
-        Path path = pathFinder.findSinglePath(delgado, simm);
+        path = pathFinder.findSinglePath(delgado, simm);
 
         // SNIPPET_END
 
+        assertNotNull(path);
         int numberOfMasterRegenerations = 8;
         int numberOfActorsFound = path.length() + 1;
         assertEquals(numberOfMasterRegenerations, numberOfActorsFound);
@@ -85,14 +87,16 @@ public class Koan07 {
     public void shouldRevealEpisodeWhenTennantRegeneratedToSmith() {
         Node tennant = universe.actorIndex.get("actor", "David Tennant").getSingle();
         Node smith = universe.actorIndex.get("actor", "Matt Smith").getSingle();
-
+        Path path = null;
+        
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
-        Path path = pathFinder.findSinglePath(tennant, smith);
+        path = pathFinder.findSinglePath(tennant, smith);
 
         // SNIPPET_END
 
+        assertNotNull(path);
         Node endOfTimeEpisode = universe.episodeIndex.get("title", "The End of Time").getSingle();
         assertThat(path, containsOnly(tennant, smith, endOfTimeEpisode));
     }
