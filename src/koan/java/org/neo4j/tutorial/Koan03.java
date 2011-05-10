@@ -95,7 +95,6 @@ public class Koan03 {
 
         Transaction tx = db.beginTx();
         try {
-            enemies.remove(cyberleader);
             for (Relationship rel : cyberleader.getRelationships()) {
                 rel.delete();
             }
