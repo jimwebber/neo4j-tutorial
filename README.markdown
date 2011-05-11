@@ -8,6 +8,14 @@ Prerequisites
 
 You'll need to be familiar with the Java programming language, and it'd be helpful if you understood unit testing too. All the graph database knowledge you'll needed will be developed as part of completing the Koans. 
 
+Live Sessions
+-------------
+
+This tutorial is presented at conferences around the world. If you're interested in participating in a class, then it'll be taught at:
+
+[Überconf](http://uberconf.com/conference/denver/2011/07/session?id=21730)
+[QCon Brazil](http://qconsp.com/workshop)
+
 Authors <a name="authors">
 -------
 
