@@ -53,7 +53,7 @@ public class Koan03 {
 
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
-        Node abigailPettigrew = createNewCharacterNode("Abigail Pettigrew");
+        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", universe);
 
         GraphDatabaseService db = universe.getDatabase();
         // SNIPPET_START
@@ -84,12 +84,14 @@ public class Koan03 {
         assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
     }
 
+    /**
+     * In this example, it's more important to understand what you *don't* have to do, rather
+     * than the work you explicitly have to do. Sometimes indexes just do the right thing...
+     */
     @Test
-    public void shouldKeepDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
+    public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
         GraphDatabaseService db = universe.getDatabase();
-
-        Index<Node> enemies = db.index().forNodes("characters");
-        Node cyberleader = enemies.get("name", "Cyberleader").getSingle();
+        Node cyberleader = retriveCyberleaderFromIndex(db);
 
         // SNIPPET_START
 
@@ -106,7 +108,8 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        assertNull("Cyberleader has not been deleted from the characters index.", enemies.get("name", "Cyberleader").getSingle());
+        
+        assertNull("Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex(db));
 
         try {
             db.getNodeById(cyberleader.getId());
@@ -115,18 +118,7 @@ public class Koan03 {
         }
     }
 
-    private Node createNewCharacterNode(String characterName) {
-        Node character = null;
-        GraphDatabaseService db = universe.getDatabase();
-        Transaction tx = db.beginTx();
-        try {
-            character = db.createNode();
-            character.setProperty("name", characterName);
-            tx.success();
-        } finally {
-            tx.finish();
-        }
-
-        return character;
+    private Node retriveCyberleaderFromIndex(GraphDatabaseService db) {
+        return db.index().forNodes("characters").get("name", "Cyberleader").getSingle();
     }
 }
