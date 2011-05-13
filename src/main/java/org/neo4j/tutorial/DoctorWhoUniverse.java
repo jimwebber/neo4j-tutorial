@@ -64,6 +64,6 @@ public class DoctorWhoUniverse {
     }
 
     public void stop() {
-        db.shutdown();
+        if(db!= null) db.shutdown();
     }
 }
