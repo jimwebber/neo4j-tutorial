@@ -11,7 +11,7 @@ import org.junit.Test;
 public class Koan01 {
     @Test
     public void justEmitsThePathToTheDatabase() throws Exception {
-        DoctorWhoUniverse universe = new DoctorWhoUniverse();
+        DoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse();
         assertNotNull(universe.getDatabase());
     }
 }

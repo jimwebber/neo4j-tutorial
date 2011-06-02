@@ -15,20 +15,18 @@ public class PlanetBuilder {
         this.planetName = planetName;
     }
 
-    public void fact(DoctorWhoUniverse universe) {
-        ensurePlanetInDb(planetName, universe);
+    public void fact(GraphDatabaseService db) {
+        ensurePlanetInDb(planetName, db);
     }
 
-    public static Node ensurePlanetInDb(String planet, DoctorWhoUniverse universe) {
+    public static Node ensurePlanetInDb(String planet, GraphDatabaseService db) {
 
-        GraphDatabaseService db = universe.getDatabase();
-
-        Node planetNode = universe.getDatabase().index().forNodes("planets").get("planet", planet).getSingle();
+        Node planetNode = db.index().forNodes("planets").get("planet", planet).getSingle();
 
         if (planetNode == null) {
             planetNode = db.createNode();
             planetNode.setProperty("planet", planet);
-            universe.getDatabase().index().forNodes("planets").add(planetNode, "planet", planet);
+            db.index().forNodes("planets").add(planetNode, "planet", planet);
         }
 
         return planetNode;

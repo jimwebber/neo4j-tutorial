@@ -27,7 +27,7 @@ public class Koan04 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new DoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse();
     }
     
     @AfterClass
