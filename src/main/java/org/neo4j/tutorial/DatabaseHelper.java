@@ -26,8 +26,12 @@ public class DatabaseHelper {
     public static EmbeddedGraphDatabase createDatabase() {
         return new EmbeddedGraphDatabase(createTempDatabaseDir().getAbsolutePath());
     }
+    
+    public static EmbeddedGraphDatabase createDatabase(String dbDir) {
+		return new EmbeddedGraphDatabase(dbDir);
+    }
 
-    private static File createTempDatabaseDir() {
+    public static File createTempDatabaseDir() {
 
         File d;
         try {
