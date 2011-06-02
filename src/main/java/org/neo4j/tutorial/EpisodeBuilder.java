@@ -115,7 +115,7 @@ public class EpisodeBuilder {
     private Node ensureEpisodeNodeInDb(DoctorWhoUniverse universe) {
         GraphDatabaseService db = universe.getDatabase();
        
-        Node episode = universe.episodeIndex.get("title", this.title).getSingle();
+        Node episode = universe.getDatabase().index().forNodes("episodes").get("title", this.title).getSingle();
         
         if (episode == null) {
             episode = db.createNode();
@@ -123,8 +123,8 @@ public class EpisodeBuilder {
             episode.setProperty("title", title);
         }
 
-        universe.episodeIndex.add(episode, "title", title);
-        universe.episodeIndex.add(episode, "episode", episodeNumber);
+        universe.getDatabase().index().forNodes("episodes").add(episode, "title", title);
+        universe.getDatabase().index().forNodes("episodes").add(episode, "episode", episodeNumber);
         
         return episode;
     }

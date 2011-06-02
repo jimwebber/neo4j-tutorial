@@ -55,7 +55,7 @@ public class DoctorWhoUniverseTest {
     @SuppressWarnings("unused")
     @Test
     public void shouldHaveCorrectNumberOfPlanetsInIndex() {
-        IndexHits<Node> indexHits = universe.planetIndex.query("planet", "*");
+        IndexHits<Node> indexHits = universe.getDatabase().index().forNodes("planets").query("planet", "*");
         int planetCount = 0;
         for (Node n : indexHits) {
             planetCount++;
@@ -67,7 +67,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberOfHumans() {
-        Node humanSpeciesNode = universe.speciesIndex.get("species", "Human").getSingle();
+        Node humanSpeciesNode = universe.getDatabase().index().forNodes("species").get("species", "Human").getSingle();
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
         int knownNumberOfHumans = 46;
@@ -76,7 +76,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldBe6Timelords() {
-        Node timelordSpeciesNode = universe.speciesIndex.get("species", "Timelord").getSingle();
+        Node timelordSpeciesNode = universe.getDatabase().index().forNodes("species").get("species", "Timelord").getSingle();
 
         int numberOfTimelordsInTheDb = databaseHelper.countRelationships(timelordSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
@@ -87,7 +87,7 @@ public class DoctorWhoUniverseTest {
     @SuppressWarnings("unused")
     @Test
     public void shouldHaveCorrectNumberOfSpecies() {
-        IndexHits<Node> indexHits = universe.speciesIndex.query("species", "*");
+        IndexHits<Node> indexHits = universe.getDatabase().index().forNodes("species").query("species", "*");
         int speciesCount = 0;
         for (Node n : indexHits) {
             speciesCount++;
@@ -150,7 +150,7 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldHave8Masters() {
         int numberOfMasters = 8;
-        Node theMaster = universe.characterIndex.get("name", "Master").getSingle();
+        Node theMaster = universe.getDatabase().index().forNodes("characters").get("name", "Master").getSingle();
 
         assertNotNull(theMaster);
         assertEquals(numberOfMasters, databaseHelper.countRelationships(theMaster.getRelationships(PLAYED, Direction.INCOMING)));
@@ -172,8 +172,8 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shortestPathBetweenDoctorAndMasterShouldBeLengthOneTypeEnemyOf() {
-        Node theMaster = universe.characterIndex.get("name", "Master").getSingle();
-        Node theDoctor = universe.characterIndex.get("name", "Doctor").getSingle();
+        Node theMaster = universe.getDatabase().index().forNodes("characters").get("name", "Master").getSingle();
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
 
         int maxDepth = 5; // No more than 5, or we find Kevin Bacon!
         PathFinder<Path> shortestPathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForAllTypes(), maxDepth);
@@ -212,7 +212,7 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldFindEnemiesOfTheMastersEnemies() {
 
-        Node theMaster = universe.characterIndex.get("name", "Master").getSingle();
+        Node theMaster = universe.getDatabase().index().forNodes("characters").get("name", "Master").getSingle();
         Node dalek = getSpeciesIndex().get("species", "Dalek").getSingle();
         Node cyberman = getSpeciesIndex().get("species", "Cyberman").getSingle();
         Node silurian = getSpeciesIndex().get("species", "Silurian").getSingle();

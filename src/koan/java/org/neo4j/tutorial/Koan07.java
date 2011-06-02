@@ -40,8 +40,8 @@ public class Koan07 {
 
     @Test
     public void shouldRevealTheEpisodesWhereRoseTylerFoughtTheDaleks() {
-        Node rose = universe.characterIndex.get("name", "Rose Tyler").getSingle();
-        Node daleks = universe.speciesIndex.get("species", "Dalek").getSingle();
+        Node rose = universe.getDatabase().index().forNodes("characters").get("name", "Rose Tyler").getSingle();
+        Node daleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
         Iterable<Path> paths = null;
         
         // SNIPPET_START
@@ -58,7 +58,7 @@ public class Koan07 {
         List<String> roseVersusDaleksEpisodeTitles = Arrays.asList("Dalek", "Army of Ghosts", "Doomsday", "The Parting of the Ways", "The Stolen Earth", "Bad Wolf", "Journey's End");
         HashSet<Node> roseVersusDaleksEpisodes = new HashSet<Node>();
         for(String title : roseVersusDaleksEpisodeTitles) {
-            roseVersusDaleksEpisodes.add(universe.episodeIndex.get("title", title).getSingle());
+            roseVersusDaleksEpisodes.add(universe.getDatabase().index().forNodes("episodes").get("title", title).getSingle());
         }
         return roseVersusDaleksEpisodes;
     }
@@ -66,8 +66,8 @@ public class Koan07 {
 
     @Test
     public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay() {
-        Node delgado = universe.actorIndex.get("actor", "Roger Delgado").getSingle();
-        Node simm = universe.actorIndex.get("actor", "John Simm").getSingle();
+        Node delgado = universe.getDatabase().index().forNodes("actors").get("actor", "Roger Delgado").getSingle();
+        Node simm = universe.getDatabase().index().forNodes("actors").get("actor", "John Simm").getSingle();
         Path path = null;
         
         // SNIPPET_START
@@ -85,8 +85,8 @@ public class Koan07 {
 
     @Test
     public void shouldRevealEpisodeWhenTennantRegeneratedToSmith() {
-        Node tennant = universe.actorIndex.get("actor", "David Tennant").getSingle();
-        Node smith = universe.actorIndex.get("actor", "Matt Smith").getSingle();
+        Node tennant = universe.getDatabase().index().forNodes("actors").get("actor", "David Tennant").getSingle();
+        Node smith = universe.getDatabase().index().forNodes("actors").get("actor", "Matt Smith").getSingle();
         Path path = null;
         
         // SNIPPET_START
@@ -97,7 +97,7 @@ public class Koan07 {
         // SNIPPET_END
 
         assertNotNull(path);
-        Node endOfTimeEpisode = universe.episodeIndex.get("title", "The End of Time").getSingle();
+        Node endOfTimeEpisode = universe.getDatabase().index().forNodes("episodes").get("title", "The End of Time").getSingle();
         assertThat(path, containsOnly(tennant, smith, endOfTimeEpisode));
     }
 }

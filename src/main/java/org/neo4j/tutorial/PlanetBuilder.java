@@ -23,12 +23,12 @@ public class PlanetBuilder {
 
         GraphDatabaseService db = universe.getDatabase();
 
-        Node planetNode = universe.planetIndex.get("planet", planet).getSingle();
+        Node planetNode = universe.getDatabase().index().forNodes("planets").get("planet", planet).getSingle();
 
         if (planetNode == null) {
             planetNode = db.createNode();
             planetNode.setProperty("planet", planet);
-            universe.planetIndex.add(planetNode, "planet", planet);
+            universe.getDatabase().index().forNodes("planets").add(planetNode, "planet", planet);
         }
 
         return planetNode;

@@ -5,6 +5,7 @@
 			<exclude module="jms"/>
 			<exclude module="jmxtools"/>
 			<exclude module="jmxri"/>
+			<exclude org="org.slf4j" name="slf4j-log4j12"/>
 		</dependency>
 		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.11.RELEASE"/>
 		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11.RELEASE"/>
