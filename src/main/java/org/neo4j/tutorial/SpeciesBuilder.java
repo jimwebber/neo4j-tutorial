@@ -20,17 +20,17 @@ public class SpeciesBuilder {
         this.speciesName = speciesName;
     }
 
-    public void fact(DoctorWhoUniverse universe) {
-        Node speciesNode = ensureSpeciesInDb(speciesName, universe);
+    public void fact(GraphDatabaseService db) {
+        Node speciesNode = ensureSpeciesInDb(speciesName, db);
 
         if (planet != null) {
-            Node planetNode = PlanetBuilder.ensurePlanetInDb(planet, universe);
+            Node planetNode = PlanetBuilder.ensurePlanetInDb(planet, db);
             ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.COMES_FROM, planetNode);
         }
 
         if (enemies != null) {
             for (String enemy : enemies) {
-                Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, universe);
+                Node enemyNode = CharacterBuilder.ensureCharacterIsInDb(enemy, db);
                 ensureRelationshipInDb(enemyNode, DoctorWhoUniverse.ENEMY_OF, speciesNode);
                 ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.ENEMY_OF, enemyNode);
             }
@@ -38,35 +38,33 @@ public class SpeciesBuilder {
 
         if (enemySpecies != null) {
             for (String eSpecies : enemySpecies) {
-                Node enemySpeciesNode = ensureSpeciesInDb(eSpecies, universe);
+                Node enemySpeciesNode = ensureSpeciesInDb(eSpecies, db);
                 ensureRelationshipInDb(enemySpeciesNode, DoctorWhoUniverse.ENEMY_OF, speciesNode);
                 ensureRelationshipInDb(speciesNode, DoctorWhoUniverse.ENEMY_OF, enemySpeciesNode);
             }
         }
     }
 
-    public static Node ensureSpeciesInDb(String theSpecies, DoctorWhoUniverse universe) {
-        ensureArgumentsAreSane(theSpecies, universe);
+    public static Node ensureSpeciesInDb(String theSpecies, GraphDatabaseService db) {
+        ensureArgumentsAreSane(theSpecies, db);
 
-        GraphDatabaseService db = universe.getDatabase();
-
-        Node speciesNode = universe.getDatabase().index().forNodes("species").get("species", theSpecies).getSingle();
+        Node speciesNode = db.index().forNodes("species").get("species", theSpecies).getSingle();
 
         if (speciesNode == null) {
             speciesNode = db.createNode();
             speciesNode.setProperty("species", theSpecies);
-            universe.getDatabase().index().forNodes("species").add(speciesNode, "species", theSpecies);
+            db.index().forNodes("species").add(speciesNode, "species", theSpecies);
         }
 
         return speciesNode;
     }
 
-    private static void ensureArgumentsAreSane(String theSpecies, DoctorWhoUniverse universe) {
+    private static void ensureArgumentsAreSane(String theSpecies, GraphDatabaseService db) {
         if (theSpecies == null) {
             throw new RuntimeException("Must provide a value for the species to the species builder");
         }
 
-        if (universe == null) {
+        if (db == null) {
             throw new RuntimeException("Must provide a value for the universe to the species builder");
         }
     }

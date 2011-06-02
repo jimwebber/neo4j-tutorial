@@ -30,7 +30,7 @@ public class Koan07 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new DoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse();
     }
 
     @AfterClass

@@ -42,7 +42,7 @@ public class DoctorWhoUniverseTest {
 
     @BeforeClass
     public static void startDatabase() throws Exception {
-        universe = new DoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse();
         database = universe.getDatabase();
         databaseHelper = new DatabaseHelper(database);
     }
@@ -102,7 +102,7 @@ public class DoctorWhoUniverseTest {
         int numberOfDoctors = 12; // 12 Because the first doctor was played by 2
                                   // actors over the course of the franchise
 
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
         assertNotNull(theDoctor);
         assertEquals(numberOfDoctors, databaseHelper.countRelationships(theDoctor.getRelationships(PLAYED, Direction.INCOMING)));
     }
@@ -200,7 +200,7 @@ public class DoctorWhoUniverseTest {
     }
 
     private boolean containsTheDoctor(Iterable<Relationship> enemiesOf) {
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
         for (Relationship r : enemiesOf) {
             if (r.getEndNode().equals(theDoctor)) {
                 return true;
@@ -260,8 +260,8 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldBeCorrectNumberOfEnemySpecies() {
         int numberOfEnemySpecies = 41;
-        Node theDoctor = universe.theDoctor();
-
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
+        
         Iterable<Relationship> relationships = theDoctor.getRelationships(ENEMY_OF, Direction.INCOMING);
         int enemySpeciesFound = 0;
         for (Relationship rel : relationships) {
@@ -277,7 +277,7 @@ public class DoctorWhoUniverseTest {
     public void shouldHaveCorrectNumberOfCompanionsInTotal() {
         int numberOfCompanions = 45;
 
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
         assertNotNull(theDoctor);
 
         assertEquals(numberOfCompanions, databaseHelper.countRelationships(theDoctor.getRelationships(COMPANION_OF, Direction.INCOMING)));
@@ -287,7 +287,7 @@ public class DoctorWhoUniverseTest {
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
         int numberOfEnemies = 98;
 
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
         assertNotNull(theDoctor);
 
         int count = 0;

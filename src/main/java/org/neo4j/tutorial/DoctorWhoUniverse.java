@@ -4,9 +4,8 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.index.Index;
 
-public class DoctorWhoUniverse {
+public abstract class DoctorWhoUniverse {
 
     public static final RelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
     public static final RelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
@@ -20,48 +19,43 @@ public class DoctorWhoUniverse {
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
 
     private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
-    private final GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
-
+    
     public DoctorWhoUniverse() {
-        addCharacters();
-        addSpecies();
-        addPlanets();
-        addEpisodes();
+    	GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
+        addCharacters(db);
+        addSpecies(db);
+        addPlanets(db);
+        addEpisodes(db);
+        db.shutdown();
     }
 
-    private void addEpisodes() {
-        Episodes episodes = new Episodes(this);
+    private void addEpisodes(GraphDatabaseService db) {
+        Episodes episodes = new Episodes(db);
         episodes.insert();
     }
 
-    private void addCharacters() {
-        Characters characters = new Characters(this);
+    private void addCharacters(GraphDatabaseService db) {
+        Characters characters = new Characters(db);
         characters.insert();
     }
 
-    private void addSpecies() {
-        Species species = new Species(this);
+    private void addSpecies(GraphDatabaseService db) {
+        Species species = new Species(db);
         species.insert();
     }
 
-    private void addPlanets() {
-        Planets planets = new Planets(this);
+    private void addPlanets(GraphDatabaseService db) {
+        Planets planets = new Planets(db);
         planets.insert();
     }
-
-    public Node theDoctor() {
-        return db.index().forNodes("characters").get("name", "Doctor").getSingle();
-    }
-
-    public GraphDatabaseService getDatabase() {
-        return db;
-    }
     
-    public String getDatabaseDirectory() {
+    protected final String getDatabaseDirectory() {
     	return dbDir;
     }
 
-    public void stop() {
-        if(db!= null) db.shutdown();
-    }
+    abstract Node theDoctor();
+
+    abstract GraphDatabaseService getDatabase();
+
+    abstract void stop();
 }

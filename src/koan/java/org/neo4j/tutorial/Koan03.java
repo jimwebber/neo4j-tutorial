@@ -29,7 +29,7 @@ public class Koan03 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new DoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse();
     }
     
     @AfterClass
@@ -56,7 +56,7 @@ public class Koan03 {
         GraphDatabaseService db = universe.getDatabase();
 
         Transaction tx = db.beginTx();
-        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", universe);
+        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", db);
 
         // SNIPPET_START
 

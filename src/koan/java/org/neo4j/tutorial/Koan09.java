@@ -19,7 +19,7 @@ public class Koan09 {
 
 	@BeforeClass
 	public static void createDatabase() throws Exception {
-		DoctorWhoUniverse universe = new DoctorWhoUniverse();
+		DoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse();
 		universe.stop();
 		
 		server = ServerBuilder.server()
