@@ -19,15 +19,8 @@ public class DoctorWhoUniverse {
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
 
-    private String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
-    private GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
-
-    Index<Node> characterIndex = db.index().forNodes("characters");
-    Index<Node> planetIndex = db.index().forNodes("planets");
-    Index<Node> speciesIndex = db.index().forNodes("species");
-    Index<Node> thingsIndex = db.index().forNodes("things");
-    Index<Node> actorIndex = db.index().forNodes("actors");
-    Index<Node> episodeIndex = db.index().forNodes("episodes");
+    private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
+    private final GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
 
     public DoctorWhoUniverse() {
         addCharacters();
@@ -57,7 +50,7 @@ public class DoctorWhoUniverse {
     }
 
     public Node theDoctor() {
-        return characterIndex.get("name", "Doctor").getSingle();
+        return db.index().forNodes("characters").get("name", "Doctor").getSingle();
     }
 
     public GraphDatabaseService getDatabase() {

@@ -53,7 +53,7 @@ public class Koan08 {
         aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
         final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation(universe.speciesIndex.get("species", "Cyberman").getSingle());
+        theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
         theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
         theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
@@ -93,7 +93,7 @@ public class Koan08 {
         aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
         final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation(universe.speciesIndex.get("species", "Cyberman").getSingle());
+        theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
         theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
         theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
@@ -119,10 +119,10 @@ public class Koan08 {
         theDoctor.setAssociation(universe.theDoctor());
 
         final PatternNode ecclestone = new PatternNode();
-        ecclestone.setAssociation(universe.actorIndex.get("actor", "Christopher Eccleston").getSingle());
+        ecclestone.setAssociation(universe.getDatabase().index().forNodes("actors").get("actor", "Christopher Eccleston").getSingle());
 
         final PatternNode roseTyler = new PatternNode();
-        roseTyler.setAssociation(universe.characterIndex.get("name", "Rose Tyler").getSingle());
+        roseTyler.setAssociation(universe.getDatabase().index().forNodes("characters").get("name", "Rose Tyler").getSingle());
 
         final PatternNode anEpisode = new PatternNode();
         anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());

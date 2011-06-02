@@ -103,7 +103,7 @@ public class CharacterBuilder {
             }
             
             ensureRelationshipInDb(theActorNode, DoctorWhoUniverse.PLAYED, characterNode);
-            universe.actorIndex.add(theActorNode, "actor", actor);
+            universe.getDatabase().index().forNodes("actors").add(theActorNode, "actor", actor);
 
             if (previousActorNode != null) {
                 ensureRelationshipInDb(previousActorNode, DoctorWhoUniverse.REGENERATED_TO, theActorNode);

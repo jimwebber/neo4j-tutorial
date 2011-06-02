@@ -50,12 +50,12 @@ public class SpeciesBuilder {
 
         GraphDatabaseService db = universe.getDatabase();
 
-        Node speciesNode = universe.speciesIndex.get("species", theSpecies).getSingle();
+        Node speciesNode = universe.getDatabase().index().forNodes("species").get("species", theSpecies).getSingle();
 
         if (speciesNode == null) {
             speciesNode = db.createNode();
             speciesNode.setProperty("species", theSpecies);
-            universe.speciesIndex.add(speciesNode, "species", theSpecies);
+            universe.getDatabase().index().forNodes("species").add(speciesNode, "species", theSpecies);
         }
 
         return speciesNode;
