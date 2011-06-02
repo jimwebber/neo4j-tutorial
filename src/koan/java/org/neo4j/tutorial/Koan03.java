@@ -53,12 +53,13 @@ public class Koan03 {
 
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
-        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", universe);
-
         GraphDatabaseService db = universe.getDatabase();
-        // SNIPPET_START
 
         Transaction tx = db.beginTx();
+        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", universe);
+
+        // SNIPPET_START
+
         try {
             db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
             tx.success();
