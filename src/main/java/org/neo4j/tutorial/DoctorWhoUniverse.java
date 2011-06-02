@@ -19,7 +19,8 @@ public class DoctorWhoUniverse {
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
 
-    private GraphDatabaseService db = DatabaseHelper.createDatabase();
+    private String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
+    private GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
 
     Index<Node> characterIndex = db.index().forNodes("characters");
     Index<Node> planetIndex = db.index().forNodes("planets");
@@ -61,6 +62,10 @@ public class DoctorWhoUniverse {
 
     public GraphDatabaseService getDatabase() {
         return db;
+    }
+    
+    public String getDatabaseDirectory() {
+    	return dbDir;
     }
 
     public void stop() {

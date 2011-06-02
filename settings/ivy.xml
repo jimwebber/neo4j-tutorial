@@ -8,6 +8,7 @@
 		</dependency>
 		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.11.RELEASE"/>
 		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11.RELEASE"/>
+		<dependency org="org.neo4j.app" name="neo4j-server" rev="1.3"/>
 		<dependency org="org.neo4j" name="neo4j-community" rev="1.3"/>
 		<dependency org="org.neo4j" name="neo4j-shell" rev="1.3"/>
 		<dependency org="org.neo4j" name="neo4j-graph-matching" rev="0.8"/>
