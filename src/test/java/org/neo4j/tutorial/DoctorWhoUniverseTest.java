@@ -36,7 +36,7 @@ import org.neo4j.kernel.Uniqueness;
  */
 public class DoctorWhoUniverseTest {
 
-    private static DoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
     private static GraphDatabaseService database;
     private static DatabaseHelper databaseHelper;
 

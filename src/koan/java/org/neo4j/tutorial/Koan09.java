@@ -1,37 +1,28 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.server.NeoServer;
-import org.neo4j.tutorial.server.ServerBuilder;
 
 /**
  * In this Koan we use the REST API to explore the Doctor Who universe.
  */
 public class Koan09 {
 
-	private static NeoServer server;
+	private static DoctorWhoUniverse universe;
 
 	@BeforeClass
 	public static void createDatabase() throws Exception {
-		DoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse();
-		universe.stop();
-		
-		server = ServerBuilder.server()
-				.usingDatabaseDir(universe.getDatabaseDirectory())
-				.withPassingStartupHealthcheck().withDefaultDatabaseTuning()
-				.build();
-		server.start();
+		universe = new ServerDoctorWhoUniverse();
 	}
 
 	@AfterClass
 	public static void closeTheDatabase() {
-		server.stop();
+		universe.stop();
 	}
 
 	@Test
