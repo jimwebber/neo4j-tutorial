@@ -22,7 +22,7 @@ import org.neo4j.graphdb.Traverser.Order;
  */
 public class Koan05 {
 
-    private static DoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception {

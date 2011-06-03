@@ -55,7 +55,5 @@ public abstract class DoctorWhoUniverse {
 
     abstract Node theDoctor();
 
-    abstract GraphDatabaseService getDatabase();
-
     abstract void stop();
 }

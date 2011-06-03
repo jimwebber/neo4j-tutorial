@@ -25,7 +25,7 @@ import org.neo4j.graphdb.index.IndexHits;
  */
 public class Koan03 {
 
-    private static DoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception {

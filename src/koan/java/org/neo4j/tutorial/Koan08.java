@@ -22,7 +22,7 @@ import org.neo4j.graphmatching.PatternNode;
  */
 public class Koan08 {
 
-    private static DoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception {
