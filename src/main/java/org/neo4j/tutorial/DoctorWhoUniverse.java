@@ -2,10 +2,9 @@ package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
 
-public abstract class DoctorWhoUniverse {
+public abstract class DoctorWhoUniverse<T> {
 
     public static final RelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
     public static final RelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
@@ -53,7 +52,7 @@ public abstract class DoctorWhoUniverse {
     	return dbDir;
     }
 
-    abstract Node theDoctor();
+    abstract T theDoctor();
 
     abstract void stop();
 }

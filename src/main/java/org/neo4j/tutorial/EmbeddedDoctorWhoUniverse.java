@@ -3,7 +3,7 @@ package org.neo4j.tutorial;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
-public class EmbeddedDoctorWhoUniverse extends DoctorWhoUniverse {
+public class EmbeddedDoctorWhoUniverse extends DoctorWhoUniverse<Node> {
 	
 	private final GraphDatabaseService db = DatabaseHelper.createDatabase(getDatabaseDirectory());
 

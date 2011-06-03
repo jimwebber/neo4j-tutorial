@@ -21,7 +21,7 @@ import org.neo4j.kernel.Traversal;
  */
 public class Koan06 {
 
-    private static DoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception {
