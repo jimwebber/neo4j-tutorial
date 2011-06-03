@@ -2,21 +2,15 @@ package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.server.rest.domain.JsonHelper;
-import org.neo4j.server.rest.domain.JsonParseException;
-import org.neo4j.tutorial.server.rest.FunctionalTestHelper;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
