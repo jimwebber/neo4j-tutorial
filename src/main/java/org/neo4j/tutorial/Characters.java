@@ -33,6 +33,8 @@ public class Characters {
         character("Master")
                 .regenerationSequence("Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley", "Gordon Tipple", "Eric Roberts", "Derek Jacobi",
                         "John Simm").isEnemy().isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(db);
+        character("Rani").isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(db);
+        character("Meddling Monk").isA("Timelord").isFrom("Gallifrey").owns("Tardis").fact(db);
         character("Helen A").isA("Human").isFrom("Terra Alpha").isEnemy().fact(db);
         character("Abzorbaloff").isA("Abrobvian").isFrom("Clom").isEnemy().fact(db);
         character("Beast").isA("Devil").isEnemy().fact(db);
