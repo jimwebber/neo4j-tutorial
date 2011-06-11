@@ -371,7 +371,7 @@ public class Episodes {
         episode(14).title("The Crusade").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(15).title("The Space Museum").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(16).title("The Chase").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor").enemySpecies("Dalek").fact(db);
-        episode(17).title("The Time Meddler").doctor("William Hartnell").companion("Vicki", "Steven Taylor").fact(db);
+        episode(17).title("The Time Meddler").doctor("William Hartnell").companion("Vicki", "Steven Taylor").enemy("Meddling Monk").fact(db);
     }
 
     private void season01() {
