@@ -34,7 +34,7 @@ public class Koan06 {
     }
 
     @Test
-    public void shouldDiscoverHowManyTimesTheDoctorHasRegenerated() throws Exception {
+    public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception {
         Node theDoctor = universe.theDoctor();
         Traverser traverser = null;
 
