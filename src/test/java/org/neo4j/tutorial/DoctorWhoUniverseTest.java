@@ -75,12 +75,12 @@ public class DoctorWhoUniverseTest {
     }
 
     @Test
-    public void shouldBe6Timelords() {
+    public void shouldBe8Timelords() {
         Node timelordSpeciesNode = universe.getDatabase().index().forNodes("species").get("species", "Timelord").getSingle();
 
         int numberOfTimelordsInTheDb = databaseHelper.countRelationships(timelordSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
 
-        int knownNumberOfTimelords = 6;
+        int knownNumberOfTimelords = 8;
         assertEquals(knownNumberOfTimelords, numberOfTimelordsInTheDb);
     }
 
@@ -180,7 +180,7 @@ public class DoctorWhoUniverseTest {
 
         Path shortestPath = shortestPathFinder.findSinglePath(theDoctor, theMaster);
         assertEquals(1, shortestPath.length());
-        assertEquals(DoctorWhoUniverse.ENEMY_OF, shortestPath.lastRelationship().getType());
+        assertTrue(shortestPath.lastRelationship().isType(DoctorWhoUniverse.ENEMY_OF));
     }
 
     @Test
@@ -240,7 +240,7 @@ public class DoctorWhoUniverseTest {
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes(nodes);
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 138;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 139;
         assertEquals(numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size());
         assertTrue(isInList(dalek, enemiesOfEnemies));
         assertTrue(isInList(cyberman, enemiesOfEnemies));
@@ -285,7 +285,7 @@ public class DoctorWhoUniverseTest {
 
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal() {
-        int numberOfEnemies = 98;
+        int numberOfEnemies = 99;
 
         Node theDoctor = universe.getDatabase().index().forNodes("characters").get("name", "Doctor").getSingle();
         assertNotNull(theDoctor);

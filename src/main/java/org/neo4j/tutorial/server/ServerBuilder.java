@@ -1,13 +1,11 @@
 package org.neo4j.tutorial.server;
 
-import org.neo4j.server.AddressResolver;
-import org.neo4j.server.NeoServerBootstrapper;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
-import org.neo4j.server.configuration.Configurator;
-import org.neo4j.server.modules.ServerModule;
-import org.neo4j.server.startup.healthcheck.StartupHealthCheck;
-import org.neo4j.server.startup.healthcheck.StartupHealthCheckRule;
-import org.neo4j.server.web.Jetty6WebServer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempDir;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempPropertyFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertiesToFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertyToFile;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,9 +19,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.neo4j.tutorial.server.ServerTestUtils.*;
+import org.neo4j.server.AddressResolver;
+import org.neo4j.server.NeoServerBootstrapper;
+import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.configuration.Configurator;
+import org.neo4j.server.configuration.PropertyFileConfigurator;
+import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecifiedRule;
+import org.neo4j.server.configuration.validation.Validator;
+import org.neo4j.server.modules.ServerModule;
+import org.neo4j.server.startup.healthcheck.StartupHealthCheck;
+import org.neo4j.server.startup.healthcheck.StartupHealthCheckRule;
+import org.neo4j.server.web.Jetty6WebServer;
 
 public class ServerBuilder {
 
@@ -53,7 +59,7 @@ public class ServerBuilder {
         }
         File f = createPropertiesFiles();
         
-        return new NeoServerWithEmbeddedWebServer(new NeoServerBootstrapper(), addressResolver, startupHealthCheck, f, new Jetty6WebServer(), serverModules);
+        return new NeoServerWithEmbeddedWebServer(new NeoServerBootstrapper(), addressResolver, startupHealthCheck, new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), f ), new Jetty6WebServer(), serverModules);
     }
     
 
@@ -72,7 +78,7 @@ public class ServerBuilder {
             writePropertyToFile(Configurator.WEBSERVER_PORT_PROPERTY_KEY, portNo, temporaryConfigFile);
         }
         writePropertyToFile(Configurator.MANAGEMENT_PATH_PROPERTY_KEY, webAdminUri, temporaryConfigFile);
-        writePropertyToFile(Configurator.DATA_API_PATH_PROPERTY_KEY, webAdminDataUri, temporaryConfigFile);
+        writePropertyToFile(Configurator.REST_API_PATH_PROPERTY_KEY, webAdminDataUri, temporaryConfigFile);
         
         if (thirdPartyPackages.keySet().size() > 0) {
             writePropertiesToFile(Configurator.THIRD_PARTY_PACKAGES_KEY, thirdPartyPackages, temporaryConfigFile);
