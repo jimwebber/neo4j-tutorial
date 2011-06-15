@@ -83,7 +83,6 @@ public class Koan09 {
 			System.out.println(result.getActor() + ": " + result.getEpisode());
 		}
 	}
-	
 
 }
 		

@@ -40,8 +40,10 @@ public class Koan06 {
 
         // SNIPPET_START
 
-        traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
-                .evaluator(new Evaluator() {
+        traverser = Traversal.description()
+        		.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+        		.breadthFirst()
+        		.evaluator(new Evaluator() {
                     @Override
                     public Evaluation evaluate(Path path) {
                         if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
@@ -64,7 +66,9 @@ public class Koan06 {
 
         // SNIPPET_START
 
-        traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.PLAYED, Direction.INCOMING)).depthFirst()
+        traverser = Traversal.description()
+        		.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+        		.depthFirst()
                 .evaluator(new Evaluator() {
                     @Override
                     public Evaluation evaluate(Path path) {

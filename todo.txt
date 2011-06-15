@@ -1,0 +1,4 @@
+PDF of presentation
+Poorly isolated tests
+Koan 6: how many incarnations
+Change DoctorWhoUniverse to use composition rather than inheritance
