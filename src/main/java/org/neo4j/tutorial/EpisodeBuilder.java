@@ -151,6 +151,7 @@ public class EpisodeBuilder {
         Node doctorActorNode = db.createNode();
         doctorActorNode.setProperty("actor", doctorActor);
         doctorActorNode.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+        db.index().forNodes("actors").add(doctorActorNode, "actor", doctorActor);
         return doctorActorNode;
     }
 

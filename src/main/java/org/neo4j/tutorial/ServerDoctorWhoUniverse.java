@@ -43,7 +43,7 @@ public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object
 	Map<String,Object> theDoctor() {
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		WebResource resource = client.resource(getDoctorUri());
+		WebResource resource = client.resource(getUriFromIndex("characters", "name", "Doctor"));
 		String response = resource.accept(MediaType.APPLICATION_JSON).get(
 				String.class);
 		try {
@@ -52,18 +52,18 @@ public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object
 			throw new RuntimeException("Invalid response when looking up Doctor node");
 		}
 	}
-
-	private String getDoctorUri() {
+	
+	public String getUriFromIndex(String indexName, String key, String value) {
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 		WebResource resource = client.resource(new FunctionalTestHelper(server)
-				.indexNodeUri("characters", "name", "Doctor"));
+				.indexNodeUri(indexName, key, value));
 		String response = resource.accept(MediaType.APPLICATION_JSON).get(
 				String.class);
 		try {
 			return JsonHelper.jsonToList(response).get(0).get("self").toString();
 		} catch (JsonParseException e) {
-			throw new RuntimeException("Invalid response when looking up Doctor node");
+			throw new RuntimeException("Invalid response when looking up node");
 		}
 	}
 
