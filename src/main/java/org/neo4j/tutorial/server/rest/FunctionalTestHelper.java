@@ -6,6 +6,8 @@ import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public final class FunctionalTestHelper {
     private final NeoServerWithEmbeddedWebServer server;
@@ -91,11 +93,15 @@ public final class FunctionalTestHelper {
     }
 
     public String indexNodeUri(String indexName, String key, Object value) {
-        return indexNodeUri(indexName) + "/" + key + "/" + value;
+        return indexNodeUri(indexName) + "/" + key + "/" + value.toString().replace(" ", "%20");
     }
 
-    public String indexRelationshipUri(String indexName, String key, Object value) {
-        return indexRelationshipUri(indexName) + "/" + key + "/" + value;
+    public String indexRelationshipUri(String indexName, String key, Object value) {   	
+        try {
+			return indexRelationshipUri(indexName) + "/" + key + "/" + URLEncoder.encode(value.toString(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return indexRelationshipUri(indexName) + "/" + key + "/" + value;
+		}
     }
 
     public String extensionUri() {
