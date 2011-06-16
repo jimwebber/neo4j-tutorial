@@ -41,9 +41,13 @@ public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object
 
 	@Override
 	Map<String,Object> theDoctor() {
+		return getJsonFor(getUriFromIndex("characters", "name", "Doctor"));
+	}
+	
+	public Map<String,Object> getJsonFor(String uri){
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		WebResource resource = client.resource(getUriFromIndex("characters", "name", "Doctor"));
+		WebResource resource = client.resource(uri);
 		String response = resource.accept(MediaType.APPLICATION_JSON).get(
 				String.class);
 		try {
