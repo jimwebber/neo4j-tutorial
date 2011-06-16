@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,15 @@ import javax.ws.rs.core.MediaType;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.DynamicRelationshipType;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphmatching.CommonValueMatchers;
+import org.neo4j.graphmatching.PatternMatch;
+import org.neo4j.graphmatching.PatternMatcher;
+import org.neo4j.graphmatching.PatternNode;
 import org.neo4j.helpers.collection.MapUtil;
+import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
 import org.neo4j.tutorial.server.rest.RelationshipDescription;
@@ -93,36 +102,68 @@ public class Koan09 {
 
 	@Test
 	public void canAddFirstAndSecondIncarnationInformationForTheDoctor() {
-		String REGENERATED_TO = "REGENERATED_TO";
 		String PLAYED = "PLAYED";
-		
-		String theDoctorUri = universe.theDoctor().get("self").toString();
-		String williamHartnellUri = universe.getUriFromIndex("actors", "actor", "William Hartnell") + "/relationships";
-		String richardHurdnallUri = universe.getUriFromIndex("actors", "actor", "Richard Hurdnall") + "/relationships";
-		String patrickTroughtonUri = universe.getUriFromIndex("actors", "actor", "Patrick Troughton") + "/relationships";
+		String INCARNATION_OF = "INCARNATION_OF";
 
+		String theDoctorUri = universe.theDoctor().get("self").toString();
+		
+		Map<String,Object> williamHartnell = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "William Hartnell"));
+		Map<String,Object> richardHurdnall = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
+		Map<String,Object> patrickTroughton = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
+		
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 
 		BatchCommandBuilder cmds = new BatchCommandBuilder();
 
-		cmds.createNode(0, MapUtil.stringMap("incarnation","First Doctor"))
-				.createNode(1, MapUtil.stringMap("incarnation","Second Doctor"))
-				.createRelationship("{0}/relationships", "{1}", REGENERATED_TO, null)
-				.createRelationship("{0}/relationships", theDoctorUri, REGENERATED_TO, null)
-				.createRelationship("{1}/relationships", theDoctorUri, REGENERATED_TO, null)
-				.createRelationship(williamHartnellUri, "{0}", PLAYED, null)
-				.createRelationship(richardHurdnallUri, "{0}", PLAYED, null)
-				.createRelationship(patrickTroughtonUri, "{0}", PLAYED, null);
-		
-		System.out.println(cmds.build());
+		cmds
+				.createNode(0, MapUtil.stringMap("incarnation", "First Doctor"))
+				.createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
+				.createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF)
+				.createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
+				.createRelationship(williamHartnell.get("create_relationship").toString(), "{0}", PLAYED)
+				.createRelationship(richardHurdnall.get("create_relationship").toString(), "{0}", PLAYED)
+				.createRelationship(patrickTroughton.get("create_relationship").toString(), "{1}", PLAYED);
 
-		WebResource resource = client
-				.resource("http://localhost:7474/db/data/batch");
-		String response = resource.accept(MediaType.APPLICATION_JSON)
+		WebResource resource = client.resource("http://localhost:7474/db/data/batch");
+		resource.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON)
 				.post(String.class, cmds.build());
 
-		System.out.println(response);
+		assertFirstAndSecondDoctorCreatedAndLinkedToActors(universe.getServer().getDatabase().graph);
+
+	}
+
+	private void assertFirstAndSecondDoctorCreatedAndLinkedToActors(AbstractGraphDatabase db) {
+		Node doctorNode = db.getNodeById(1);
+
+		final PatternNode theDoctor = new PatternNode();
+		theDoctor.addPropertyConstraint("name", CommonValueMatchers.exact("Doctor"));
+
+		final PatternNode firstDoctor = new PatternNode();
+		firstDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("First Doctor"));
+
+		final PatternNode secondDoctor = new PatternNode();
+		secondDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("Second Doctor"));
+
+		final PatternNode williamHartell = new PatternNode();
+		williamHartell.addPropertyConstraint("actor", CommonValueMatchers.exact("William Hartnell"));
+
+		final PatternNode richardHurdnall = new PatternNode();
+		richardHurdnall.addPropertyConstraint("actor", CommonValueMatchers.exact("Richard Hurdnall"));
+
+		final PatternNode patrickTroughton = new PatternNode();
+		patrickTroughton.addPropertyConstraint("actor", CommonValueMatchers.exact("Patrick Troughton"));
+
+		firstDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
+		secondDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
+		williamHartell.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+		richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+		patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+
+		PatternMatcher matcher = PatternMatcher.getMatcher();
+		final Iterable<PatternMatch> matches = matcher.match(theDoctor, doctorNode);
+
+		assertTrue(matches.iterator().hasNext());
 	}
 }

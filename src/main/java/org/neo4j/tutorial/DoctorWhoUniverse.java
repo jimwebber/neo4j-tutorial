@@ -16,7 +16,7 @@ public abstract class DoctorWhoUniverse<T> {
     public static final RelationshipType LOVES = DynamicRelationshipType.withName("LOVES");
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
-
+    
     private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
     
     public DoctorWhoUniverse() {
