@@ -28,6 +28,7 @@ import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResult;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResults;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -73,11 +74,11 @@ public class Koan09 {
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 
-		String response = null;
+		ClientResponse response = null;
+		TraversalDescription traversal = new TraversalDescription();
 
 		// SNIPPET_START
 
-		TraversalDescription traversal = new TraversalDescription();
 		traversal.setOrder("depth first");
 		traversal.setUniqueness("node path");
 		traversal.setRelationships(
@@ -90,48 +91,76 @@ public class Koan09 {
 		response = resource
 				.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON)
-				.post(String.class, traversal.toJson());
+				.post(ClientResponse.class, traversal.toJson());
 
 		// SNIPPET_END
 
-		EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(response));
-		for (EpisodeSearchResult result : results) {
-			System.out.println(result.getActor() + ": " + result.getEpisode());
-		}
+		EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(response.getEntity(String.class)));
+		assertActorsAndInvasionEpisodes(results);
 	}
 
 	@Test
 	public void canAddFirstAndSecondIncarnationInformationForTheDoctor() {
+		
+		// We'd like to update the model to add a new domain entity - "incarnation".
+		// Timelords have one or more incarnations. In the TV series, an incarnation is played by one or
+		// more actors (usually one). Here we're going to use the REST batch API to add a bit of this new
+		// model. See the presentation for an example of the target graph structure.
+		
 		String PLAYED = "PLAYED";
 		String INCARNATION_OF = "INCARNATION_OF";
 
-		String theDoctorUri = universe.theDoctor().get("self").toString();
+		Map<String, Object> theDoctorJson = universe.theDoctor();
+		String theDoctorUri = theDoctorJson.get("self").toString();
 		
-		Map<String,Object> williamHartnell = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "William Hartnell"));
-		Map<String,Object> richardHurdnall = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
-		Map<String,Object> patrickTroughton = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
+		Map<String,Object> williamHartnellJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "William Hartnell"));
+		Map<String,Object> richardHurdnallJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
+		Map<String,Object> patrickTroughtonJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
 		
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 
 		BatchCommandBuilder cmds = new BatchCommandBuilder();
+		
+		// SNIPPET_START
 
 		cmds
 				.createNode(0, MapUtil.stringMap("incarnation", "First Doctor"))
 				.createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
 				.createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF)
 				.createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
-				.createRelationship(williamHartnell.get("create_relationship").toString(), "{0}", PLAYED)
-				.createRelationship(richardHurdnall.get("create_relationship").toString(), "{0}", PLAYED)
-				.createRelationship(patrickTroughton.get("create_relationship").toString(), "{1}", PLAYED);
+				.createRelationship(williamHartnellJson.get("create_relationship").toString(), "{0}", PLAYED)
+				.createRelationship(richardHurdnallJson.get("create_relationship").toString(), "{0}", PLAYED)
+				.createRelationship(patrickTroughtonJson.get("create_relationship").toString(), "{1}", PLAYED);
 
 		WebResource resource = client.resource("http://localhost:7474/db/data/batch");
 		resource.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON)
 				.post(String.class, cmds.build());
+		
+		// SNIPPET_END
 
 		assertFirstAndSecondDoctorCreatedAndLinkedToActors(universe.getServer().getDatabase().graph);
 
+	}
+	
+	private void assertActorsAndInvasionEpisodes(EpisodeSearchResults results){
+
+		Map<String, String> episodesAndActors = MapUtil.stringMap("The Christmas Invasion", "David Tennant", 
+				"The Invasion of Time", "Tom Baker",
+				"The Android Invasion", "Tom Baker",
+				"Invasion of the Dinosaurs", "Jon Pertwee", 
+				"The Invasion", "Patrick Troughton", 
+				"The Dalek Invasion of Earth", "William Hartnell");
+		
+		int count = 0;
+		for (EpisodeSearchResult result : results) {
+			assertTrue(episodesAndActors.containsKey(result.getEpisode()));
+			assertEquals(episodesAndActors.get(result.getEpisode()), result.getActor());
+			count++;
+		}
+		
+		assertEquals(episodesAndActors.keySet().size(), count);
 	}
 
 	private void assertFirstAndSecondDoctorCreatedAndLinkedToActors(AbstractGraphDatabase db) {
