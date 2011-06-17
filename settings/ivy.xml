@@ -12,7 +12,6 @@
 		<dependency org="org.neo4j.app" name="neo4j-server" rev="1.4.M04"/>
 		<dependency org="org.neo4j" name="neo4j-community" rev="1.4.M04"/>
 		<dependency org="org.neo4j" name="neo4j-shell" rev="1.4.M04"/>
-		<!--<dependency org="org.neo4j" name="neo4j-graph-matching" rev="0.8"/>-->
 		<dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.7.5"/>
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.7.5"/>
 		<dependency org="com.sun.jersey" name="jersey-client" rev="1.3"/>
