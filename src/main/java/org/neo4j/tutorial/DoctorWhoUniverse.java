@@ -16,6 +16,8 @@ public abstract class DoctorWhoUniverse<T> {
     public static final RelationshipType LOVES = DynamicRelationshipType.withName("LOVES");
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");
+    public static final RelationshipType SHOULDER = DynamicRelationshipType.withName("SHOULDER");
+    public static final RelationshipType SKIRT = DynamicRelationshipType.withName("SKIRT");
     
     private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
     
@@ -25,6 +27,7 @@ public abstract class DoctorWhoUniverse<T> {
         addSpecies(db);
         addPlanets(db);
         addEpisodes(db);
+        addDalekProps(db);
         db.shutdown();
     }
 
@@ -46,6 +49,11 @@ public abstract class DoctorWhoUniverse<T> {
     private void addPlanets(GraphDatabaseService db) {
         Planets planets = new Planets(db);
         planets.insert();
+    }
+    
+    private void addDalekProps(GraphDatabaseService db) {
+        DalekProps dalekProps = new DalekProps(db);
+        dalekProps.insert();
     }
     
     protected final String getDatabaseDirectory() {
