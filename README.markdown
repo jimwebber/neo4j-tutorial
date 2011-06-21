@@ -17,6 +17,12 @@ This tutorial is presented at conferences around the world. If you're interested
 
 [QCon Brazil](http://qconsp.com/workshop)
 
+[GOTO Aarhus](http://gotocon.com/aarhus-2011/presentations/show_presentation.jsp?oid=3293)
+
+[GOTO Amsterdam](http://gotocon.com/amsterdam-2011/training/)
+
+[Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial)
+
 Authors <a name="authors">
 -------
 
