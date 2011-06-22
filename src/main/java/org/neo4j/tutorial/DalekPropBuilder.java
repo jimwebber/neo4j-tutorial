@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.index.Index;
 
 public class DalekPropBuilder {
 	private final String episode;
@@ -20,18 +21,20 @@ public class DalekPropBuilder {
 		props = new ArrayList<Prop>();
 	}
 	
-	public DalekPropBuilder addProp(String shoulder, String skirt){
-		props.add(new Prop(shoulder, skirt));
+	public DalekPropBuilder addProp(String shoulder, String skirt, String name){
+		props.add(new Prop(shoulder, skirt, name));
 		return this;
 	}
 	
 	private class Prop{
 		private String shoulder;
 		private String skirt;
-		public Prop(String shoulder, String skirt) {
+		private String name;
+		public Prop(String shoulder, String skirt, String name) {
 			super();
 			this.shoulder = shoulder;
 			this.skirt = skirt;
+			this.name = name;
 		}
 		public String getShoulder() {
 			return shoulder;
@@ -39,43 +42,93 @@ public class DalekPropBuilder {
 		public String getSkirt() {
 			return skirt;
 		}
+		public String getName() {
+			return name;
+		}
 	}
 	
 	public void fact(GraphDatabaseService db) {
-		Node daleksNode = db.index().forNodes("species").get("species", "Dalek").getSingle();
+		Node dalekSpeciesNode = db.index().forNodes("species").get("species", "Dalek").getSingle();
         Node episodeNode = ensureEpisodeIsInDb(episode, db);
+        
+        Node episodePropsNode = db.createNode();
+        episodePropsNode.setProperty("props", "Daleks");
+        episodePropsNode.createRelationshipTo(episodeNode, DoctorWhoUniverse.APPEARED_IN);
+        
         for (Prop prop : props){
-        	Node propNode = db.createNode();
-        	propNode.setProperty("prop", "Dalek");
-        	propNode.createRelationshipTo(episodeNode, DoctorWhoUniverse.APPEARED_IN);
-        	propNode.createRelationshipTo(daleksNode, DoctorWhoUniverse.IS_A);
-        	
-        	if (prop.getShoulder() != null){
-        		Node shoulderNode = ensurePropExistsInDb(prop.getShoulder(), db);
-        		shoulderNode.createRelationshipTo(propNode, DoctorWhoUniverse.SHOULDER);
+        	if (isFullProp(prop)){
+        		Node currentDalekPropNode = ensurePropAppearsInDb(prop.getName(), db);
+            	currentDalekPropNode.createRelationshipTo(dalekSpeciesNode, DoctorWhoUniverse.IS_A);
+            	currentDalekPropNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+            	
+            	if (shoulderExists(prop)){
+            		Node shoulderNode = ensurePartExistsInDb(prop.getShoulder(), "shoulder", db);
+            		currentDalekPropNode.createRelationshipTo(shoulderNode, DoctorWhoUniverse.COMPOSED_OF);
+            	}
+            	
+            	if (skirtExists(prop)){
+            		Node skirtNode = ensurePartExistsInDb(prop.getSkirt(), "skirt", db);
+            		currentDalekPropNode.createRelationshipTo(skirtNode, DoctorWhoUniverse.COMPOSED_OF);
+            	}
+        	}
+        	else {
+        		if (shoulderExists(prop)){
+            		Node shoulderNode = ensurePartExistsInDb(prop.getShoulder(), "shoulder", db);
+            		shoulderNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+            	}
+            	
+            	if (skirtExists(prop)){
+            		Node skirtNode = ensurePartExistsInDb(prop.getSkirt(), "skirt", db);
+            		skirtNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+            	}
         	}
         	
-        	if (prop.getSkirt() != null){
-        		Node skirtNode = ensurePropExistsInDb(prop.getSkirt(), db);
-        		skirtNode.createRelationshipTo(propNode, DoctorWhoUniverse.SKIRT);
-        	}
         }
     }
+
+	private boolean skirtExists(Prop prop) {
+		return prop.getSkirt() != null;
+	}
+
+	private boolean shoulderExists(Prop prop) {
+		return prop.getShoulder() != null;
+	}
+
+	private boolean isFullProp(Prop prop) {
+		return prop.getName() != null;
+	}
 	
+	private Node ensurePartExistsInDb(String originalPropName, String part, GraphDatabaseService db) {
+		Index<Node> index = db.index().forNodes("props");
+		Node shoulderNode = index.get(part, originalPropName).getSingle();
+		if (shoulderNode == null){
+			shoulderNode = db.createNode();
+			shoulderNode.setProperty("part", part);
+			index.add(shoulderNode, part, originalPropName);
+			
+			Node originalDalekPropNode = ensurePropAppearsInDb(originalPropName, db);
+			shoulderNode.createRelationshipTo(originalDalekPropNode, DoctorWhoUniverse.ORIGINAL_PROP);
+		}
+		return shoulderNode;
+	}
+
+	private Node ensurePropAppearsInDb(String name, GraphDatabaseService db) {
+		Index<Node> index = db.index().forNodes("props");
+		Node dalekPropNode = index.get("prop", name).getSingle();
+		if (dalekPropNode == null){
+			dalekPropNode = db.createNode();
+			dalekPropNode.setProperty("prop", name);
+			index.add(dalekPropNode, "prop", name);
+		}
+		return dalekPropNode;
+	}
+
 	private Node ensureEpisodeIsInDb(String episode, GraphDatabaseService db){
-		Node episodeNode = db.index().forNodes("episodes").get("title", episode).getSingle();
+		Index<Node> index = db.index().forNodes("episodes");
+		Node episodeNode = index.get("title", episode).getSingle();
 		if (episodeNode == null){
 			throw new RuntimeException("Episode '" + episode + "' missing from database.");
 		}
 		return episodeNode;
-	}
-	
-	private Node ensurePropExistsInDb(String part, GraphDatabaseService db){
-		Node partNode = db.index().forNodes("props").get("part", part).getSingle();
-		if (partNode == null){
-			partNode = db.createNode();
-			partNode.setProperty("part", part);
-		}
-		return partNode;
 	}
 }
