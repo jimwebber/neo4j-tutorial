@@ -36,154 +36,145 @@ import com.sun.jersey.api.client.WebResource;
  */
 public class Koan09 {
 
-	private static ServerDoctorWhoUniverse universe;
+    private static ServerDoctorWhoUniverse universe;
     private final Client client = Client.create();
 
-	@BeforeClass
-	public static void createDatabase() throws Exception {
-		universe = new ServerDoctorWhoUniverse();
-	}
+    @BeforeClass
+    public static void createDatabase() throws Exception {
+        universe = new ServerDoctorWhoUniverse();
+    }
 
-	@AfterClass
-	public static void closeTheDatabase() {
-		universe.stop();
-	}
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
+    }
 
-	@Test
-	public void shouldCountTheEnemiesOfTheDoctor() throws Exception {
-		String response = null;
+    @Test
+    public void shouldCountTheEnemiesOfTheDoctor() throws Exception {
+        String response = null;
 
-		// SNIPPET_START
+        // SNIPPET_START
 
-		WebResource resource = client.resource(universe.theDoctor().get("incoming_relationships") + "/ENEMY_OF");
-		response = resource.accept(MediaType.APPLICATION_JSON).get(String.class);
+        WebResource resource = client.resource(universe.theDoctor().get("incoming_relationships") + "/ENEMY_OF");
+        response = resource.accept(MediaType.APPLICATION_JSON).get(String.class);
 
-		// SNIPPET_END
+        // SNIPPET_END
 
-		List<Map<String, Object>> json = JsonHelper.jsonToList(response);
-		assertEquals(140, json.size());
-	}
+        List<Map<String, Object>> json = JsonHelper.jsonToList(response);
+        assertEquals(140, json.size());
+    }
 
-	@Test
-	public void shouldIdentifyWhichDoctorsTookPartInInvasionStories()
-			throws Exception {
+    @Test
+    public void shouldIdentifyWhichDoctorsTookPartInInvasionStories() throws Exception {
 
-		ClientResponse response = null;
-		TraversalDescription traversal = new TraversalDescription();
+        ClientResponse response = null;
+        TraversalDescription traversal = new TraversalDescription();
 
-		// SNIPPET_START
+        // SNIPPET_START
 
-		traversal.setOrder("depth_first");
-		traversal.setUniqueness("node_path");
-		traversal.setRelationships(
-				new RelationshipDescription("PLAYED", RelationshipDescription.IN),
-				new RelationshipDescription("APPEARED_IN", RelationshipDescription.OUT));
-		traversal.setReturnFilter("position.endNode().hasProperty('title') && position.endNode().getProperty('title').contains('Invasion')");
-		traversal.setMaxDepth(3);
+        traversal.setOrder("depth_first");
+        traversal.setUniqueness("node_path");
+        traversal.setRelationships(new RelationshipDescription("PLAYED", RelationshipDescription.IN), new RelationshipDescription("APPEARED_IN",
+                RelationshipDescription.OUT));
+        traversal.setReturnFilter("position.endNode().hasProperty('title') && position.endNode().getProperty('title').contains('Invasion')");
+        traversal.setMaxDepth(3);
 
-		WebResource resource = client.resource(universe.theDoctor().get("traverse").toString().replace("{returnType}", "fullpath"));
-		response = resource
-				.accept(MediaType.APPLICATION_JSON)
-				.type(MediaType.APPLICATION_JSON)
-				.post(ClientResponse.class, traversal.toJson());
+        WebResource resource = client.resource(universe.theDoctor().get("traverse").toString().replace("{returnType}", "fullpath"));
+        response = resource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(ClientResponse.class, traversal.toJson());
 
-		// SNIPPET_END
+        // SNIPPET_END
 
-		EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(response.getEntity(String.class)));
-		assertActorsAndInvasionEpisodes(results);
-	}
+        EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(response.getEntity(String.class)));
+        assertActorsAndInvasionEpisodes(results);
+    }
 
-	@Test
-	public void canAddFirstAndSecondIncarnationInformationForTheDoctor() {
-		
-		// We'd like to update the model to add a new domain entity - "incarnation".
-		// Timelords have one or more incarnations. In the TV series, an incarnation is played by one or
-		// more actors (usually one). Here we're going to use the REST batch API to add a bit of this new
-		// model. See the presentation for an example of the target graph structure.
-		
-		String PLAYED = "PLAYED";
-		String INCARNATION_OF = "INCARNATION_OF";
+    @Test
+    public void canAddFirstAndSecondIncarnationInformationForTheDoctor() {
 
-		Map<String, Object> theDoctorJson = universe.theDoctor();
-		String theDoctorUri = theDoctorJson.get("self").toString();
-		
-		Map<String,Object> williamHartnellJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "William Hartnell"));
-		Map<String,Object> richardHurdnallJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
-		Map<String,Object> patrickTroughtonJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
-		
+        // We'd like to update the model to add a new domain entity -
+        // "incarnation".
+        // Timelords have one or more incarnations. In the TV series, an
+        // incarnation is played by one or
+        // more actors (usually one). Here we're going to use the REST batch API
+        // to add a bit of this new
+        // model. See the presentation for an example of the target graph
+        // structure.
 
-		BatchCommandBuilder cmds = new BatchCommandBuilder();
-		
-		// SNIPPET_START
+        String PLAYED = "PLAYED";
+        String INCARNATION_OF = "INCARNATION_OF";
 
-		cmds.createNode(0, MapUtil.stringMap("incarnation", "First Doctor"))
-			.createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
-			.createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF)
-			.createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
-			.createRelationship(williamHartnellJson.get("create_relationship").toString(), "{0}", PLAYED)
-			.createRelationship(richardHurdnallJson.get("create_relationship").toString(), "{0}", PLAYED)
-			.createRelationship(patrickTroughtonJson.get("create_relationship").toString(), "{1}", PLAYED);
+        Map<String, Object> theDoctorJson = universe.theDoctor();
+        String theDoctorUri = theDoctorJson.get("self").toString();
 
-		WebResource resource = client.resource("http://localhost:7474/db/data/batch");
-		resource.accept(MediaType.APPLICATION_JSON)
-				.type(MediaType.APPLICATION_JSON)
-				.post(String.class, cmds.build());
-		
-		// SNIPPET_END
+        Map<String, Object> williamHartnellJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "William Hartnell"));
+        Map<String, Object> richardHurdnallJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
+        Map<String, Object> patrickTroughtonJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
 
-		assertFirstAndSecondDoctorCreatedAndLinkedToActors(universe.getServer().getDatabase().graph);
+        BatchCommandBuilder cmds = new BatchCommandBuilder();
 
-	}
-	
-	private void assertActorsAndInvasionEpisodes(EpisodeSearchResults results){
+        // SNIPPET_START
 
-		Map<String, String> episodesAndActors = MapUtil.stringMap("The Christmas Invasion", "David Tennant", 
-				"The Invasion of Time", "Tom Baker",
-				"The Android Invasion", "Tom Baker",
-				"Invasion of the Dinosaurs", "Jon Pertwee", 
-				"The Invasion", "Patrick Troughton", 
-				"The Dalek Invasion of Earth", "William Hartnell");
-		
-		int count = 0;
-		for (EpisodeSearchResult result : results) {
-			assertTrue(episodesAndActors.containsKey(result.getEpisode()));
-			assertEquals(episodesAndActors.get(result.getEpisode()), result.getActor());
-			count++;
-		}
-		
-		assertEquals(episodesAndActors.keySet().size(), count);
-	}
+        cmds.createNode(0, MapUtil.stringMap("incarnation", "First Doctor")).createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
+                .createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF).createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
+                .createRelationship(williamHartnellJson.get("create_relationship").toString(), "{0}", PLAYED)
+                .createRelationship(richardHurdnallJson.get("create_relationship").toString(), "{0}", PLAYED)
+                .createRelationship(patrickTroughtonJson.get("create_relationship").toString(), "{1}", PLAYED);
 
-	private void assertFirstAndSecondDoctorCreatedAndLinkedToActors(AbstractGraphDatabase db) {
-		Node doctorNode = db.getNodeById(1);
+        WebResource resource = client.resource("http://localhost:7474/db/data/batch");
+        resource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(String.class, cmds.build());
 
-		final PatternNode theDoctor = new PatternNode();
-		theDoctor.addPropertyConstraint("name", CommonValueMatchers.exact("Doctor"));
+        // SNIPPET_END
 
-		final PatternNode firstDoctor = new PatternNode();
-		firstDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("First Doctor"));
+        assertFirstAndSecondDoctorCreatedAndLinkedToActors(universe.getServer().getDatabase().graph);
 
-		final PatternNode secondDoctor = new PatternNode();
-		secondDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("Second Doctor"));
+    }
 
-		final PatternNode williamHartell = new PatternNode();
-		williamHartell.addPropertyConstraint("actor", CommonValueMatchers.exact("William Hartnell"));
+    private void assertActorsAndInvasionEpisodes(EpisodeSearchResults results) {
 
-		final PatternNode richardHurdnall = new PatternNode();
-		richardHurdnall.addPropertyConstraint("actor", CommonValueMatchers.exact("Richard Hurdnall"));
+        Map<String, String> episodesAndActors = MapUtil.stringMap("The Christmas Invasion", "David Tennant", "The Invasion of Time", "Tom Baker",
+                "The Android Invasion", "Tom Baker", "Invasion of the Dinosaurs", "Jon Pertwee", "The Invasion", "Patrick Troughton",
+                "The Dalek Invasion of Earth", "William Hartnell");
 
-		final PatternNode patrickTroughton = new PatternNode();
-		patrickTroughton.addPropertyConstraint("actor", CommonValueMatchers.exact("Patrick Troughton"));
+        int count = 0;
+        for (EpisodeSearchResult result : results) {
+            assertTrue(episodesAndActors.containsKey(result.getEpisode()));
+            assertEquals(episodesAndActors.get(result.getEpisode()), result.getActor());
+            count++;
+        }
 
-		firstDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
-		secondDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
-		williamHartell.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
-		richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
-		patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+        assertEquals(episodesAndActors.keySet().size(), count);
+    }
 
-		PatternMatcher matcher = PatternMatcher.getMatcher();
-		final Iterable<PatternMatch> matches = matcher.match(theDoctor, doctorNode);
+    private void assertFirstAndSecondDoctorCreatedAndLinkedToActors(AbstractGraphDatabase db) {
+        Node doctorNode = db.getNodeById(1);
 
-		assertTrue(matches.iterator().hasNext());
-	}
+        final PatternNode theDoctor = new PatternNode();
+        theDoctor.addPropertyConstraint("name", CommonValueMatchers.exact("Doctor"));
+
+        final PatternNode firstDoctor = new PatternNode();
+        firstDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("First Doctor"));
+
+        final PatternNode secondDoctor = new PatternNode();
+        secondDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("Second Doctor"));
+
+        final PatternNode williamHartell = new PatternNode();
+        williamHartell.addPropertyConstraint("actor", CommonValueMatchers.exact("William Hartnell"));
+
+        final PatternNode richardHurdnall = new PatternNode();
+        richardHurdnall.addPropertyConstraint("actor", CommonValueMatchers.exact("Richard Hurdnall"));
+
+        final PatternNode patrickTroughton = new PatternNode();
+        patrickTroughton.addPropertyConstraint("actor", CommonValueMatchers.exact("Patrick Troughton"));
+
+        firstDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
+        secondDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
+        williamHartell.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+        richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+        patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+
+        PatternMatcher matcher = PatternMatcher.getMatcher();
+        final Iterable<PatternMatch> matches = matcher.match(theDoctor, doctorNode);
+
+        assertTrue(matches.iterator().hasNext());
+    }
 }
