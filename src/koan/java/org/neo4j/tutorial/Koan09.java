@@ -30,8 +30,6 @@ import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResults;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 /**
  * In this Koan we use the REST API to explore the Doctor Who universe.
@@ -39,6 +37,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 public class Koan09 {
 
 	private static ServerDoctorWhoUniverse universe;
+    private final Client client = Client.create();
 
 	@BeforeClass
 	public static void createDatabase() throws Exception {
@@ -52,9 +51,6 @@ public class Koan09 {
 
 	@Test
 	public void shouldCountTheEnemiesOfTheDoctor() throws Exception {
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-
 		String response = null;
 
 		// SNIPPET_START
@@ -71,8 +67,6 @@ public class Koan09 {
 	@Test
 	public void shouldIdentifyWhichDoctorsTookPartInInvasionStories()
 			throws Exception {
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
 
 		ClientResponse response = null;
 		TraversalDescription traversal = new TraversalDescription();
@@ -117,8 +111,6 @@ public class Koan09 {
 		Map<String,Object> richardHurdnallJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Richard Hurdnall"));
 		Map<String,Object> patrickTroughtonJson = universe.getJsonFor(universe.getUriFromIndex("actors", "actor", "Patrick Troughton"));
 		
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
 
 		BatchCommandBuilder cmds = new BatchCommandBuilder();
 		
