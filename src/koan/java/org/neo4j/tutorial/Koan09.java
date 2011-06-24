@@ -73,8 +73,8 @@ public class Koan09 {
 
 		// SNIPPET_START
 
-		traversal.setOrder("depth first");
-		traversal.setUniqueness("node path");
+		traversal.setOrder("depth_first");
+		traversal.setUniqueness("node_path");
 		traversal.setRelationships(
 				new RelationshipDescription("PLAYED", RelationshipDescription.IN),
 				new RelationshipDescription("APPEARED_IN", RelationshipDescription.OUT));
@@ -116,14 +116,13 @@ public class Koan09 {
 		
 		// SNIPPET_START
 
-		cmds
-				.createNode(0, MapUtil.stringMap("incarnation", "First Doctor"))
-				.createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
-				.createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF)
-				.createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
-				.createRelationship(williamHartnellJson.get("create_relationship").toString(), "{0}", PLAYED)
-				.createRelationship(richardHurdnallJson.get("create_relationship").toString(), "{0}", PLAYED)
-				.createRelationship(patrickTroughtonJson.get("create_relationship").toString(), "{1}", PLAYED);
+		cmds.createNode(0, MapUtil.stringMap("incarnation", "First Doctor"))
+			.createNode(1, MapUtil.stringMap("incarnation", "Second Doctor"))
+			.createRelationship("{0}/relationships", theDoctorUri, INCARNATION_OF)
+			.createRelationship("{1}/relationships", theDoctorUri, INCARNATION_OF)
+			.createRelationship(williamHartnellJson.get("create_relationship").toString(), "{0}", PLAYED)
+			.createRelationship(richardHurdnallJson.get("create_relationship").toString(), "{0}", PLAYED)
+			.createRelationship(patrickTroughtonJson.get("create_relationship").toString(), "{1}", PLAYED);
 
 		WebResource resource = client.resource("http://localhost:7474/db/data/batch");
 		resource.accept(MediaType.APPLICATION_JSON)
