@@ -55,18 +55,19 @@ public class Koan03 {
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
         GraphDatabaseService db = universe.getDatabase();
-
-        Transaction tx = db.beginTx();
-        Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", db);
+        Node abigailPettigrew = createAbigailPettigrew(db);
+        
+        assertNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
+        Transaction transaction = db.beginTx();
         try {
             db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
-            tx.success();
+            transaction.success();
         } finally {
-            tx.finish();
+        	transaction.finish();
         }
 
         // SNIPPET_END
@@ -126,4 +127,17 @@ public class Koan03 {
     private Node retriveCyberleaderFromIndex(GraphDatabaseService db) {
         return db.index().forNodes("characters").get("name", "Cyberleader").getSingle();
     }
+    
+    private Node createAbigailPettigrew(GraphDatabaseService db) {
+		Node abigailPettigrew;
+		Transaction tx = db.beginTx();
+        try {
+        	abigailPettigrew = db.createNode();
+            abigailPettigrew.setProperty("name", "Abigail Pettigrew");
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+		return abigailPettigrew;
+	}
 }

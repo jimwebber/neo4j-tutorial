@@ -64,6 +64,9 @@ public class Koan05 {
     	Node theDaleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
     	Traverser t = null;
     	
+    	// YOUR CODE GOES HERE
+        // SNIPPET_START
+    	
     	t = theDaleks.traverse(Order.DEPTH_FIRST, 
     			StopEvaluator.END_OF_GRAPH, 
     			new ReturnableEvaluator() {
@@ -75,6 +78,8 @@ public class Koan05 {
     			DoctorWhoUniverse.APPEARED_IN, Direction.BOTH,
     			DoctorWhoUniverse.USED_IN, Direction.INCOMING,
     			DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING);
+    	
+    	// SNIPPET_END
     	
     	assertCollectionContainsAllDalekProps(t.getAllNodes());
     }
