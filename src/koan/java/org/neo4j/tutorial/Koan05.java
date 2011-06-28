@@ -60,7 +60,7 @@ public class Koan05 {
     }
     
     @Test
-    public void shouldFinalAllDalekProps(){
+    public void shouldFindAllDalekProps(){
     	Node theDaleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
     	Traverser t = null;
     	
