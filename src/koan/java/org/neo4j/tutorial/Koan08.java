@@ -38,6 +38,7 @@ public class Koan08 {
     public void shouldFindEpisodesWhereTheDoctorFoughtTheCybermen() {
         HashSet<Node> cybermenEpisodes = new HashSet<Node>();
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         final PatternNode theDoctor = new PatternNode();
@@ -78,6 +79,7 @@ public class Koan08 {
     public void shouldFindDoctorsThatBattledTheCybermen() {
         HashSet<Node> cybermenEpisodes = new HashSet<Node>();
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         final PatternNode theDoctor = new PatternNode();
@@ -113,6 +115,7 @@ public class Koan08 {
     public void shouldFindEnemySpeciesThatRoseTylerAndTheNinthDoctorEncountered() {
         HashSet<Node> enemySpeciesRoseAndTheNinthDoctorEncountered = new HashSet<Node>();
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         final PatternNode theDoctor = new PatternNode();

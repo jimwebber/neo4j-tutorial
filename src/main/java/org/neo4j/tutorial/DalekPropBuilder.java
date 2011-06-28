@@ -53,7 +53,7 @@ public class DalekPropBuilder {
         
         Node episodePropsNode = db.createNode();
         episodePropsNode.setProperty("props", "Daleks");
-        episodePropsNode.createRelationshipTo(episodeNode, DoctorWhoUniverse.APPEARED_IN);
+        episodePropsNode.createRelationshipTo(episodeNode, DoctorWhoUniverse.USED_IN);
         
         for (Prop prop : props){
         	if (isFullProp(prop)){

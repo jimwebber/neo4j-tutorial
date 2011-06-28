@@ -40,6 +40,7 @@ public class Koan02 {
     public void shouldCreateANodeInTheDatabase() {
         Node node = null;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
@@ -59,6 +60,7 @@ public class Koan02 {
     public void shouldCreateSomePropertiesOnANode() {
         Node theDoctor = null;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
@@ -86,6 +88,7 @@ public class Koan02 {
         Node susan = null;
         Relationship companionRelationship = null;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
@@ -117,6 +120,7 @@ public class Koan02 {
         /* Captain Kirk has no business being in our database, so set phasers to kill */
         Node captainKirk = createPollutedDatabaseContainingStarTrekReferences();
         
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
@@ -149,8 +153,9 @@ public class Koan02 {
     
     @Test
     public void shouldRemoveIncorrectEnemyOfRelationshipBetweenSusanAndTheDoctor() {
-        Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();
-        
+        Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();  
+     
+        // YOUR CODE GOES HERE
         // SNIPPET_START
         
         Transaction tx = db.beginTx();

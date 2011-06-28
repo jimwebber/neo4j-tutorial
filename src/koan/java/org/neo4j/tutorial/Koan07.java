@@ -44,6 +44,7 @@ public class Koan07 {
         Node daleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
         Iterable<Path> paths = null;
         
+        // YOUR CODE GOES HERE
         // SNIPPET_START
         
         PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);
@@ -70,6 +71,7 @@ public class Koan07 {
         Node simm = universe.getDatabase().index().forNodes("actors").get("actor", "John Simm").getSingle();
         Path path = null;
         
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(Traversal.expanderForTypes(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING), 100);
@@ -89,6 +91,7 @@ public class Koan07 {
         Node smith = universe.getDatabase().index().forNodes("actors").get("actor", "Matt Smith").getSingle();
         Path path = null;
         
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(Traversal.expanderForTypes(DoctorWhoUniverse.APPEARED_IN, Direction.BOTH), 2);

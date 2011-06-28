@@ -134,7 +134,7 @@ public class DalekProps {
 				.addProp("Remembrance 1", "Remembrance 1", "Remembrance 1")
 				.addProp("Remembrance 2", "Remembrance 2", "Remembrance 2")
 				.addProp("Remembrance 3", "Remembrance 3", "Remembrance 3")
-				.addProp("Supreme", "Supreme", "Supreme Dalek")
+				.addProp("Supreme Dalek", "Supreme Dalek", "Supreme Dalek")
 				.addProp("Imperial 1", "Imperial 1", "Imperial 1")
 				.addProp("Imperial 2", "Imperial 2", "Imperial 2")
 				.addProp("Imperial 3", "Imperial 3", "Imperial 3")

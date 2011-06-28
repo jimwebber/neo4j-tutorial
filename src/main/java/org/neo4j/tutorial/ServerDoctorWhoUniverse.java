@@ -5,11 +5,6 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
-import org.neo4j.server.modules.DiscoveryModule;
-import org.neo4j.server.modules.ManagementApiModule;
-import org.neo4j.server.modules.RESTApiModule;
-import org.neo4j.server.modules.ThirdPartyJAXRSModule;
-import org.neo4j.server.modules.WebAdminModule;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
 import org.neo4j.tutorial.server.ServerBuilder;
@@ -24,17 +19,11 @@ public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object
 
 	private final NeoServerWithEmbeddedWebServer server;
 
-	@SuppressWarnings("unchecked")
 	public ServerDoctorWhoUniverse() throws Exception {
 		super();
 		server = ServerBuilder
 				.server()
 				.usingDatabaseDir(getDatabaseDirectory())
-				.withPassingStartupHealthcheck()
-				.withDefaultDatabaseTuning()
-				.withSpecificServerModules(DiscoveryModule.class,
-						RESTApiModule.class, ManagementApiModule.class,
-						ThirdPartyJAXRSModule.class, WebAdminModule.class)
 				.build();
 		server.start();
 	}

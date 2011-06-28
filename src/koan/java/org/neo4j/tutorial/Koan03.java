@@ -41,6 +41,7 @@ public class Koan03 {
     public void shouldRetrieveCharactersIndexFromTheDatabase() {
         Index<Node> characters = null;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         characters = universe.getDatabase().index().forNodes("characters");
@@ -58,6 +59,7 @@ public class Koan03 {
         Transaction tx = db.beginTx();
         Node abigailPettigrew = CharacterBuilder.ensureCharacterIsInDb("Abigail Pettigrew", db);
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         try {
@@ -76,6 +78,7 @@ public class Koan03 {
     public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
         IndexHits<Node> species = null;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         species = universe.getDatabase().index().forNodes("species").query("species", "S*n");
@@ -94,6 +97,7 @@ public class Koan03 {
         GraphDatabaseService db = universe.getDatabase();
         Node cyberleader = retriveCyberleaderFromIndex(db);
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
