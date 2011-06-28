@@ -21,70 +21,74 @@ import org.neo4j.kernel.Traversal;
  */
 public class Koan06 {
 
-    private static EmbeddedDoctorWhoUniverse universe;
+	private static EmbeddedDoctorWhoUniverse universe;
 
-    @BeforeClass
-    public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
-    }
+	@BeforeClass
+	public static void createDatabase() throws Exception {
+		universe = new EmbeddedDoctorWhoUniverse();
+	}
 
-    @AfterClass
-    public static void closeTheDatabase() {
-        universe.stop();
-    }
+	@AfterClass
+	public static void closeTheDatabase() {
+		universe.stop();
+	}
 
-    @Test
-    public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception {
-        Node theDoctor = universe.theDoctor();
-        Traverser traverser = null;
+	@Test
+	public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception {
+		Node theDoctor = universe.theDoctor();
+		Traverser traverser = null;
 
-        // SNIPPET_START
+        // YOUR CODE GOES HERE
+		// SNIPPET_START
 
-        traverser = Traversal.description()
-        		.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-        		.breadthFirst()
-        		.evaluator(new Evaluator() {
-                    @Override
-                    public Evaluation evaluate(Path path) {
-                        if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
-                            return Evaluation.INCLUDE_AND_CONTINUE;
-                        } else {
-                            return Evaluation.EXCLUDE_AND_PRUNE;
-                        }
-                    }
-                }).traverse(theDoctor);
+		traverser = Traversal.description()
+				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+				.breadthFirst()
+				.evaluator(new Evaluator() {
+					@Override
+					public Evaluation evaluate(Path path) {
+						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
+							return Evaluation.INCLUDE_AND_CONTINUE;
+						} else {
+							return Evaluation.EXCLUDE_AND_PRUNE;
+						}
+					}
+				}).traverse(theDoctor);
 
-        // SNIPPET_END
+		// SNIPPET_END
 
-        assertThat(traverser.nodes(), containsNumberOfNodes(11));
-    }
-    
-    @Test
-    public void shouldFindTheFirstDoctor() {
-        Node theDoctor = universe.theDoctor();
-        Traverser traverser = null;
+		assertThat(traverser.nodes(), containsNumberOfNodes(11));
+	}
 
-        // SNIPPET_START
+	@Test
+	public void shouldFindTheFirstDoctor() {
+		Node theDoctor = universe.theDoctor();
+		Traverser traverser = null;
 
-        traverser = Traversal.description()
-        		.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-        		.depthFirst()
-                .evaluator(new Evaluator() {
-                    @Override
-                    public Evaluation evaluate(Path path) {
-                        if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        } else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-                            // Catches Richard Hurdnall who played the William Hartnell's Doctor in The Five Doctors (William Hartnell had died by then)
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        } else {
-                            return Evaluation.INCLUDE_AND_PRUNE;
-                        }
-                    }
-                }).traverse(theDoctor);
+        // YOUR CODE GOES HERE
+		// SNIPPET_START
 
-        // SNIPPET_END
+		traverser = Traversal.description()
+				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+				.depthFirst()
+				.evaluator(new Evaluator() {
+					@Override
+					public Evaluation evaluate(Path path) {
+						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
+							return Evaluation.EXCLUDE_AND_CONTINUE;
+						} else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
+							// Catches Richard Hurdnall who played the William
+							// Hartnell's Doctor in The Five Doctors (William
+							// Hartnell had died by then)
+							return Evaluation.EXCLUDE_AND_CONTINUE;
+						} else {
+							return Evaluation.INCLUDE_AND_PRUNE;
+						}
+					}
+				}).traverse(theDoctor);
 
-        assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
-    }
+		// SNIPPET_END
+
+		assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
+	}
 }

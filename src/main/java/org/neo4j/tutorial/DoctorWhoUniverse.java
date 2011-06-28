@@ -13,6 +13,7 @@ public abstract class DoctorWhoUniverse<T> {
     public static final RelationshipType IS_A = DynamicRelationshipType.withName("IS_A");
     public static final RelationshipType COMPANION_OF = DynamicRelationshipType.withName("COMPANION_OF");
     public static final RelationshipType APPEARED_IN = DynamicRelationshipType.withName("APPEARED_IN");
+    public static final RelationshipType USED_IN = DynamicRelationshipType.withName("USED_IN");
     public static final RelationshipType LOVES = DynamicRelationshipType.withName("LOVES");
     public static final RelationshipType OWNS = DynamicRelationshipType.withName("OWNS");
     public static final RelationshipType ALLY_OF = DynamicRelationshipType.withName("ALLY_OF");

@@ -364,7 +364,7 @@ public class Episodes {
 
     private void season02() {
         episode(9).title("Planet of Giants").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
-        episode(10).title("The Dalek Invasion of Earth").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
+        episode(10).title("The Dalek Invasion of Earth").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Dalek").fact(db);
         episode(11).title("The Rescue").doctor("William Hartnell").companion("Vicki", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(12).title("The Romans").doctor("William Hartnell").companion("Vicki", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(13).title("The Web Planet").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);

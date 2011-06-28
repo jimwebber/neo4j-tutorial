@@ -57,6 +57,7 @@ public class Koan09 {
 
 		String response = null;
 
+        // YOUR CODE GOES HERE
 		// SNIPPET_START
 
 		WebResource resource = client.resource(universe.theDoctor().get("incoming_relationships") + "/ENEMY_OF");
@@ -77,6 +78,7 @@ public class Koan09 {
 		ClientResponse response = null;
 		TraversalDescription traversal = new TraversalDescription();
 
+        // YOUR CODE GOES HERE
 		// SNIPPET_START
 
 		traversal.setOrder("depth first");
@@ -122,6 +124,7 @@ public class Koan09 {
 
 		BatchCommandBuilder cmds = new BatchCommandBuilder();
 		
+        // YOUR CODE GOES HERE
 		// SNIPPET_START
 
 		cmds

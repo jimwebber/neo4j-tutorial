@@ -41,6 +41,7 @@ public class Koan04 {
         Index<Node> actorsIndex = universe.getDatabase().index().forNodes("actors");
         int numberOfRegenerations = 1;
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
         Node firstDoctor = actorsIndex.get("actor", "William Hartnell").getSingle();
 
@@ -59,16 +60,12 @@ public class Koan04 {
     @Test
     public void shouldFindHumanCompanionsUsingCoreApi() {
         IndexHits<Node> characters = null;
+        HashSet<Node> humanCompanions = new HashSet<Node>();
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         characters = universe.getDatabase().index().forNodes("characters").query("name", "*");
-
-        // SNIPPET_END
-
-        HashSet<Node> humanCompanions = new HashSet<Node>();
-
-        // SNIPPET_START
 
         for (Node n : characters) {
 
@@ -93,6 +90,7 @@ public class Koan04 {
         Index<Node> speciesIndex = universe.getDatabase().index().forNodes("species");
         HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<Node>();
 
+        // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Node roseTyler = friendliesIndex.get("name", "Rose Tyler").getSingle();
