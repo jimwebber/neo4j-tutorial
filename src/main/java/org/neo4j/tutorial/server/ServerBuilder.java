@@ -2,7 +2,10 @@ package org.neo4j.tutorial.server;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.neo4j.tutorial.server.ServerTestUtils.*;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempDir;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempPropertyFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertiesToFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertyToFile;
 
 import java.io.BufferedWriter;
 import java.io.File;

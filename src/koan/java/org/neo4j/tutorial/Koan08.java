@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
 
 import java.util.HashSet;
 
@@ -72,7 +72,7 @@ public class Koan08 {
 
     private String[] knownCybermenTitles() {
         return new String[] { "The Moonbase", "The Tomb of the Cybermen", "The Wheel in Space", "Revenge of the Cybermen", "Earthshock", "Silver Nemesis",
-                "Rise of the Cybermen", "The Age of Steel", "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens" };
+                "Rise of the Cybermen", "The Age of Steel", "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens", "A Good Man Goes to War" };
     }
     
     @Test
