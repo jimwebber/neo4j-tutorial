@@ -36,7 +36,9 @@ public class Episodes {
             season18();
             season19();
             season20();
-            episode(129).title("The Five Doctors").doctor("Richard Hurdnall").doctor("William Hartnell").doctor("Patrick Troughton").doctor("Jon Pertwee").doctor("Tom Baker").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough", "Susan Foreman", "Sarah Jane Smith", "Romana").enemy("Master").fact(db);
+            episode(129).title("The Five Doctors").doctor("Richard Hurdnall").doctor("William Hartnell").doctor("Patrick Troughton").doctor("Jon Pertwee")
+                    .doctor("Tom Baker").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough", "Susan Foreman", "Sarah Jane Smith", "Romana")
+                    .enemy("Master").fact(db);
             season21();
             season22();
             season23();
@@ -62,17 +64,21 @@ public class Episodes {
     }
 
     private void series06() {
-        episode(214).title("The Impossible Astronaut").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").allies("Richard Nixon", "Canton Everett Delaware III").enemySpecies("The Silence").fact(db);
+        episode(214).title("The Impossible Astronaut").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song")
+                .allies("Richard Nixon", "Canton Everett Delaware III").enemySpecies("The Silence").fact(db);
         episode(214).title("Day of the Moon").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemySpecies("The Silence").fact(db);
         episode(215).title("The Curse of the Black Spot").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
-        episode(216).title("The Doctor's Wife").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").enemy( "House" ).fact(db);
+        episode(216).title("The Doctor's Wife").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").enemy("House").fact(db);
         episode(217).title("The Rebel Flesh").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
         episode(217).title("The Almost People").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
-        episode(217).title("A Good Man Goes to War").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").allies("Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar").alliedSpecies("Judoon", "Silurian").enemySpecies( "Cyberman" ).enemy( "Madame Kovarian" ).fact(db);
+        episode(217).title("A Good Man Goes to War").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song")
+                .allies("Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar").alliedSpecies("Judoon", "Silurian").enemySpecies("Cyberman")
+                .enemy("Madame Kovarian").fact(db);
     }
 
     private void series05() {
-        episode(199).title("The Next Doctor").doctor("David Tennant").companion("Jackson Lake", "Rosita Farisi").enemy("Miss Hartigan").enemySpecies("Cyberman").fact(db);
+        episode(199).title("The Next Doctor").doctor("David Tennant").companion("Jackson Lake", "Rosita Farisi").enemy("Miss Hartigan")
+                .enemySpecies("Cyberman").fact(db);
         episode(200).title("Planet of the Dead").doctor("David Tennant").companion("Lady Christina de Souza").fact(db);
         episode(201).title("The Waters of Mars").doctor("David Tennant").companion("Adelaide Brooke").fact(db);
         episode(202).title("The End of Time").doctor("David Tennant").doctor("Matt Smith").companion("Wilfred Mott").enemy("Master", "Lord President").fact(db);
@@ -87,7 +93,8 @@ public class Episodes {
         episode(209).title("Cold Blood").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Silurian").fact(db);
         episode(210).title("Vincent and the Doctor").doctor("Matt Smith").companion("Amy Pond").fact(db);
         episode(211).title("The Lodger").doctor("Matt Smith").companion("Amy Pond").fact(db);
-        episode(212).title("The Pandorica Opens").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").enemySpecies("Dalek", "Auton", "Cyberman", "Sontaran", "Judoon", "Sycorax", "Hoix", "Silurian", "Roboform").fact(db);
+        episode(212).title("The Pandorica Opens").doctor("Matt Smith").companion("Amy Pond", "Rory Williams")
+                .enemySpecies("Dalek", "Auton", "Cyberman", "Sontaran", "Judoon", "Sycorax", "Hoix", "Silurian", "Roboform").fact(db);
         episode(212).title("The Big Bang").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
     }
 
@@ -103,8 +110,10 @@ public class Episodes {
         episode(195).title("Forest of the Dead").doctor("David Tennant").companion("Donna Noble").enemySpecies("Vashta Nerada").fact(db);
         episode(196).title("Midnight").doctor("David Tennant").companion("Donna Noble").fact(db);
         episode(197).title("Turn Left").doctor("David Tennant").companion("Donna Noble", "Rose Tyler").fact(db);
-        episode(198).title("The Stolen Earth").doctor("David Tennant").companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith").enemySpecies("Dalek").fact(db);
-        episode(198).title("Journey's End").doctor("David Tennant").companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith").enemySpecies("Dalek").fact(db);
+        episode(198).title("The Stolen Earth").doctor("David Tennant")
+                .companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith").enemySpecies("Dalek").fact(db);
+        episode(198).title("Journey's End").doctor("David Tennant").companion("Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith")
+                .enemySpecies("Dalek").fact(db);
     }
 
     private void series03() {
@@ -126,8 +135,10 @@ public class Episodes {
     private void series02() {
         episode(168).title("New Earth").doctor("David Tennant").companion("Rose Tyler").fact(db);
         episode(169).title("Tooth and Claw").doctor("David Tennant").companion("Rose Tyler").fact(db);
-        episode(170).title("School Reunion").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith", "Sarah Jane Smith").enemySpecies("Krillitane").fact(db);
-        episode(171).title("The Girl in the Fireplace").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Clockwork Android").fact(db);
+        episode(170).title("School Reunion").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith", "Sarah Jane Smith").enemySpecies("Krillitane")
+                .fact(db);
+        episode(171).title("The Girl in the Fireplace").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Clockwork Android")
+                .fact(db);
         episode(172).title("Rise of the Cybermen").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Cyberman").fact(db);
         episode(172).title("The Age of Steel").doctor("David Tennant").companion("Rose Tyler", "Mickey Smith").enemySpecies("Cyberman").fact(db);
         episode(173).title("The Idiot's Lantern").doctor("David Tennant").companion("Rose Tyler").enemy("The Wire").fact(db);
@@ -152,7 +163,8 @@ public class Episodes {
         episode(164).title("The Doctor Dances").doctor("Christopher Eccleston").companion("Rose Tyler", "Jack Harkness").fact(db);
         episode(165).title("Boom Town").doctor("Christopher Eccleston").companion("Rose Tyler", "Jack Harkness").enemySpecies("Slitheen").fact(db);
         episode(166).title("Bad Wolf").doctor("Christopher Eccleston").companion("Rose Tyler", "Jack Harkness").enemySpecies("Dalek").fact(db);
-        episode(166).title("The Parting of the Ways").doctor("Christopher Eccleston").doctor("David Tennant").companion("Rose Tyler", "Jack Harkness").enemySpecies("Dalek").fact(db);
+        episode(166).title("The Parting of the Ways").doctor("Christopher Eccleston").doctor("David Tennant").companion("Rose Tyler", "Jack Harkness")
+                .enemySpecies("Dalek").fact(db);
     }
 
     private void season26() {
@@ -188,13 +200,15 @@ public class Episodes {
         episode(137).title("Attack of the Cybermen").doctor("Colin Baker").companion("Peri Brown").fact(db);
         episode(138).title("Vengeance on Varos").doctor("Colin Baker").companion("Peri Brown").fact(db);
         episode(139).title("The Mark of the Rani").doctor("Colin Baker").companion("Peri Brown").enemy("Master", "Rani").fact(db);
-        episode(140).title("The Two Doctors").doctor("Colin Baker").doctor("Patrick Troughton").companion("Peri Brown", "Jamie McCrimmon").enemy("Shockeye", "Chessene", "Dastari").fact(db);
+        episode(140).title("The Two Doctors").doctor("Colin Baker").doctor("Patrick Troughton").companion("Peri Brown", "Jamie McCrimmon")
+                .enemy("Shockeye", "Chessene", "Dastari").fact(db);
         episode(141).title("Timelash").doctor("Colin Baker").companion("Peri Brown").enemy("Borad").fact(db);
         episode(142).title("Revelation of the Daleks").doctor("Colin Baker").companion("Peri Brown").enemySpecies("Dalek").fact(db);
     }
 
     private void season21() {
-        episode(130).title("Warriors of the Deep").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemySpecies("Silurian", "Sea Devil").fact(db);
+        episode(130).title("Warriors of the Deep").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemySpecies("Silurian", "Sea Devil")
+                .fact(db);
         episode(131).title("The Awakening").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemy("Malus").fact(db);
         episode(132).title("Frontios").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemySpecies("Tractator").fact(db);
         episode(133).title("Resurrection of the Daleks").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemySpecies("Dalek").fact(db);
@@ -205,19 +219,20 @@ public class Episodes {
     private void season20() {
         episode(123).title("Arc of Infinity").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka").enemy("Omega").fact(db);
         episode(124).title("Snakedance").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka").enemy("Mara").fact(db);
-        episode(125).title("Mawdryn Undead").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka", "Vislor Turlough").enemy("Mawdryn", "Black Guardian").fact(db);
+        episode(125).title("Mawdryn Undead").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka", "Vislor Turlough").enemy("Mawdryn", "Black Guardian")
+                .fact(db);
         episode(126).title("Terminus").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka", "Vislor Turlough").enemy("Vanir").fact(db);
         episode(127).title("Enlightenment").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough").enemy("Black Guardian").fact(db);
         episode(128).title("The King's Demons").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough", "Kamelion").enemy("Master").fact(db);
     }
 
     private void season19() {
-        episode(116).title("Castrovalva").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").enemy("Master").fact(db);
-        episode(117).title("Four to Doomsday").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").fact(db);
-        episode(118).title("Kinda").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").enemy("Mara").fact(db);
-        episode(119).title("The Visitation").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").enemy("Terileptils").fact(db);
-        episode(120).title("Black Orchid").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").fact(db);
-        episode(121).title("Earthshock").doctor("Peter Davison").companion("Adric","Nyssa", "Tegan Jovanka").enemySpecies("Cyberman").fact(db);
+        episode(116).title("Castrovalva").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").enemy("Master").fact(db);
+        episode(117).title("Four to Doomsday").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").fact(db);
+        episode(118).title("Kinda").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").enemy("Mara").fact(db);
+        episode(119).title("The Visitation").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").enemy("Terileptils").fact(db);
+        episode(120).title("Black Orchid").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").fact(db);
+        episode(121).title("Earthshock").doctor("Peter Davison").companion("Adric", "Nyssa", "Tegan Jovanka").enemySpecies("Cyberman").fact(db);
         episode(122).title("Time-Flight").doctor("Peter Davison").companion("Nyssa", "Tegan Jovanka").enemy("Master").fact(db);
     }
 
@@ -228,7 +243,7 @@ public class Episodes {
         episode(112).title("State of Decay").doctor("Tom Baker").companion("Romana", "K9", "Adric").enemy("Zargo", "Camilla", "Aukon").fact(db);
         episode(113).title("Warriors' Gate").doctor("Tom Baker").companion("Romana", "K9", "Adric").fact(db);
         episode(114).title("The Keeper of Traken").doctor("Tom Baker").companion("Adric").enemy("Master").fact(db);
-        episode(115).title("Logopolis").doctor("Tom Baker").companion("Adric","Nyssa", "Tegan Jovanka").enemy("Master").fact(db);
+        episode(115).title("Logopolis").doctor("Tom Baker").companion("Adric", "Nyssa", "Tegan Jovanka").enemy("Master").fact(db);
     }
 
     private void season17() {
@@ -267,7 +282,8 @@ public class Episodes {
     }
 
     private void season13() {
-        episode(80).title("Terror of the Zygons").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Skarasen").enemySpecies("Zygon").fact(db);
+        episode(80).title("Terror of the Zygons").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Skarasen").enemySpecies("Zygon")
+                .fact(db);
         episode(81).title("Planet of Evil").doctor("Tom Baker").companion("Sarah Jane Smith").fact(db);
         episode(82).title("Pyramids of Mars").doctor("Tom Baker").companion("Sarah Jane Smith").enemy("Sutekh").fact(db);
         episode(83).title("The Android Invasion").doctor("Tom Baker").companion("Sarah Jane Smith").enemySpecies("Android").fact(db);
@@ -279,8 +295,10 @@ public class Episodes {
         episode(75).title("Robot").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("K1 Robot").fact(db);
         episode(76).title("The Ark in Space").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").fact(db);
         episode(77).title("The Sontaran Experiment").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Styre").fact(db);
-        episode(78).title("Genesis of the Daleks").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Davros").enemySpecies("Dalek").fact(db);
-        episode(79).title("Revenge of the Cybermen").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Cyberleader").enemySpecies("Cyberman").fact(db);
+        episode(78).title("Genesis of the Daleks").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Davros").enemySpecies("Dalek")
+                .fact(db);
+        episode(79).title("Revenge of the Cybermen").doctor("Tom Baker").companion("Sarah Jane Smith", "Harry Sullivan").enemy("Cyberleader")
+                .enemySpecies("Cyberman").fact(db);
     }
 
     private void season11() {
@@ -292,7 +310,8 @@ public class Episodes {
     }
 
     private void season10() {
-        episode(65).title("The Three Doctors").doctor("Jon Pertwee").doctor("Patrick Troughton").doctor("William Hartnell").companion("Jo Grant").enemy("Omega").fact(db);
+        episode(65).title("The Three Doctors").doctor("Jon Pertwee").doctor("Patrick Troughton").doctor("William Hartnell").companion("Jo Grant")
+                .enemy("Omega").fact(db);
         episode(66).title("Carnival of Monsters").doctor("Jon Pertwee").companion("Jo Grant").fact(db);
         episode(67).title("Frontier in Space").doctor("Jon Pertwee").companion("Jo Grant").enemy("Master").fact(db);
         episode(68).title("Planet of the Daleks").doctor("Jon Pertwee").companion("Jo Grant").enemySpecies("Dalek").fact(db);
@@ -333,13 +352,16 @@ public class Episodes {
     }
 
     private void season05() {
-        episode(37).title("The Tomb of the Cybermen").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Cyberman").fact(db);
+        episode(37).title("The Tomb of the Cybermen").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Cyberman")
+                .fact(db);
         episode(38).title("The Abominable Snowmen").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").fact(db);
-        episode(39).title("The Ice Warriors").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Ice Warrior").fact(db);
+        episode(39).title("The Ice Warriors").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Ice Warrior")
+                .fact(db);
         episode(40).title("The Enemy of the World").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").fact(db);
         episode(41).title("The Web of Fear").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").fact(db);
         episode(42).title("Fury from the Deep").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").fact(db);
-        episode(43).title("The Wheel in Space").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Cyberman").fact(db);
+        episode(43).title("The Wheel in Space").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Cyberman")
+                .fact(db);
     }
 
     private void season04() {
@@ -349,16 +371,18 @@ public class Episodes {
         episode(33).title("The Moonbase").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemySpecies("Cyberman").fact(db);
         episode(34).title("The Macra Terror").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemySpecies("Macra").fact(db);
         episode(35).title("The Faceless Ones").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").fact(db);
-        episode(36).title("The Evil of the Daleks").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Dalek").fact(db);
+        episode(36).title("The Evil of the Daleks").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Victoria Waterfield").enemySpecies("Dalek")
+                .fact(db);
     }
 
     private void season03() {
         episode(18).title("Galaxy 4").doctor("William Hartnell").companion("Vicki", "Steven Taylor").enemySpecies("Drahvin").fact(db);
         episode(19).title("Mission to the Unknown").fact(db);
         episode(20).title("The Myth Makers").doctor("William Hartnell").companion("Vicki", "Steven Taylor", "Katarina").fact(db);
-        episode(21).title("The Daleks' Master Plan").doctor("William Hartnell").companion("Steven Taylor", "Katarina", "Sara Kingdom").enemySpecies("Dalek").fact(db);
+        episode(21).title("The Daleks' Master Plan").doctor("William Hartnell").companion("Steven Taylor", "Katarina", "Sara Kingdom").enemySpecies("Dalek")
+                .fact(db);
         episode(22).title("The Massacre of St Bartholomew's Eve").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").fact(db);
-        episode(23).title("The Ark").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").fact(db);            
+        episode(23).title("The Ark").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").fact(db);
         episode(24).title("The Celestial Toymaker").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").enemy("The Toymaker").fact(db);
         episode(25).title("The Gunfighters").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").fact(db);
         episode(26).title("The Savages").doctor("William Hartnell").companion("Dodo Chaplet", "Steven Taylor").fact(db);
@@ -369,25 +393,31 @@ public class Episodes {
 
     private void season02() {
         episode(9).title("Planet of Giants").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
-        episode(10).title("The Dalek Invasion of Earth").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Dalek").fact(db);
+        episode(10).title("The Dalek Invasion of Earth").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright")
+                .enemySpecies("Dalek").fact(db);
         episode(11).title("The Rescue").doctor("William Hartnell").companion("Vicki", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(12).title("The Romans").doctor("William Hartnell").companion("Vicki", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(13).title("The Web Planet").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(14).title("The Crusade").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(15).title("The Space Museum").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
-        episode(16).title("The Chase").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor").enemySpecies("Dalek").fact(db);
+        episode(16).title("The Chase").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor")
+                .enemySpecies("Dalek").fact(db);
         episode(17).title("The Time Meddler").doctor("William Hartnell").companion("Vicki", "Steven Taylor").enemy("Meddling Monk").fact(db);
     }
 
     private void season01() {
-        episode(1).title("An Unearthly Child").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Stone Age Tribe").fact(db);
+        episode(1).title("An Unearthly Child").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright")
+                .enemy("Stone Age Tribe").fact(db);
         episode(2).title("The Daleks").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Dalek").fact(db);
         episode(3).title("The Edge of Destruction").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(4).title("Marco Polo").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Tegana").fact(db);
-        episode(5).title("The Keys of Marinus").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Yartek").fact(db);
+        episode(5).title("The Keys of Marinus").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Yartek")
+                .fact(db);
         episode(6).title("The Aztecs").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Tlotoxl").fact(db);
-        episode(7).title("The Sensorites").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Sensorite").fact(db);
-        episode(8).title("The Reign of Terror").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Robespierre").enemy("Napoleon").fact(db);
+        episode(7).title("The Sensorites").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Sensorite")
+                .fact(db);
+        episode(8).title("The Reign of Terror").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemy("Robespierre")
+                .enemy("Napoleon").fact(db);
     }
 
 }
