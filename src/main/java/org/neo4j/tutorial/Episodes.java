@@ -63,7 +63,12 @@ public class Episodes {
 
     private void series06() {
         episode(214).title("The Impossible Astronaut").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").allies("Richard Nixon", "Canton Everett Delaware III").enemySpecies("The Silence").fact(db);
-        episode(215).title("Day of the Moon").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemySpecies("The Silence").fact(db);
+        episode(214).title("Day of the Moon").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").enemySpecies("The Silence").fact(db);
+        episode(215).title("The Curse of the Black Spot").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
+        episode(216).title("The Doctor's Wife").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").enemy( "House" ).fact(db);
+        episode(217).title("The Rebel Flesh").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
+        episode(217).title("The Almost People").doctor("Matt Smith").companion("Amy Pond", "Rory Williams").fact(db);
+        episode(217).title("A Good Man Goes to War").doctor("Matt Smith").companion("Amy Pond", "Rory Williams", "River Song").allies("Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar").alliedSpecies("Judoon", "Silurian").enemySpecies( "Cyberman" ).enemy( "Madame Kovarian" ).fact(db);
     }
 
     private void series05() {

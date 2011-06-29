@@ -22,6 +22,7 @@ public class EpisodeBuilder {
     private List<String> enemySpecies = new ArrayList<String>();
     private List<String> enemies = new ArrayList<String>();
     private String[] allies;
+    private List<String> alliedSpecies = new ArrayList<String>();
 
     private EpisodeBuilder(int episodeNumber) {
         this.episodeNumber = episodeNumber;
@@ -100,6 +101,15 @@ public class EpisodeBuilder {
                 ensureAllyOfRelationshipInDb(allyNode, db);                
             }
         }
+        
+        if (this.alliedSpecies != null) {
+            for (String aSpecies : alliedSpecies) {
+                Node speciesNode = SpeciesBuilder.ensureSpeciesInDb(aSpecies, db);
+                speciesNode.createRelationshipTo(episode, DoctorWhoUniverse.APPEARED_IN);
+                ensureAllyOfRelationshipInDb( speciesNode, db );
+            }
+        }
+        
     }
 
 
@@ -157,6 +167,14 @@ public class EpisodeBuilder {
 
     public EpisodeBuilder allies(String... allies) {
         this.allies = allies;
+        return this;
+    }
+
+    public EpisodeBuilder alliedSpecies( String... alliedSpecies)
+    {
+        for (String str : alliedSpecies) {
+            this.alliedSpecies.add(str);
+        }
         return this;
     }
 }
