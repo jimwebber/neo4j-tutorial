@@ -40,7 +40,6 @@
 			</aspectpath>
 		</iajc>
 				
-		<property environment="cruise" />
 		<tstamp>
 			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>		
@@ -64,7 +63,7 @@
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>
 	
-	<target name="compile-koans" description="Compile unit test classes">
+	<target name="compile-koans" description="Compile koans">
 		<mkdir dir="${koan.target}" />
 		<javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6" />
 	</target>
@@ -74,7 +73,7 @@
 			<include name="**/Lesson*.java" />
 		</fileset>
 		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}" />
-		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
-	</target>	
-
+		<fail if="tests.failed.or.errored" message="Build failed due to unit test failures or errors" />
+	</target
+	
 </project>
