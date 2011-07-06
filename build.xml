@@ -5,6 +5,7 @@
 	<import file="${settings.dir}/path.xml" />
 	<import file="${settings.dir}/test.xml" />
 
+	<import file="${settings.dir}/install-ant-eclipse.xml" />
 	<import file="${settings.dir}/install-ivy.xml" />
 	<import file="${settings.dir}/path.xml" />
 	<import file="${settings.dir}/test.xml" />
@@ -74,6 +75,16 @@
 		</fileset>
 		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}" />
 		<fail if="tests.failed.or.errored" message="Build failed due to unit test failures or errors" />
-	</target
+	</target>
+	
+	<target name="generate.eclipse.project" depends="-install.ant-eclipse">
+		<eclipse>
+			<classpath>
+				<library path="${lib.dir}" />
+				<source pathref="all.src" />
+				<output path="${target}" />
+			</classpath>
+		</eclipse>
+	</target>
 	
 </project>
