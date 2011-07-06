@@ -3,8 +3,11 @@ package org.neo4j.tutorial;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.Index;
 
 public class DalekPropBuilder {
@@ -62,29 +65,49 @@ public class DalekPropBuilder {
             	currentDalekPropNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
             	
             	if (shoulderExists(prop)){
-            		Node shoulderNode = ensurePartExistsInDb(prop.getShoulder(), "shoulder", db);
-            		currentDalekPropNode.createRelationshipTo(shoulderNode, DoctorWhoUniverse.COMPOSED_OF);
+            		createPartAttachedToProp(prop.getShoulder(), "shoulder", currentDalekPropNode, db);	
             	}
             	
             	if (skirtExists(prop)){
-            		Node skirtNode = ensurePartExistsInDb(prop.getSkirt(), "skirt", db);
-            		currentDalekPropNode.createRelationshipTo(skirtNode, DoctorWhoUniverse.COMPOSED_OF);
+            		createPartAttachedToProp(prop.getSkirt(), "skirt", currentDalekPropNode, db);
             	}
         	}
         	else {
         		if (shoulderExists(prop)){
-            		Node shoulderNode = ensurePartExistsInDb(prop.getShoulder(), "shoulder", db);
-            		shoulderNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+        			createPartAttachedToEpisodeProps(prop.getShoulder(), "shoulder", episodePropsNode, db);
             	}
             	
             	if (skirtExists(prop)){
-            		Node skirtNode = ensurePartExistsInDb(prop.getSkirt(), "skirt", db);
-            		skirtNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+            		createPartAttachedToEpisodeProps(prop.getSkirt(), "skirt", episodePropsNode, db);
             	}
         	}
         	
         }
     }
+
+	private void createPartAttachedToProp(String originalPropName, String part, Node currentDalekPropNode, GraphDatabaseService db) {
+		Node partNode = ensurePartExistsInDb(originalPropName, part, db);
+		if (!relationshipExists(currentDalekPropNode, partNode, DoctorWhoUniverse.COMPOSED_OF, Direction.OUTGOING)){
+			currentDalekPropNode.createRelationshipTo(partNode, DoctorWhoUniverse.COMPOSED_OF);
+		}
+	}
+	
+	private void createPartAttachedToEpisodeProps(String originalPropName, String part, Node episodePropsNode, GraphDatabaseService db) {
+		Node partNode = ensurePartExistsInDb(originalPropName, part, db);
+		if (!relationshipExists(partNode, episodePropsNode, DoctorWhoUniverse.MEMBER_OF, Direction.OUTGOING)){
+			partNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+		}
+	}
+	
+	private boolean relationshipExists(Node startNode, Node endNode, RelationshipType relationship, Direction direction){
+		Iterable<Relationship> rels = startNode.getRelationships(direction, relationship);
+		for (Relationship rel: rels){
+			if (rel.getOtherNode(startNode).equals(endNode)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private boolean skirtExists(Prop prop) {
 		return prop.getSkirt() != null;
