@@ -81,8 +81,8 @@ public class Koan09 {
         // YOUR CODE GOES HERE
 		// SNIPPET_START
 
-		traversal.setOrder("depth first");
-		traversal.setUniqueness("node path");
+		traversal.setOrder("depth_first");
+		traversal.setUniqueness("node_path");
 		traversal.setRelationships(
 				new RelationshipDescription("PLAYED", RelationshipDescription.IN),
 				new RelationshipDescription("APPEARED_IN", RelationshipDescription.OUT));
@@ -90,14 +90,18 @@ public class Koan09 {
 		traversal.setMaxDepth(3);
 
 		WebResource resource = client.resource(universe.theDoctor().get("traverse").toString().replace("{returnType}", "fullpath"));
+		String requestJson = traversal.toJson();
+		System.out.println(requestJson);
 		response = resource
 				.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON)
-				.post(ClientResponse.class, traversal.toJson());
+				.post(ClientResponse.class, requestJson);
 
 		// SNIPPET_END
-
-		EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(response.getEntity(String.class)));
+		
+		String responseJson = response.getEntity(String.class);
+		
+		EpisodeSearchResults results = new EpisodeSearchResults(JsonHelper.jsonToList(responseJson));
 		assertActorsAndInvasionEpisodes(results);
 	}
 
