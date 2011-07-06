@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TraversalDescription {
 
-    public static final String DEPTH_FIRST = "depth first";
+    public static final String DEPTH_FIRST = "depth_first";
     public static final String NODE = "node";
     public static final String ALL = "all";
 
@@ -53,12 +53,12 @@ public class TraversalDescription {
             }
             sb.append("], ");
         }
-        sb.append("\"return filter\" : { ");
+        sb.append("\"return_filter\" : { ");
         sb.append("\"language\" : \"javascript\", ");
         sb.append("\"body\" : \"");
         sb.append(returnFilter);
         sb.append("\" }, ");
-        sb.append("\"max depth\" : ");
+        sb.append("\"max_depth\" : ");
         sb.append(maxDepth);
         sb.append(" }");
         return sb.toString();

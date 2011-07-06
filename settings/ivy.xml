@@ -8,10 +8,10 @@
 			<exclude org="org.slf4j" name="slf4j-log4j12"/>
 		</dependency>
 		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.11.RELEASE"/>
-		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11.RELEASE"/>
-		<dependency org="org.neo4j.app" name="neo4j-server" rev="1.4.M05"/>
-		<dependency org="org.neo4j" name="neo4j-community" rev="1.4.M05"/>
-		<dependency org="org.neo4j" name="neo4j-shell" rev="1.4.M05"/>
+		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11.RELEASE"/>		
+		<dependency org="org.neo4j" name="neo4j-community" rev="1.4.M06"/>
+		<dependency org="org.neo4j" name="neo4j-shell" rev="1.4.M06"/>
+		<dependency org="org.neo4j.app" name="neo4j-server" rev="1.4.M04"/>
 		<dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.7.5"/>
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.7.5"/>
 		<dependency org="com.sun.jersey" name="jersey-client" rev="1.3"/>
