@@ -8,9 +8,7 @@
 	<import file="${settings.dir}/install-ant-eclipse.xml" />
 	<import file="${settings.dir}/install-ivy.xml" />
 	<import file="${settings.dir}/path.xml" />
-	<import file="${settings.dir}/test.xml" />
-
-	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/>
+	<import file="${settings.dir}/test.xml" />	
 
 	<target name="lib.retrieve" depends="install-ivy">
 		<mkdir dir="${lib.dir}" />
@@ -30,6 +28,7 @@
 	</target>
 
 	<target name="compile" description="Compile production classes" depends="lib.retrieve">
+		<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/>
 		<mkdir dir="${main.target}" />
 		
 		<iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
