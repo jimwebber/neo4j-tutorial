@@ -339,7 +339,7 @@ public class Episodes {
 
     private void season04() {
         episode(30).title("The Power of the Daleks").doctor("Patrick Troughton").companion("Polly", "Ben Jackson").enemySpecies("Dalek").fact(db);
-        episode(31).title("The Highlanders").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemySpecies("Dalek").fact(db);
+        episode(31).title("The Highlanders").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").fact(db);
         episode(32).title("The Underwater Menace").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemy("Zaroff").fact(db);
         episode(33).title("The Moonbase").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemySpecies("Cyberman").fact(db);
         episode(34).title("The Macra Terror").doctor("Patrick Troughton").companion("Polly", "Ben Jackson", "Jamie McCrimmon").enemySpecies("Macra").fact(db);
