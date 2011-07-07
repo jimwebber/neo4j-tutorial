@@ -1,8 +1,8 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
@@ -25,162 +25,130 @@ import org.neo4j.graphdb.Node;
  * the history of the Dalek props.
  */
 public class Koan10 {
-	private static EmbeddedDoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
-	@BeforeClass
-	public static void createDatabase() throws Exception {
-		universe = new EmbeddedDoctorWhoUniverse();
-	}
+    @BeforeClass
+    public static void createDatabase() throws Exception {
+        universe = new EmbeddedDoctorWhoUniverse();
+    }
 
-	@AfterClass
-	public static void closeTheDatabase() {
-		universe.stop();
-	}
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
+    }
 
-	@Test
-	public void shouldFindAllTheEpisodesInWhichDalekPropsWereUsed() {
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-		String cql = null;
+    @Test
+    public void shouldFindAllTheEpisodesInWhichDalekPropsWereUsed() throws Exception {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
 
-		// SNIPPET_END
+        // SNIPPET_END
 
-		Query query = parser.parse(cql);
-		ExecutionResult result = engine.execute(query);
-		Iterator<Node> episodes = result.javaColumnAs("episode");
+        Query query = parser.parse(cql);
+        ExecutionResult result = engine.execute(query);
+        Iterator<Node> episodes = result.javaColumnAs("episode");
 
-		assertThat(asIterable(episodes),
-				containsOnlyTitles(
-						"The Pandorica Opens",
-						"Victory of the Daleks",
-						"Journey's End",
-						"The Stolen Earth",
-						"Evolution of the Daleks",
-						"Daleks in Manhattan",
-						"Doomsday",
-						"Army of Ghosts",
-						"The Parting of the Ways",
-						"Bad Wolf",
-						"Dalek",
-						"Remembrance of the Daleks",
-						"Revelation of the Daleks",
-						"Resurrection of the Daleks",
-						"Destiny of the Daleks",
-						"Genesis of the Daleks",
-						"Death to the Daleks",
-						"Planet of the Daleks",
-						"The Evil of the Daleks",
-						"The Power of the Daleks",
-						"The Daleks' Master Plan",
-						"The Chase",
-						"The Dalek Invasion of Earth",
-						"The Daleks"));
+        assertThat(asIterable(episodes),
+                containsOnlyTitles("The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
+                        "Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
+                        "Revelation of the Daleks", "Resurrection of the Daleks", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
+                        "Planet of the Daleks", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
+                        "The Dalek Invasion of Earth", "The Daleks"));
 
-	}
-	
-	@Test 
-	public void shouldFindTheFifthMostRecentPropToAppear(){
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-		
-		String cql = null;
-		ExecutionResult result;
+    }
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
+    @Test
+    public void shouldFindTheFifthMostRecentPropToAppear() throws Exception {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
 
-		cql = "START daleks=(Species,species,\"Dalek\")"
-			+ " MATCH (daleks)-[:APPEARED_IN]->(episode)"
-			+ "<-[:USED_IN]-(props)"
-			+ "<-[:MEMBER_OF]-(prop)"
-			+ " RETURN prop.prop"
-			+ " SKIP 4 LIMIT 1";
-		
-		Query query = parser.parse(cql);
-		result = engine.execute(query);
+        String cql = null;
+        ExecutionResult result;
 
-		// SNIPPET_END
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
-	}
+        cql = "START daleks=(Species,species,\"Dalek\")" + " MATCH (daleks)-[:APPEARED_IN]->(episode)" + "<-[:USED_IN]-(props)" + "<-[:MEMBER_OF]-(prop)"
+                + " RETURN prop.prop" + " SKIP 4 LIMIT 1";
 
-	@Test
-	public void shouldFindTheTop3HardestWorkingPropPartsInShowbiz() {
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-		String cql = null;
+        Query query = parser.parse(cql);
+        result = engine.execute(query);
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
+        // SNIPPET_END
 
-		cql = "START daleks=(Species,species,\"Dalek\")"
-				+ " MATCH (daleks)-[:APPEARED_IN]->(episode)"
-				+ "<-[:USED_IN]-(props)"
-				+ "<-[:MEMBER_OF]-(prop)"
-				+ "-[:COMPOSED_OF]->(part)"
-				+ "-[:ORIGINAL_PROP]->(originalprop)"
-				+ " RETURN originalprop.prop, part.part, COUNT(*)"
-				+ " ORDER BY COUNT(*) DESC"
-				+ " LIMIT 3";
+        assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
+    }
 
-		// SNIPPET_END
+    @Test
+    public void shouldFindTheTop3HardestWorkingPropPartsInShowbiz() throws Exception {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
 
-		Query query = parser.parse(cql);
-		ExecutionResult result = engine.execute(query);
-		Iterator<Map<String, Object>> stats = result.javaIterator();
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		Iterator<PropInfo> expectedStats = createExpectedStats(
-				new PropInfo("Dalek 1", "shoulder", 11), 
-				new PropInfo("Dalek 5", "skirt", 11), 
-				new PropInfo("Dalek 6", "shoulder", 11));
+        cql = "START daleks=(Species,species,\"Dalek\")" + " MATCH (daleks)-[:APPEARED_IN]->(episode)" + "<-[:USED_IN]-(props)" + "<-[:MEMBER_OF]-(prop)"
+                + "-[:COMPOSED_OF]->(part)" + "-[:ORIGINAL_PROP]->(originalprop)" + " RETURN originalprop.prop, part.part, COUNT(*)"
+                + " ORDER BY COUNT(*) DESC" + " LIMIT 3";
 
-		while (stats.hasNext()) {
-			Map<String, Object> stat = stats.next();
-			PropInfo expectedStat = expectedStats.next();
-			assertEquals(expectedStat.getOriginalProp(), stat.get("originalprop.prop"));
-			assertEquals(expectedStat.getPart(), stat.get("part.part"));
-			assertEquals(expectedStat.getCount(), stat.get("count(*)"));
-			
-		}		
-		assertFalse(stats.hasNext());
+        // SNIPPET_END
 
-	}
+        Query query = parser.parse(cql);
+        ExecutionResult result = engine.execute(query);
+        Iterator<Map<String, Object>> stats = result.javaIterator();
 
-	private Iterator<PropInfo> createExpectedStats(PropInfo... propStats) {
-		Collection<PropInfo> expectedPropPartStats = new ArrayList<PropInfo>();
-		for (PropInfo propStat : propStats){
-			expectedPropPartStats.add(propStat);
-		}
-		return expectedPropPartStats.iterator();
-	}
+        Iterator<PropInfo> expectedStats = createExpectedStats(new PropInfo("Dalek 1", "shoulder", 11), new PropInfo("Dalek 5", "skirt", 11), new PropInfo(
+                "Dalek 6", "shoulder", 11));
 
-	private class PropInfo {
-		private final String originalProp;
-		private final String part;
-		private final int count;
+        while (stats.hasNext()) {
+            Map<String, Object> stat = stats.next();
+            PropInfo expectedStat = expectedStats.next();
+            assertEquals(expectedStat.getOriginalProp(), stat.get("originalprop.prop"));
+            assertEquals(expectedStat.getPart(), stat.get("part.part"));
+            assertEquals(expectedStat.getCount(), stat.get("count(*)"));
 
-		public PropInfo(String originalProp, String part, int count) {
-			super();
-			this.originalProp = originalProp;
-			this.part = part;
-			this.count = count;
-		}
+        }
+        assertFalse(stats.hasNext());
 
-		public String getOriginalProp() {
-			return originalProp;
-		}
+    }
 
-		public String getPart() {
-			return part;
-		}
+    private Iterator<PropInfo> createExpectedStats(PropInfo... propStats) {
+        Collection<PropInfo> expectedPropPartStats = new ArrayList<PropInfo>();
+        for (PropInfo propStat : propStats) {
+            expectedPropPartStats.add(propStat);
+        }
+        return expectedPropPartStats.iterator();
+    }
 
-		public int getCount() {
-			return count;
-		}
-	}
+    private class PropInfo {
+        private final String originalProp;
+        private final String part;
+        private final int count;
+
+        public PropInfo(String originalProp, String part, int count) {
+            super();
+            this.originalProp = originalProp;
+            this.part = part;
+            this.count = count;
+        }
+
+        public String getOriginalProp() {
+            return originalProp;
+        }
+
+        public String getPart() {
+            return part;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
 }
