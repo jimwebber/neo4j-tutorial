@@ -76,11 +76,20 @@
 		<fail if="tests.failed.or.errored" message="Build failed due to unit test failures or errors" />
 	</target>
 	
-	<target name="generate.eclipse.project" depends="-install.ant-eclipse">
-		<eclipse>
+	<target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
+		<mkdir dir="${main.target}" />
+		<mkdir dir="${test.target}" />
+		<mkdir dir="${koan.target}" />
+		<eclipse mode="java">
+			<settings>
+	        	<jdtcore compilercompliance="6.0" />
+	      	</settings>
+			<project name="neo4j-koans"/>
 			<classpath>
-				<library path="${lib.dir}" />
-				<source pathref="all.src" />
+				<library pathref="path.libs" />
+				<source path="${main.src}" />
+				<source path="${test.src}" />
+				<source path="${koan.src}" />
 				<output path="${target}" />
 			</classpath>
 		</eclipse>

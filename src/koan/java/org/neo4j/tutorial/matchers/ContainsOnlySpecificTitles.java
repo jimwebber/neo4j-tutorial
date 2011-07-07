@@ -43,7 +43,7 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> 
     }
 
     @Factory
-    public static <T> Matcher<Iterable<Node>> containsOnlyTitles(String... titles) {
+    public static Matcher<Iterable<Node>> containsOnlyTitles(String... titles) {
         return new ContainsOnlySpecificTitles(titles);
     }
 }
