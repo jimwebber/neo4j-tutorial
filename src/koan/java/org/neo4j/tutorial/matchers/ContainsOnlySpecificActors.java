@@ -15,18 +15,18 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> 
     private boolean nodeIsNotAnActor;
 
     private ContainsOnlySpecificActors(String... actors) {
-        for(String s : actors) {
+        for (String s : actors) {
             actorNames.add(s);
         }
     }
 
     @Override
     public void describeTo(Description description) {
-        if(nodeIsNotAnActor) {
+        if (nodeIsNotAnActor) {
             description.appendText("A supplied node does not have the property 'actor'");
         }
-        
-        if(!matchedParameterLengths) {
+
+        if (!matchedParameterLengths) {
             description.appendText("Number of actor names presented does not match number of actors");
         }
     }
@@ -34,21 +34,24 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> 
     @Override
     public boolean matchesSafely(Iterable<Node> actors) {
 
-        for(Node actor : actors) {
-            if(!actor.hasProperty("actor")) {
+        for (Node actor : actors) {
+            if (!actor.hasProperty("actor")) {
                 nodeIsNotAnActor = true;
                 return false;
             }
+
             Object actorProperty = actor.getProperty("actor");
-            if(actorNames.contains(actorProperty)) {
+            if (actorNames.contains(actorProperty)) {
                 actorNames.remove(actorProperty);
-            }            
+            } else {
+                return false;
+            }
         }
         return matchedParameterLengths = actorNames.size() == 0;
     }
-    
+
     @Factory
     public static <T> Matcher<Iterable<Node>> containsOnlyActors(String... actorNames) {
-      return new ContainsOnlySpecificActors(actorNames);
+        return new ContainsOnlySpecificActors(actorNames);
     }
 }
