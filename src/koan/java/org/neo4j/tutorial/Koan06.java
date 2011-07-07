@@ -1,94 +1,139 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.traversal.Evaluation;
-import org.neo4j.graphdb.traversal.Evaluator;
-import org.neo4j.graphdb.traversal.Traverser;
-import org.neo4j.kernel.Traversal;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ReturnableEvaluator;
+import org.neo4j.graphdb.StopEvaluator;
+import org.neo4j.graphdb.TraversalPosition;
+import org.neo4j.graphdb.Traverser;
+import org.neo4j.graphdb.Traverser.Order;
 
 /**
- * In this Koan we start using the new traversal framework to find interesting
- * information from the graph about the Doctor's past life.
+ * In this Koan we start using the simple traversal framework to find
+ * interesting information from the graph.
  */
 public class Koan06 {
 
-	private static EmbeddedDoctorWhoUniverse universe;
+    private static EmbeddedDoctorWhoUniverse universe;
 
-	@BeforeClass
-	public static void createDatabase() throws Exception {
-		universe = new EmbeddedDoctorWhoUniverse();
-	}
+    @BeforeClass
+    public static void createDatabase() throws Exception {
+        universe = new EmbeddedDoctorWhoUniverse();
+    }
+    
+    @AfterClass
+    public static void closeTheDatabase() {
+        universe.stop();
+    }
 
-	@AfterClass
-	public static void closeTheDatabase() {
-		universe.stop();
-	}
-
-	@Test
-	public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception {
-		Node theDoctor = universe.theDoctor();
-		Traverser traverser = null;
-
-        // YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-				.breadthFirst()
-				.evaluator(new Evaluator() {
-					@Override
-					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
-							return Evaluation.INCLUDE_AND_CONTINUE;
-						} else {
-							return Evaluation.EXCLUDE_AND_PRUNE;
-						}
-					}
-				}).traverse(theDoctor);
-
-		// SNIPPET_END
-
-		assertThat(traverser.nodes(), containsNumberOfNodes(11));
-	}
-
-	@Test
-	public void shouldFindTheFirstDoctor() {
-		Node theDoctor = universe.theDoctor();
-		Traverser traverser = null;
+    @Test
+    public void shouldFindAllCompanions() {
+        Node theDoctor = universe.theDoctor();
+        Traverser t = null;
 
         // YOUR CODE GOES HERE
-		// SNIPPET_START
+        // SNIPPET_START
 
-		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-				.depthFirst()
-				.evaluator(new Evaluator() {
-					@Override
-					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
-							return Evaluation.EXCLUDE_AND_CONTINUE;
-						} else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-							// Catches Richard Hurdnall who played the William
-							// Hartnell's Doctor in The Five Doctors (William
-							// Hartnell had died by then)
-							return Evaluation.EXCLUDE_AND_CONTINUE;
-						} else {
-							return Evaluation.INCLUDE_AND_PRUNE;
-						}
+        t = theDoctor.traverse(Order.DEPTH_FIRST,
+                StopEvaluator.DEPTH_ONE,
+                ReturnableEvaluator.ALL_BUT_START_NODE,
+                DoctorWhoUniverse.COMPANION_OF,
+                Direction.INCOMING);
+
+        // SNIPPET_END
+
+        Collection<Node> foundCompanions = t.getAllNodes();
+
+        int knownNumberOfCompanions = 45;
+        assertEquals(knownNumberOfCompanions, foundCompanions.size());
+    }
+    
+    @Test
+    public void shouldFindAllDalekProps(){
+    	Node theDaleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
+    	Traverser t = null;
+    	
+    	// YOUR CODE GOES HERE
+        // SNIPPET_START
+    	
+    	t = theDaleks.traverse(Order.DEPTH_FIRST, 
+    			StopEvaluator.END_OF_GRAPH, 
+    			new ReturnableEvaluator() {
+					public boolean isReturnableNode(TraversalPosition currentPos) {
+						return currentPos.currentNode().hasProperty("prop");
 					}
-				}).traverse(theDoctor);
+				}, 
+    			DoctorWhoUniverse.APPEARED_IN, Direction.BOTH,
+    			DoctorWhoUniverse.USED_IN, Direction.INCOMING,
+    			DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING);
+    	
+    	// SNIPPET_END
+    	
+    	assertCollectionContainsAllDalekProps(t.getAllNodes());
+    }
+    
+    private void assertCollectionContainsAllDalekProps(Collection<Node> nodes){
+    	String [] dalekProps = new String[]{"Dalek One-7", "Imperial 4", "Imperial 3", "Imperial 2", "Imperial 1", 
+    			"Supreme Dalek", "Remembrance 3", "Remembrance 2", "Remembrance 1", "Dalek 7-V", "Dalek V-VI", "Goon IV",
+    			"Goon II","Goon I", "Dalek Six-5", "Dalek Seven-2", "Dalek V-5", "Dalek Seven-V", "Dalek Six-Ex", 
+    			"Dalek Seven-8", "Dalek 8", "Dalek 7", "Dalek Five-6", "Dalek Two-1", "Dalek 2", "Dalek 1", "Dalek 6", 
+    			"Dalek 5", "Dalek 4", "Dalek 3", "Dalek IV-Ex", "Dalek Seven-II", "Necros 3", "Necros 2", "Necros 1", 
+    			"Goon III", "Goon VII", "Goon VI", "Goon V", "Gold Movie Dalek", "Dalek Six-7", "Dalek One-5"
+    	};
+    	
+    	
+    	List<String> propList = new ArrayList<String>();
+    	for (Node n : nodes){
+    		propList.add(n.getProperty("prop").toString());
+    	}
+    	
+    	assertEquals(dalekProps.length, propList.size());
+    	for (String prop : dalekProps){
+    		assertTrue(propList.contains(prop));
+    	}
+    }
+    
+    @Test
+    public void shouldFindAllTheEpisodesTheMasterAndDavidTennantWereInTogether() {
+        Node theMaster = universe.getDatabase().index().forNodes("characters").get("name", "Master").getSingle();
+        Traverser t = null;
 
-		// SNIPPET_END
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
-	}
+        t = theMaster.traverse(Order.DEPTH_FIRST,
+                StopEvaluator.END_OF_GRAPH,
+                new ReturnableEvaluator() {
+                    public boolean isReturnableNode(TraversalPosition currentPos) {
+                        if(currentPos.currentNode().hasProperty("episode")) {
+                            Node episode = currentPos.currentNode();
+                            
+                            for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
+                                if(r.getStartNode().hasProperty("actor") && r.getStartNode().getProperty("actor").equals("David Tennant")) {
+                                    return true;
+                                }
+                            }
+                        }
+                        
+                        return false;
+                    }},
+                DoctorWhoUniverse.APPEARED_IN,
+                Direction.OUTGOING);
+
+        // SNIPPET_END
+
+        int numberOfEpisodesWithTennantVersusTheMaster = 4;
+        assertEquals(numberOfEpisodesWithTennantVersusTheMaster, t.getAllNodes().size());
+    }
 }

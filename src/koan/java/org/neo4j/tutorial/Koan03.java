@@ -31,7 +31,7 @@ public class Koan03 {
     public static void createDatabase() throws Exception {
         universe = new EmbeddedDoctorWhoUniverse();
     }
-    
+
     @AfterClass
     public static void closeTheDatabase() {
         universe.stop();
@@ -56,7 +56,7 @@ public class Koan03 {
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
         GraphDatabaseService db = universe.getDatabase();
         Node abigailPettigrew = createAbigailPettigrew(db);
-        
+
         assertNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
 
         // YOUR CODE GOES HERE
@@ -67,7 +67,7 @@ public class Koan03 {
             db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
             transaction.success();
         } finally {
-        	transaction.finish();
+            transaction.finish();
         }
 
         // SNIPPET_END
@@ -90,8 +90,9 @@ public class Koan03 {
     }
 
     /**
-     * In this example, it's more important to understand what you *don't* have to do, rather
-     * than the work you explicitly have to do. Sometimes indexes just do the right thing...
+     * In this example, it's more important to understand what you *don't* have
+     * to do, rather than the work you explicitly have to do. Sometimes indexes
+     * just do the right thing...
      */
     @Test
     public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
@@ -114,7 +115,6 @@ public class Koan03 {
 
         // SNIPPET_END
 
-        
         assertNull("Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex(db));
 
         try {
@@ -127,17 +127,17 @@ public class Koan03 {
     private Node retriveCyberleaderFromIndex(GraphDatabaseService db) {
         return db.index().forNodes("characters").get("name", "Cyberleader").getSingle();
     }
-    
+
     private Node createAbigailPettigrew(GraphDatabaseService db) {
-		Node abigailPettigrew;
-		Transaction tx = db.beginTx();
+        Node abigailPettigrew;
+        Transaction tx = db.beginTx();
         try {
-        	abigailPettigrew = db.createNode();
+            abigailPettigrew = db.createNode();
             abigailPettigrew.setProperty("name", "Abigail Pettigrew");
             tx.success();
         } finally {
             tx.finish();
         }
-		return abigailPettigrew;
-	}
+        return abigailPettigrew;
+    }
 }
