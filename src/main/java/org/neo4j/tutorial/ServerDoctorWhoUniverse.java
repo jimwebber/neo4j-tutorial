@@ -29,7 +29,7 @@ public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object
 	}
 
 	@Override
-	Map<String,Object> theDoctor() {
+	public Map<String,Object> theDoctor() {
 		return getJsonFor(getUriFromIndex("characters", "name", "Doctor"));
 	}
 	

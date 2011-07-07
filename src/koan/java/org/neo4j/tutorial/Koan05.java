@@ -1,11 +1,11 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,15 +13,13 @@ import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.ReturnableEvaluator;
-import org.neo4j.graphdb.StopEvaluator;
-import org.neo4j.graphdb.TraversalPosition;
-import org.neo4j.graphdb.Traverser;
-import org.neo4j.graphdb.Traverser.Order;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
 
 /**
- * In this Koan we start using the simple traversal framework to find
- * interesting information from the graph.
+ * In this Koan we start to mix indexing and core API to perform more targeted
+ * graph operations. We'll mix indexes and core graph operations to explore the
+ * Doctor's universe.
  */
 public class Koan05 {
 
@@ -38,104 +36,79 @@ public class Koan05 {
     }
 
     @Test
-    public void shouldFindAllCompanions() {
-        Node theDoctor = universe.theDoctor();
-        Traverser t = null;
+    public void shouldCountTheNumberOfDoctorsRegenerations() {
+
+        Index<Node> actorsIndex = universe.getDatabase().index().forNodes("actors");
+        int numberOfRegenerations = 1;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+        Node firstDoctor = actorsIndex.get("actor", "William Hartnell").getSingle();
+
+        Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+
+        while (regeneratedTo != null) {
+            numberOfRegenerations++;
+            regeneratedTo = regeneratedTo.getEndNode().getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+        }
+
+        // SNIPPET_END
+
+        assertEquals(11, numberOfRegenerations);
+    }
+
+    @Test
+    public void shouldFindHumanCompanionsUsingCoreApi() {
+        IndexHits<Node> characters = null;
+        HashSet<Node> humanCompanions = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        t = theDoctor.traverse(Order.DEPTH_FIRST,
-                StopEvaluator.DEPTH_ONE,
-                ReturnableEvaluator.ALL_BUT_START_NODE,
-                DoctorWhoUniverse.COMPANION_OF,
-                Direction.INCOMING);
+        characters = universe.getDatabase().index().forNodes("characters").query("name", "*");
+
+        for (Node n : characters) {
+
+            if (n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING) && n.hasRelationship(DoctorWhoUniverse.COMPANION_OF, Direction.OUTGOING)) {
+                Relationship relationship = n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
+                if (relationship.getEndNode().getProperty("species").equals("Human")) {
+                    humanCompanions.add(n);
+                }
+            }
+        }
 
         // SNIPPET_END
 
-        Collection<Node> foundCompanions = t.getAllNodes();
+        int numberOfKnownHumanCompanions = 36;
+        assertEquals(numberOfKnownHumanCompanions, humanCompanions.size());
+        assertThat(humanCompanions, containsOnlyHumanCompanions());
+    }
 
-        int knownNumberOfCompanions = 45;
-        assertEquals(knownNumberOfCompanions, foundCompanions.size());
-    }
-    
     @Test
-    public void shouldFindAllDalekProps(){
-    	Node theDaleks = universe.getDatabase().index().forNodes("species").get("species", "Dalek").getSingle();
-    	Traverser t = null;
-    	
-    	// YOUR CODE GOES HERE
-        // SNIPPET_START
-    	
-    	t = theDaleks.traverse(Order.DEPTH_FIRST, 
-    			StopEvaluator.END_OF_GRAPH, 
-    			new ReturnableEvaluator() {
-					@Override
-					public boolean isReturnableNode(TraversalPosition currentPos) {
-						return currentPos.currentNode().hasProperty("prop");
-					}
-				}, 
-    			DoctorWhoUniverse.APPEARED_IN, Direction.BOTH,
-    			DoctorWhoUniverse.USED_IN, Direction.INCOMING,
-    			DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING);
-    	
-    	// SNIPPET_END
-    	
-    	assertCollectionContainsAllDalekProps(t.getAllNodes());
-    }
-    
-    private void assertCollectionContainsAllDalekProps(Collection<Node> nodes){
-    	String [] dalekProps = new String[]{"Dalek One-7", "Imperial 4", "Imperial 3", "Imperial 2", "Imperial 1", 
-    			"Supreme Dalek", "Remembrance 3", "Remembrance 2", "Remembrance 1", "Dalek 7-V", "Dalek V-VI", "Goon IV",
-    			"Goon II","Goon I", "Dalek Six-5", "Dalek Seven-2", "Dalek V-5", "Dalek Seven-V", "Dalek Six-Ex", 
-    			"Dalek Seven-8", "Dalek 8", "Dalek 7", "Dalek Five-6", "Dalek Two-1", "Dalek 2", "Dalek 1", "Dalek 6", 
-    			"Dalek 5", "Dalek 4", "Dalek 3", "Dalek IV-Ex", "Dalek Seven-II", "Necros 3", "Necros 2", "Necros 1", 
-    			"Goon III", "Goon VII", "Goon VI", "Goon V", "Gold Movie Dalek", "Dalek Six-7", "Dalek One-5"
-    	};
-    	
-    	
-    	List<String> propList = new ArrayList<String>();
-    	for (Node n : nodes){
-    		propList.add(n.getProperty("prop").toString());
-    	}
-    	
-    	assertEquals(dalekProps.length, propList.size());
-    	for (String prop : dalekProps){
-    		assertTrue(propList.contains(prop));
-    	}
-    }
-    
-    @Test
-    public void shouldFindAllTheEpisodesTheMasterAndDavidTennantWereInTogether() {
-        Node theMaster = universe.getDatabase().index().forNodes("characters").get("name", "Master").getSingle();
-        Traverser t = null;
+    public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks() {
+        Index<Node> friendliesIndex = universe.getDatabase().index().forNodes("characters");
+        Index<Node> speciesIndex = universe.getDatabase().index().forNodes("species");
+        HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        t = theMaster.traverse(Order.DEPTH_FIRST,
-                StopEvaluator.END_OF_GRAPH,
-                new ReturnableEvaluator() {
-                    @Override
-                    public boolean isReturnableNode(TraversalPosition currentPos) {
-                        if(currentPos.currentNode().hasProperty("episode")) {
-                            Node episode = currentPos.currentNode();
-                            
-                            for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
-                                if(r.getStartNode().hasProperty("actor") && r.getStartNode().getProperty("actor").equals("David Tennant")) {
-                                    return true;
-                                }
-                            }
-                        }
-                        
-                        return false;
-                    }},
-                DoctorWhoUniverse.APPEARED_IN,
-                Direction.OUTGOING);
+        Node roseTyler = friendliesIndex.get("name", "Rose Tyler").getSingle();
+        Node daleks = speciesIndex.get("species", "Dalek").getSingle();
+
+        for (Relationship r1 : roseTyler.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING)) {
+            Node episode = r1.getEndNode();
+
+            for (Relationship r2 : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
+                if (r2.getStartNode().equals(daleks)) {
+                    episodesWhereRoseFightsTheDaleks.add(episode);
+                }
+            }
+        }
 
         // SNIPPET_END
 
-        int numberOfEpisodesWithTennantVersusTheMaster = 4;
-        assertEquals(numberOfEpisodesWithTennantVersusTheMaster, t.getAllNodes().size());
+        assertThat(episodesWhereRoseFightsTheDaleks,
+                containsOnlyTitles("Army of Ghosts", "The Stolen Earth", "Doomsday", "Journey's End", "Bad Wolf", "The Parting of the Ways", "Dalek"));
     }
 }

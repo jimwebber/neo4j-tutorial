@@ -8,7 +8,7 @@ public class EmbeddedDoctorWhoUniverse extends DoctorWhoUniverse<Node> {
 	private final GraphDatabaseService db = DatabaseHelper.createDatabase(getDatabaseDirectory());
 
 	@Override
-	Node theDoctor() {
+	public Node theDoctor() {
 		return db.index().forNodes("characters").get("name", "Doctor").getSingle();
 	}
 	

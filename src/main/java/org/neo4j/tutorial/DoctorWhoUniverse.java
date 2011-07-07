@@ -62,7 +62,7 @@ public abstract class DoctorWhoUniverse<T> {
     	return dbDir;
     }
 
-    abstract T theDoctor();
+    public abstract T theDoctor();
 
     abstract void stop();
 }
