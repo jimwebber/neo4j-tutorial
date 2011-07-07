@@ -5,4 +5,6 @@ bin
 lib
 target
 .ivy
-.DS_Store
+.DS_Store/.ant-eclipse
+.ant-eclipse
+/.settings
