@@ -84,7 +84,7 @@
 			<settings>
 	        	<jdtcore compilercompliance="6.0" />
 	      	</settings>
-			<project name="neo4j-koans"/>
+			<project name="neo4j-tutorial"/>
 			<classpath>
 				<library pathref="path.libs" />
 				<source path="${main.src}" />
