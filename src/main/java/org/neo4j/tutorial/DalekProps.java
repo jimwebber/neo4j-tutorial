@@ -130,7 +130,7 @@ public class DalekProps {
 				.fact(db);
             dalekProps("Remembrance of the Daleks")
 				.addProp("Dalek 1", "Dalek 7", "Dalek One-7")
-				.addProp("Dalek 7", "Goon V", "Dalek 7-V")
+				.addProp("Dalek 7", "Goon V", "Dalek Seven-V")
 				.addProp("Remembrance 1", "Remembrance 1", "Remembrance 1")
 				.addProp("Remembrance 2", "Remembrance 2", "Remembrance 2")
 				.addProp("Remembrance 3", "Remembrance 3", "Remembrance 3")
