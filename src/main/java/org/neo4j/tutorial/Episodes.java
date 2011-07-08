@@ -319,7 +319,7 @@ public class Episodes {
     }
 
     private void season09() {
-        episode(60).title("Day of the Daleks").doctor("Jon Pertwee").companion("Jo Grant").enemy("Bok", "Master").fact(db);
+        episode(60).title("Day of the Daleks").doctor("Jon Pertwee").companion("Jo Grant").enemySpecies("Dalek").fact(db);
         episode(61).title("The Curse of Peladon").doctor("Jon Pertwee").companion("Jo Grant").fact(db);
         episode(62).title("The Sea Devils").doctor("Jon Pertwee").companion("Jo Grant").enemy("Master").enemySpecies("Sea Devil").fact(db);
         episode(63).title("The Mutants").doctor("Jon Pertwee").enemy("The Marshal").companion("Jo Grant").fact(db);
