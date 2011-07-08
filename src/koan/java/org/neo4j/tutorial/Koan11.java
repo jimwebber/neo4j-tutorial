@@ -92,7 +92,7 @@ public class Koan11 {
 
 		WebResource resource = client.resource(universe.theDoctor().get("traverse").toString().replace("{returnType}", "fullpath"));
 		String requestJson = traversal.toJson();
-		System.out.println(requestJson);
+	
 		response = resource
 				.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON)

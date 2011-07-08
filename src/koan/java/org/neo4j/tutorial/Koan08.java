@@ -58,7 +58,7 @@ public class Koan08 {
                 containsOnlyTitles("The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
                         "Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
                         "Revelation of the Daleks", "Resurrection of the Daleks", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
-                        "Planet of the Daleks", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
+                        "Planet of the Daleks", "Day of the Daleks", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
                         "The Dalek Invasion of Earth", "The Daleks"));
 
     }
@@ -104,8 +104,8 @@ public class Koan08 {
         ExecutionResult result = engine.execute(query);
         Iterator<Map<String, Object>> stats = result.javaIterator();
 
-        Iterator<PropInfo> expectedStats = createExpectedStats(new PropInfo("Dalek 1", "shoulder", 11), new PropInfo("Dalek 5", "skirt", 11), new PropInfo(
-                "Dalek 6", "shoulder", 11));
+        Iterator<PropInfo> expectedStats = createExpectedStats(new PropInfo("Dalek 1", "shoulder", 12), new PropInfo("Dalek 5", "skirt", 12), new PropInfo(
+                "Dalek 6", "shoulder", 12));
 
         while (stats.hasNext()) {
             Map<String, Object> stat = stats.next();
