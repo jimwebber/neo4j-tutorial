@@ -74,11 +74,11 @@ public class DalekPropBuilder {
         	}
         	else {
         		if (shoulderExists(prop)){
-        			createPartAttachedToEpisodeProps(prop.getShoulder(), "shoulder", episodePropsNode, db);
+        			createPartAttachedToPropGroup(prop.getShoulder(), "shoulder", episodePropsNode, db);
             	}
             	
             	if (skirtExists(prop)){
-            		createPartAttachedToEpisodeProps(prop.getSkirt(), "skirt", episodePropsNode, db);
+            		createPartAttachedToPropGroup(prop.getSkirt(), "skirt", episodePropsNode, db);
             	}
         	}
         	
@@ -92,10 +92,10 @@ public class DalekPropBuilder {
 		}
 	}
 	
-	private void createPartAttachedToEpisodeProps(String originalPropName, String part, Node episodePropsNode, GraphDatabaseService db) {
+	private void createPartAttachedToPropGroup(String originalPropName, String part, Node propGroupNode, GraphDatabaseService db) {
 		Node partNode = ensurePartExistsInDb(originalPropName, part, db);
-		if (!relationshipExists(partNode, episodePropsNode, DoctorWhoUniverse.MEMBER_OF, Direction.OUTGOING)){
-			partNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
+		if (!relationshipExists(partNode, propGroupNode, DoctorWhoUniverse.MEMBER_OF, Direction.OUTGOING)){
+			partNode.createRelationshipTo(propGroupNode, DoctorWhoUniverse.MEMBER_OF);
 		}
 	}
 	
