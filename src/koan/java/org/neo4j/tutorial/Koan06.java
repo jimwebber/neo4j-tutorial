@@ -85,7 +85,7 @@ public class Koan06 {
     
     private void assertCollectionContainsAllDalekProps(Collection<Node> nodes){
     	String [] dalekProps = new String[]{"Dalek One-7", "Imperial 4", "Imperial 3", "Imperial 2", "Imperial 1", 
-    			"Supreme Dalek", "Remembrance 3", "Remembrance 2", "Remembrance 1", "Dalek 7-V", "Dalek V-VI", "Goon IV",
+    			"Supreme Dalek", "Remembrance 3", "Remembrance 2", "Remembrance 1", "Dalek V-VI", "Goon IV",
     			"Goon II","Goon I", "Dalek Six-5", "Dalek Seven-2", "Dalek V-5", "Dalek Seven-V", "Dalek Six-Ex", 
     			"Dalek Seven-8", "Dalek 8", "Dalek 7", "Dalek Five-6", "Dalek Two-1", "Dalek 2", "Dalek 1", "Dalek 6", 
     			"Dalek 5", "Dalek 4", "Dalek 3", "Dalek IV-Ex", "Dalek Seven-II", "Necros 3", "Necros 2", "Necros 1", 
