@@ -5,6 +5,9 @@ bin
 lib
 target
 .ivy
-.DS_Store/.ant-eclipse
+.DS_Store
 .ant-eclipse
-/.settings
+.ant-eclipse
+.settings
+.idea
+neo4j-koans.iml
