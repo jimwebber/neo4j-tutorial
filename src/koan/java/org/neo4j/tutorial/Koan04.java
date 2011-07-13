@@ -1,5 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificCharacters.containsSpecificCharacters;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +16,7 @@ import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 
-import static org.junit.Assert.assertNotNull;
+
 
 /**
  * After having done the hard work of managing an index for ourselves in the
@@ -61,7 +65,7 @@ public class Koan04 {
             tx.finish();
         }
 
-        assertNotNull(charactersAutoIndex.getAutoIndex().get("character-name", "Jack Harkness").getSingle());
+        assertThat(charactersAutoIndex, containsSpecificCharacters(allCharacterNames));
     }
 
     private Set<String> getAllCharacterNames() {
