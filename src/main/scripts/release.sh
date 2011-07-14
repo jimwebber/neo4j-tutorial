@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Naive release script that copies the Koans, without the Git repo, to the specified release direction and runs the sed scripts to strip out the Java code, thus readying the Koans for use
+# Naive release script that copies the Koans, without the Git repo, to the specified release directory and runs the sed scripts to strip out the Java code, thus readying the Koans for use
 
 CURRENT_DIR=`pwd`
 
