@@ -59,24 +59,27 @@ public class Koan05 {
 
     @Test
     public void shouldFindHumanCompanionsUsingCoreApi() {
-        IndexHits<Node> characters = null;
         HashSet<Node> humanCompanions = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        characters = universe.getDatabase().index().forNodes("characters").query("name", "*");
-
-        for (Node n : characters) {
-
-            if (n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING) && n.hasRelationship(DoctorWhoUniverse.COMPANION_OF, Direction.OUTGOING)) {
-                Relationship relationship = n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
-                if (relationship.getEndNode().getProperty("species").equals("Human")) {
-                    humanCompanions.add(n);
+        // SNIPPET_START}
+        
+        Node human = universe.getDatabase().index().forNodes("species").get("species", "Human").getSingle();
+        
+        
+        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(Direction.INCOMING, DoctorWhoUniverse.COMPANION_OF);
+        for(Relationship rel : relationships) {
+            Node companionNode = rel.getStartNode();
+            if(companionNode.hasRelationship(Direction.OUTGOING, DoctorWhoUniverse.IS_A)) {
+                Relationship singleRelationship = companionNode.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
+                Node endNode = singleRelationship.getEndNode();
+                if(endNode.equals(human)) {
+                    humanCompanions.add(companionNode);
+                    break;
                 }
             }
         }
-
+        
         // SNIPPET_END
 
         int numberOfKnownHumanCompanions = 36;
