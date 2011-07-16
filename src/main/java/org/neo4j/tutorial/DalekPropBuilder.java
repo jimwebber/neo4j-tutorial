@@ -62,9 +62,6 @@ public class DalekPropBuilder {
         for (Prop prop : props){
         	if (isFullProp(prop)){
         		Node currentDalekPropNode = ensurePropAppearsInDb(prop.getName(), db);
-        		if (!currentDalekPropNode.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING)){
-        			currentDalekPropNode.createRelationshipTo(dalekSpeciesNode, DoctorWhoUniverse.IS_A);
-        		}
             	currentDalekPropNode.createRelationshipTo(episodePropsNode, DoctorWhoUniverse.MEMBER_OF);
             	
             	if (shoulderExists(prop)){
