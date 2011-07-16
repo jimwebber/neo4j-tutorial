@@ -55,9 +55,9 @@ public class Koan08 {
 		assertThat(asIterable(episodes),
 				containsOnlyTitles("The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
 						"Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
-						"Revelation of the Daleks", "Resurrection of the Daleks", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
-						"Planet of the Daleks", "Day of the Daleks", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
-						"The Dalek Invasion of Earth", "The Daleks"));
+						"Revelation of the Daleks", "Resurrection of the Daleks", "The Five Doctors", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
+						"Planet of the Daleks", "Frontier in Space", "Day of the Daleks", "The War Games", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
+						"The Space Museum", "The Dalek Invasion of Earth", "The Daleks"));
 
 	}
 
@@ -84,7 +84,7 @@ public class Koan08 {
 	}
 
 	@Test
-	public void shouldFindTheTop3HardestWorkingPropPartsInShowbiz() throws Exception {
+	public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception {
 		CypherParser parser = new CypherParser();
 		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
 		String cql = null;
@@ -94,7 +94,7 @@ public class Koan08 {
 
 		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
 				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.part, COUNT(episode.title)"
-				+ " ORDER BY COUNT(episode.title) DESC LIMIT 3";
+				+ " ORDER BY COUNT(episode.title) DESC LIMIT 1";
 
 		// SNIPPET_END
 
@@ -102,9 +102,7 @@ public class Koan08 {
 		ExecutionResult result = engine.execute(query);
 
 		assertHardestWorkingPropParts(result.javaIterator(),
-				"Dalek 1", "shoulder", 12,
-				"Dalek 5", "skirt", 12,
-				"Dalek 6", "shoulder", 12);
+				"Dalek 1", "shoulder", 15);
 
 	}
 

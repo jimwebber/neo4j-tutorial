@@ -53,6 +53,7 @@ public class DalekPropBuilder {
 	public void fact(GraphDatabaseService db) {
 		Node dalekSpeciesNode = db.index().forNodes("species").get("species", "Dalek").getSingle();
         Node episodeNode = ensureEpisodeIsInDb(episode, db);
+        ensureEpisodeIsConnectedToDalekSpecies(episodeNode, dalekSpeciesNode);
         
         Node episodePropsNode = db.createNode();
         episodePropsNode.setProperty("props", "Daleks");
@@ -146,6 +147,19 @@ public class DalekPropBuilder {
 			index.add(dalekPropNode, "prop", name);
 		}
 		return dalekPropNode;
+	}
+	
+	private void ensureEpisodeIsConnectedToDalekSpecies(Node episodeNode, Node speciesNode){
+		boolean isConnected = false;
+		for (Relationship rel : episodeNode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)){
+			if (rel.getStartNode().equals(speciesNode)){
+				isConnected = true;
+				break;
+			}
+		}
+		if (!isConnected){
+			throw new RuntimeException("Episode '" + episodeNode.getProperty("title") + "' not connected to Dalek species.");
+		}
 	}
 
 	private Node ensureEpisodeIsInDb(String episode, GraphDatabaseService db){

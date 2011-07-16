@@ -38,7 +38,7 @@ public class Episodes {
             season20();
             episode(129).title("The Five Doctors").doctor("Richard Hurdnall").doctor("William Hartnell").doctor("Patrick Troughton").doctor("Jon Pertwee")
                     .doctor("Tom Baker").doctor("Peter Davison").companion("Tegan Jovanka", "Vislor Turlough", "Susan Foreman", "Sarah Jane Smith", "Romana")
-                    .enemy("Master").fact(db);
+                    .enemy("Master").enemySpecies("Dalek").fact(db);
             season21();
             season22();
             season23();
@@ -313,7 +313,7 @@ public class Episodes {
         episode(65).title("The Three Doctors").doctor("Jon Pertwee").doctor("Patrick Troughton").doctor("William Hartnell").companion("Jo Grant")
                 .enemy("Omega").fact(db);
         episode(66).title("Carnival of Monsters").doctor("Jon Pertwee").companion("Jo Grant").fact(db);
-        episode(67).title("Frontier in Space").doctor("Jon Pertwee").companion("Jo Grant").enemy("Master").fact(db);
+        episode(67).title("Frontier in Space").doctor("Jon Pertwee").companion("Jo Grant").enemy("Master").enemySpecies("Dalek").fact(db);
         episode(68).title("Planet of the Daleks").doctor("Jon Pertwee").companion("Jo Grant").enemySpecies("Dalek").fact(db);
         episode(69).title("The Green Death").doctor("Jon Pertwee").companion("Jo Grant").enemy("BOSS").fact(db);
     }
@@ -348,7 +348,7 @@ public class Episodes {
         episode(47).title("The Krotons").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Zoe Heriot").enemySpecies("Kroton").fact(db);
         episode(48).title("The Seeds of Death").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Zoe Heriot").enemySpecies("Ice Warrior").fact(db);
         episode(49).title("The Space Pirates").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Zoe Heriot").enemy("Caven", "Dervish").fact(db);
-        episode(50).title("The War Games").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Zoe Heriot").enemy("War Chief").fact(db);
+        episode(50).title("The War Games").doctor("Patrick Troughton").companion("Jamie McCrimmon", "Zoe Heriot").enemy("War Chief").enemySpecies("Dalek").fact(db);
     }
 
     private void season05() {
@@ -399,7 +399,7 @@ public class Episodes {
         episode(12).title("The Romans").doctor("William Hartnell").companion("Vicki", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(13).title("The Web Planet").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
         episode(14).title("The Crusade").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
-        episode(15).title("The Space Museum").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").fact(db);
+        episode(15).title("The Space Museum").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright").enemySpecies("Dalek").fact(db);
         episode(16).title("The Chase").doctor("William Hartnell").companion("Susan Foreman", "Ian Chesterton", "Barbara Wright", "Steven Taylor")
                 .enemySpecies("Dalek").fact(db);
         episode(17).title("The Time Meddler").doctor("William Hartnell").companion("Vicki", "Steven Taylor").enemy("Meddling Monk").fact(db);
