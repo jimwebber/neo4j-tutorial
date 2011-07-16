@@ -36,7 +36,7 @@ public class Koan08 {
 	}
 
 	@Test
-	public void shouldFindAllTheEpisodesInWhichDalekPropsWereUsed() throws Exception {
+	public void shouldFindAllTheEpisodesInWhichTheDaleksAppeared() throws Exception {
 		CypherParser parser = new CypherParser();
 		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
 		String cql = null;
