@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -31,7 +30,7 @@ public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>> {
     }
     
     @Factory
-    public static <T> Matcher<Set<Node>> containsOnlyHumanCompanions() {
+    public static ContainsOnlyHumanCompanions containsOnlyHumanCompanions() {
       return new ContainsOnlyHumanCompanions();
     }
 }
