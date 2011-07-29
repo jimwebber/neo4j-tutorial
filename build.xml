@@ -5,6 +5,7 @@
 	<import file="${settings.dir}/path.xml" />
 	<import file="${settings.dir}/test.xml" />
 
+	<import file="${settings.dir}/download-neoclipse.xml" />
 	<import file="${settings.dir}/install-ant-eclipse.xml" />
 	<import file="${settings.dir}/install-ivy.xml" />
 	<import file="${settings.dir}/path.xml" />
