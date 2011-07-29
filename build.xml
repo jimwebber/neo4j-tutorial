@@ -71,10 +71,11 @@
 	
 	<target name="run.koans" depends="test, compile.koans">
 		<fileset id="koan.source.files" dir="${koan.src}">
-			<include name="**/Lesson*.java" />
+			<include name="**/Koan*.java" />
 		</fileset>
 		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}" />
-		<fail if="tests.failed.or.errored" message="Build failed due to unit test failures or errors" />
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures" />
+
 	</target>
 	
 	<target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
