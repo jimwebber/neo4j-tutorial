@@ -2,44 +2,44 @@
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="..">
 
-	<property name="neoclipse.version" value="1.4"/>
+	<property name="neoclipse.version" value="1.4" />
 	<property name="arch" value="${sun.arch.data.model}" />
-	<property name="tools.dir" location="tools/"/>
+	<property name="tools.dir" location="tools/" />
 
 	<condition property="is.mac.64.bit">
 		<and>
-			<equals arg1="${arch}" arg2="64"/>
+			<equals arg1="${arch}" arg2="64" />
 			<os family="mac" />
 		</and>
 	</condition>
 
 	<condition property="is.win.32.bit">
 		<and>
-			<equals arg1="${arch}" arg2="32"/>
+			<equals arg1="${arch}" arg2="32" />
 			<os family="windows" />
 		</and>
 	</condition>
 
 	<condition property="is.win.64.bit">
 		<and>
-			<equals arg1="${arch}" arg2="64"/>
+			<equals arg1="${arch}" arg2="64" />
 			<os family="windows" />
 		</and>
 	</condition>
 
 	<condition property="is.linux.32.bit">
 		<and>
-			<equals arg1="${arch}" arg2="32"/>
+			<equals arg1="${arch}" arg2="32" />
 			<os family="unix" />
+			<not>
+				<os family="mac" />
+			</not>
 		</and>
-		<not>
-			<os family="mac" />
-		</not>
 	</condition>
 
 	<condition property="is.linux.64.bit">
 		<and>
-			<equals arg1="${arch}" arg2="64"/>
+			<equals arg1="${arch}" arg2="64" />
 			<os family="unix" />
 			<not>
 				<os family="mac" />
@@ -49,27 +49,35 @@
 
 
 	<target name="-get.mac.64" if="is.mac.64.bit">
-		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz"/>
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz" />
 	</target>
 	<target name="-get.win.32" if="is.win.32.bit">
-		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86.zip"/>
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86.zip" />
 	</target>
 	<target name="-get.win.64" if="is.win.64.bit">
-		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip"/>
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip" />
 	</target>
 	<target name="-get.linux.32" if="is.linux.32.bit">
-		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz"/>
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz" />
 	</target>
 	<target name="-get.linux.64" if="is.linux.64.bit">
-		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz"/>
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz" />
 	</target>
-	
+
 	<target name="-init">
-		<mkdir dir="${tools.dir}"/>
+		<mkdir dir="${tools.dir}" />
 	</target>
-	
-	<target name="get.neoclipse" depends="-init, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64">
-		<echo message="${arch}"/>
+
+	<target name="get.neoclipse" depends="-init, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64" description="Downloads the most appropriate neoclipse version for the current platform">
+		<echo message="${arch}" />
+	</target>
+
+	<target name="get.all.neoclipse.versions" description="Downloads all neoclipse versions which will take a very long time.">
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-macosx.carbon.x86.tar.gz" />
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86.zip" />
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-win32.win32.x86_64.zip" />
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz" />
+		<get dest="${tools.dir}/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz" src="http://dist.neo4j.org/neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz" />
 	</target>
 
 </project>
