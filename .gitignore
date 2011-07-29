@@ -11,3 +11,4 @@ target
 .settings
 .idea
 neo4j-koans.iml
+tools
