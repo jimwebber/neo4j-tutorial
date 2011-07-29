@@ -10,7 +10,7 @@
 	<import file="${settings.dir}/path.xml" />
 	<import file="${settings.dir}/test.xml" />	
 
-	<target name="lib.retrieve" depends="install-ivy">
+	<target name="lib.retrieve" depends="install-ivy" unless="skip.ivy.download">
 		<mkdir dir="${lib.dir}" />
 		<ivy:settings file="${settings.dir}/ivysettings.xml" />
 		<ivy:resolve file="${settings.dir}/ivy.xml" />
