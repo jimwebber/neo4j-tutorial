@@ -1,4 +1,4 @@
-<project name="neo4j-tutorial" default="run-koans" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
+<project name="neo4j-tutorial" default="run.koans" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="settings.dir" location="settings" />
 	<property name="lib.dir" location="lib" />
 
@@ -51,12 +51,12 @@
 		</copy>
 	</target>
 
-	<target name="compile-tests" description="Compile unit test classes" depends="compile">
+	<target name="compile.tests" description="Compile unit test classes" depends="compile">
 		<mkdir dir="${test.target}" />
 		<javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.5" />
 	</target>
 
-	<target name="test" depends="clean, compile, compile-tests">
+	<target name="test" depends="clean, compile, compile.tests">
 		<fileset id="unittest.source.files" dir="${test.src}">
 			<include name="**/*Test*.java" />
 		</fileset>
@@ -64,12 +64,12 @@
 		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
 	</target>
 	
-	<target name="compile-koans" description="Compile koans">
+	<target name="compile.koans" description="Compile koans">
 		<mkdir dir="${koan.target}" />
 		<javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6" />
 	</target>
 	
-	<target name="run-koans" depends="test, compile-koans">
+	<target name="run.koans" depends="test, compile.koans">
 		<fileset id="koan.source.files" dir="${koan.src}">
 			<include name="**/Lesson*.java" />
 		</fileset>
