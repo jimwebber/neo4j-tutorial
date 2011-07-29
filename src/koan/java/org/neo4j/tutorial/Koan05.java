@@ -61,10 +61,9 @@ public class Koan05 {
         HashSet<Node> humanCompanions = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START}
+        // SNIPPET_START
         
         Node human = universe.getDatabase().index().forNodes("species").get("species", "Human").getSingle();
-        
         
         Iterable<Relationship> relationships = universe.theDoctor().getRelationships(Direction.INCOMING, DoctorWhoUniverse.COMPANION_OF);
         for(Relationship rel : relationships) {
@@ -74,7 +73,6 @@ public class Koan05 {
                 Node endNode = singleRelationship.getEndNode();
                 if(endNode.equals(human)) {
                     humanCompanions.add(companionNode);
-                    break;
                 }
             }
         }
