@@ -67,7 +67,7 @@ public class Koan08 {
 		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
 
 		String cql = null;
-		ExecutionResult result;
+		ExecutionResult result = null;
 
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
