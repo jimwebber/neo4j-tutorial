@@ -79,6 +79,7 @@ public class Koan10 {
 	@Test
 	public void shouldFindDoctorsThatBattledTheCybermen() {
 		HashSet<Node> doctorActors = new HashSet<Node>();
+		Node cybermenNode = universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle();
 
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
@@ -96,7 +97,7 @@ public class Koan10 {
 		aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
 		final PatternNode theCybermen = new PatternNode();
-		theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
+		theCybermen.setAssociation(cybermenNode);
 		theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
 		theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
