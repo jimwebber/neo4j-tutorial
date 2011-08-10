@@ -22,133 +22,135 @@ import org.neo4j.graphmatching.PatternNode;
  */
 public class Koan10 {
 
-    private static EmbeddedDoctorWhoUniverse universe;
+	private static EmbeddedDoctorWhoUniverse universe;
 
-    @BeforeClass
-    public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
-    }
+	@BeforeClass
+	public static void createDatabase() throws Exception {
+		universe = new EmbeddedDoctorWhoUniverse();
+	}
 
-    @AfterClass
-    public static void closeTheDatabase() {
-        universe.stop();    
-    }
+	@AfterClass
+	public static void closeTheDatabase() {
+		universe.stop();
+	}
 
-    @Test
-    public void shouldFindEpisodesWhereTheDoctorFoughtTheCybermen() {
-        HashSet<Node> cybermenEpisodes = new HashSet<Node>();
+	@Test
+	public void shouldFindEpisodesWhereTheDoctorFoughtTheCybermen() {
+		HashSet<Node> cybermenEpisodes = new HashSet<Node>();
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+		// YOUR CODE GOES HERE
+		// SNIPPET_START
 
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation(universe.theDoctor());
+		final PatternNode theDoctor = new PatternNode();
+		theDoctor.setAssociation(universe.theDoctor());
 
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
-        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+		final PatternNode anEpisode = new PatternNode();
+		anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+		anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
 
-        final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
-        aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
+		final PatternNode aDoctorActor = new PatternNode();
+		aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+		aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
-        final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
-        theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+		final PatternNode theCybermen = new PatternNode();
+		theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
+		theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match(theDoctor, 
-        		universe.theDoctor());
+		PatternMatcher matcher = PatternMatcher.getMatcher();
+		final Iterable<PatternMatch> matches = matcher.match(theDoctor,
+				universe.theDoctor());
 
-        for (PatternMatch pm : matches) {
-            cybermenEpisodes.add(pm.getNodeFor(anEpisode));
-        }
+		for (PatternMatch pm : matches) {
+			cybermenEpisodes.add(pm.getNodeFor(anEpisode));
+		}
 
-        // SNIPPET_END
+		// SNIPPET_END
 
-        assertThat(cybermenEpisodes, containsOnlyTitles(knownCybermenTitles()));
-    }
+		assertThat(cybermenEpisodes, containsOnlyTitles(knownCybermenTitles()));
+	}
 
-    private String[] knownCybermenTitles() {
-        return new String[] { "The Moonbase", "The Tomb of the Cybermen", "The Wheel in Space", "Revenge of the Cybermen", "Earthshock", "Silver Nemesis",
-                "Rise of the Cybermen", "The Age of Steel", "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens", "A Good Man Goes to War" };
-    }
-    
-    @Test
-    public void shouldFindDoctorsThatBattledTheCybermen() {
-        HashSet<Node> doctorActors = new HashSet<Node>();
+	private String[] knownCybermenTitles() {
+		return new String[] { "The Moonbase", "The Tomb of the Cybermen", "The Wheel in Space", "Revenge of the Cybermen", "Earthshock", "Silver Nemesis",
+				"Rise of the Cybermen", "The Age of Steel", "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens", "A Good Man Goes to War" };
+	}
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+	@Test
+	public void shouldFindDoctorsThatBattledTheCybermen() {
+		HashSet<Node> doctorActors = new HashSet<Node>();
 
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation(universe.theDoctor());
+		// YOUR CODE GOES HERE
+		// SNIPPET_START
 
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
-        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+		final PatternNode theDoctor = new PatternNode();
+		theDoctor.setAssociation(universe.theDoctor());
 
-        final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
-        aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
+		final PatternNode anEpisode = new PatternNode();
+		anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+		anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
 
-        final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
-        theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+		final PatternNode aDoctorActor = new PatternNode();
+		aDoctorActor.createRelationshipTo(theDoctor, DoctorWhoUniverse.PLAYED);
+		aDoctorActor.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		aDoctorActor.addPropertyConstraint("actor", CommonValueMatchers.has());
 
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
+		final PatternNode theCybermen = new PatternNode();
+		theCybermen.setAssociation(universe.getDatabase().index().forNodes("species").get("species", "Cyberman").getSingle());
+		theCybermen.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
-        for (PatternMatch pm : matches) {
-            doctorActors.add(pm.getNodeFor(aDoctorActor));
-        }
+		PatternMatcher matcher = PatternMatcher.getMatcher();
+		final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
 
-        // SNIPPET_END
+		for (PatternMatch pm : matches) {
+			doctorActors.add(pm.getNodeFor(aDoctorActor));
+		}
 
-        assertThat(doctorActors, containsOnlyActors("David Tennant", "Matt Smith", "Patrick Troughton", "Tom Baker", "Peter Davison", "Sylvester McCoy"));
-    }
+		// SNIPPET_END
 
-    @Test
-    public void shouldFindEnemySpeciesThatRoseTylerAndTheNinthDoctorEncountered() {
-        HashSet<Node> enemySpeciesRoseAndTheNinthDoctorEncountered = new HashSet<Node>();
+		assertThat(doctorActors, containsOnlyActors("David Tennant", "Matt Smith", "Patrick Troughton", "Tom Baker", "Peter Davison", "Sylvester McCoy"));
+	}
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+	@Test
+	public void shouldFindEnemySpeciesThatRoseTylerAndTheNinthDoctorEncountered() {
+		HashSet<Node> enemySpeciesRoseAndTheNinthDoctorEncountered = new HashSet<Node>();
+		Node ninthDoctorNode = universe.getDatabase().index().forNodes("actors").get("actor", "Christopher Eccleston").getSingle();
+		Node roseTylerNode = universe.getDatabase().index().forNodes("characters").get("name", "Rose Tyler").getSingle();
 
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation(universe.theDoctor());
+		// YOUR CODE GOES HERE
+		// SNIPPET_START
 
-        final PatternNode ecclestone = new PatternNode();
-        ecclestone.setAssociation(universe.getDatabase().index().forNodes("actors").get("actor", "Christopher Eccleston").getSingle());
+		final PatternNode theDoctor = new PatternNode();
+		theDoctor.setAssociation(universe.theDoctor());
 
-        final PatternNode roseTyler = new PatternNode();
-        roseTyler.setAssociation(universe.getDatabase().index().forNodes("characters").get("name", "Rose Tyler").getSingle());
+		final PatternNode ecclestone = new PatternNode();
+		ecclestone.setAssociation(ninthDoctorNode);
 
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
-        anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
+		final PatternNode roseTyler = new PatternNode();
+		roseTyler.setAssociation(roseTylerNode);
 
-        final PatternNode anEnemySpecies = new PatternNode();
-        anEnemySpecies.addPropertyConstraint("species", CommonValueMatchers.has());
+		final PatternNode anEpisode = new PatternNode();
+		anEpisode.addPropertyConstraint("title", CommonValueMatchers.has());
+		anEpisode.addPropertyConstraint("episode", CommonValueMatchers.has());
 
-        ecclestone.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        roseTyler.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        anEnemySpecies.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
-        anEnemySpecies.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
+		final PatternNode anEnemySpecies = new PatternNode();
+		anEnemySpecies.addPropertyConstraint("species", CommonValueMatchers.has());
 
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
+		ecclestone.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		roseTyler.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		anEnemySpecies.createRelationshipTo(anEpisode, DoctorWhoUniverse.APPEARED_IN);
+		anEnemySpecies.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
-        for (PatternMatch pm : matches) {
-            enemySpeciesRoseAndTheNinthDoctorEncountered.add(pm.getNodeFor(anEnemySpecies));
-        }
+		PatternMatcher matcher = PatternMatcher.getMatcher();
+		final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
 
-        // SNIPPET_END
+		for (PatternMatch pm : matches) {
+			enemySpeciesRoseAndTheNinthDoctorEncountered.add(pm.getNodeFor(anEnemySpecies));
+		}
 
-        assertThat(enemySpeciesRoseAndTheNinthDoctorEncountered, containsOnlySpecies("Dalek", "Slitheen", "Auton"));
-    }
+		// SNIPPET_END
+
+		assertThat(enemySpeciesRoseAndTheNinthDoctorEncountered, containsOnlySpecies("Dalek", "Slitheen", "Auton"));
+	}
 }
