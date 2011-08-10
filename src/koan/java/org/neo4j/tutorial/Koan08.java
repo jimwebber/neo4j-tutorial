@@ -71,12 +71,19 @@ public class Koan08 {
 
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
-
-		cql = "START daleks=(Species,species,\"Dalek\")  MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-				+ " RETURN prop.prop" + " SKIP 4 LIMIT 1";
+		
+		//Not every prop part can be identified with a prop - e.g. the Exhibition skirt
+		//As a result, prop.prop will not exist for every prop node
+		//So, we must use prop.prop? - this fills the prop.prop column with a <null>
+		//value for prop parts with no identifiable prop
+		
+		cql =  "start dalek  = (Species, species, 'Dalek') ";
+	       cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
+	       cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
 
 		Query query = parser.parse(cql);
 		result = engine.execute(query);
+	
 
 		// SNIPPET_END
 
