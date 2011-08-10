@@ -59,7 +59,8 @@ public class Koan10 {
         theCybermen.createRelationshipTo(theDoctor, DoctorWhoUniverse.ENEMY_OF);
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
+        final Iterable<PatternMatch> matches = matcher.match(theDoctor, 
+        		universe.theDoctor());
 
         for (PatternMatch pm : matches) {
             cybermenEpisodes.add(pm.getNodeFor(anEpisode));
@@ -77,7 +78,7 @@ public class Koan10 {
     
     @Test
     public void shouldFindDoctorsThatBattledTheCybermen() {
-        HashSet<Node> cybermenEpisodes = new HashSet<Node>();
+        HashSet<Node> doctorActors = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
@@ -103,12 +104,12 @@ public class Koan10 {
         final Iterable<PatternMatch> matches = matcher.match(theDoctor, universe.theDoctor());
 
         for (PatternMatch pm : matches) {
-            cybermenEpisodes.add(pm.getNodeFor(aDoctorActor));
+            doctorActors.add(pm.getNodeFor(aDoctorActor));
         }
 
         // SNIPPET_END
 
-        assertThat(cybermenEpisodes, containsOnlyActors("David Tennant", "Matt Smith", "Patrick Troughton", "Tom Baker", "Peter Davison", "Sylvester McCoy"));
+        assertThat(doctorActors, containsOnlyActors("David Tennant", "Matt Smith", "Patrick Troughton", "Tom Baker", "Peter Davison", "Sylvester McCoy"));
     }
 
     @Test
