@@ -79,7 +79,7 @@ public class Koan08 {
 		
 		cql =  "start dalek  = (Species, species, 'Dalek') ";
 	       cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
-	       cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
+	       cql += "return prop.name?, episode.episode order by episode.episode desc skip 4 limit 1";
 
 		Query query = parser.parse(cql);
 		result = engine.execute(query);
@@ -87,7 +87,7 @@ public class Koan08 {
 
 		// SNIPPET_END
 
-		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
+		assertEquals("Supreme Dalek", result.javaColumnAs("prop.name").next());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class Koan08 {
 		// SNIPPET_START
 
 		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.part, COUNT(episode.title)"
+				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.name, part.type, COUNT(episode.title)"
 				+ " ORDER BY COUNT(episode.title) DESC LIMIT 1";
 
 		// SNIPPET_END
@@ -116,8 +116,8 @@ public class Koan08 {
 	private void assertHardestWorkingPropParts(Iterator<Map<String, Object>> results, Object... partsAndCounts) {
 		for (int index = 0; index < partsAndCounts.length; index = index + 3) {
 			Map<String, Object> row = results.next();
-			assertEquals(partsAndCounts[index], row.get("originalprop.prop"));
-			assertEquals(partsAndCounts[index + 1], row.get("part.part"));
+			assertEquals(partsAndCounts[index], row.get("originalprop.name"));
+			assertEquals(partsAndCounts[index + 1], row.get("part.type"));
 			assertEquals(partsAndCounts[index + 2], row.get("count(episode.title)"));
 		}
 

@@ -126,7 +126,7 @@ public class DalekPropBuilder {
 		Node shoulderNode = index.get(part, originalPropName).getSingle();
 		if (shoulderNode == null){
 			shoulderNode = db.createNode();
-			shoulderNode.setProperty("part", part);
+			shoulderNode.setProperty("type", part);
 			index.add(shoulderNode, part, originalPropName);
 			
 			Node originalDalekPropNode = ensurePropAppearsInDb(originalPropName, db);
@@ -137,11 +137,11 @@ public class DalekPropBuilder {
 
 	private Node ensurePropAppearsInDb(String name, GraphDatabaseService db) {
 		Index<Node> index = db.index().forNodes("props");
-		Node dalekPropNode = index.get("prop", name).getSingle();
+		Node dalekPropNode = index.get("name", name).getSingle();
 		if (dalekPropNode == null){
 			dalekPropNode = db.createNode();
-			dalekPropNode.setProperty("prop", name);
-			index.add(dalekPropNode, "prop", name);
+			dalekPropNode.setProperty("name", name);
+			index.add(dalekPropNode, "name", name);
 		}
 		return dalekPropNode;
 	}
