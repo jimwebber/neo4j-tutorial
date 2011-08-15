@@ -3,9 +3,9 @@ package org.neo4j.tutorial;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.neo4j.tutorial.DoctorWhoUniverse.COMPANION_OF;
-import static org.neo4j.tutorial.DoctorWhoUniverse.ENEMY_OF;
-import static org.neo4j.tutorial.DoctorWhoUniverse.PLAYED;
+import static org.neo4j.tutorial.DoctorWhoUniverseGenerator.COMPANION_OF;
+import static org.neo4j.tutorial.DoctorWhoUniverseGenerator.ENEMY_OF;
+import static org.neo4j.tutorial.DoctorWhoUniverseGenerator.PLAYED;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import org.neo4j.kernel.Uniqueness;
  * hardware.
  * 
  */
-public class DoctorWhoUniverseTest {
+public class DoctorWhoUniverseGeneratorTest {
 
     private static EmbeddedDoctorWhoUniverse universe;
     private static GraphDatabaseService database;
@@ -42,7 +42,7 @@ public class DoctorWhoUniverseTest {
 
     @BeforeClass
     public static void startDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
         database = universe.getDatabase();
         databaseHelper = new DatabaseHelper(database);
     }
@@ -68,7 +68,7 @@ public class DoctorWhoUniverseTest {
     @Test
     public void shouldHaveCorrectNumberOfHumans() {
         Node humanSpeciesNode = universe.getDatabase().index().forNodes("species").get("species", "Human").getSingle();
-        int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
+        int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships(humanSpeciesNode.getRelationships(DoctorWhoUniverseGenerator.IS_A, Direction.INCOMING));
 
         int knownNumberOfHumans = 46;
         assertEquals(knownNumberOfHumans, numberOfHumansFriendliesInTheDB);
@@ -78,7 +78,7 @@ public class DoctorWhoUniverseTest {
     public void shouldBe8Timelords() {
         Node timelordSpeciesNode = universe.getDatabase().index().forNodes("species").get("species", "Timelord").getSingle();
 
-        int numberOfTimelordsInTheDb = databaseHelper.countRelationships(timelordSpeciesNode.getRelationships(DoctorWhoUniverse.IS_A, Direction.INCOMING));
+        int numberOfTimelordsInTheDb = databaseHelper.countRelationships(timelordSpeciesNode.getRelationships(DoctorWhoUniverseGenerator.IS_A, Direction.INCOMING));
 
         int knownNumberOfTimelords = 8;
         assertEquals(knownNumberOfTimelords, numberOfTimelordsInTheDb);
@@ -133,7 +133,7 @@ public class DoctorWhoUniverseTest {
     private int countRelationships(Node timelord) {
         int regenerationCount = 0;
         while (true) {
-            List<Relationship> relationships = databaseHelper.toListOfRelationships(timelord.getRelationships(DoctorWhoUniverse.REGENERATED_TO,
+            List<Relationship> relationships = databaseHelper.toListOfRelationships(timelord.getRelationships(DoctorWhoUniverseGenerator.REGENERATED_TO,
                     Direction.OUTGOING));
 
             if (relationships.size() == 1) {
@@ -163,7 +163,7 @@ public class DoctorWhoUniverseTest {
         assertNotNull(gallifrey);
         assertNotNull(timelord);
 
-        Iterable<Relationship> relationships = timelord.getRelationships(DoctorWhoUniverse.COMES_FROM, Direction.OUTGOING);
+        Iterable<Relationship> relationships = timelord.getRelationships(DoctorWhoUniverseGenerator.COMES_FROM, Direction.OUTGOING);
         List<Relationship> listOfRelationships = databaseHelper.toListOfRelationships(relationships);
 
         assertEquals(1, listOfRelationships.size());
@@ -180,14 +180,14 @@ public class DoctorWhoUniverseTest {
 
         Path shortestPath = shortestPathFinder.findSinglePath(theDoctor, theMaster);
         assertEquals(1, shortestPath.length());
-        assertTrue(shortestPath.lastRelationship().isType(DoctorWhoUniverse.ENEMY_OF));
+        assertTrue(shortestPath.lastRelationship().isType(DoctorWhoUniverseGenerator.ENEMY_OF));
     }
 
     @Test
     public void daleksShouldBeEnemiesOfTheDoctor() {
         Node dalek = getSpeciesIndex().get("species", "Dalek").getSingle();
         assertNotNull(dalek);
-        Iterable<Relationship> enemiesOf = dalek.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
+        Iterable<Relationship> enemiesOf = dalek.getRelationships(DoctorWhoUniverseGenerator.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
     }
 
@@ -195,7 +195,7 @@ public class DoctorWhoUniverseTest {
     public void cybermenShouldBeEnemiesOfTheDoctor() {
         Node cyberman = getSpeciesIndex().get("species", "Cyberman").getSingle();
         assertNotNull(cyberman);
-        Iterable<Relationship> enemiesOf = cyberman.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
+        Iterable<Relationship> enemiesOf = cyberman.getRelationships(DoctorWhoUniverseGenerator.ENEMY_OF, Direction.OUTGOING);
         assertTrue(containsTheDoctor(enemiesOf));
     }
 
@@ -218,7 +218,7 @@ public class DoctorWhoUniverseTest {
         Node silurian = getSpeciesIndex().get("species", "Silurian").getSingle();
         Node sontaran = getSpeciesIndex().get("species", "Sontaran").getSingle();
 
-        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING)).depthFirst()
+        Traverser traverser = Traversal.description().expand(Traversal.expanderForTypes(DoctorWhoUniverseGenerator.ENEMY_OF, Direction.OUTGOING)).depthFirst()
                 .evaluator(new Evaluator() {
 
                     @Override

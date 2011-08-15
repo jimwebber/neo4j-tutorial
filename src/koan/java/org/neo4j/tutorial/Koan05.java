@@ -26,7 +26,7 @@ public class Koan05 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
     
     @AfterClass
@@ -44,11 +44,11 @@ public class Koan05 {
         // SNIPPET_START
         Node firstDoctor = actorsIndex.get("actor", "William Hartnell").getSingle();
 
-        Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+        Relationship regeneratedTo = firstDoctor.getSingleRelationship(DoctorWhoUniverseGenerator.REGENERATED_TO, Direction.OUTGOING);
 
         while (regeneratedTo != null) {
             numberOfRegenerations++;
-            regeneratedTo = regeneratedTo.getEndNode().getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING);
+            regeneratedTo = regeneratedTo.getEndNode().getSingleRelationship(DoctorWhoUniverseGenerator.REGENERATED_TO, Direction.OUTGOING);
         }
 
         // SNIPPET_END
@@ -65,11 +65,11 @@ public class Koan05 {
         
         Node human = universe.getDatabase().index().forNodes("species").get("species", "Human").getSingle();
         
-        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(Direction.INCOMING, DoctorWhoUniverse.COMPANION_OF);
+        Iterable<Relationship> relationships = universe.theDoctor().getRelationships(Direction.INCOMING, DoctorWhoUniverseGenerator.COMPANION_OF);
         for(Relationship rel : relationships) {
             Node companionNode = rel.getStartNode();
-            if(companionNode.hasRelationship(Direction.OUTGOING, DoctorWhoUniverse.IS_A)) {
-                Relationship singleRelationship = companionNode.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING);
+            if(companionNode.hasRelationship(Direction.OUTGOING, DoctorWhoUniverseGenerator.IS_A)) {
+                Relationship singleRelationship = companionNode.getSingleRelationship(DoctorWhoUniverseGenerator.IS_A, Direction.OUTGOING);
                 Node endNode = singleRelationship.getEndNode();
                 if(endNode.equals(human)) {
                     humanCompanions.add(companionNode);
@@ -96,10 +96,10 @@ public class Koan05 {
         Node roseTyler = friendliesIndex.get("name", "Rose Tyler").getSingle();
         Node daleks = speciesIndex.get("species", "Dalek").getSingle();
 
-        for (Relationship r1 : roseTyler.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING)) {
+        for (Relationship r1 : roseTyler.getRelationships(DoctorWhoUniverseGenerator.APPEARED_IN, Direction.OUTGOING)) {
             Node episode = r1.getEndNode();
 
-            for (Relationship r2 : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
+            for (Relationship r2 : episode.getRelationships(DoctorWhoUniverseGenerator.APPEARED_IN, Direction.INCOMING)) {
                 if (r2.getStartNode().equals(daleks)) {
                     episodesWhereRoseFightsTheDaleks.add(episode);
                 }
