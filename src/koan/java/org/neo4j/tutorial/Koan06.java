@@ -29,7 +29,7 @@ public class Koan06 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
     
     @AfterClass
@@ -48,7 +48,7 @@ public class Koan06 {
         t = theDoctor.traverse(Order.DEPTH_FIRST,
                 StopEvaluator.DEPTH_ONE,
                 ReturnableEvaluator.ALL_BUT_START_NODE,
-                DoctorWhoUniverse.COMPANION_OF,
+                DoctorWhoUniverseGenerator.COMPANION_OF,
                 Direction.INCOMING);
 
         // SNIPPET_END
@@ -71,13 +71,13 @@ public class Koan06 {
     			StopEvaluator.END_OF_GRAPH, 
     			new ReturnableEvaluator() {
 					public boolean isReturnableNode(TraversalPosition currentPos) {
-						return currentPos.currentNode().hasRelationship(Direction.OUTGOING, DoctorWhoUniverse.MEMBER_OF)
+						return currentPos.currentNode().hasRelationship(Direction.OUTGOING, DoctorWhoUniverseGenerator.MEMBER_OF)
 								&& currentPos.currentNode().hasProperty("name");
 					}
 				}, 
-    			DoctorWhoUniverse.APPEARED_IN, Direction.BOTH,
-    			DoctorWhoUniverse.USED_IN, Direction.INCOMING,
-    			DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING);
+    			DoctorWhoUniverseGenerator.APPEARED_IN, Direction.BOTH,
+    			DoctorWhoUniverseGenerator.USED_IN, Direction.INCOMING,
+    			DoctorWhoUniverseGenerator.MEMBER_OF, Direction.INCOMING);
     	
     	// SNIPPET_END
     	
@@ -120,7 +120,7 @@ public class Koan06 {
                         if(currentPos.currentNode().hasProperty("episode")) {
                             Node episode = currentPos.currentNode();
                             
-                            for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
+                            for(Relationship r : episode.getRelationships(DoctorWhoUniverseGenerator.APPEARED_IN, Direction.INCOMING)) {
                                 if(r.getStartNode().hasProperty("actor") && r.getStartNode().getProperty("actor").equals("David Tennant")) {
                                     return true;
                                 }
@@ -129,7 +129,7 @@ public class Koan06 {
                         
                         return false;
                     }},
-                DoctorWhoUniverse.APPEARED_IN,
+                DoctorWhoUniverseGenerator.APPEARED_IN,
                 Direction.OUTGOING);
 
         // SNIPPET_END

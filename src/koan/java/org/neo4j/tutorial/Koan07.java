@@ -25,7 +25,7 @@ public class Koan07 {
 
 	@BeforeClass
 	public static void createDatabase() throws Exception {
-		universe = new EmbeddedDoctorWhoUniverse();
+		universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
 	}
 
 	@AfterClass
@@ -42,11 +42,11 @@ public class Koan07 {
 		// SNIPPET_START
 
 		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+				.relationships(DoctorWhoUniverseGenerator.PLAYED, Direction.INCOMING)
 				.breadthFirst()
 				.evaluator(new Evaluator() {
 					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
+						if (path.endNode().hasRelationship(DoctorWhoUniverseGenerator.REGENERATED_TO, Direction.BOTH)) {
 							return Evaluation.INCLUDE_AND_CONTINUE;
 						} else {
 							return Evaluation.EXCLUDE_AND_PRUNE;
@@ -68,13 +68,13 @@ public class Koan07 {
 		// SNIPPET_START
 
 		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
+				.relationships(DoctorWhoUniverseGenerator.PLAYED, Direction.INCOMING)
 				.depthFirst()
 				.evaluator(new Evaluator() {
 					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
+						if (path.endNode().hasRelationship(DoctorWhoUniverseGenerator.REGENERATED_TO, Direction.INCOMING)) {
 							return Evaluation.EXCLUDE_AND_CONTINUE;
-						} else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
+						} else if (!path.endNode().hasRelationship(DoctorWhoUniverseGenerator.REGENERATED_TO, Direction.OUTGOING)) {
 							// Catches Richard Hurdnall who played the William
 							// Hartnell's Doctor in The Five Doctors (William
 							// Hartnell had died by then)

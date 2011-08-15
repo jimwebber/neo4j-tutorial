@@ -4,7 +4,7 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.RelationshipType;
 
-public abstract class DoctorWhoUniverse<T> {
+public class DoctorWhoUniverseGenerator {
 
     public static final RelationshipType REGENERATED_TO = DynamicRelationshipType.withName("REGENERATED_TO");
     public static final RelationshipType PLAYED = DynamicRelationshipType.withName("PLAYED");
@@ -23,7 +23,7 @@ public abstract class DoctorWhoUniverse<T> {
     
     private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
     
-    public DoctorWhoUniverse() {
+    public DoctorWhoUniverseGenerator() {
     	GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
         addCharacters(db);
         addSpecies(db);
@@ -58,11 +58,7 @@ public abstract class DoctorWhoUniverse<T> {
         dalekProps.insert();
     }
     
-    protected final String getDatabaseDirectory() {
+    public final String getDatabaseDirectory() {
     	return dbDir;
     }
-
-    public abstract T theDoctor();
-
-    abstract void stop();
 }

@@ -29,7 +29,7 @@ public class Koan03 {
 
     @BeforeClass
     public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse();
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
 
     @AfterClass

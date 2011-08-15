@@ -15,15 +15,15 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-public class ServerDoctorWhoUniverse extends DoctorWhoUniverse<Map<String,Object>> {
+public class ServerDoctorWhoUniverse {
 
 	private final NeoServerWithEmbeddedWebServer server;
 
-	public ServerDoctorWhoUniverse() throws Exception {
+	public ServerDoctorWhoUniverse(DoctorWhoUniverseGenerator universe) throws Exception {
 		super();
 		server = ServerBuilder
 				.server()
-				.usingDatabaseDir(getDatabaseDirectory())
+				.usingDatabaseDir(universe.getDatabaseDirectory())
 				.build();
 		server.start();
 	}

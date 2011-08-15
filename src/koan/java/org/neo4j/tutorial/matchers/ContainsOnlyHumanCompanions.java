@@ -7,7 +7,7 @@ import org.hamcrest.Factory;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
-import org.neo4j.tutorial.DoctorWhoUniverse;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
 
 public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>> {
 
@@ -21,7 +21,7 @@ public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>> {
     @Override
     public boolean matchesSafely(Set<Node> nodes) {
         for(Node n : nodes) {
-            if (!(n.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING) && n.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING).getEndNode().getProperty("species").equals("Human"))) {
+            if (!(n.hasRelationship(DoctorWhoUniverseGenerator.IS_A, Direction.OUTGOING) && n.getSingleRelationship(DoctorWhoUniverseGenerator.IS_A, Direction.OUTGOING).getEndNode().getProperty("species").equals("Human"))) {
                 failedNode = n;
                 return false;
             }

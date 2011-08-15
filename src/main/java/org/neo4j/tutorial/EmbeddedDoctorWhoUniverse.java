@@ -2,11 +2,16 @@ package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.kernel.EmbeddedGraphDatabase;
 
-public class EmbeddedDoctorWhoUniverse extends DoctorWhoUniverse<Node> {
+public class EmbeddedDoctorWhoUniverse {
 	
-	private final GraphDatabaseService db = DatabaseHelper.createDatabase(getDatabaseDirectory());
+	private final EmbeddedGraphDatabase db;
 
+	public EmbeddedDoctorWhoUniverse(DoctorWhoUniverseGenerator universe) {
+	    db = new EmbeddedGraphDatabase(universe.getDatabaseDirectory());
+	}
+	
 	@Override
 	public Node theDoctor() {
 		return db.index().forNodes("characters").get("name", "Doctor").getSingle();
