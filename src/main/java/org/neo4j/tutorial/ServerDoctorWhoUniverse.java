@@ -28,7 +28,6 @@ public class ServerDoctorWhoUniverse {
 		server.start();
 	}
 
-	@Override
 	public Map<String,Object> theDoctor() {
 		return getJsonFor(getUriFromIndex("characters", "name", "Doctor"));
 	}
@@ -60,7 +59,6 @@ public class ServerDoctorWhoUniverse {
 		}
 	}
 
-	@Override
 	void stop() {
 		server.stop();
 	}
