@@ -12,12 +12,10 @@ public class EmbeddedDoctorWhoUniverse {
 	    db = new EmbeddedGraphDatabase(universe.getDatabaseDirectory());
 	}
 	
-	@Override
 	public Node theDoctor() {
 		return db.index().forNodes("characters").get("name", "Doctor").getSingle();
 	}
 	
-	@Override
 	public void stop() {
         if(db!= null) db.shutdown();
     }
