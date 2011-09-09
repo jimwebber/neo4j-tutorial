@@ -60,6 +60,29 @@ public class Koan08 {
 						"The Space Museum", "The Dalek Invasion of Earth", "The Daleks"));
 
 	}
+	
+	@Test
+    public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception {
+       CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start daleks = (species, species, \"Dalek\"), rose = (characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
+        cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
+        cql += "return ep";
+
+        // SNIPPET_END
+
+        Query query = parser.parse(cql);
+        ExecutionResult result = engine.execute(query);
+        Iterator<Node> episodes = result.javaColumnAs("ep");
+
+        assertThat(asIterable(episodes),
+                containsOnlyTitles("Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts","The Parting of the Ways"));
+   }
 
 	@Test
 	public void shouldFindTheFifthMostRecentPropToAppear() throws Exception {
@@ -90,6 +113,7 @@ public class Koan08 {
 		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
 	}
 
+	
 	@Test
 	public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception {
 		CypherParser parser = new CypherParser();
