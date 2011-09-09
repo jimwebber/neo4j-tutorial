@@ -11,7 +11,9 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.Index;
 
 public class DalekPropBuilder {
-	private final String episode;
+	private static final String PROP = "prop";
+    private static final String PROPS = "props";
+    private final String episode;
 	private List<Prop> props;
 	
 	public static DalekPropBuilder dalekProps(String episode){
@@ -56,7 +58,7 @@ public class DalekPropBuilder {
         ensureEpisodeIsConnectedToDalekSpecies(episodeNode, dalekSpeciesNode);
         
         Node episodePropsNode = db.createNode();
-        episodePropsNode.setProperty("props", "Daleks");
+        episodePropsNode.setProperty(PROPS, "Daleks");
         episodePropsNode.createRelationshipTo(episodeNode, DoctorWhoUniverseGenerator.USED_IN);
         
         for (Prop prop : props){
@@ -122,7 +124,7 @@ public class DalekPropBuilder {
 	}
 	
 	private Node ensurePartExistsInDb(String originalPropName, String part, GraphDatabaseService db) {
-		Index<Node> index = db.index().forNodes("props");
+		Index<Node> index = db.index().forNodes(PROPS);
 		Node shoulderNode = index.get(part, originalPropName).getSingle();
 		if (shoulderNode == null){
 			shoulderNode = db.createNode();
@@ -135,13 +137,13 @@ public class DalekPropBuilder {
 		return shoulderNode;
 	}
 
-	private Node ensurePropAppearsInDb(String name, GraphDatabaseService db) {
-		Index<Node> index = db.index().forNodes("props");
-		Node dalekPropNode = index.get("name", name).getSingle();
+	private Node ensurePropAppearsInDb(String prop, GraphDatabaseService db) {
+		Index<Node> index = db.index().forNodes(PROPS);
+		Node dalekPropNode = index.get(PROP, prop).getSingle();
 		if (dalekPropNode == null){
 			dalekPropNode = db.createNode();
-			dalekPropNode.setProperty("name", name);
-			index.add(dalekPropNode, "name", name);
+			dalekPropNode.setProperty(PROP, prop);
+			index.add(dalekPropNode, PROP, prop);
 		}
 		return dalekPropNode;
 	}

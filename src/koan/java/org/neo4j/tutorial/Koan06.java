@@ -72,7 +72,7 @@ public class Koan06 {
     			new ReturnableEvaluator() {
 					public boolean isReturnableNode(TraversalPosition currentPos) {
 						return currentPos.currentNode().hasRelationship(Direction.OUTGOING, DoctorWhoUniverseGenerator.MEMBER_OF)
-								&& currentPos.currentNode().hasProperty("name");
+								&& currentPos.currentNode().hasProperty("prop");
 					}
 				}, 
     			DoctorWhoUniverseGenerator.APPEARED_IN, Direction.BOTH,
@@ -96,7 +96,7 @@ public class Koan06 {
     	
     	List<String> propList = new ArrayList<String>();
     	for (Node n : nodes){
-    		propList.add(n.getProperty("name").toString());
+    		propList.add(n.getProperty("prop").toString());
     	}
     	
     	assertEquals(dalekProps.length, propList.size());
