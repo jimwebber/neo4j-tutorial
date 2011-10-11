@@ -1,9 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,8 +8,12 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
-import org.neo4j.graphdb.traversal.Traverser;
+import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.kernel.Traversal;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
+import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
 
 /**
  * In this Koan we start using the new traversal framework to find interesting
@@ -36,12 +36,12 @@ public class Koan07 {
 	@Test
 	public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception {
 		Node theDoctor = universe.theDoctor();
-		Traverser traverser = null;
+		TraversalDescription REGENERATED_ACTORS = null;
 
         // YOUR CODE GOES HERE
 		// SNIPPET_START
 
-		traverser = Traversal.description()
+		REGENERATED_ACTORS = Traversal.description()
 				.relationships(DoctorWhoUniverseGenerator.PLAYED, Direction.INCOMING)
 				.breadthFirst()
 				.evaluator(new Evaluator() {
@@ -52,22 +52,22 @@ public class Koan07 {
 							return Evaluation.EXCLUDE_AND_PRUNE;
 						}
 					}
-				}).traverse(theDoctor);
+				});
 
 		// SNIPPET_END
 
-		assertThat(traverser.nodes(), containsNumberOfNodes(11));
+		assertThat(REGENERATED_ACTORS.traverse(theDoctor).nodes(), containsNumberOfNodes(11));
 	}
 
 	@Test
 	public void shouldFindTheFirstDoctor() {
 		Node theDoctor = universe.theDoctor();
-		Traverser traverser = null;
+		TraversalDescription FIRST_DOCTOR = null;
 
         // YOUR CODE GOES HERE
 		// SNIPPET_START
 
-		traverser = Traversal.description()
+		FIRST_DOCTOR = Traversal.description()
 				.relationships(DoctorWhoUniverseGenerator.PLAYED, Direction.INCOMING)
 				.depthFirst()
 				.evaluator(new Evaluator() {
@@ -83,10 +83,10 @@ public class Koan07 {
 							return Evaluation.INCLUDE_AND_PRUNE;
 						}
 					}
-				}).traverse(theDoctor);
+				});
 
 		// SNIPPET_END
 
-		assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
+		assertThat(FIRST_DOCTOR.traverse(theDoctor).nodes(), containsOnlyActors("William Hartnell"));
 	}
 }
