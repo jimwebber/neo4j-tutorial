@@ -70,7 +70,7 @@ public class Koan08 {
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = (species, species, \"Dalek\"), rose = (characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
+        cql = "start daleks = (Species, species, \"Dalek\"), rose = (Characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
         cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
         cql += "return ep";
 
