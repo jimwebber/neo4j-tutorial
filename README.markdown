@@ -28,14 +28,14 @@ This tutorial is presented at conferences around the world. If you're interested
 Authors <a name="authors">
 -------
 
-[Glen Ford](http://usersource.net/) [Twitter](http://twitter.com/glen_ford)
+[Glen Ford](http://usersource.net/), [@glen_ford](http://twitter.com/glen_ford)
 
-[Tobias Ivarsson](http://www.thobe.org/) [Twitter](http://twitter.com/thobe)
+[Tobias Ivarsson](http://www.thobe.org/), [@thobe](http://twitter.com/thobe)
 
-[Peter Neubauer](http://) [Twitter](http://twitter.com/peterneubauer)
+Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
-[Ian Robinson](http://iansrobinson.com) [Twitter](http://twitter.com/iansrobinson)
+[Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
 
-[Jim Webber](http://jimwebber.org/) [Twitter](http://twitter.com/jimwebber)
+[Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
 
 
