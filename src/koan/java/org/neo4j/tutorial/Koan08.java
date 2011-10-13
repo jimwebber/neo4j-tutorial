@@ -1,5 +1,11 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -11,12 +17,6 @@ import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.cypher.commands.Query;
 import org.neo4j.cypher.parser.CypherParser;
 import org.neo4j.graphdb.Node;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
@@ -44,7 +44,7 @@ public class Koan08 {
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
 
-		cql = "START daleks=NODE:Species(species=\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
 
 		// SNIPPET_END
 
@@ -60,7 +60,7 @@ public class Koan08 {
 						"The Space Museum", "The Dalek Invasion of Earth", "The Daleks"));
 
 	}
-
+	
 	@Test
     public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception {
        CypherParser parser = new CypherParser();
@@ -70,7 +70,7 @@ public class Koan08 {
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = NODE:Species(species=\"Dalek\"), rose = NODE:Characters(name=\"Rose Tyler\"), tennant = NODE:Actors(actor=\"David Tennant\")";
+        cql = "start daleks = (Species, species, \"Dalek\"), rose = (Characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
         cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
         cql += "return ep";
 
@@ -94,26 +94,26 @@ public class Koan08 {
 
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
-
+		
 		//Not every prop part can be identified with a prop - e.g. the Exhibition skirt
 		//As a result, prop.prop will not exist for every prop node
 		//So, we must use prop.prop? - this fills the prop.prop column with a <null>
 		//value for prop parts with no identifiable prop
-
-		cql =  "start dalek  = NODE:Species(species='Dalek') ";
+		
+		cql =  "start dalek  = (Species, species, 'Dalek') ";
 	       cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
 	       cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
 
 		Query query = parser.parse(cql);
 		result = engine.execute(query);
-
+	
 
 		// SNIPPET_END
 
 		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
 	}
 
-
+	
 	@Test
 	public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception {
 		CypherParser parser = new CypherParser();
@@ -123,7 +123,7 @@ public class Koan08 {
 		// YOUR CODE GOES HERE
 		// SNIPPET_START
 
-		cql = "START daleks=NODE:Species(species=\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
 				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.type, COUNT(episode.title)"
 				+ " ORDER BY COUNT(episode.title) DESC LIMIT 1";
 
