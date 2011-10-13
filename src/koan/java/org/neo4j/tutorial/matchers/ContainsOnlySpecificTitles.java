@@ -22,20 +22,30 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> 
     }
 
     @Override
-    public void describeTo(Description description) {
-        description.appendText(String.format("Node [%d] does not contain any of the specified titles", failedNode.getId()));
+    public void describeTo( Description description )
+    {
+        if ( failedNode == null )
+        {
+            description.appendText( "missing titles: " + titles );
+        }
+        else
+        {
+            description.appendText( String.format(
+                    "Node [%d] (title=\"%s\") does not contain any of the specified titles", failedNode.getId(),
+                    failedNode.getProperty( "title", "<NONE>" ) ) );
+        }
     }
 
     @Override
     public boolean matchesSafely(Iterable<Node> candidateNodes) {
-        
+
         for (Node n : candidateNodes) {
             String property = String.valueOf(n.getProperty("title"));
-            
+
             if (!titles.contains(property)) {
                 failedNode = n;
                 return false;
-            } 
+            }
             titles.remove(property);
         }
 
