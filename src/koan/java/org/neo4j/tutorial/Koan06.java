@@ -71,8 +71,7 @@ public class Koan06 {
     			StopEvaluator.END_OF_GRAPH, 
     			new ReturnableEvaluator() {
 					public boolean isReturnableNode(TraversalPosition currentPos) {
-						return currentPos.currentNode().hasRelationship(Direction.OUTGOING, DoctorWhoUniverseGenerator.MEMBER_OF)
-								&& currentPos.currentNode().hasProperty("prop");
+						return currentPos.currentNode().hasProperty("prop");
 					}
 				}, 
     			DoctorWhoUniverseGenerator.APPEARED_IN, Direction.BOTH,
