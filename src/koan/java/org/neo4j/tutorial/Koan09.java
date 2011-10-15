@@ -60,7 +60,7 @@ public class Koan09
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                Traversal.expanderForTypes( DoctorWhoUniverse.APPEARED_IN, Direction.BOTH ), 2 );
+                Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
         paths = pathFinder.findAllPaths( rose, daleks );
 
         // SNIPPET_END
@@ -103,7 +103,7 @@ public class Koan09
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(
-                Traversal.expanderForTypes( DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING ), 100 );
+                Traversal.expanderForTypes( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING ), 100 );
         path = pathFinder.findSinglePath( delgado, simm );
 
         // SNIPPET_END
@@ -133,7 +133,7 @@ public class Koan09
         // SNIPPET_START
 
         PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                Traversal.expanderForTypes( DoctorWhoUniverse.APPEARED_IN, Direction.BOTH ), 2 );
+                Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
         path = pathFinder.findSinglePath( tennant, smith );
 
         // SNIPPET_END

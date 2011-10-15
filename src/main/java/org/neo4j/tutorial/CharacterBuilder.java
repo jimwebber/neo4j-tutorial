@@ -57,7 +57,7 @@ public class CharacterBuilder
         {
             for ( String speciesString : species )
             {
-                ensureRelationshipInDb( characterNode, DoctorWhoUniverse.IS_A,
+                ensureRelationshipInDb( characterNode, DoctorWhoRelationships.IS_A,
                         SpeciesBuilder.ensureSpeciesInDb( speciesString, db ) );
             }
         }
@@ -74,7 +74,7 @@ public class CharacterBuilder
 
         if ( ally )
         {
-            ensureRelationshipInDb( characterNode, DoctorWhoUniverse.ALLY_OF, theDoctor );
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.ALLY_OF, theDoctor );
         }
 
         if ( loverNames != null )
@@ -104,8 +104,8 @@ public class CharacterBuilder
                 .forNodes( "characters" )
                 .get( "name", "Doctor" )
                 .getSingle();
-        ensureRelationshipInDb( allyNode, DoctorWhoUniverse.ALLY_OF, theDoctor );
-        ensureRelationshipInDb( theDoctor, DoctorWhoUniverse.ALLY_OF, allyNode );
+        ensureRelationshipInDb( allyNode, DoctorWhoRelationships.ALLY_OF, theDoctor );
+        ensureRelationshipInDb( theDoctor, DoctorWhoRelationships.ALLY_OF, allyNode );
     }
 
     public static void ensureEnemyOfRelationshipInDb( Node enemyNode, GraphDatabaseService db )
@@ -114,8 +114,8 @@ public class CharacterBuilder
                 .forNodes( "characters" )
                 .get( "name", "Doctor" )
                 .getSingle();
-        ensureRelationshipInDb( enemyNode, DoctorWhoUniverse.ENEMY_OF, theDoctor );
-        ensureRelationshipInDb( theDoctor, DoctorWhoUniverse.ENEMY_OF, enemyNode );
+        ensureRelationshipInDb( enemyNode, DoctorWhoRelationships.ENEMY_OF, theDoctor );
+        ensureRelationshipInDb( theDoctor, DoctorWhoRelationships.ENEMY_OF, enemyNode );
     }
 
     public static void ensureCompanionRelationshipInDb( Node companionNode, GraphDatabaseService db )
@@ -124,7 +124,7 @@ public class CharacterBuilder
                 .forNodes( "characters" )
                 .get( "name", "Doctor" )
                 .getSingle();
-        ensureRelationshipInDb( companionNode, DoctorWhoUniverse.COMPANION_OF, theDoctor );
+        ensureRelationshipInDb( companionNode, DoctorWhoRelationships.COMPANION_OF, theDoctor );
     }
 
     public static void ensureActorsInDb( Node characterNode, String[] actors, GraphDatabaseService db )
@@ -145,14 +145,14 @@ public class CharacterBuilder
                         .add( theActorNode, "actor", actor );
             }
 
-            ensureRelationshipInDb( theActorNode, DoctorWhoUniverse.PLAYED, characterNode );
+            ensureRelationshipInDb( theActorNode, DoctorWhoRelationships.PLAYED, characterNode );
             db.index()
                     .forNodes( "actors" )
                     .add( theActorNode, "actor", actor );
 
             if ( previousActorNode != null )
             {
-                ensureRelationshipInDb( previousActorNode, DoctorWhoUniverse.REGENERATED_TO, theActorNode );
+                ensureRelationshipInDb( previousActorNode, DoctorWhoRelationships.REGENERATED_TO, theActorNode );
             }
 
             previousActorNode = theActorNode;
@@ -163,7 +163,7 @@ public class CharacterBuilder
     {
         for ( String thing : things )
         {
-            ensureRelationshipInDb( characterNode, DoctorWhoUniverse.OWNS, ensureThingInDb( thing, db ) );
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.OWNS, ensureThingInDb( thing, db ) );
         }
     }
 
@@ -203,7 +203,7 @@ public class CharacterBuilder
             ensurePlanetIsIndexed( thePlanetNode, database );
         }
 
-        ensureRelationshipInDb( characterNode, DoctorWhoUniverse.COMES_FROM, thePlanetNode );
+        ensureRelationshipInDb( characterNode, DoctorWhoRelationships.COMES_FROM, thePlanetNode );
 
         return thePlanetNode;
     }
@@ -247,7 +247,7 @@ public class CharacterBuilder
     {
         for ( String lover : loverNames )
         {
-            ensureRelationshipInDb( characterNode, DoctorWhoUniverse.LOVES, ensureCharacterIsInDb( lover, db ) );
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.LOVES, ensureCharacterIsInDb( lover, db ) );
         }
     }
 

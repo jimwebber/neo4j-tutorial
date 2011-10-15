@@ -51,14 +51,14 @@ public class Koan05
         Node firstDoctor = actorsIndex.get( "actor", "William Hartnell" )
                 .getSingle();
 
-        Relationship regeneratedTo = firstDoctor.getSingleRelationship( DoctorWhoUniverse.REGENERATED_TO,
+        Relationship regeneratedTo = firstDoctor.getSingleRelationship( DoctorWhoRelationships.REGENERATED_TO,
                 Direction.OUTGOING );
 
         while ( regeneratedTo != null )
         {
             numberOfRegenerations++;
             regeneratedTo = regeneratedTo.getEndNode()
-                    .getSingleRelationship( DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING );
+                    .getSingleRelationship( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING );
         }
 
         // SNIPPET_END
@@ -81,13 +81,13 @@ public class Koan05
                 .getSingle();
 
         Iterable<Relationship> relationships = universe.theDoctor()
-                .getRelationships( Direction.INCOMING, DoctorWhoUniverse.COMPANION_OF );
+                .getRelationships( Direction.INCOMING, DoctorWhoRelationships.COMPANION_OF );
         for ( Relationship rel : relationships )
         {
             Node companionNode = rel.getStartNode();
-            if ( companionNode.hasRelationship( Direction.OUTGOING, DoctorWhoUniverse.IS_A ) )
+            if ( companionNode.hasRelationship( Direction.OUTGOING, DoctorWhoRelationships.IS_A ) )
             {
-                Relationship singleRelationship = companionNode.getSingleRelationship( DoctorWhoUniverse.IS_A,
+                Relationship singleRelationship = companionNode.getSingleRelationship( DoctorWhoRelationships.IS_A,
                         Direction.OUTGOING );
                 Node endNode = singleRelationship.getEndNode();
                 if ( endNode.equals( human ) )
@@ -123,11 +123,11 @@ public class Koan05
         Node daleks = speciesIndex.get( "species", "Dalek" )
                 .getSingle();
 
-        for ( Relationship r1 : roseTyler.getRelationships( DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING ) )
+        for ( Relationship r1 : roseTyler.getRelationships( DoctorWhoRelationships.APPEARED_IN, Direction.OUTGOING ) )
         {
             Node episode = r1.getEndNode();
 
-            for ( Relationship r2 : episode.getRelationships( DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING ) )
+            for ( Relationship r2 : episode.getRelationships( DoctorWhoRelationships.APPEARED_IN, Direction.INCOMING ) )
             {
                 if ( r2.getStartNode()
                         .equals( daleks ) )

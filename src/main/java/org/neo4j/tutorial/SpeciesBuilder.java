@@ -30,7 +30,7 @@ public class SpeciesBuilder
         if ( planet != null )
         {
             Node planetNode = PlanetBuilder.ensurePlanetInDb( planet, db );
-            ensureRelationshipInDb( speciesNode, DoctorWhoUniverse.COMES_FROM, planetNode );
+            ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.COMES_FROM, planetNode );
         }
 
         if ( enemies != null )
@@ -38,8 +38,8 @@ public class SpeciesBuilder
             for ( String enemy : enemies )
             {
                 Node enemyNode = CharacterBuilder.ensureCharacterIsInDb( enemy, db );
-                ensureRelationshipInDb( enemyNode, DoctorWhoUniverse.ENEMY_OF, speciesNode );
-                ensureRelationshipInDb( speciesNode, DoctorWhoUniverse.ENEMY_OF, enemyNode );
+                ensureRelationshipInDb( enemyNode, DoctorWhoRelationships.ENEMY_OF, speciesNode );
+                ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.ENEMY_OF, enemyNode );
             }
         }
 
@@ -48,8 +48,8 @@ public class SpeciesBuilder
             for ( String eSpecies : enemySpecies )
             {
                 Node enemySpeciesNode = ensureSpeciesInDb( eSpecies, db );
-                ensureRelationshipInDb( enemySpeciesNode, DoctorWhoUniverse.ENEMY_OF, speciesNode );
-                ensureRelationshipInDb( speciesNode, DoctorWhoUniverse.ENEMY_OF, enemySpeciesNode );
+                ensureRelationshipInDb( enemySpeciesNode, DoctorWhoRelationships.ENEMY_OF, speciesNode );
+                ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.ENEMY_OF, enemySpeciesNode );
             }
         }
     }

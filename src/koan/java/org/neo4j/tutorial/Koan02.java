@@ -189,7 +189,7 @@ public class Koan02
         try
         {
 
-            Iterable<Relationship> relationships = susan.getRelationships( DoctorWhoUniverse.ENEMY_OF,
+            Iterable<Relationship> relationships = susan.getRelationships( DoctorWhoRelationships.ENEMY_OF,
                     Direction.OUTGOING );
             for ( Relationship r : relationships )
             {
