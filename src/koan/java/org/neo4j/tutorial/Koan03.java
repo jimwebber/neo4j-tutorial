@@ -23,70 +23,95 @@ import org.neo4j.graphdb.index.IndexHits;
  * on Lucene. It'll give you a feeling for the wealth of bad guys the Doctor has
  * faced.
  */
-public class Koan03 {
+public class Koan03
+{
 
     private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
-    public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+    public static void createDatabase() throws Exception
+    {
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
-    public static void closeTheDatabase() {
+    public static void closeTheDatabase()
+    {
         universe.stop();
     }
 
     @Test
-    public void shouldRetrieveCharactersIndexFromTheDatabase() {
+    public void shouldRetrieveCharactersIndexFromTheDatabase()
+    {
         Index<Node> characters = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        characters = universe.getDatabase().index().forNodes("characters");
+        characters = universe.getDatabase()
+                .index()
+                .forNodes( "characters" );
 
         // SNIPPET_END
 
-        assertNotNull(characters);
-        assertThat(characters, contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
+        assertNotNull( characters );
+        assertThat(
+                characters,
+                contains( "Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith",
+                        "Donna Noble", "Martha Jones" ) );
     }
 
     @Test
-    public void addingToAnIndexShouldBeHandledAsAMutatingOperation() {
+    public void addingToAnIndexShouldBeHandledAsAMutatingOperation()
+    {
         GraphDatabaseService db = universe.getDatabase();
-        Node abigailPettigrew = createAbigailPettigrew(db);
+        Node abigailPettigrew = createAbigailPettigrew( db );
 
-        assertNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
+        assertNull( db.index()
+                .forNodes( "characters" )
+                .get( "name", "Abigail Pettigrew" )
+                .getSingle() );
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction transaction = db.beginTx();
-        try {
-            db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
+        try
+        {
+            db.index()
+                    .forNodes( "characters" )
+                    .add( abigailPettigrew, "name", abigailPettigrew.getProperty( "name" ) );
             transaction.success();
-        } finally {
+        }
+        finally
+        {
             transaction.finish();
         }
 
         // SNIPPET_END
 
-        assertNotNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
+        assertNotNull( db.index()
+                .forNodes( "characters" )
+                .get( "name", "Abigail Pettigrew" )
+                .getSingle() );
     }
 
     @Test
-    public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
+    public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception
+    {
         IndexHits<Node> species = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        species = universe.getDatabase().index().forNodes("species").query("species", "S*n");
+        species = universe.getDatabase()
+                .index()
+                .forNodes( "species" )
+                .query( "species", "S*n" );
 
         // SNIPPET_END
 
-        assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
+        assertThat( species, containsOnlySpecies( "Silurian", "Slitheen", "Sontaran", "Skarasen" ) );
     }
 
     /**
@@ -95,47 +120,63 @@ public class Koan03 {
      * just do the right thing...
      */
     @Test
-    public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception {
+    public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception
+    {
         GraphDatabaseService db = universe.getDatabase();
-        Node cyberleader = retriveCyberleaderFromIndex(db);
+        Node cyberleader = retriveCyberleaderFromIndex( db );
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
         Transaction tx = db.beginTx();
-        try {
-            for (Relationship rel : cyberleader.getRelationships()) {
+        try
+        {
+            for ( Relationship rel : cyberleader.getRelationships() )
+            {
                 rel.delete();
             }
             cyberleader.delete();
             tx.success();
-        } finally {
+        }
+        finally
+        {
             tx.finish();
         }
 
         // SNIPPET_END
 
-        assertNull("Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex(db));
+        assertNull( "Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex( db ) );
 
-        try {
-            db.getNodeById(cyberleader.getId());
-            fail("Cyberleader has not been deleted from the database.");
-        } catch (NotFoundException nfe) {
+        try
+        {
+            db.getNodeById( cyberleader.getId() );
+            fail( "Cyberleader has not been deleted from the database." );
+        }
+        catch ( NotFoundException nfe )
+        {
         }
     }
 
-    private Node retriveCyberleaderFromIndex(GraphDatabaseService db) {
-        return db.index().forNodes("characters").get("name", "Cyberleader").getSingle();
+    private Node retriveCyberleaderFromIndex( GraphDatabaseService db )
+    {
+        return db.index()
+                .forNodes( "characters" )
+                .get( "name", "Cyberleader" )
+                .getSingle();
     }
 
-    private Node createAbigailPettigrew(GraphDatabaseService db) {
+    private Node createAbigailPettigrew( GraphDatabaseService db )
+    {
         Node abigailPettigrew;
         Transaction tx = db.beginTx();
-        try {
+        try
+        {
             abigailPettigrew = db.createNode();
-            abigailPettigrew.setProperty("name", "Abigail Pettigrew");
+            abigailPettigrew.setProperty( "name", "Abigail Pettigrew" );
             tx.success();
-        } finally {
+        }
+        finally
+        {
             tx.finish();
         }
         return abigailPettigrew;

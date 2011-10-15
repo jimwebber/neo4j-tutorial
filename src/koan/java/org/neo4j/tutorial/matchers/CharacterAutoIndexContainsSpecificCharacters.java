@@ -9,34 +9,45 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
 
-public class CharacterAutoIndexContainsSpecificCharacters extends TypeSafeMatcher<AutoIndexer<Node>> {
+public class CharacterAutoIndexContainsSpecificCharacters extends TypeSafeMatcher<AutoIndexer<Node>>
+{
 
     private final Set<String> characterNames;
     private String failedCharacterName;
 
-    private CharacterAutoIndexContainsSpecificCharacters(Set<String> characterNames) {
+    private CharacterAutoIndexContainsSpecificCharacters( Set<String> characterNames )
+    {
         this.characterNames = characterNames;
     }
 
     @Override
-    public void describeTo(Description description) {
-        description.appendText(String.format("The presented arguments did not contain all the supplied character names. Missing [%s].", failedCharacterName));
+    public void describeTo( Description description )
+    {
+        description.appendText( String.format(
+                "The presented arguments did not contain all the supplied character names. Missing [%s].",
+                failedCharacterName ) );
     }
 
     @Override
-    public boolean matchesSafely(AutoIndexer<Node> characters) {
-        for (String name : characterNames) {
-            if (characters.getAutoIndex().get("character-name", name).getSingle() == null) {
+    public boolean matchesSafely( AutoIndexer<Node> characters )
+    {
+        for ( String name : characterNames )
+        {
+            if ( characters.getAutoIndex()
+                    .get( "character-name", name )
+                    .getSingle() == null )
+            {
                 failedCharacterName = name;
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     @Factory
-    public static Matcher<AutoIndexer<Node>> containsSpecificCharacters(Set<String> allCharacterNames) {
-      return new CharacterAutoIndexContainsSpecificCharacters(allCharacterNames);
+    public static Matcher<AutoIndexer<Node>> containsSpecificCharacters( Set<String> allCharacterNames )
+    {
+        return new CharacterAutoIndexContainsSpecificCharacters( allCharacterNames );
     }
 }

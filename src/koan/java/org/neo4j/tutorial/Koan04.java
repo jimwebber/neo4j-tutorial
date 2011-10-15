@@ -15,30 +15,32 @@ import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 
-
-
 /**
  * After having done the hard work of managing an index for ourselves in the
  * previous Koan, this Koan will introduce auto-indexing which, in exchange for
  * following some conventions, will handle the lifefcycle of nodes and
  * relationships in the indexes automatically.
  */
-public class Koan04 {
+public class Koan04
+{
 
     private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
-    public static void createDatabase() throws Exception {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+    public static void createDatabase() throws Exception
+    {
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
-    public static void closeTheDatabase() {
+    public static void closeTheDatabase()
+    {
         universe.stop();
     }
 
     @Test
-    public void shouldCreateAnAutoIndexForAllTheCharacters() {
+    public void shouldCreateAnAutoIndexForAllTheCharacters()
+    {
 
         Set<String> allCharacterNames = getAllCharacterNames();
         AutoIndexer<Node> charactersAutoIndex = null;
@@ -46,35 +48,47 @@ public class Koan04 {
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        charactersAutoIndex = universe.getDatabase().index().getNodeAutoIndexer();
-        charactersAutoIndex.startAutoIndexingProperty("character-name");
+        charactersAutoIndex = universe.getDatabase()
+                .index()
+                .getNodeAutoIndexer();
+        charactersAutoIndex.startAutoIndexingProperty( "character-name" );
         charactersAutoIndex.setEnabled( true );
 
         // SNIPPET_END
 
-        Transaction tx = universe.getDatabase().beginTx();
+        Transaction tx = universe.getDatabase()
+                .beginTx();
 
-        try {
-            for (String characterName : allCharacterNames) {
-                Node n = universe.getDatabase().createNode();
-                n.setProperty("character-name", characterName);
+        try
+        {
+            for ( String characterName : allCharacterNames )
+            {
+                Node n = universe.getDatabase()
+                        .createNode();
+                n.setProperty( "character-name", characterName );
             }
             tx.success();
-        } finally {
+        }
+        finally
+        {
             tx.finish();
         }
 
-        assertThat(charactersAutoIndex, containsSpecificCharacters(allCharacterNames));
+        assertThat( charactersAutoIndex, containsSpecificCharacters( allCharacterNames ) );
     }
 
-    private Set<String> getAllCharacterNames() {
-        Index<Node> characters = universe.getDatabase().index().forNodes("characters");
-        IndexHits<Node> results = characters.query("name", "*");
+    private Set<String> getAllCharacterNames()
+    {
+        Index<Node> characters = universe.getDatabase()
+                .index()
+                .forNodes( "characters" );
+        IndexHits<Node> results = characters.query( "name", "*" );
 
         HashSet<String> characterNames = new HashSet<String>();
 
-        for (Node character : results) {
-            characterNames.add((String) character.getProperty("name"));
+        for ( Node character : results )
+        {
+            characterNames.add( (String) character.getProperty( "name" ) );
         }
 
         return characterNames;
