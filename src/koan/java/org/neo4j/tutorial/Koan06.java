@@ -48,7 +48,7 @@ public class Koan06 {
         t = theDoctor.traverse(Order.DEPTH_FIRST,
                 StopEvaluator.DEPTH_ONE,
                 ReturnableEvaluator.ALL_BUT_START_NODE,
-                DoctorWhoUniverseGenerator.COMPANION_OF,
+                DoctorWhoUniverse.COMPANION_OF,
                 Direction.INCOMING);
 
         // SNIPPET_END
@@ -74,9 +74,9 @@ public class Koan06 {
 						return currentPos.currentNode().hasProperty("prop");
 					}
 				}, 
-    			DoctorWhoUniverseGenerator.APPEARED_IN, Direction.BOTH,
-    			DoctorWhoUniverseGenerator.USED_IN, Direction.INCOMING,
-    			DoctorWhoUniverseGenerator.MEMBER_OF, Direction.INCOMING);
+    			DoctorWhoUniverse.APPEARED_IN, Direction.BOTH,
+    			DoctorWhoUniverse.USED_IN, Direction.INCOMING,
+    			DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING);
     	
     	// SNIPPET_END
     	
@@ -119,7 +119,7 @@ public class Koan06 {
                         if(currentPos.currentNode().hasProperty("episode")) {
                             Node episode = currentPos.currentNode();
                             
-                            for(Relationship r : episode.getRelationships(DoctorWhoUniverseGenerator.APPEARED_IN, Direction.INCOMING)) {
+                            for(Relationship r : episode.getRelationships(DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING)) {
                                 if(r.getStartNode().hasProperty("actor") && r.getStartNode().getProperty("actor").equals("David Tennant")) {
                                     return true;
                                 }
@@ -128,7 +128,7 @@ public class Koan06 {
                         
                         return false;
                     }},
-                DoctorWhoUniverseGenerator.APPEARED_IN,
+                DoctorWhoUniverse.APPEARED_IN,
                 Direction.OUTGOING);
 
         // SNIPPET_END

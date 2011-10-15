@@ -161,7 +161,7 @@ public class Koan02 {
         Transaction tx = db.beginTx();
         try {
             
-            Iterable<Relationship> relationships = susan.getRelationships(DoctorWhoUniverseGenerator.ENEMY_OF, Direction.OUTGOING);
+            Iterable<Relationship> relationships = susan.getRelationships(DoctorWhoUniverse.ENEMY_OF, Direction.OUTGOING);
             for(Relationship r : relationships) {
                 Node n = r.getEndNode();
                 if(n.hasProperty("name") && n.getProperty("name").equals("The Doctor")) {
