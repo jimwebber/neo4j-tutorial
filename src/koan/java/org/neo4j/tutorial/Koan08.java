@@ -48,7 +48,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "start daleks=(Species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode) return episode";
 
         // SNIPPET_END
 
@@ -137,9 +137,9 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-              + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.type, COUNT(episode.title)"
-              + " ORDER BY COUNT(episode.title) DESC LIMIT 1";
+        cql = "start daleks=(Species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+              + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.type, count(episode.title)"
+              + " order by count(episode.title) desc limit 1";
 
         // SNIPPET_END
 
