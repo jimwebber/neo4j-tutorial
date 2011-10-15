@@ -6,31 +6,37 @@ import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 
-public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node>> {
+public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node>>
+{
 
     private final int number;
     private int count;
 
-    private ContainsSpecificNumberOfNodes(int number) {
+    private ContainsSpecificNumberOfNodes( int number )
+    {
         this.number = number;
     }
 
     @Override
-    public void describeTo(Description description) {
-        description.appendText(String.format("Expected [%d] nodes, found [%s]", number, count));
+    public void describeTo( Description description )
+    {
+        description.appendText( String.format( "Expected [%d] nodes, found [%s]", number, count ) );
     }
 
     @Override
-    public boolean matchesSafely(Iterable<Node> nodes) {
+    public boolean matchesSafely( Iterable<Node> nodes )
+    {
         count = 0;
-        for(@SuppressWarnings("unused") Node n : nodes) {
-            count ++;
+        for ( @SuppressWarnings( "unused" ) Node n : nodes )
+        {
+            count++;
         }
         return count == number;
     }
-    
+
     @Factory
-    public static <T> Matcher<Iterable<Node>> containsNumberOfNodes(int number) {
-      return new ContainsSpecificNumberOfNodes(number);
+    public static <T> Matcher<Iterable<Node>> containsNumberOfNodes( int number )
+    {
+        return new ContainsSpecificNumberOfNodes( number );
     }
 }

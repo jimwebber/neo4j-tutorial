@@ -9,36 +9,46 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 
-public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path> {
+public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
+{
 
     private final HashSet<Node> nodes = new HashSet<Node>();
 
-    public ContainsOnlySpecificNodes(Node... nodes) {
-        for(Node n : nodes) {
-            this.nodes.add(n);
+    public ContainsOnlySpecificNodes( Node... nodes )
+    {
+        for ( Node n : nodes )
+        {
+            this.nodes.add( n );
         }
     }
 
     @Override
-    public void describeTo(Description description) {
-        description.appendText(String.format("Path does not contain only the specified nodes."));
+    public void describeTo( Description description )
+    {
+        description.appendText( String.format( "Path does not contain only the specified nodes." ) );
     }
 
     @Override
-    public boolean matchesSafely(Path path) {
-        for(Node n : path.nodes()) {
-            if(nodes.contains(n)) {
-                nodes.remove(n);
-            } else {
+    public boolean matchesSafely( Path path )
+    {
+        for ( Node n : path.nodes() )
+        {
+            if ( nodes.contains( n ) )
+            {
+                nodes.remove( n );
+            }
+            else
+            {
                 return false;
             }
         }
-        
+
         return nodes.size() == 0;
     }
 
     @Factory
-    public static <T> Matcher<Path> containsOnly(Node... nodes) {
-        return new ContainsOnlySpecificNodes(nodes);
+    public static <T> Matcher<Path> containsOnly( Node... nodes )
+    {
+        return new ContainsOnlySpecificNodes( nodes );
     }
 }
