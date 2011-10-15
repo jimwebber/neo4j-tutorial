@@ -50,7 +50,7 @@ public class Koan06
         // SNIPPET_START
 
         t = theDoctor.traverse( Order.DEPTH_FIRST, StopEvaluator.DEPTH_ONE, ReturnableEvaluator.ALL_BUT_START_NODE,
-                DoctorWhoUniverse.COMPANION_OF, Direction.INCOMING );
+                DoctorWhoRelationships.COMPANION_OF, Direction.INCOMING );
 
         // SNIPPET_END
 
@@ -80,8 +80,8 @@ public class Koan06
                 return currentPos.currentNode()
                         .hasProperty( "prop" );
             }
-        }, DoctorWhoUniverse.APPEARED_IN, Direction.BOTH, DoctorWhoUniverse.USED_IN, Direction.INCOMING,
-                DoctorWhoUniverse.MEMBER_OF, Direction.INCOMING );
+        }, DoctorWhoRelationships.APPEARED_IN, Direction.BOTH, DoctorWhoRelationships.USED_IN, Direction.INCOMING,
+                DoctorWhoRelationships.MEMBER_OF, Direction.INCOMING );
 
         // SNIPPET_END
 
@@ -133,7 +133,7 @@ public class Koan06
                 {
                     Node episode = currentPos.currentNode();
 
-                    for ( Relationship r : episode.getRelationships( DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING ) )
+                    for ( Relationship r : episode.getRelationships( DoctorWhoRelationships.APPEARED_IN, Direction.INCOMING ) )
                     {
                         if ( r.getStartNode()
                                 .hasProperty( "actor" ) && r.getStartNode()
@@ -147,7 +147,7 @@ public class Koan06
 
                 return false;
             }
-        }, DoctorWhoUniverse.APPEARED_IN, Direction.OUTGOING );
+        }, DoctorWhoRelationships.APPEARED_IN, Direction.OUTGOING );
 
         // SNIPPET_END
 

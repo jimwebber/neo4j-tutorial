@@ -53,8 +53,8 @@ public class Koan10
         anEpisode.addPropertyConstraint( "episode", CommonValueMatchers.has() );
 
         final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoUniverse.PLAYED );
-        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
+        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoRelationships.PLAYED );
+        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
         aDoctorActor.addPropertyConstraint( "actor", CommonValueMatchers.has() );
 
         final PatternNode theCybermen = new PatternNode();
@@ -63,8 +63,8 @@ public class Koan10
                 .forNodes( "species" )
                 .get( "species", "Cyberman" )
                 .getSingle() );
-        theCybermen.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
-        theCybermen.createRelationshipTo( theDoctor, DoctorWhoUniverse.ENEMY_OF );
+        theCybermen.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
+        theCybermen.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
         final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );
@@ -107,14 +107,14 @@ public class Koan10
         anEpisode.addPropertyConstraint( "episode", CommonValueMatchers.has() );
 
         final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoUniverse.PLAYED );
-        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
+        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoRelationships.PLAYED );
+        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
         aDoctorActor.addPropertyConstraint( "actor", CommonValueMatchers.has() );
 
         final PatternNode theCybermen = new PatternNode();
         theCybermen.setAssociation( cybermenNode );
-        theCybermen.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
-        theCybermen.createRelationshipTo( theDoctor, DoctorWhoUniverse.ENEMY_OF );
+        theCybermen.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
+        theCybermen.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
         final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );
@@ -166,10 +166,10 @@ public class Koan10
         final PatternNode anEnemySpecies = new PatternNode();
         anEnemySpecies.addPropertyConstraint( "species", CommonValueMatchers.has() );
 
-        ecclestone.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
-        roseTyler.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
-        anEnemySpecies.createRelationshipTo( anEpisode, DoctorWhoUniverse.APPEARED_IN );
-        anEnemySpecies.createRelationshipTo( theDoctor, DoctorWhoUniverse.ENEMY_OF );
+        ecclestone.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
+        roseTyler.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
+        anEnemySpecies.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
+        anEnemySpecies.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
         final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );

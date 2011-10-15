@@ -76,14 +76,14 @@ public class DalekPropBuilder
 
         Node episodePropsNode = db.createNode();
         episodePropsNode.setProperty( PROPS, "Daleks" );
-        episodePropsNode.createRelationshipTo( episodeNode, DoctorWhoUniverse.USED_IN );
+        episodePropsNode.createRelationshipTo( episodeNode, DoctorWhoRelationships.USED_IN );
 
         for ( Prop prop : props )
         {
             if ( isFullProp( prop ) )
             {
                 Node currentDalekPropNode = ensurePropAppearsInDb( prop.getName(), db );
-                currentDalekPropNode.createRelationshipTo( episodePropsNode, DoctorWhoUniverse.MEMBER_OF );
+                currentDalekPropNode.createRelationshipTo( episodePropsNode, DoctorWhoRelationships.MEMBER_OF );
 
                 if ( shoulderExists( prop ) )
                 {
@@ -115,9 +115,9 @@ public class DalekPropBuilder
             GraphDatabaseService db )
     {
         Node partNode = ensurePartExistsInDb( originalPropName, part, db );
-        if ( !relationshipExists( currentDalekPropNode, partNode, DoctorWhoUniverse.COMPOSED_OF, Direction.OUTGOING ) )
+        if ( !relationshipExists( currentDalekPropNode, partNode, DoctorWhoRelationships.COMPOSED_OF, Direction.OUTGOING ) )
         {
-            currentDalekPropNode.createRelationshipTo( partNode, DoctorWhoUniverse.COMPOSED_OF );
+            currentDalekPropNode.createRelationshipTo( partNode, DoctorWhoRelationships.COMPOSED_OF );
         }
     }
 
@@ -125,9 +125,9 @@ public class DalekPropBuilder
             GraphDatabaseService db )
     {
         Node partNode = ensurePartExistsInDb( originalPropName, part, db );
-        if ( !relationshipExists( partNode, propGroupNode, DoctorWhoUniverse.MEMBER_OF, Direction.OUTGOING ) )
+        if ( !relationshipExists( partNode, propGroupNode, DoctorWhoRelationships.MEMBER_OF, Direction.OUTGOING ) )
         {
-            partNode.createRelationshipTo( propGroupNode, DoctorWhoUniverse.MEMBER_OF );
+            partNode.createRelationshipTo( propGroupNode, DoctorWhoRelationships.MEMBER_OF );
         }
     }
 
@@ -173,7 +173,7 @@ public class DalekPropBuilder
             index.add( shoulderNode, part, originalPropName );
 
             Node originalDalekPropNode = ensurePropAppearsInDb( originalPropName, db );
-            shoulderNode.createRelationshipTo( originalDalekPropNode, DoctorWhoUniverse.ORIGINAL_PROP );
+            shoulderNode.createRelationshipTo( originalDalekPropNode, DoctorWhoRelationships.ORIGINAL_PROP );
         }
         return shoulderNode;
     }
@@ -196,7 +196,7 @@ public class DalekPropBuilder
     private void ensureEpisodeIsConnectedToDalekSpecies( Node episodeNode, Node speciesNode )
     {
         boolean isConnected = false;
-        for ( Relationship rel : episodeNode.getRelationships( DoctorWhoUniverse.APPEARED_IN, Direction.INCOMING ) )
+        for ( Relationship rel : episodeNode.getRelationships( DoctorWhoRelationships.APPEARED_IN, Direction.INCOMING ) )
         {
             if ( rel.getStartNode()
                     .equals( speciesNode ) )

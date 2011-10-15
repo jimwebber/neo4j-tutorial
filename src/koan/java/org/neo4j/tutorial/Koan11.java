@@ -216,9 +216,9 @@ public class Koan11
                 Direction.OUTGOING );
         secondDoctor.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "INCARNATION_OF" ),
                 Direction.OUTGOING );
-        williamHartell.createRelationshipTo( firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING );
-        richardHurdnall.createRelationshipTo( firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING );
-        patrickTroughton.createRelationshipTo( secondDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING );
+        williamHartell.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
+        richardHurdnall.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
+        patrickTroughton.createRelationshipTo( secondDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
         final Iterable<PatternMatch> matches = matcher.match( theDoctor, doctorNode );
