@@ -48,7 +48,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks=(Species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode) return episode";
+        cql = "start daleks=(species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode) return episode";
 
         // SNIPPET_END
 
@@ -79,7 +79,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = (Species, species, \"Dalek\"), rose = (Characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
+        cql = "start daleks = (species, species, \"Dalek\"), rose = (Characters, name, \"Rose Tyler\"), tennant = (actors, actor, \"David Tennant\")";
         cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
         cql += "return ep";
 
@@ -114,7 +114,7 @@ public class Koan08
         // <null>
         // value for prop parts with no identifiable prop
 
-        cql = "start dalek  = (Species, species, 'Dalek') ";
+        cql = "start dalek  = (species, species, 'Dalek') ";
         cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
         cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
 
@@ -137,7 +137,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks=(Species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+        cql = "start daleks=(species,species,\"Dalek\") match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
               + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.type, count(episode.title)"
               + " order by count(episode.title) desc limit 1";
 
