@@ -8,54 +8,42 @@ import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 
-public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
-{
+public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> {
 
     private final HashSet<String> actorNames = new HashSet<String>();
     private boolean matchedParameterLengths;
     private boolean nodeIsNotAnActor;
 
-    private ContainsOnlySpecificActors( String... actors )
-    {
-        for ( String s : actors )
-        {
-            actorNames.add( s );
+    private ContainsOnlySpecificActors(String... actors) {
+        for (String s : actors) {
+            actorNames.add(s);
         }
     }
 
     @Override
-    public void describeTo( Description description )
-    {
-        if ( nodeIsNotAnActor )
-        {
-            description.appendText( "A supplied node does not have the property 'actor'" );
+    public void describeTo(Description description) {
+        if (nodeIsNotAnActor) {
+            description.appendText("A supplied node does not have the property 'actor'");
         }
 
-        if ( !matchedParameterLengths )
-        {
-            description.appendText( "Number of actor names presented does not match number of actors" );
+        if (!matchedParameterLengths) {
+            description.appendText("Number of actor names presented does not match number of actors");
         }
     }
 
     @Override
-    public boolean matchesSafely( Iterable<Node> actors )
-    {
+    public boolean matchesSafely(Iterable<Node> actors) {
 
-        for ( Node actor : actors )
-        {
-            if ( !actor.hasProperty( "actor" ) )
-            {
+        for (Node actor : actors) {
+            if (!actor.hasProperty("actor")) {
                 nodeIsNotAnActor = true;
                 return false;
             }
 
-            Object actorProperty = actor.getProperty( "actor" );
-            if ( actorNames.contains( actorProperty ) )
-            {
-                actorNames.remove( actorProperty );
-            }
-            else
-            {
+            Object actorProperty = actor.getProperty("actor");
+            if (actorNames.contains(actorProperty)) {
+                actorNames.remove(actorProperty);
+            } else {
                 return false;
             }
         }
@@ -63,8 +51,7 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
     }
 
     @Factory
-    public static <T> Matcher<Iterable<Node>> containsOnlyActors( String... actorNames )
-    {
-        return new ContainsOnlySpecificActors( actorNames );
+    public static <T> Matcher<Iterable<Node>> containsOnlyActors(String... actorNames) {
+        return new ContainsOnlySpecificActors(actorNames);
     }
 }
