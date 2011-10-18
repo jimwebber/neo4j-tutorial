@@ -47,7 +47,7 @@ public class Koan09
         Node rose = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Rose Tyler" )
+                .get( "character", "Rose Tyler" )
                 .getSingle();
         Node daleks = universe.getDatabase()
                 .index()

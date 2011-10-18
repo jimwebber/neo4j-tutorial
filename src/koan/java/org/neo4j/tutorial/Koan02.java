@@ -108,7 +108,7 @@ public class Koan02
         try
         {
             theDoctor = db.createNode();
-            theDoctor.setProperty( "name", "The Doctor" );
+            theDoctor.setProperty( "character", "The Doctor" );
 
             susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
@@ -166,7 +166,7 @@ public class Koan02
 
         try
         {
-            captainKirk.hasProperty( "name" );
+            captainKirk.hasProperty( "character" );
             fail();
         }
         catch ( NotFoundException nfe )
@@ -194,7 +194,7 @@ public class Koan02
             for ( Relationship r : relationships )
             {
                 Node n = r.getEndNode();
-                if ( n.hasProperty( "name" ) && n.getProperty( "name" )
+                if ( n.hasProperty( "character" ) && n.getProperty( "character" )
                         .equals( "The Doctor" ) )
                 {
                     r.delete();
@@ -219,7 +219,7 @@ public class Koan02
         try
         {
             Node theDoctor = db.createNode();
-            theDoctor.setProperty( "name", "The Doctor" );
+            theDoctor.setProperty( "character", "The Doctor" );
 
             susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
@@ -245,7 +245,7 @@ public class Koan02
         try
         {
             Node theDoctor = db.createNode();
-            theDoctor.setProperty( "name", "The Doctor" );
+            theDoctor.setProperty( "character", "The Doctor" );
 
             captainKirk = db.createNode();
             captainKirk.setProperty( "firstname", "James" );

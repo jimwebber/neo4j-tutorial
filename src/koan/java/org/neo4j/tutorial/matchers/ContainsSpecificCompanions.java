@@ -28,7 +28,7 @@ public class ContainsSpecificCompanions extends TypeSafeMatcher<Index<Node>>
     {
         for ( String name : companionNames )
         {
-            if ( companions.get( "name", name )
+            if ( companions.get( "character", name )
                     .getSingle() == null )
             {
                 return false;

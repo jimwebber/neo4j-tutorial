@@ -69,7 +69,7 @@ public class Koan03
 
         assertNull( db.index()
                 .forNodes( "characters" )
-                .get( "name", "Abigail Pettigrew" )
+                .get( "character", "Abigail Pettigrew" )
                 .getSingle() );
 
         // YOUR CODE GOES HERE
@@ -80,7 +80,7 @@ public class Koan03
         {
             db.index()
                     .forNodes( "characters" )
-                    .add( abigailPettigrew, "name", abigailPettigrew.getProperty( "name" ) );
+                    .add( abigailPettigrew, "character", abigailPettigrew.getProperty( "character" ) );
             transaction.success();
         }
         finally
@@ -92,7 +92,7 @@ public class Koan03
 
         assertNotNull( db.index()
                 .forNodes( "characters" )
-                .get( "name", "Abigail Pettigrew" )
+                .get( "character", "Abigail Pettigrew" )
                 .getSingle() );
     }
 
@@ -161,7 +161,7 @@ public class Koan03
     {
         return db.index()
                 .forNodes( "characters" )
-                .get( "name", "Cyberleader" )
+                .get( "character", "Cyberleader" )
                 .getSingle();
     }
 
@@ -172,7 +172,7 @@ public class Koan03
         try
         {
             abigailPettigrew = db.createNode();
-            abigailPettigrew.setProperty( "name", "Abigail Pettigrew" );
+            abigailPettigrew.setProperty( "character", "Abigail Pettigrew" );
             tx.success();
         }
         finally

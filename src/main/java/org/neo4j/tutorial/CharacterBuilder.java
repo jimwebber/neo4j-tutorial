@@ -50,7 +50,7 @@ public class CharacterBuilder
         Node characterNode = ensureCharacterIsInDb( characterName, db );
         Node theDoctor = db.index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
 
         if ( species != null )
@@ -102,7 +102,7 @@ public class CharacterBuilder
     {
         Node theDoctor = db.index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         ensureRelationshipInDb( allyNode, DoctorWhoRelationships.ALLY_OF, theDoctor );
         ensureRelationshipInDb( theDoctor, DoctorWhoRelationships.ALLY_OF, allyNode );
@@ -112,7 +112,7 @@ public class CharacterBuilder
     {
         Node theDoctor = db.index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         ensureRelationshipInDb( enemyNode, DoctorWhoRelationships.ENEMY_OF, theDoctor );
         ensureRelationshipInDb( theDoctor, DoctorWhoRelationships.ENEMY_OF, enemyNode );
@@ -122,7 +122,7 @@ public class CharacterBuilder
     {
         Node theDoctor = db.index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         ensureRelationshipInDb( companionNode, DoctorWhoRelationships.COMPANION_OF, theDoctor );
     }
@@ -219,12 +219,12 @@ public class CharacterBuilder
     {
         Node theCharacterNode = db.index()
                 .forNodes( "characters" )
-                .get( "name", name )
+                .get( "character", name )
                 .getSingle();
         if ( theCharacterNode == null )
         {
             theCharacterNode = db.createNode();
-            theCharacterNode.setProperty( "name", name );
+            theCharacterNode.setProperty( "character", name );
             ensureCharacterIsIndexed( theCharacterNode, db );
         }
         return theCharacterNode;
@@ -234,12 +234,12 @@ public class CharacterBuilder
     {
         if ( database.index()
                 .forNodes( "characters" )
-                .get( "name", characterNode.getProperty( "name" ) )
+                .get( "character", characterNode.getProperty( "character" ) )
                 .getSingle() == null )
         {
             database.index()
                     .forNodes( "characters" )
-                    .add( characterNode, "name", characterNode.getProperty( "name" ) );
+                    .add( characterNode, "character", characterNode.getProperty( "character" ) );
         }
     }
 

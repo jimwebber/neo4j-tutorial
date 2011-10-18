@@ -128,7 +128,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         assertNotNull( theDoctor );
         assertEquals( numberOfDoctors, databaseHelper.countRelationships( theDoctor.getRelationships(
@@ -189,7 +189,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theMaster = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Master" )
+                .get( "character", "Master" )
                 .getSingle();
 
         assertNotNull( theMaster );
@@ -223,12 +223,12 @@ public class DoctorWhoUniverseGeneratorTest
         Node theMaster = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Master" )
+                .get( "character", "Master" )
                 .getSingle();
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
 
         int maxDepth = 5; // No more than 5, or we find Kevin Bacon!
@@ -265,7 +265,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         for ( Relationship r : enemiesOf )
         {
@@ -285,7 +285,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theMaster = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Master" )
+                .get( "character", "Master" )
                 .getSingle();
         Node dalek = getSpeciesIndex().get( "species", "Dalek" )
                 .getSingle();
@@ -356,7 +356,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
 
         Iterable<Relationship> relationships = theDoctor.getRelationships( DoctorWhoRelationships.ENEMY_OF,
@@ -382,7 +382,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         assertNotNull( theDoctor );
 
@@ -398,7 +398,7 @@ public class DoctorWhoUniverseGeneratorTest
         Node theDoctor = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         assertNotNull( theDoctor );
 
@@ -408,7 +408,7 @@ public class DoctorWhoUniverseGeneratorTest
         for ( Relationship rel : relationships )
         {
             if ( rel.getStartNode()
-                    .hasProperty( "name" ) )
+                    .hasProperty( "character" ) )
             {
                 count++;
             }

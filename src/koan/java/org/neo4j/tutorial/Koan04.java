@@ -82,13 +82,13 @@ public class Koan04
         Index<Node> characters = universe.getDatabase()
                 .index()
                 .forNodes( "characters" );
-        IndexHits<Node> results = characters.query( "name", "*" );
+        IndexHits<Node> results = characters.query( "character", "*" );
 
         HashSet<String> characterNames = new HashSet<String>();
 
         for ( Node character : results )
         {
-            characterNames.add( (String) character.getProperty( "name" ) );
+            characterNames.add( (String) character.getProperty( "character" ) );
         }
 
         return characterNames;

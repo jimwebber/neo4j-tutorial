@@ -187,7 +187,7 @@ public class EpisodeBuilder
     {
         Node theDoctor = db.index()
                 .forNodes( "characters" )
-                .get( "name", "Doctor" )
+                .get( "character", "Doctor" )
                 .getSingle();
         Iterable<Relationship> relationships = theDoctor.getRelationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING );
 
