@@ -20,9 +20,17 @@ public class Characters
         Transaction tx = db.beginTx();
         try
         {
-            character( "Doctor" ).regenerationSequence( "William Hartnell", "Patrick Troughton", "Jon Pertwee",
-                    "Tom Baker", "Peter Davison", "Colin Baker", "Sylvester McCoy", "Paul McGann",
-                    "Christopher Eccleston", "David Tennant", "Matt Smith" )
+            character( "Doctor" ).regeneration( "William Hartnell" )
+                    .regeneration( "Patrick Troughton", 1966 )
+                    .regeneration( "Jon Pertwee", 1970 )
+                    .regeneration( "Tom Baker", 1974 )
+                    .regeneration( "Peter Davison", 1981 )
+                    .regeneration( "Colin Baker", 1984 )
+                    .regeneration( "Sylvester McCoy", 1987 )
+                    .regeneration( "Paul McGann", 1996 )
+                    .regeneration( "Christopher Eccleston", 2005 )
+                    .regeneration( "David Tennant", 2005 )
+                    .regeneration( "Matt Smith", 2010 )
                     .loves( "Rose Tyler", "River Song" )
                     .isA( "Timelord" )
                     .isFrom( "Gallifrey" )
@@ -41,8 +49,8 @@ public class Characters
 
     private void loadEnemies()
     {
-        character( "Master" ).regenerationSequence( "Roger Delgado", "Peter Pratt", "Geoffrey Beevers",
-                "Anthony Ainley", "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm" )
+        character( "Master" ).regeneration( "Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley",
+                "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm" )
                 .isEnemy()
                 .isA( "Timelord" )
                 .isFrom( "Gallifrey" )

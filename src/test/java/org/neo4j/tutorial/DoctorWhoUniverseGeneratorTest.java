@@ -71,6 +71,33 @@ public class DoctorWhoUniverseGeneratorTest
     }
 
     @Test
+    public void theDoctorsRegenerationsShouldBeDated()
+    {
+        Node nextDoctor = getActorIndex().get( "actor", "William Hartnell" )
+                .getSingle();
+
+        boolean allDoctorsHaveRegenerationYears = true;
+
+        do
+        {
+            Relationship relationship = nextDoctor.getSingleRelationship( DoctorWhoRelationships.REGENERATED_TO,
+                    Direction.OUTGOING );
+            if ( relationship == null )
+            {
+                break;
+            }
+
+            allDoctorsHaveRegenerationYears = relationship.hasProperty( "year" ) && allDoctorsHaveRegenerationYears;
+
+            nextDoctor = relationship.getEndNode();
+
+        }
+        while ( nextDoctor != null );
+
+        assertTrue( allDoctorsHaveRegenerationYears );
+    }
+
+    @Test
     public void shouldHaveCorrectNumberOfHumans()
     {
         Node humanSpeciesNode = universe.getDatabase()
@@ -256,7 +283,8 @@ public class DoctorWhoUniverseGeneratorTest
         Node cyberman = getSpeciesIndex().get( "species", "Cyberman" )
                 .getSingle();
         assertNotNull( cyberman );
-        Iterable<Relationship> enemiesOf = cyberman.getRelationships( DoctorWhoRelationships.ENEMY_OF, Direction.OUTGOING );
+        Iterable<Relationship> enemiesOf = cyberman.getRelationships( DoctorWhoRelationships.ENEMY_OF,
+                Direction.OUTGOING );
         assertTrue( containsTheDoctor( enemiesOf ) );
     }
 

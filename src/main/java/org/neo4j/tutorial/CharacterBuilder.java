@@ -2,7 +2,11 @@ package org.neo4j.tutorial;
 
 import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -17,7 +21,8 @@ public class CharacterBuilder
     private String[] things;
     private boolean enemy;
     private boolean ally;
-    private String[] actors;
+    private ArrayList<String> actors = new ArrayList<String>();
+    private HashMap<String, Integer> startDates = new HashMap<String, Integer>();
 
     public static CharacterBuilder character( String characterName )
     {
@@ -127,7 +132,7 @@ public class CharacterBuilder
         ensureRelationshipInDb( companionNode, DoctorWhoRelationships.COMPANION_OF, theDoctor );
     }
 
-    public static void ensureActorsInDb( Node characterNode, String[] actors, GraphDatabaseService db )
+    public void ensureActorsInDb( Node characterNode, List<String> actors, GraphDatabaseService db )
     {
         Node previousActorNode = null;
         for ( String actor : actors )
@@ -152,11 +157,25 @@ public class CharacterBuilder
 
             if ( previousActorNode != null )
             {
-                ensureRelationshipInDb( previousActorNode, DoctorWhoRelationships.REGENERATED_TO, theActorNode );
+                ensureRelationshipInDb( previousActorNode, DoctorWhoRelationships.REGENERATED_TO, theActorNode,
+                        map( "year", startDates.get( actor ) ) );
             }
 
             previousActorNode = theActorNode;
         }
+    }
+
+    private Map<String, Object> map( String key, Integer value )
+    {
+
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
+        if ( value != null )
+        {
+            result.put( key, value );
+        }
+
+        return result;
     }
 
     private static void ensureThingsInDb( Node characterNode, String[] things, GraphDatabaseService db )
@@ -281,9 +300,19 @@ public class CharacterBuilder
         return this;
     }
 
-    public CharacterBuilder regenerationSequence( String... actors )
+    public CharacterBuilder regeneration( String... actors )
     {
-        this.actors = actors;
+        for ( String actor : actors )
+        {
+            this.actors.add( actor );
+        }
+        return this;
+    }
+
+    public CharacterBuilder regeneration( String actor, int year )
+    {
+        this.actors.add( actor );
+        this.startDates.put( actor, new Integer( year ) );
         return this;
     }
 }

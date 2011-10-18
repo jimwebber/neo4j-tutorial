@@ -3,8 +3,10 @@ package org.neo4j.tutorial;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -59,9 +61,8 @@ public class DatabaseHelper
         d.deleteOnExit();
         return d;
     }
-
-    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode )
-    {
+    
+    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String, Object> relationshipProperties ) {
         for ( Relationship r : startNode.getRelationships( relType, Direction.OUTGOING ) )
         {
             if ( r.getEndNode()
@@ -71,7 +72,16 @@ public class DatabaseHelper
             }
         }
 
-        startNode.createRelationshipTo( endNode, relType );
+        Relationship relationship = startNode.createRelationshipTo( endNode, relType );
+        
+        for(String key : relationshipProperties.keySet()) {
+            relationship.setProperty( key, relationshipProperties.get( key ) );
+        }
+    }
+    
+    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode )
+    {
+        ensureRelationshipInDb( startNode, relType, endNode, new HashMap<String, Object>());
     }
 
     public void dumpGraphToConsole()
