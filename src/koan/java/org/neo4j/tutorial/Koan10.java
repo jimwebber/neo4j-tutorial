@@ -144,7 +144,7 @@ public class Koan10
         Node roseTylerNode = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Rose Tyler" )
+                .get( "character", "Rose Tyler" )
                 .getSingle();
 
         // YOUR CODE GOES HERE

@@ -117,7 +117,7 @@ public class Koan06
         Node theMaster = universe.getDatabase()
                 .index()
                 .forNodes( "characters" )
-                .get( "name", "Master" )
+                .get( "character", "Master" )
                 .getSingle();
         Traverser t = null;
 

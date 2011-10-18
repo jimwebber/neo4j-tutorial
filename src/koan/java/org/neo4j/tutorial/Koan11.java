@@ -195,7 +195,7 @@ public class Koan11
         Node doctorNode = db.getNodeById( 1 );
 
         final PatternNode theDoctor = new PatternNode();
-        theDoctor.addPropertyConstraint( "name", CommonValueMatchers.exact( "Doctor" ) );
+        theDoctor.addPropertyConstraint( "character", CommonValueMatchers.exact( "Doctor" ) );
 
         final PatternNode firstDoctor = new PatternNode();
         firstDoctor.addPropertyConstraint( "incarnation", CommonValueMatchers.exact( "First Doctor" ) );

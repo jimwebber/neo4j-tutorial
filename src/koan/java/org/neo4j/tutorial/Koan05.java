@@ -118,7 +118,7 @@ public class Koan05
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Node roseTyler = friendliesIndex.get( "name", "Rose Tyler" )
+        Node roseTyler = friendliesIndex.get( "character", "Rose Tyler" )
                 .getSingle();
         Node daleks = speciesIndex.get( "species", "Dalek" )
                 .getSingle();
