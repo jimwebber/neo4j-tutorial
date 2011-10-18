@@ -166,7 +166,7 @@ public class Koan02
 
         try
         {
-            db.getNodeById( captainKirk.getId() );
+            captainKirk.hasProperty( "name" );
             fail();
         }
         catch ( NotFoundException nfe )
