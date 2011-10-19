@@ -29,7 +29,7 @@ public class ServerDoctorWhoUniverse {
 	}
 
 	public Map<String,Object> theDoctor() {
-		return getJsonFor(getUriFromIndex("characters", "name", "Doctor"));
+		return getJsonFor(getUriFromIndex("characters", "character", "Doctor"));
 	}
 	
 	public Map<String,Object> getJsonFor(String uri){
