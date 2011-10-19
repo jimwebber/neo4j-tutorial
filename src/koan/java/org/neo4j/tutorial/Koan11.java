@@ -175,7 +175,7 @@ public class Koan11 {
 		Node doctorNode = db.getNodeById(1);
 
 		final PatternNode theDoctor = new PatternNode();
-		theDoctor.addPropertyConstraint("name", CommonValueMatchers.exact("Doctor"));
+		theDoctor.addPropertyConstraint("character", CommonValueMatchers.exact("Doctor"));
 
 		final PatternNode firstDoctor = new PatternNode();
 		firstDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("First Doctor"));
@@ -194,9 +194,9 @@ public class Koan11 {
 
 		firstDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
 		secondDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
-		williamHartell.createRelationshipTo(firstDoctor, DoctorWhoUniverseGenerator.PLAYED, Direction.OUTGOING);
-		richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoUniverseGenerator.PLAYED, Direction.OUTGOING);
-		patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoUniverseGenerator.PLAYED, Direction.OUTGOING);
+		williamHartell.createRelationshipTo(firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING);
+		richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING);
+		patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING);
 
 		PatternMatcher matcher = PatternMatcher.getMatcher();
 		final Iterable<PatternMatch> matches = matcher.match(theDoctor, doctorNode);
