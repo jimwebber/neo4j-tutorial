@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
-
-import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
 
 public class DalekProps
 {
@@ -127,8 +127,7 @@ public class DalekProps
                     .addProp( "Imperial 4", "Imperial 4", "Imperial 4" )
                     .fact( db );
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }

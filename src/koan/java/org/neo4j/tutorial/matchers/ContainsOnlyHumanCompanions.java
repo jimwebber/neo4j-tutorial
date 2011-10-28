@@ -1,13 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
+import java.util.Set;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.tutorial.DoctorWhoRelationships;
-
-import java.util.Set;
 
 public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>>
 {
@@ -25,11 +25,11 @@ public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>>
     {
         for ( Node n : nodes )
         {
-            if ( !( n.hasRelationship( DoctorWhoRelationships.IS_A, Direction.OUTGOING ) && n.getSingleRelationship(
+            if ( !(n.hasRelationship( DoctorWhoRelationships.IS_A, Direction.OUTGOING ) && n.getSingleRelationship(
                     DoctorWhoRelationships.IS_A, Direction.OUTGOING )
                     .getEndNode()
                     .getProperty( "species" )
-                    .equals( "Human" ) ) )
+                    .equals( "Human" )) )
             {
                 failedNode = n;
                 return false;

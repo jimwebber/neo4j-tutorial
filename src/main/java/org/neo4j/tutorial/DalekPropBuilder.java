@@ -1,10 +1,14 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.index.Index;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.index.Index;
 
 public class DalekPropBuilder
 {
@@ -90,8 +94,7 @@ public class DalekPropBuilder
                 {
                     createPartAttachedToProp( prop.getSkirt(), "skirt", currentDalekPropNode, db );
                 }
-            }
-            else
+            } else
             {
                 if ( shoulderExists( prop ) )
                 {
@@ -108,7 +111,7 @@ public class DalekPropBuilder
     }
 
     private void createPartAttachedToProp( String originalPropName, String part, Node currentDalekPropNode,
-            GraphDatabaseService db )
+                                           GraphDatabaseService db )
     {
         Node partNode = ensurePartExistsInDb( originalPropName, part, db );
         if ( !relationshipExists( currentDalekPropNode, partNode, DoctorWhoRelationships.COMPOSED_OF, Direction.OUTGOING ) )
@@ -118,7 +121,7 @@ public class DalekPropBuilder
     }
 
     private void createPartAttachedToPropGroup( String originalPropName, String part, Node propGroupNode,
-            GraphDatabaseService db )
+                                                GraphDatabaseService db )
     {
         Node partNode = ensurePartExistsInDb( originalPropName, part, db );
         if ( !relationshipExists( partNode, propGroupNode, DoctorWhoRelationships.MEMBER_OF, Direction.OUTGOING ) )
@@ -204,7 +207,7 @@ public class DalekPropBuilder
         if ( !isConnected )
         {
             throw new RuntimeException( "Episode '" + episodeNode.getProperty( "title" )
-                                        + "' not connected to Dalek species." );
+                    + "' not connected to Dalek species." );
         }
     }
 

@@ -27,7 +27,7 @@ public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node
     public boolean matchesSafely( Iterable<Node> nodes )
     {
         count = 0;
-        for ( @SuppressWarnings( "unused" ) Node n : nodes )
+        for ( @SuppressWarnings("unused") Node n : nodes )
         {
             count++;
         }

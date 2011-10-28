@@ -1,5 +1,14 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
+
+import java.util.Iterator;
+import java.util.Map;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,60 +18,58 @@ import org.neo4j.cypher.commands.Query;
 import org.neo4j.cypher.parser.CypherParser;
 import org.neo4j.graphdb.Node;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import static org.junit.Assert.*;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
  * the history of the Dalek props.
  */
-public class Koan08 {
-	private static EmbeddedDoctorWhoUniverse universe;
+public class Koan08
+{
+    private static EmbeddedDoctorWhoUniverse universe;
 
-	@BeforeClass
-	public static void createDatabase() throws Exception {
-		universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
-	}
+    @BeforeClass
+    public static void createDatabase() throws Exception
+    {
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+    }
 
-	@AfterClass
-	public static void closeTheDatabase() {
-		universe.stop();
-	}
+    @AfterClass
+    public static void closeTheDatabase()
+    {
+        universe.stop();
+    }
 
-	@Test
-	public void shouldFindAllTheEpisodesInWhichTheDaleksAppeared() throws Exception {
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-		String cql = null;
+    @Test
+    public void shouldFindAllTheEpisodesInWhichTheDaleksAppeared() throws Exception
+    {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        String cql = null;
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		cql = "START daleks = node:Species(species =\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "START daleks = node:Species(species =\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
 
-		// SNIPPET_END
+        // SNIPPET_END
 
-		Query query = parser.parse(cql);
-		ExecutionResult result = engine.execute(query);
-		Iterator<Node> episodes = result.javaColumnAs("episode");
+        Query query = parser.parse( cql );
+        ExecutionResult result = engine.execute( query );
+        Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
-		assertThat(asIterable(episodes),
-				containsOnlyTitles("The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
-						"Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
-						"Revelation of the Daleks", "Resurrection of the Daleks", "The Five Doctors", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
-						"Planet of the Daleks", "Frontier in Space", "Day of the Daleks", "The War Games", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
-						"The Space Museum", "The Dalek Invasion of Earth", "The Daleks"));
+        assertThat( asIterable( episodes ),
+                containsOnlyTitles( "The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
+                        "Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
+                        "Revelation of the Daleks", "Resurrection of the Daleks", "The Five Doctors", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
+                        "Planet of the Daleks", "Frontier in Space", "Day of the Daleks", "The War Games", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
+                        "The Space Museum", "The Dalek Invasion of Earth", "The Daleks" ) );
 
-	}
-	
-	@Test
-    public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception {
-       CypherParser parser = new CypherParser();
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+    }
+
+    @Test
+    public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
+    {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -74,75 +81,79 @@ public class Koan08 {
 
         // SNIPPET_END
 
-        Query query = parser.parse(cql);
-        ExecutionResult result = engine.execute(query);
-        Iterator<Node> episodes = result.javaColumnAs("ep");
+        Query query = parser.parse( cql );
+        ExecutionResult result = engine.execute( query );
+        Iterator<Node> episodes = result.javaColumnAs( "ep" );
 
-        assertThat(asIterable(episodes),
-                containsOnlyTitles("Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts","The Parting of the Ways"));
-   }
+        assertThat( asIterable( episodes ),
+                containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts", "The Parting of the Ways" ) );
+    }
 
-	@Test
-	public void shouldFindTheFifthMostRecentPropToAppear() throws Exception {
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+    @Test
+    public void shouldFindTheFifthMostRecentPropToAppear() throws Exception
+    {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
 
-		String cql = null;
-		ExecutionResult result = null;
+        String cql = null;
+        ExecutionResult result = null;
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
-		
-		//Not every prop part can be identified with a prop - e.g. the Exhibition skirt
-		//As a result, prop.prop will not exist for every prop node
-		//So, we must use prop.prop? - this fills the prop.prop column with a <null>
-		//value for prop parts with no identifiable prop
-		
-		cql =  "start dalek  = node:Species( species = 'Dalek') ";
-	       cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
-	       cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-		Query query = parser.parse(cql);
-		result = engine.execute(query);
-	
+        //Not every prop part can be identified with a prop - e.g. the Exhibition skirt
+        //As a result, prop.prop will not exist for every prop node
+        //So, we must use prop.prop? - this fills the prop.prop column with a <null>
+        //value for prop parts with no identifiable prop
 
-		// SNIPPET_END
+        cql = "start dalek  = node:Species( species = 'Dalek') ";
+        cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
+        cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
 
-		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
-	}
+        Query query = parser.parse( cql );
+        result = engine.execute( query );
 
-	
-	@Test
-	public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception {
-		CypherParser parser = new CypherParser();
-		ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-		String cql = null;
 
-		// YOUR CODE GOES HERE
-		// SNIPPET_START
+        // SNIPPET_END
 
-		cql = "START daleks= node:Species(species = \"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.type, COUNT(episode.title)"
-				+ " ORDER BY COUNT(episode.title) DESC LIMIT 1";
+        assertEquals( "Supreme Dalek", result.javaColumnAs( "prop.prop" ).next() );
+    }
 
-		// SNIPPET_END
 
-		Query query = parser.parse(cql);
-		ExecutionResult result = engine.execute(query);
+    @Test
+    public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
+    {
+        CypherParser parser = new CypherParser();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        String cql = null;
 
-		assertHardestWorkingPropParts(result.javaIterator(),
-				"Dalek 1", "shoulder", 15);
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-	}
+        cql = "START daleks= node:Species(species = \"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.type, COUNT(episode.title)"
+                + " ORDER BY COUNT(episode.title) DESC LIMIT 1";
 
-	private void assertHardestWorkingPropParts(Iterator<Map<String, Object>> results, Object... partsAndCounts) {
-		for (int index = 0; index < partsAndCounts.length; index = index + 3) {
-			Map<String, Object> row = results.next();
-			assertEquals(partsAndCounts[index], row.get("originalprop.prop"));
-			assertEquals(partsAndCounts[index + 1], row.get("part.type"));
-			assertEquals(partsAndCounts[index + 2], row.get("count(episode.title)"));
-		}
+        // SNIPPET_END
 
-		assertFalse(results.hasNext());
-	}
+        Query query = parser.parse( cql );
+        ExecutionResult result = engine.execute( query );
+
+        assertHardestWorkingPropParts( result.javaIterator(),
+                "Dalek 1", "shoulder", 15 );
+
+    }
+
+    private void assertHardestWorkingPropParts( Iterator<Map<String, Object>> results, Object... partsAndCounts )
+    {
+        for ( int index = 0; index < partsAndCounts.length; index = index + 3 )
+        {
+            Map<String, Object> row = results.next();
+            assertEquals( partsAndCounts[index], row.get( "originalprop.prop" ) );
+            assertEquals( partsAndCounts[index + 1], row.get( "part.type" ) );
+            assertEquals( partsAndCounts[index + 2], row.get( "count(episode.title)" ) );
+        }
+
+        assertFalse( results.hasNext() );
+    }
 }

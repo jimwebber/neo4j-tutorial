@@ -24,7 +24,10 @@ public class EmbeddedDoctorWhoUniverse
 
     public void stop()
     {
-        if ( db != null ) db.shutdown();
+        if ( db != null )
+        {
+            db.shutdown();
+        }
     }
 
     public GraphDatabaseService getDatabase()

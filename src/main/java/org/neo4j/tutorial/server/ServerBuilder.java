@@ -1,16 +1,11 @@
 package org.neo4j.tutorial.server;
 
-import org.neo4j.server.AddressResolver;
-import org.neo4j.server.NeoServerBootstrapper;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
-import org.neo4j.server.configuration.Configurator;
-import org.neo4j.server.configuration.PropertyFileConfigurator;
-import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecifiedRule;
-import org.neo4j.server.configuration.validation.Validator;
-import org.neo4j.server.modules.*;
-import org.neo4j.server.startup.healthcheck.StartupHealthCheck;
-import org.neo4j.server.startup.healthcheck.StartupHealthCheckRule;
-import org.neo4j.server.web.Jetty6WebServer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempDir;
+import static org.neo4j.tutorial.server.ServerTestUtils.createTempPropertyFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertiesToFile;
+import static org.neo4j.tutorial.server.ServerTestUtils.writePropertyToFile;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,9 +18,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.neo4j.tutorial.server.ServerTestUtils.*;
+import org.neo4j.server.AddressResolver;
+import org.neo4j.server.NeoServerBootstrapper;
+import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.configuration.Configurator;
+import org.neo4j.server.configuration.PropertyFileConfigurator;
+import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecifiedRule;
+import org.neo4j.server.configuration.validation.Validator;
+import org.neo4j.server.modules.DiscoveryModule;
+import org.neo4j.server.modules.ManagementApiModule;
+import org.neo4j.server.modules.RESTApiModule;
+import org.neo4j.server.modules.ServerModule;
+import org.neo4j.server.modules.ThirdPartyJAXRSModule;
+import org.neo4j.server.modules.WebAdminModule;
+import org.neo4j.server.startup.healthcheck.StartupHealthCheck;
+import org.neo4j.server.startup.healthcheck.StartupHealthCheckRule;
+import org.neo4j.server.web.Jetty6WebServer;
 
 public class ServerBuilder
 {
@@ -53,7 +61,7 @@ public class ServerBuilder
         return new ServerBuilder();
     }
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public NeoServerWithEmbeddedWebServer build() throws IOException
     {
         if ( dbDir == null )
@@ -119,13 +127,11 @@ public class ServerBuilder
             writePropertyToFile( "neostore.propertystore.db.arrays.mapped_memory", "130M", databaseTuningPropertyFile );
             writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY,
                     databaseTuningPropertyFile.getAbsolutePath(), temporaryConfigFile );
-        }
-        else if ( action == WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY )
+        } else if ( action == WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY )
         {
             writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY, createTempPropertyFile().getAbsolutePath(),
                     temporaryConfigFile );
-        }
-        else if ( action == WhatToDo.CREATE_CORRUPT_TUNING_FILE )
+        } else if ( action == WhatToDo.CREATE_CORRUPT_TUNING_FILE )
         {
             File corruptTuningFile = trashFile();
             writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY, corruptTuningFile.getAbsolutePath(),
@@ -173,13 +179,11 @@ public class ServerBuilder
             if ( theUri.isAbsolute() )
             {
                 this.webAdminUri = theUri.getPath();
-            }
-            else
+            } else
             {
                 this.webAdminUri = theUri.toString();
             }
-        }
-        catch ( URISyntaxException e )
+        } catch ( URISyntaxException e )
         {
             throw new RuntimeException( e );
         }
@@ -194,13 +198,11 @@ public class ServerBuilder
             if ( theUri.isAbsolute() )
             {
                 this.webAdminDataUri = theUri.getPath();
-            }
-            else
+            } else
             {
                 this.webAdminDataUri = theUri.toString();
             }
-        }
-        catch ( URISyntaxException e )
+        } catch ( URISyntaxException e )
         {
             throw new RuntimeException( e );
         }

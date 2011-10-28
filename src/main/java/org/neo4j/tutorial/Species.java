@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.SpeciesBuilder.species;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
-
-import static org.neo4j.tutorial.SpeciesBuilder.species;
 
 public class Species
 {
@@ -92,8 +92,7 @@ public class Species
                     .fact( db );
             species( "Voord" ).fact( db );
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }

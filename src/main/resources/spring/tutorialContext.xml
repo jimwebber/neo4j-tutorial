@@ -9,11 +9,11 @@
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/data/graph http://www.springframework.org/schema/data/graph/datagraph-1.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
-	 
-	<bean class="org.neo4j.tutorial.spring.DoctorWhoUniverseConfiguration"/>
-	<bean class="org.springframework.context.annotation.ConfigurationClassPostProcessor"/>
-	<datagraph:repositories base-package="org.neo4j.tutorial.spring" graph-database-context-ref="graphDatabaseContext"/>
-	
-	
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
+
+    <bean class="org.neo4j.tutorial.spring.DoctorWhoUniverseConfiguration"/>
+    <bean class="org.springframework.context.annotation.ConfigurationClassPostProcessor"/>
+    <datagraph:repositories base-package="org.neo4j.tutorial.spring" graph-database-context-ref="graphDatabaseContext"/>
+
+
 </beans>

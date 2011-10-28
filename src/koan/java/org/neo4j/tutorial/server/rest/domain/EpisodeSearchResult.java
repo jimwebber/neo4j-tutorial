@@ -13,7 +13,7 @@ public class EpisodeSearchResult
         this.nodes = nodes;
     }
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public String getActor()
     {
         Map<String, Object> actor = (Map<String, Object>) nodes.get( 1 )
@@ -21,7 +21,7 @@ public class EpisodeSearchResult
         return (String) actor.get( "actor" );
     }
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public String getEpisode()
     {
         Map<String, Object> actor = (Map<String, Object>) nodes.get( 2 )

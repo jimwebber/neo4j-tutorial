@@ -1,11 +1,21 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Path;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
@@ -14,16 +24,11 @@ import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 import org.neo4j.kernel.Uniqueness;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 /**
  * Be careful when adding tests here - each test in this class uses the same
  * database instance and so can pollute. This was done for performance reasons
  * since loading the database for each test takes a long time, even on fast
  * hardware.
- * 
  */
 public class DoctorWhoUniverseGeneratorTest
 {
@@ -46,7 +51,7 @@ public class DoctorWhoUniverseGeneratorTest
         database.shutdown();
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     @Test
     public void shouldHaveCorrectNumberOfPlanetsInIndex()
     {
@@ -122,7 +127,7 @@ public class DoctorWhoUniverseGeneratorTest
         assertEquals( knownNumberOfTimelords, numberOfTimelordsInTheDb );
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     @Test
     public void shouldHaveCorrectNumberOfSpecies()
     {
@@ -144,7 +149,7 @@ public class DoctorWhoUniverseGeneratorTest
     public void shouldHave12ActorsThatHavePlayedTheDoctor()
     {
         int numberOfDoctors = 12; // 12 Because the first doctor was played by 2
-                                  // actors over the course of the franchise
+        // actors over the course of the franchise
 
         Node theDoctor = universe.getDatabase()
                 .index()
@@ -194,8 +199,7 @@ public class DoctorWhoUniverseGeneratorTest
                 Relationship regeneratedTo = relationships.get( 0 );
                 timelord = regeneratedTo.getEndNode();
                 regenerationCount++;
-            }
-            else
+            } else
             {
                 break;
             }
@@ -330,12 +334,10 @@ public class DoctorWhoUniverseGeneratorTest
                         if ( path.length() == 2 )
                         {
                             return Evaluation.INCLUDE_AND_PRUNE;
-                        }
-                        else if ( path.length() > 2 )
+                        } else if ( path.length() > 2 )
                         {
                             return Evaluation.EXCLUDE_AND_PRUNE;
-                        }
-                        else
+                        } else
                         {
                             return Evaluation.EXCLUDE_AND_CONTINUE;
                         }

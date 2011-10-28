@@ -1,13 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
+import java.util.Set;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
-
-import java.util.Set;
 
 public class CharacterAutoIndexContainsSpecificCharacters extends TypeSafeMatcher<AutoIndexer<Node>>
 {
