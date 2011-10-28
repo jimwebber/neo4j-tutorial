@@ -1,12 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.HashSet;
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
+
+import java.util.Collections;
+import java.util.HashSet;
 
 public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> {
 
@@ -15,12 +16,9 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> 
     private boolean nodeIsNotAnActor;
 
     private ContainsOnlySpecificActors(String... actors) {
-        for (String s : actors) {
-            actorNames.add(s);
-        }
+        Collections.addAll(actorNames, actors);
     }
 
-    @Override
     public void describeTo(Description description) {
         if (nodeIsNotAnActor) {
             description.appendText("A supplied node does not have the property 'actor'");
@@ -41,10 +39,10 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>> 
             }
 
             Object actorProperty = actor.getProperty("actor");
-            if (actorNames.contains(actorProperty)) {
-                actorNames.remove(actorProperty);
-            } else {
+            if (!actorNames.contains(actorProperty)) {
                 return false;
+            } else {
+                actorNames.remove(actorProperty);
             }
         }
         return matchedParameterLengths = actorNames.size() == 0;

@@ -1,15 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
-import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,6 +9,14 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.kernel.Traversal;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
+import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
 /**
  * In this Koan we use some of the pre-canned graph algorithms that come with

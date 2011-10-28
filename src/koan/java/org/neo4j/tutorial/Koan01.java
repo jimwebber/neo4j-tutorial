@@ -1,8 +1,8 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This first Koan will introduce you to the tool support available for Neo4j.

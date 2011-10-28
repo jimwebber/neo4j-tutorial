@@ -1,13 +1,14 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>>
 {
@@ -18,13 +19,9 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>>
     public ContainsOnlySpecificTitles( String... specificTitles )
     {
         this.titles = new HashSet<String>();
-        for ( String name : specificTitles )
-        {
-            titles.add( name );
-        }
+        Collections.addAll(titles, specificTitles);
     }
 
-    @Override
     public void describeTo( Description description )
     {
         description.appendText( String.format( "Node [%d] does not contain any of the specified titles",
