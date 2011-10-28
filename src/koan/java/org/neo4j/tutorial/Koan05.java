@@ -1,12 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
-import java.util.HashSet;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +7,13 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
+
+import java.util.HashSet;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 /**
  * In this Koan we start to mix indexing and core API to perform more targeted

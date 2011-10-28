@@ -1,19 +1,17 @@
 package org.neo4j.tutorial;
 
-import java.util.Map;
-
-import javax.ws.rs.core.MediaType;
-
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
 import org.neo4j.tutorial.server.ServerBuilder;
 import org.neo4j.tutorial.server.rest.FunctionalTestHelper;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
+import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 public class ServerDoctorWhoUniverse {
 

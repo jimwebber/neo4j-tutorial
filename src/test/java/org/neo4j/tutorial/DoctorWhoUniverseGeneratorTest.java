@@ -1,21 +1,11 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
@@ -23,6 +13,10 @@ import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 import org.neo4j.kernel.Uniqueness;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Be careful when adding tests here - each test in this class uses the same
@@ -329,8 +323,6 @@ public class DoctorWhoUniverseGeneratorTest
                 .depthFirst()
                 .evaluator( new Evaluator()
                 {
-
-                    @Override
                     public Evaluation evaluate( Path path )
                     {
                         // Only include if we're at depth 2, don't want any mere

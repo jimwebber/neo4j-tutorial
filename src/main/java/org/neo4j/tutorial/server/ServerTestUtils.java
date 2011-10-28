@@ -1,25 +1,18 @@
 package org.neo4j.tutorial.server;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.neo4j.server.database.GraphDatabaseFactory;
+
+import java.io.*;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 
 public class ServerTestUtils
 {
     public static final GraphDatabaseFactory EMBEDDED_GRAPH_DATABASE_FACTORY = new GraphDatabaseFactory()
     {
-        @Override
         public AbstractGraphDatabase createDatabase( String databaseStoreDirectory,
                 Map<String, String> databaseProperties )
         {
@@ -63,7 +56,9 @@ public class ServerTestUtils
         for ( Map.Entry<String, String> property : properties.entrySet() )
         {
             builder.append( ( builder.length() > 0 ? "," : "" ) );
-            builder.append( property.getKey() + "=" + property.getValue() );
+            builder.append( property.getKey());
+            builder.append( "=" );
+            builder.append( property.getValue() );
         }
         return builder.toString();
     }

@@ -1,13 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.HashSet;
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
+
+import java.util.HashSet;
 
 public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
 {

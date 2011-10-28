@@ -1,12 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
-import java.util.HashSet;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,6 +8,13 @@ import org.neo4j.graphmatching.CommonValueMatchers;
 import org.neo4j.graphmatching.PatternMatch;
 import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
+
+import java.util.HashSet;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 /**
  * In this Koan we use the graph-matching library to look for patterns in the

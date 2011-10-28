@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.PlanetBuilder.planet;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+
+import static org.neo4j.tutorial.PlanetBuilder.planet;
 
 public class Planets
 {

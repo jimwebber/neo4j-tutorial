@@ -1,11 +1,11 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.CharacterBuilder.character;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
-public class Characters
+import static org.neo4j.tutorial.CharacterBuilder.character;
+
+class Characters
 {
 
     private final GraphDatabaseService db;
