@@ -1,20 +1,26 @@
 package org.neo4j.tutorial.server;
 
-import org.neo4j.kernel.AbstractGraphDatabase;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
-import org.neo4j.server.database.GraphDatabaseFactory;
-
-import java.io.*;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+
+import org.neo4j.kernel.AbstractGraphDatabase;
+import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.server.database.GraphDatabaseFactory;
 
 public class ServerTestUtils
 {
     public static final GraphDatabaseFactory EMBEDDED_GRAPH_DATABASE_FACTORY = new GraphDatabaseFactory()
     {
         public AbstractGraphDatabase createDatabase( String databaseStoreDirectory,
-                Map<String, String> databaseProperties )
+                                                     Map<String, String> databaseProperties )
         {
             return new EmbeddedGraphDatabase( databaseStoreDirectory, databaseProperties );
         }
@@ -45,7 +51,7 @@ public class ServerTestUtils
     }
 
     public static void writePropertiesToFile( String outerPropertyName, Map<String, String> properties,
-            File propertyFile )
+                                              File propertyFile )
     {
         writePropertyToFile( outerPropertyName, asOneLine( properties ), propertyFile );
     }
@@ -55,8 +61,8 @@ public class ServerTestUtils
         StringBuilder builder = new StringBuilder();
         for ( Map.Entry<String, String> property : properties.entrySet() )
         {
-            builder.append( ( builder.length() > 0 ? "," : "" ) );
-            builder.append( property.getKey());
+            builder.append( (builder.length() > 0 ? "," : "") );
+            builder.append( property.getKey() );
             builder.append( "=" );
             builder.append( property.getValue() );
         }
@@ -77,12 +83,10 @@ public class ServerTestUtils
         {
             out = new FileOutputStream( propertyFile );
             properties.store( out, "" );
-        }
-        catch ( IOException e )
+        } catch ( IOException e )
         {
             throw new RuntimeException( e );
-        }
-        finally
+        } finally
         {
             safeClose( out );
         }
@@ -98,12 +102,10 @@ public class ServerTestUtils
             {
                 in = new FileInputStream( propertyFile );
                 properties.load( in );
-            }
-            catch ( IOException e )
+            } catch ( IOException e )
             {
                 throw new RuntimeException( e );
-            }
-            finally
+            } finally
             {
                 safeClose( in );
             }
@@ -118,8 +120,7 @@ public class ServerTestUtils
             try
             {
                 closeable.close();
-            }
-            catch ( IOException e )
+            } catch ( IOException e )
             {
                 e.printStackTrace();
             }

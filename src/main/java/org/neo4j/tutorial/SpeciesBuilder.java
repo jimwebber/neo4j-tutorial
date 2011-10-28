@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 public class SpeciesBuilder
 {

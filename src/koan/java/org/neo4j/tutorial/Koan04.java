@@ -1,5 +1,11 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificCharacters.containsSpecificCharacters;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,12 +14,6 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificCharacters.containsSpecificCharacters;
 
 /**
  * After having done the hard work of managing an index for ourselves in the
@@ -68,8 +68,7 @@ public class Koan04
                 n.setProperty( "character-name", characterName );
             }
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }

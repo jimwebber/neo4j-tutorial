@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.PlanetBuilder.planet;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
-
-import static org.neo4j.tutorial.PlanetBuilder.planet;
 
 public class Planets
 {
@@ -468,8 +468,7 @@ public class Planets
             planet( "Zygor" ).fact( db );
 
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }

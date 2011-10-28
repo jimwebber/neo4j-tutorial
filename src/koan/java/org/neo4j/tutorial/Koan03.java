@@ -1,15 +1,22 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
+import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-
-import static org.junit.Assert.*;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
-import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
 /**
  * This Koan will introduce indexing based on the built-in index framework based
@@ -75,8 +82,7 @@ public class Koan03
                     .forNodes( "characters" )
                     .add( abigailPettigrew, "character", abigailPettigrew.getProperty( "character" ) );
             transaction.success();
-        }
-        finally
+        } finally
         {
             transaction.finish();
         }
@@ -130,8 +136,7 @@ public class Koan03
             }
             cyberleader.delete();
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }
@@ -144,8 +149,7 @@ public class Koan03
         {
             db.getNodeById( cyberleader.getId() );
             fail( "Cyberleader has not been deleted from the database." );
-        }
-        catch ( NotFoundException nfe )
+        } catch ( NotFoundException nfe )
         {
         }
     }
@@ -167,8 +171,7 @@ public class Koan03
             abigailPettigrew = db.createNode();
             abigailPettigrew.setProperty( "character", "Abigail Pettigrew" );
             tx.success();
-        }
-        finally
+        } finally
         {
             tx.finish();
         }

@@ -1,14 +1,14 @@
 package org.neo4j.tutorial.matchers;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>>
 {
@@ -20,7 +20,7 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>>
     public ContainsOnlySpecificSpecies( String... speciesNames )
     {
         this.species = new HashSet<String>();
-        Collections.addAll(species, speciesNames);
+        Collections.addAll( species, speciesNames );
     }
 
     public void describeTo( Description description )

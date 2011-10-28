@@ -24,7 +24,7 @@ public class BatchCommandBuilder
     }
 
     public BatchCommandBuilder createRelationship( int jobId, String startNodeRelationshipUri, String endNodeUri,
-            String relType, Map<String, String> dataParams )
+                                                   String relType, Map<String, String> dataParams )
     {
         return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, jobId );
     }
@@ -35,7 +35,7 @@ public class BatchCommandBuilder
     }
 
     public BatchCommandBuilder createRelationship( String startNodeRelationshipUri, String endNodeUri, String relType,
-            Map<String, String> dataParams )
+                                                   Map<String, String> dataParams )
     {
         return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, null );
     }
@@ -53,7 +53,7 @@ public class BatchCommandBuilder
     }
 
     private BatchCommandBuilder formatCreateRelationship( String startNodeRelationshipUri, String endNodeUri,
-            String relType, Map<String, String> dataParams, Integer jobId )
+                                                          String relType, Map<String, String> dataParams, Integer jobId )
     {
         commands.add( String.format( CreateRelationshipTemplate, startNodeRelationshipUri, endNodeUri, relType,
                 createData( dataParams ), formatJobId( jobId ) ) );

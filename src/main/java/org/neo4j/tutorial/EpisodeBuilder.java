@@ -1,15 +1,17 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
+import static org.neo4j.tutorial.CharacterBuilder.ensureAllyOfRelationshipInDb;
+import static org.neo4j.tutorial.CharacterBuilder.ensureCompanionRelationshipInDb;
+import static org.neo4j.tutorial.CharacterBuilder.ensureEnemyOfRelationshipInDb;
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.neo4j.tutorial.CharacterBuilder.*;
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 
 public class EpisodeBuilder
 {

@@ -1,12 +1,20 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.index.IndexHits;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class DatabaseHelper
 {
@@ -37,8 +45,7 @@ public class DatabaseHelper
         {
             d = File.createTempFile( "neo4j-koans", "dir" );
             System.out.println( String.format( "Created a new Neo4j database at [%s]", d.getAbsolutePath() ) );
-        }
-        catch ( IOException e )
+        } catch ( IOException e )
         {
             throw new RuntimeException( e );
         }
@@ -53,8 +60,9 @@ public class DatabaseHelper
         d.deleteOnExit();
         return d;
     }
-    
-    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String, Object> relationshipProperties ) {
+
+    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String, Object> relationshipProperties )
+    {
         for ( Relationship r : startNode.getRelationships( relType, Direction.OUTGOING ) )
         {
             if ( r.getEndNode()
@@ -65,15 +73,16 @@ public class DatabaseHelper
         }
 
         Relationship relationship = startNode.createRelationshipTo( endNode, relType );
-        
-        for(String key : relationshipProperties.keySet()) {
+
+        for ( String key : relationshipProperties.keySet() )
+        {
             relationship.setProperty( key, relationshipProperties.get( key ) );
         }
     }
-    
+
     public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode )
     {
-        ensureRelationshipInDb( startNode, relType, endNode, new HashMap<String, Object>());
+        ensureRelationshipInDb( startNode, relType, endNode, new HashMap<String, Object>() );
     }
 
     public void dumpGraphToConsole()
@@ -101,7 +110,10 @@ public class DatabaseHelper
             for ( String propertyName : propertyNames )
             {
                 hasAllPropertyNames = hasAllPropertyNames && next.hasProperty( propertyName );
-                if ( !hasAllPropertyNames ) break; // Modest optimisation
+                if ( !hasAllPropertyNames )
+                {
+                    break; // Modest optimisation
+                }
             }
             if ( hasAllPropertyNames )
             {
@@ -170,7 +182,7 @@ public class DatabaseHelper
     {
         int count = 0;
 
-        for ( @SuppressWarnings( "unused" ) Object o : iterable )
+        for ( @SuppressWarnings("unused") Object o : iterable )
         {
             count++;
         }

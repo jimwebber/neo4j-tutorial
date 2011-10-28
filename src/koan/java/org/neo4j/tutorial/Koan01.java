@@ -1,8 +1,8 @@
 package org.neo4j.tutorial;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 /**
  * This first Koan will introduce you to the tool support available for Neo4j.
@@ -13,8 +13,8 @@ public class Koan01
     @Test
     public void justEmitsThePathToTheDatabase() throws Exception
     {
-        EmbeddedDoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
-        assertNotNull(universe.getDatabase());
+        EmbeddedDoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        assertNotNull( universe.getDatabase() );
         universe.stop();
     }
 }

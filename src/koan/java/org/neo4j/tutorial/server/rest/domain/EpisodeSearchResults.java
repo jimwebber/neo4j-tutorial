@@ -9,7 +9,7 @@ public class EpisodeSearchResults implements Iterable<EpisodeSearchResult>
 {
     private List<EpisodeSearchResult> results;
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public EpisodeSearchResults( List<Map<String, Object>> json )
     {
         super();

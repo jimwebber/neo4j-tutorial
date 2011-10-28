@@ -1,13 +1,13 @@
 package org.neo4j.tutorial.server.rest;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public final class FunctionalTestHelper
 {
@@ -126,8 +126,7 @@ public final class FunctionalTestHelper
         try
         {
             return indexRelationshipUri( indexName ) + "/" + key + "/" + URLEncoder.encode( value.toString(), "UTF-8" );
-        }
-        catch ( UnsupportedEncodingException e )
+        } catch ( UnsupportedEncodingException e )
         {
             return indexRelationshipUri( indexName ) + "/" + key + "/" + value;
         }

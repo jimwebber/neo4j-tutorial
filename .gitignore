@@ -10,5 +10,5 @@ target
 .ant-eclipse
 .settings
 .idea
-neo4j-koans.iml
 tools
+koan.iml
