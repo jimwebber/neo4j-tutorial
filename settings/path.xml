@@ -16,6 +16,9 @@
 	<property name="koan.target" location="${target}/koan/classes" />
 	<property name="koan.reports" location="${target}/koan/reports" />
 
+	<property name="ivy.dir" location=".ivy" />
+	<property name="lib.dir" location="lib" />
+	<property name="settings.dir" location="settings" />
 
 	<target name="donothingToMakeAValidAntFile" />
 
