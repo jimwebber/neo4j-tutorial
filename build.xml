@@ -1,10 +1,6 @@
 <project name="neo4j-tutorial" default="run.koans" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="settings.dir" location="settings" />
-	<property name="lib.dir" location="lib" />
-
-	<import file="${settings.dir}/path.xml" />
-	<import file="${settings.dir}/test.xml" />
-
+	
 	<import file="${settings.dir}/download-neoclipse.xml" />
 	<import file="${settings.dir}/install-ant-eclipse.xml" />
 	<import file="${settings.dir}/install-ivy.xml" />
@@ -19,8 +15,10 @@
 		<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
 	</target>
 	
-	<target name="lib.clean">
+	
+	<target name="clean.dependencies">
 		<delete dir="${lib.dir}" />
+		<delete dir="${ivy.dir}"/>
 	</target>
 
 	<target name="clean" description="Removes the build directory, but not any cached ivy dependencies">
