@@ -11,7 +11,7 @@
 	<target name="-download.ant-eclipse" depends="-ant-eclipse.jar.available" unless="skip.ant-eclipse.download">
 		
 		<mkdir dir="${ant-eclipse.dir}" />
-		<get dest="${ant-eclipse.dir}" usetimestamp="true" src="http://downloads.sourceforge.net/project/ant-eclipse/ant-eclipse/1.0/ant-eclipse-1.0.bin.tar.bz2" />
+		<get dest="${ant-eclipse.dir}/ant-eclipse-1.0.bin.tar.bz2" usetimestamp="true" src="http://downloads.sourceforge.net/project/ant-eclipse/ant-eclipse/1.0/ant-eclipse-1.0.bin.tar.bz2" />
 		<untar compression="bzip2" src="${ant-eclipse.dir}/ant-eclipse-1.0.bin.tar.bz2" dest="${ant-eclipse.dir}" />
 	</target>
 
