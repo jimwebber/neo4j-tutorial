@@ -48,7 +48,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START daleks = (Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "START daleks = node:Species(species =\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
 
         // SNIPPET_END
 
@@ -75,7 +75,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = (species,species,'Dalek'), rose = (characters,character,'Rose Tyler'), tennant = (actors, actor, 'David Tennant')";
+        cql = "start daleks = node:Species( species = \"Dalek\"), rose = node:Characters( character= \"Rose Tyler\"), tennant = node:actors( actor = \"David Tennant\")";
         cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
         cql += "return ep";
 
@@ -84,9 +84,7 @@ public class Koan08
         Query query = parser.parse( cql );
         ExecutionResult result = engine.execute( query );
         Iterator<Node> episodes = result.javaColumnAs( "ep" );
-//        for(Node n : asIterable(episodes)){
-//            System.out.println("--"+n.getProperty("title", "none"));
-//        }
+
         assertThat( asIterable( episodes ),
                 containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts", "The Parting of the Ways" ) );
     }
@@ -108,7 +106,7 @@ public class Koan08
         //So, we must use prop.prop? - this fills the prop.prop column with a <null>
         //value for prop parts with no identifiable prop
 
-        cql = "start dalek  = (Species,species,\"Dalek\") ";
+        cql = "start dalek  = node:Species( species = 'Dalek') ";
         cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
         cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
 
@@ -132,7 +130,7 @@ public class Koan08
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START daleks= (Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+        cql = "START daleks= node:Species(species = \"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
                 + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.type, COUNT(episode.title)"
                 + " ORDER BY COUNT(episode.title) DESC LIMIT 1";
 
