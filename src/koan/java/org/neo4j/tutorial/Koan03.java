@@ -96,7 +96,7 @@ public class Koan03
     }
 
     @Test
-    public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception
+    public void shouldFindSpeciesBeginningWithCapitalLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception
     {
         IndexHits<Node> species = null;
 
