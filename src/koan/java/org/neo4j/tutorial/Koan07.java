@@ -40,12 +40,12 @@ public class Koan07
     public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception
     {
         Node theDoctor = universe.theDoctor();
-        TraversalDescription REGENERATED_ACTORS = null;
+        TraversalDescription regeneratedActors = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        REGENERATED_ACTORS = Traversal.description()
+        regeneratedActors = Traversal.description()
                 .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                 .breadthFirst()
                 .evaluator( new Evaluator()
@@ -64,7 +64,7 @@ public class Koan07
 
         // SNIPPET_END
 
-        assertThat( REGENERATED_ACTORS.traverse( theDoctor ).nodes(), containsNumberOfNodes( 11 ) );
+        assertThat( regeneratedActors.traverse( theDoctor ).nodes(), containsNumberOfNodes( 11 ) );
     }
 
     @Test
