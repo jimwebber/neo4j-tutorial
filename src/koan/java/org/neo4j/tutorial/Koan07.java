@@ -37,7 +37,7 @@ public class Koan07
     }
 
     @Test
-    public void shouldDiscoverHowManyIncarnationsOfTheDoctorThereHaveBeen() throws Exception
+    public void shouldDiscoverHowManyDoctorActorsHaveParticipatedInARegeneration() throws Exception
     {
         Node theDoctor = universe.theDoctor();
         TraversalDescription regeneratedActors = null;
@@ -71,12 +71,12 @@ public class Koan07
     public void shouldFindTheFirstDoctor()
     {
         Node theDoctor = universe.theDoctor();
-        TraversalDescription FIRST_DOCTOR = null;
+        TraversalDescription firstDoctor = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        FIRST_DOCTOR = Traversal.description()
+        firstDoctor = Traversal.description()
                 .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                 .depthFirst()
                 .evaluator( new Evaluator()
@@ -101,6 +101,6 @@ public class Koan07
 
         // SNIPPET_END
 
-        assertThat( FIRST_DOCTOR.traverse( theDoctor ).nodes(), containsOnlyActors( "William Hartnell" ) );
+        assertThat( firstDoctor.traverse( theDoctor ).nodes(), containsOnlyActors( "William Hartnell" ) );
     }
 }
