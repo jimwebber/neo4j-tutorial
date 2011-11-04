@@ -132,7 +132,7 @@ public class Koan08
 
         cql = "start daleks= node:species(species = 'Dalek') match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
                 + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.type, COUNT(episode.title)"
-                + " ORDER BY COUNT(episode.title) DESC LIMIT 1";
+                + " order by count (episode.title) desc limit 1";
 
         // SNIPPET_END
 
