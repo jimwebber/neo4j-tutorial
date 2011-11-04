@@ -2,7 +2,7 @@
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="..">
 
-	<property name="neoclipse.version" value="1.4" />
+	<property name="neoclipse.version" value="1.5.M02" />
 	<property name="arch" value="${sun.arch.data.model}" />
 	<property name="tools.dir" location="tools/" />
 
@@ -12,7 +12,7 @@
 	<property name="linux.32.installer" value="neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz"/>
 	<property name="linux.64.installer" value="neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz"/>
 
-	<property name="distribution.site" value="http://dist.neo4j.org/"/>
+	<property name="distribution.site" value="http://neo4j.org/get?file="/>
 
 	<condition property="is.mac.intel.x86">
 		<and>
