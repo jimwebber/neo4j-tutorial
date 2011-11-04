@@ -168,7 +168,7 @@ public class DalekPropBuilder
         if ( shoulderNode == null )
         {
             shoulderNode = db.createNode();
-            shoulderNode.setProperty( "type", part );
+            shoulderNode.setProperty( "part", part );
             index.add( shoulderNode, part, originalPropName );
 
             Node originalDalekPropNode = ensurePropAppearsInDb( originalPropName, db );
