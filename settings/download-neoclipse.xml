@@ -12,7 +12,7 @@
 	<property name="linux.32.installer" value="neoclipse-${neoclipse.version}-linux.gtk.x86.tar.gz"/>
 	<property name="linux.64.installer" value="neoclipse-${neoclipse.version}-linux.gtk.x86_64.tar.gz"/>
 
-	<property name="distribution.site" value="http://neo4j.org/get?file="/>
+	<property name="distribution.site" value="http://dist.neo4j.org/"/>
 
 	<condition property="is.mac.intel.x86">
 		<and>
@@ -84,7 +84,7 @@
 
 	<target name="get.neoclipse" depends="-init, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64" description="Downloads the most appropriate neoclipse version for the current platform"/>
 
-	<target name="get.all.neoclipse.versions" description="Downloads all neoclipse versions which will take a very long time.">
+	<target name="get.all.neoclipse.versions" depends="-init" description="Downloads all neoclipse versions which will take a very long time.">
 		<get dest="${tools.dir}/${mac.installer}" src="${distribution.site}${mac.installer}" />
 		<get dest="${tools.dir}/${win.32.installer}" src="${distribution.site}${win.32.installer}" />
 		<get dest="${tools.dir}/${win.64.installer}" src="${distribution.site}${win.64.installer}" />
