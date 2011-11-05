@@ -11,9 +11,11 @@
 		<dependency org="org.aspectj" name="aspectjtools" rev="1.6.11"/>
     <dependency org="org.neo4j.app" name="neo4j-server" rev="1.5-SNAPSHOT"  transitive="true">
       <artifact name="neo4j-server" ext="jar"/>
+      
       <artifact name="neo4j-server" m:classifier="static-web" ext="jar"/>
       <artifact name="neo4j-server" m:classifier="tests" ext="jar"/>
-    </dependency>
+    </dependency>	
+			<dependency org="org.neo4j" name="neo4j-shell" rev="1.5-SNAPSHOT"/>
 		<dependency org="org.neo4j" name="neo4j-community" rev="1.5-SNAPSHOT"/>
 		<dependency org="org.neo4j" name="neo4j-kernel" rev="1.5-SNAPSHOT">
       <artifact name="neo4j-kernel" ext="jar"/>
