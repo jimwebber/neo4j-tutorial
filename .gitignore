@@ -11,4 +11,4 @@ target
 .settings
 .idea
 tools
-neo4j-tutorial.iml
+koan.iml
