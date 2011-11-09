@@ -1,98 +1,99 @@
 <project name="neo4j-tutorial" default="run.koans" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
-	<property name="settings.dir" location="settings" />
-	
-	<import file="${settings.dir}/download-neoclipse.xml" />
-	<import file="${settings.dir}/install-ant-eclipse.xml" />
-	<import file="${settings.dir}/install-ivy.xml" />
-	<import file="${settings.dir}/path.xml" />
-	<import file="${settings.dir}/test.xml" />	
+    <property name="settings.dir" location="settings"/>
 
-	<target name="lib.retrieve" depends="install-ivy" unless="skip.ivy.download">
-		<mkdir dir="${lib.dir}" />
-		<ivy:settings file="${settings.dir}/ivysettings.xml" />
-		<ivy:resolve file="${settings.dir}/ivy.xml" />
-		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact](-[classifier]).[ext]" changing="true"/>
-		<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
-	</target>
-	
-	
-	<target name="clean.dependencies">
-		<delete dir="${lib.dir}" />
-		<delete dir="${ivy.dir}"/>
-	</target>
+    <import file="${settings.dir}/download-neoclipse.xml"/>
+    <import file="${settings.dir}/install-ant-eclipse.xml"/>
+    <import file="${settings.dir}/install-ivy.xml"/>
+    <import file="${settings.dir}/path.xml"/>
+    <import file="${settings.dir}/test.xml"/>
 
-	<target name="clean" description="Removes the build directory, but not any cached ivy dependencies">
-		<delete dir="target" />
-		<delete dir="build" />
-	</target>
+    <target name="lib.retrieve" depends="install-ivy" unless="skip.ivy.download">
+        <mkdir dir="${lib.dir}"/>
+        <ivy:settings file="${settings.dir}/ivysettings.xml"/>
+        <ivy:resolve file="${settings.dir}/ivy.xml"/>
+        <ivy:retrieve type="jar" pattern="${lib.dir}/[artifact](-[classifier]).[ext]" changing="true"/>
+        <ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
+    </target>
 
-	<target name="compile" description="Compile production classes" depends="lib.retrieve">
-		<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/>
-		<mkdir dir="${main.target}" />
-		
-		<iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
-			<aspectpath>
-				<pathelement location="${lib.dir}/spring-aspects.jar"/>
-			</aspectpath>
-			<aspectpath>
-				<pathelement location="${lib.dir}/spring-data-neo4j.jar"/>
-			</aspectpath>
-		</iajc>
-				
-		<tstamp>
-			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss" />
-		</tstamp>		
-		<copy file="src/main/resources/version.txt" todir="${main.target}" overwrite="true">
-			<filterset>
-				<filter token="BUILD_DATE" value="${build.timestamp}"/>
-			</filterset>
-		</copy>
-	</target>
 
-	<target name="compile.tests" description="Compile unit test classes" depends="compile">
-		<mkdir dir="${test.target}" />
-		<javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.5" />
-	</target>
+    <target name="clean.dependencies">
+        <delete dir="${lib.dir}"/>
+        <delete dir="${ivy.dir}"/>
+    </target>
 
-	<target name="test" depends="clean, compile, compile.tests">
-		<fileset id="unittest.source.files" dir="${test.src}">
-			<include name="**/*Test*.java" />
-		</fileset>
-		<run_junit_tests testclasspath="path.testing" testfileset="unittest.source.files" outputdir="${test.reports}" />
-		<fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors" />
-	</target>
-	
-	<target name="compile.koans" description="Compile koans">
-		<mkdir dir="${koan.target}" />
-		<javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6" />
-	</target>
-	
-	<target name="run.koans" depends="test, compile.koans">
-		<fileset id="koan.source.files" dir="${koan.src}">
-			<include name="**/Koan*.java" />
-		</fileset>
-		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}" />
-		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures" />
+    <target name="clean" description="Removes the build directory, but not any cached ivy dependencies">
+        <delete dir="target"/>
+        <delete dir="build"/>
+    </target>
 
-	</target>
-	
-	<target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
-		<mkdir dir="${main.target}" />
-		<mkdir dir="${test.target}" />
-		<mkdir dir="${koan.target}" />
-		<eclipse mode="java">
-			<settings>
-	        	<jdtcore compilercompliance="6.0" />
-	      	</settings>
-			<project name="neo4j-tutorial"/>
-			<classpath>
-				<library pathref="path.libs" />
-				<source path="${main.src}" />
-				<source path="${test.src}" />
-				<source path="${koan.src}" />
-				<output path="${target}" />
-			</classpath>
-		</eclipse>
-	</target>
-	
+    <target name="compile" description="Compile production classes" depends="lib.retrieve">
+        <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties"
+                 classpath="${lib.dir}/aspectjtools.jar"/>
+        <mkdir dir="${main.target}"/>
+
+        <iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
+            <aspectpath>
+                <pathelement location="${lib.dir}/spring-aspects.jar"/>
+            </aspectpath>
+            <aspectpath>
+                <pathelement location="${lib.dir}/spring-data-neo4j.jar"/>
+            </aspectpath>
+        </iajc>
+
+        <tstamp>
+            <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        </tstamp>
+        <copy file="src/main/resources/version.txt" todir="${main.target}" overwrite="true">
+            <filterset>
+                <filter token="BUILD_DATE" value="${build.timestamp}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="compile.tests" description="Compile unit test classes" depends="compile">
+        <mkdir dir="${test.target}"/>
+        <javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.5"/>
+    </target>
+
+    <target name="test" depends="clean, compile, compile.tests">
+        <fileset id="unittest.source.files" dir="${test.src}">
+            <include name="**/*Test*.java"/>
+        </fileset>
+        <run_junit_tests testclasspath="path.testing" testfileset="unittest.source.files" outputdir="${test.reports}"/>
+        <fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors"/>
+    </target>
+
+    <target name="compile.koans" description="Compile koans">
+        <mkdir dir="${koan.target}"/>
+        <javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6"/>
+    </target>
+
+    <target name="run.koans" depends="test, compile.koans">
+        <fileset id="koan.source.files" dir="${koan.src}">
+            <include name="**/Koan*.java"/>
+        </fileset>
+        <run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+        <fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>
+
+    </target>
+
+    <target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
+        <mkdir dir="${main.target}"/>
+        <mkdir dir="${test.target}"/>
+        <mkdir dir="${koan.target}"/>
+        <eclipse mode="java">
+            <settings>
+                <jdtcore compilercompliance="6.0"/>
+            </settings>
+            <project name="neo4j-tutorial"/>
+            <classpath>
+                <library pathref="path.libs"/>
+                <source path="${main.src}"/>
+                <source path="${test.src}"/>
+                <source path="${koan.src}"/>
+                <output path="${target}"/>
+            </classpath>
+        </eclipse>
+    </target>
+
 </project>

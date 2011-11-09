@@ -1,24 +1,27 @@
 <?xml version="1.0"?>
 <ivysettings>
-  <settings defaultResolver="chained" />
-  <resolvers>
-    <url name="neo4j-snapshot-hack">
-                  <artifact pattern="http://repo.neo4j.org/content/repositories/snapshots/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
-            </url>
-    <chain name="chained" returnFirst="false">
-      <ibiblio name="neo4j-snapshot" m2compatible="true" root="http://repo.neo4j.org/content/repositories/snapshots"/>
-      <ibiblio name="neo4j" root="http://m2.neo4j.org/" m2compatible="true" />
-      <ibiblio name="maven_central" root="http://repo2.maven.org/maven2/" m2compatible="true" />
-      <ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true" />
-      <ibiblio name="springframework" root="http://maven.springframework.org/release" m2compatible="true" />
-      <ibiblio name="springframework_milestone" root="http://maven.springframework.org/milestone" m2compatible="true" />
-      <ibiblio name="jacorb" root="http://maven.ow2.org/maven2/" m2compatible="true" />
-    </chain>
-  </resolvers>
-  <modules>
-          <module organisation="org.neo4j.app" name="neo4j-server" resolver="neo4j-snapshot-hack"/>
-      </modules>
-  <caches>
-    <cache name="default-cache" basedir="${ivy.cache.dir}" />
-  </caches>
+    <settings defaultResolver="chained"/>
+    <resolvers>
+        <url name="neo4j-snapshot-hack">
+            <artifact
+                    pattern="http://repo.neo4j.org/content/repositories/snapshots/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+        </url>
+        <chain name="chained" returnFirst="false">
+            <ibiblio name="neo4j-snapshot" m2compatible="true"
+                     root="http://repo.neo4j.org/content/repositories/snapshots"/>
+            <ibiblio name="neo4j" root="http://m2.neo4j.org/" m2compatible="true"/>
+            <ibiblio name="maven_central" root="http://repo2.maven.org/maven2/" m2compatible="true"/>
+            <ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true"/>
+            <ibiblio name="springframework" root="http://maven.springframework.org/release" m2compatible="true"/>
+            <ibiblio name="springframework_milestone" root="http://maven.springframework.org/milestone"
+                     m2compatible="true"/>
+            <ibiblio name="jacorb" root="http://maven.ow2.org/maven2/" m2compatible="true"/>
+        </chain>
+    </resolvers>
+    <modules>
+        <module organisation="org.neo4j.app" name="neo4j-server" resolver="neo4j-snapshot-hack"/>
+    </modules>
+    <caches>
+        <cache name="default-cache" basedir="${ivy.cache.dir}"/>
+    </caches>
 </ivysettings>

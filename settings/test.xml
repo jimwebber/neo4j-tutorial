@@ -12,15 +12,15 @@
             <condition property="isUnix">
                 <os family="unix"/>
             </condition>
-			<echo message="@{outputdir}"/>
+            <echo message="@{outputdir}"/>
             <mkdir dir="@{outputdir}"/>
-           <junit  forkMode="perBatch" 
+            <junit forkMode="perBatch"
                    printsummary="yes"
                    haltonfailure="false"
                    failureproperty="junit.test.failure"
                    haltonerror="false"
                    errorproperty="junit.test.error"
-            	   showoutput="true"
+                   showoutput="true"
                    dir=".">
                 <jvmarg value="-Dfile.encoding=ISO-8859-1"/>
                 <classpath refid="@{testclasspath}"/>
