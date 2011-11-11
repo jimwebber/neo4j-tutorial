@@ -15,13 +15,18 @@
         <ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
     </target>
 
+	<target name="refresh.dependencies" depends="-lib.clean, lib.retrieve"/>
 
     <target name="clean.dependencies">
         <delete dir="${lib.dir}"/>
         <delete dir="${ivy.dir}"/>
     </target>
 
-    <target name="clean" description="Removes the build directory, but not any cached ivy dependencies">
+	<target name="-lib.clean">
+		<delete dir="${lib.dir}"/>
+	</target>
+
+    <target name="clean" depends="-lib.clean" description="Removes the build directory, but not any cached ivy dependencies">
         <delete dir="target"/>
         <delete dir="build"/>
     </target>
