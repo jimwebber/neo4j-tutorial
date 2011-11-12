@@ -2,7 +2,7 @@
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="..">
 
-    <property name="neoclipse.version" value="1.5.M02"/>
+    <property name="neoclipse.version" value="1.5"/>
     <property name="arch" value="${sun.arch.data.model}"/>
     <property name="tools.dir" location="tools/"/>
 
