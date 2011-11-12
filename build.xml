@@ -27,18 +27,30 @@
 	</target>
 	<target name="compile" description="Compile production classes" depends="lib.retrieve">
 		
+<<<<<<< HEAD
 		<!-- <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/> -->
 		<!-- <iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
+=======
+		<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/>
+		<iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
+>>>>>>> sorted out the dependencies so that Koan 11 runs. Needed newer jetty to match the neo4j version
             <aspectpath>
                 <pathelement location="${lib.dir}/spring-aspects.jar"/>
             </aspectpath>
             <aspectpath>
                 <pathelement location="${lib.dir}/spring-data-neo4j.jar"/>
             </aspectpath>
+<<<<<<< HEAD
         </iajc> -->
 
 		<mkdir dir="${main.target}"/>
 		<javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.libs" target="1.6" debug="true" includeAntRuntime="false"/>
+=======
+        </iajc>
+
+		<mkdir dir="${main.target}"/>
+		<!-- <javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.libs" target="1.6" debug="true" includeAntRuntime="false"/> -->
+>>>>>>> sorted out the dependencies so that Koan 11 runs. Needed newer jetty to match the neo4j version
 
 		<tstamp>
 			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
