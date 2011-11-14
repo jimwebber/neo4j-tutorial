@@ -4,10 +4,10 @@
 
 CURRENT_DIR=`pwd`
 
-TEMP_DIR=/tmp/$RANDOM
+TEMP_DIR=/tmp/$RANDOM/koan
 mkdir -p $TEMP_DIR
 echo using temp directory [$TEMP_DIR]
-echo delivering gzipped tarball to [$1]
+echo delivering zipped tutorial to [$1]
 
 cp -r presentation $TEMP_DIR
 cp -r lib $TEMP_DIR
@@ -20,10 +20,9 @@ cd $TEMP_DIR
 
 bash src/main/scripts/remove_snippets.sh
 
-TAR_DIR=$1
-mkdir -p $TAR_DIR
+ZIP_DIR=$1
+mkdir -p $ZIP_DIR
 
-tar -cf /$TAR_DIR/koan.tar .
-gzip /$TAR_DIR/koan.tar
+zip -r $ZIP_DIR/koan.zip .
 
 cd $CURRENT_DIR
