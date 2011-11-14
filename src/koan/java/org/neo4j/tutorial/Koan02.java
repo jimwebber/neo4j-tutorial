@@ -106,7 +106,7 @@ public class Koan02
         try
         {
             theDoctor = db.createNode();
-            theDoctor.setProperty( "character", "The Doctor" );
+            theDoctor.setProperty( "character", "Doctor" );
 
             susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
