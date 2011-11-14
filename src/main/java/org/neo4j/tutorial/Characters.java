@@ -383,6 +383,14 @@ class Characters
                 .isFrom( "Earth" )
                 .isCompanion()
                 .fact( db );
+        character( "Amy Pond" ).isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( db );
+        character( "Rory Williams" ).isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( db );
     }
 
 }

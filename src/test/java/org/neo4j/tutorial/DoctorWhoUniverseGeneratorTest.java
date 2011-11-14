@@ -107,7 +107,7 @@ public class DoctorWhoUniverseGeneratorTest
         int numberOfHumansFriendliesInTheDB = databaseHelper.countRelationships( humanSpeciesNode.getRelationships(
                 DoctorWhoRelationships.IS_A, Direction.INCOMING ) );
 
-        int knownNumberOfHumans = 46;
+        int knownNumberOfHumans = 48;
         assertEquals( knownNumberOfHumans, numberOfHumansFriendliesInTheDB );
     }
 
