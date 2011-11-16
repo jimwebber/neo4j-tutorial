@@ -15,8 +15,6 @@ Live Sessions
 
 This tutorial is presented at conferences around the world. If you're interested in participating in a class, then it'll be taught at:
 
-[QCon San Francisco](http://qconsf.com/sf2011/presentations/show_presentation.jsp?oid=3459)
-
 [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial)
 
 [Yow! Australia](http://www.yowconference.com.au/index.html)
