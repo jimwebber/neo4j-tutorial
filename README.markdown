@@ -17,7 +17,7 @@ This tutorial is presented around the world. If you're interested in participati
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London
 
-* Once each in Melbourne, Brisbane, and Sydney Australia at the [Yow! Australia](http://www.yowconference.com.au/index.html) 2012 conference
+* Once each in Melbourne, Brisbane, and Sydney at the [Yow! Australia](http://www.yowconference.com.au/index.html) 2012 conference
 
 Authors <a name="authors">
 -------
