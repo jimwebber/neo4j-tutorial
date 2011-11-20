@@ -22,7 +22,7 @@ import org.neo4j.graphdb.Node;
  * In this Koan we use the Cypher graph pattern matching language to investigate
  * the history of the Dalek props.
  */
-public class Koan08
+public class Koan08c
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
