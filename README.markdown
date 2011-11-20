@@ -13,11 +13,11 @@ You'll need to be familiar with the Java programming language, and it'd be helpf
 Live Sessions
 -------------
 
-This tutorial is presented at conferences around the world. If you're interested in participating in a class, then it'll be taught at:
+This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
-[Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial)
+Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London
 
-[Yow! Australia](http://www.yowconference.com.au/index.html)
+Once each in Melbourne, Brisbane, and Sydney Australia at the [Yow! Australia](http://www.yowconference.com.au/index.html) conference
 
 Authors <a name="authors">
 -------
