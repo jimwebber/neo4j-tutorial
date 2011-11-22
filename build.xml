@@ -26,16 +26,9 @@
 		<delete dir="build"/>
 	</target>
 	<target name="compile" description="Compile production classes" depends="lib.retrieve">
-		<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${lib.dir}/aspectjtools.jar"/>
-		<iajc sourceroots="${main.src}" destDir="${main.target}" classpathref="path.libs" source="1.6">
-			<aspectpath>
-				<pathelement location="${lib.dir}/spring-aspects.jar"/>
-			</aspectpath>
-			<aspectpath>
-				<pathelement location="${lib.dir}/spring-data-neo4j.jar"/>
-			</aspectpath>
-		</iajc>
-		<mkdir dir="${main.target}"/>
+        <mkdir dir="${main.target}"/>
+        <javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.libs" source="1.6"/>
+
 		<tstamp>
 			<format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
 		</tstamp>

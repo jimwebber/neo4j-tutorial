@@ -83,7 +83,7 @@ public class Koan10
     {
         return new String[]{"The Moonbase", "The Tomb of the Cybermen", "The Wheel in Space",
                 "Revenge of the Cybermen", "Earthshock", "Silver Nemesis", "Rise of the Cybermen", "The Age of Steel",
-                "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens", "A Good Man Goes to War"};
+                "Army of Ghosts", "Doomsday", "The Next Doctor", "The Pandorica Opens", "A Good Man Goes to War", "Closing Time"};
     }
 
     @Test
