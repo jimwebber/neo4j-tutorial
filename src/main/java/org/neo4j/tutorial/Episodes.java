@@ -112,6 +112,7 @@ public class Episodes
         episode( 215 ).title( "The Curse of the Black Spot" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
+                .allies( "Captain Avery" )
                 .fact( db );
         episode( 216 ).title( "The Doctor's Wife" )
                 .doctor( "Matt Smith" )
@@ -126,7 +127,7 @@ public class Episodes
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .fact( db );
-        episode( 217 ).title( "A Good Man Goes to War" )
+        episode( 218 ).title( "A Good Man Goes to War" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams", "River Song" )
                 .allies( "Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar" )
@@ -134,6 +135,40 @@ public class Episodes
                 .enemySpecies( "Cyberman" )
                 .enemy( "Madame Kovarian" )
                 .fact( db );
+        episode( 219 ).title( "Let's Kill Hitler!" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemy( "River Song" )
+                .fact( db );
+        episode( 220 ).title( "Night Terrors" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .allies( "Alex" )
+                .enemySpecies( "Peg Dolls" )
+                .fact( db );
+        episode( 221 ).title( "The Girl Who Waited" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemySpecies( "Handbots" )
+                .fact( db );
+        episode( 222 ).title( "The God Complex" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemy( "Minotaur" )
+                .fact( db );
+        episode( 223 ).title( "Closing Time" )
+                .doctor( "Matt Smith" )
+                .companion( "Craig Owens" )
+                .enemySpecies( "Cyberman" )
+                .fact( db );
+        episode( 224 ).title( "The Wedding of River Song" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams", "River Song" )
+                .allies( "Winston Churchill", "Charles Dickens", "Dorium Maldovar" )
+                .enemySpecies( "The Silence", "Dalek" )
+                .enemy( "Madame Kovarian" )
+                .fact( db );
+
     }
 
     private void series05()
