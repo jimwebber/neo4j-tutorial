@@ -1,8 +1,6 @@
 Neo4j Koans
 ===========
 
-![dalek](https://github.com/jimwebber/neo4j-tutorial/raw/master/presentation/Intro%20to%20Neo4j.key/image54.png)
-
 This set of Koans will provide practical guidance for getting to grips with graph data structures and operations using the Neo4j open source graph database. It's part of a more comprehensive tutorial presented by the [authors](#authors) and others at conferences and tutorials. In fact anyone can take these materials freely and run their own tutorials.
 
 Prerequisites
