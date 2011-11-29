@@ -1,6 +1,8 @@
 Neo4j Koans
 ===========
 
+!["New Daleks""](http://static.bbc.co.uk/images/ic/qe/crop/946x532/doctorwho/monsters/daleks/d11/s01/galleries/new_dalek_gallery/37.jpg)
+
 This set of Koans will provide practical guidance for getting to grips with graph data structures and operations using the Neo4j open source graph database. It's part of a more comprehensive tutorial presented by the [authors](#authors) and others at conferences and tutorials. In fact anyone can take these materials freely and run their own tutorials.
 
 Prerequisites
