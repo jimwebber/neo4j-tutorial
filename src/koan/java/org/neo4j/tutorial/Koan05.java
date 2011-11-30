@@ -38,7 +38,7 @@ public class Koan05
     }
 
     @Test
-    public void shouldCountTheNumberOfDoctorsRegenerations()
+    public void shouldCountTheNumberOfDoctorsRegeneratedForms()
     {
 
         Index<Node> actorsIndex = universe.getDatabase()
