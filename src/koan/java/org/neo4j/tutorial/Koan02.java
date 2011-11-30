@@ -113,7 +113,7 @@ public class Koan02
             susan.setProperty( "lastname", "Campbell" );
 
             companionRelationship = susan.createRelationshipTo( theDoctor,
-                    DynamicRelationshipType.withName( "COMPANION_OF" ) );
+                    DoctorWhoRelationships.COMPANION_OF );
 
             tx.success();
         } finally
@@ -219,8 +219,8 @@ public class Koan02
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
-            susan.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "COMPANION_OF" ) );
-            susan.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "ENEMY_OF" ) );
+            susan.createRelationshipTo( theDoctor, DoctorWhoRelationships.COMPANION_OF ) );
+            susan.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF ) );
 
             tx.success();
             return susan;
