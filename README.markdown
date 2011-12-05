@@ -26,7 +26,17 @@ To download the latest version of the koans as a zipfile, click on the following
 
 [https://github.com/jimwebber/neo4j-tutorial/zipball/master](https://github.com/jimwebber/neo4j-tutorial/zipball/master)
 
-Once you have cloned or downloaded and unzipped the koans, you're almost ready. Since the Koans come complete with the answers, if you're going to benefit from following them, you'll need to delete those answers. Fortunately we've provided a sed script that does this for you. From the root directory of your Koan download, run: 
+Once you have cloned or downloaded and unzipped the koans, you're almost ready. You just need the Neo4j binary dependencies, which you can get by running the default Apache Ant target from the Koan root directory:
+
+   ant 
+
+We use Apache Ivy for dependency resolution and for all the many wonderful benefits Ant and Ivy provide, speed isn't one of them so you might want to go fetch a cup of tea while you're waiting for (seemingly) most of the Internet to download. 
+
+Once the default Ant target has completed, you'll find it has dropped a set of libraries in the lib directory immediately under your Koan directory. It has also run the Koans and the unit tests that validate that everything's ready and will have left a report under:
+
+    target/koan/reports/output/index.html
+
+Since the Koans come complete with the answers, if you're going to benefit from following them, you'll need to delete those answers. Fortunately we've provided a sed script that does this for you. From the root directory of your Koan download, run: 
 
     src/main/scripts/remove_snippets.sh
 
@@ -38,6 +48,27 @@ The sed script removes all lines between
     //SNIPPET_END
 
 in the Koans, leaving them compiling but failing. 
+
+I want my IDE
+-------------
+
+If you'd like some help in setting up the Koans in your IDE, the Ant script contains a target called generate.eclipse.project. By issuing the command:
+
+    ant generate.eclipse.project
+
+an Eclipse project will be created in the Koan directory. This can be opened readily with Eclipse or Intellij.
+
+
+Where are my Koans?
+-------------------
+
+The Koans themselves are in:
+
+    src/koan/java
+
+and you'll see that they're numerically increasing in number. Start with *Koan01.java* and run it. If you're running the Koans in your IDE, then you can run Koan01.java as a unit test and verify that a Neo4j database can be created and populated with Doctor Who data, and that you have your IDE project set up properly.
+
+Now that you're at this point, you're ready to move to *Koan02.java* and start hacking on Neo4j proper. Don't forget that in the presentation directory you'll find a full set of slides that will help you navigate the Koans, and build up a picture of the Doctor Who universe.
 
 Live Sessions
 -------------
@@ -65,6 +96,6 @@ Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
 Thanks to
 ---------
-
+[Michael Peterson](http://thornydev.blogspot.com/) who has written a blog post on setting up the Koans from the point of view of a first-time user. You can find Michael's posting [here](http://thornydev.blogspot.com/2011/11/neo4j-koans-how-do-i-begin.html).
 
 
