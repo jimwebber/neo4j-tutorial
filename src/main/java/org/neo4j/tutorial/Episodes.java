@@ -318,7 +318,7 @@ public class Episodes
                 .fact( db );
         episode( 198 ).title( "Journey's End" )
                 .doctor( "David Tennant" )
-                .companion( "Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith" )
+                .companion( "Donna Noble", "Rose Tyler", "Martha Jones", "Jack Harkness", "Sarah Jane Smith", "K9" )
                 .enemySpecies( "Dalek" )
                 .fact( db );
     }
@@ -403,7 +403,7 @@ public class Episodes
                 .fact( db );
         episode( 170 ).title( "School Reunion" )
                 .doctor( "David Tennant" )
-                .companion( "Rose Tyler", "Mickey Smith", "Sarah Jane Smith" )
+                .companion( "Rose Tyler", "Mickey Smith", "Sarah Jane Smith", "K9" )
                 .enemySpecies( "Krillitane" )
                 .fact( db );
         episode( 171 ).title( "The Girl in the Fireplace" )
