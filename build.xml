@@ -60,6 +60,103 @@
 		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
 		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>
 	</target>
+
+	<target name="run.koan02" depends="test, compile.koans" description="Run only Koan02">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan02.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+  	</target>
+  
+	<target name="run.koan03" depends="test, compile.koans" description="Run only Koan03">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan03.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan04" depends="test, compile.koans" description="Run only Koan04">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan04.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan05" depends="test, compile.koans" description="Run only Koan05">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan05.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan06" depends="test, compile.koans" description="Run only Koan06">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan06.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan07" depends="test, compile.koans" description="Run only Koan07">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan07.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan08a" depends="test, compile.koans" description="Run only Koan08a">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan08a.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan08b" depends="test, compile.koans" description="Run only Koan08b">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan08b.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan08c" depends="test, compile.koans" description="Run only Koan08c">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan08c.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan09" depends="test, compile.koans" description="Run only Koan09">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan09.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
+	<target name="run.koan10" depends="test, compile.koans" description="Run only Koan10">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan10.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+
+	<target name="run.koan11" depends="test, compile.koans" description="Run only Koan11">
+		<fileset id="koan.source.files" dir="${koan.src}">
+			<include name="**/Koan11.java"/>
+		</fileset>
+		<run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+		<fail if="tests.failed.or.errored" message="Build failed due to Koan failures"/>    
+	</target>
+  
 	<target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
 		<mkdir dir="${main.target}"/>
 		<mkdir dir="${test.target}"/>
