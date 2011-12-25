@@ -75,8 +75,8 @@ Live Sessions
 
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
-* Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London
-* ScanDev Gothenburg
+* Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London, UK
+* April 2011 at [ScanDev] (http://www.scandevconf.se/2012/conference/tutorials/tutorial/?tId=4) Gothenburg, Sweden
 
 Authors <a name="authors">
 -------
