@@ -76,8 +76,7 @@ Live Sessions
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London
-
-* Once each in Melbourne, Brisbane, and Sydney at the [Yow! Australia 2012 conference](http://www.yowconference.com.au/YOW2011/general/workshopDetails.html?eventId=3488)
+* ScanDev Gothenburg
 
 Authors <a name="authors">
 -------
@@ -88,14 +87,16 @@ Authors <a name="authors">
 
 Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
+[Michael Peterson](http://thornydev.blogspot.com/), [@midpeter444]()http://twitter.com/midpeter444
+
 [Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
 
 [Aleksa Vukotic](http://aleksavukotic.com), [@aleksavukotic](http://twitter.com/aleksavukotic)
 
 [Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
 
-Thanks to
----------
-[Michael Peterson](http://thornydev.blogspot.com/) who has written a blog post on setting up the Koans from the point of view of a first-time user. You can find Michael's posting [here](http://thornydev.blogspot.com/2011/11/neo4j-koans-how-do-i-begin.html).
+Links
+-----
+As well as being a contributor, [Michael Peterson](http://thornydev.blogspot.com/) has written a blog post on setting up the Koans from the point of view of a first-time user. You can find Michael's posting [here](http://thornydev.blogspot.com/2011/11/neo4j-koans-how-do-i-begin.html).
 
 
