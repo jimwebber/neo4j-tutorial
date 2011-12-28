@@ -11,7 +11,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
@@ -79,14 +78,14 @@ public class Koan08c
 
         ExecutionResult result = engine.execute( cql );
         
-        for(Map<String, Object> map : asIterable(result.javaIterator())) {
-            for(String key : map.keySet()) {
-                System.out.println(key + " : " + map.get(key));
-            }
-        }
+//        for(Map<String, Object> map : asIterable(result.javaIterator())) {
+//            for(String key : map.keySet()) {
+//                System.out.println(key + " : " + map.get(key));
+//            }
+//        }
 
-//        assertHardestWorkingPropParts( result.javaIterator(),
-//                "Dalek 1", "shoulder", 15 );
+        assertHardestWorkingPropParts( result.javaIterator(),
+                "Dalek 1", "shoulder", 15 );
 
     }
 
