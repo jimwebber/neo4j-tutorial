@@ -1,19 +1,17 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
-import java.util.Iterator;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.cypher.commands.Query;
-import org.neo4j.cypher.CypherParser;
 import org.neo4j.graphdb.Node;
+
+import java.util.Iterator;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 /**
  * In this Koan we learn the basics of the Cypher query language, focusing on the
@@ -39,7 +37,6 @@ public class Koan08a
     @Test
     public void shouldFindAllTheEpisodesInWhichTheDaleksAppeared() throws Exception
     {
-        CypherParser parser = new CypherParser();
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
@@ -50,8 +47,7 @@ public class Koan08a
 
         // SNIPPET_END
 
-        Query query = parser.parse( cql );
-        ExecutionResult result = engine.execute( query );
+        ExecutionResult result = engine.execute( cql );
         Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
         assertThat( asIterable( episodes ),
@@ -66,21 +62,19 @@ public class Koan08a
     @Test
     public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
     {
-        CypherParser parser = new CypherParser();
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = node:species( species = 'Dalek'), rose = node:characters( character= 'Rose Tyler'), tennant = node:actors( actor = 'David Tennant')";
+        cql = "start daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
         cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
         cql += "return ep";
 
         // SNIPPET_END
 
-        Query query = parser.parse( cql );
-        ExecutionResult result = engine.execute( query );
+        ExecutionResult result = engine.execute( cql );
         Iterator<Node> episodes = result.javaColumnAs( "ep" );
 
         assertThat( asIterable( episodes ),

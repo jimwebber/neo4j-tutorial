@@ -87,7 +87,7 @@ Authors <a name="authors">
 
 Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
-[Michael Peterson](http://thornydev.blogspot.com/), [@midpeter444]()http://twitter.com/midpeter444
+[Michael Peterson](http://thornydev.blogspot.com/), [@midpeter444](http://twitter.com/midpeter444)
 
 [Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
 

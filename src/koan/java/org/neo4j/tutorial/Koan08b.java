@@ -1,25 +1,16 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
-import java.util.Iterator;
-import java.util.Map;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.cypher.commands.Query;
-import org.neo4j.cypher.CypherParser;
 import org.neo4j.graphdb.Node;
 
+import java.util.Iterator;
+
 /**
- * In this Koan we use the Cypher graph pattern matching language
+ * In this Koan we focus on aggregate functions from the Cypher graph pattern matching language
+ * to process some statistics about the Doctor Who universe.
  */
 public class Koan08b
 {
@@ -37,5 +28,36 @@ public class Koan08b
         universe.stop();
     }
 
+    @Test
+    public void shouldCountTheNumberOfActorsKnownToHavePlayedTheDoctor()
+    {
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        String cql = null;
 
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start doctor = node:characters(character = 'Doctor') return doctor";
+//                + "match (doctor)<-[:PLAYED]-(actor) "
+//                + "return actor, count(*) ";
+
+        // SNIPPET_END
+
+//        ExecutionResult result = engine.execute( cql );
+//        Iterator<Node> actors = result.javaColumnAs( "actors" );
+//
+//        assertEquals(11, count(actors));
+    }
+
+    private int count(Iterator<Node> nodes) {
+        int result = 0;
+        
+        while(nodes.hasNext())
+        {
+            nodes.next();
+            result++;
+        }
+        
+        return result;
+    }
 }
