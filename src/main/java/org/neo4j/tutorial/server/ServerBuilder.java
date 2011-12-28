@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.neo4j.server.AddressResolver;
 import org.neo4j.server.NeoServerBootstrapper;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.configuration.Configurator;
@@ -43,7 +42,6 @@ public class ServerBuilder
     private String webAdminUri = "/db/manage/";
     private String webAdminDataUri = "/db/data/";
     private StartupHealthCheck startupHealthCheck;
-    private AddressResolver addressResolver = new LocalhostAddressResolver();
     private final HashMap<String, String> thirdPartyPackages = new HashMap<String, String>();
 
     private static enum WhatToDo
@@ -82,7 +80,7 @@ public class ServerBuilder
             when( startupHealthCheck.run() ).thenReturn( true );
         }
 
-        return new NeoServerWithEmbeddedWebServer( new NeoServerBootstrapper(), addressResolver, startupHealthCheck,
+        return new NeoServerWithEmbeddedWebServer( new NeoServerBootstrapper(), startupHealthCheck,
                 new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), configFile ),
                 new Jetty6WebServer(), serverModules );
 
@@ -212,12 +210,6 @@ public class ServerBuilder
     public ServerBuilder withoutWebServerPort()
     {
         portNo = null;
-        return this;
-    }
-
-    public ServerBuilder withNetworkBoundHostnameResolver()
-    {
-        addressResolver = new AddressResolver();
         return this;
     }
 

@@ -15,6 +15,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicRelationshipType;
@@ -33,7 +34,7 @@ import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResult;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResults;
 
 /**
- * In this Koan we use the REST API to explore the Doctor Who universe.
+ * In this Koan we use the default REST API to explore the Doctor Who universe.
  */
 public class Koan11
 {
