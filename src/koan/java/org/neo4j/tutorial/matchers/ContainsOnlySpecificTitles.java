@@ -24,7 +24,7 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>>
 
     public void describeTo( Description description )
     {
-        description.appendText( String.format( "Node [%d] does not contain any of the specified titles",
+        description.appendText( String.format( "Node [%d] does not contain all of the specified titles",
                 failedNode.getId() ) );
     }
 

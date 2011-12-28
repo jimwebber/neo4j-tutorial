@@ -82,10 +82,10 @@
         <echo message="Determining the best Neoclipse for your platform..."/>
     </target>
 
-    <target name="get.neoclipse" depends="-init, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64"
+    <target name="download.neoclipse" depends="-init, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64"
             description="Downloads the most appropriate neoclipse version for the current platform"/>
 
-    <target name="get.all.neoclipse.versions" depends="-init"
+    <target name="download.all.neoclipse.versions" depends="-init"
             description="Downloads all neoclipse versions which will take a very long time.">
         <get dest="${tools.dir}/${mac.installer}" src="${distribution.site}${mac.installer}"/>
         <get dest="${tools.dir}/${win.32.installer}" src="${distribution.site}${win.32.installer}"/>

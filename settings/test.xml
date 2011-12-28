@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 
-<project name="test" default="donothingToMakeAValidAntFile" basedir=".">
-    <target name="donothingToMakeAValidAntFile"/>
+<project name="test" basedir=".">
     <macrodef name="run_junit_tests" description="Macro for running junit tests">
         <attribute name="testclasspath"/>
         <attribute name="testfileset"/>

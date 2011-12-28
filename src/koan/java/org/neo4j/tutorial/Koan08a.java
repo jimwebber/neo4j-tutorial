@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.cypher.commands.Query;
-import org.neo4j.cypher.parser.CypherParser;
+import org.neo4j.cypher.CypherParser;
 import org.neo4j.graphdb.Node;
 
 /**
