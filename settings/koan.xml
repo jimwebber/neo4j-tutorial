@@ -1,0 +1,19 @@
+<project basedir=".." default="donothingToMakeAValidAntFile">
+
+    <import file="test.xml"/>
+    <import file="path.xml"/>
+
+    <target name="donothingToMakeAValidAntFile"/>
+
+    <macrodef name="koan">
+        <attribute name="number" default="1"/>
+        <sequential>
+            <echo>Running Koan@{number}</echo>
+            <fileset id="koan.source.files" dir="${koan.src}">
+                <include name="**/Koan@{number}*.java"/>
+            </fileset>
+            <run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+            <fail if="tests.failed.or.errored" message="Build failed on Koan@{number}"/>
+        </sequential>
+    </macrodef>
+</project>
