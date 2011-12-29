@@ -77,15 +77,8 @@ public class Koan08c
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-        
-//        for(Map<String, Object> map : asIterable(result.javaIterator())) {
-//            for(String key : map.keySet()) {
-//                System.out.println(key + " : " + map.get(key));
-//            }
-//        }
 
-        assertHardestWorkingPropParts( result.javaIterator(),
-                "Dalek 1", "shoulder", 15 );
+        assertHardestWorkingPropParts( result.javaIterator(), "Dalek 1", "shoulder", 15 );
 
     }
 
