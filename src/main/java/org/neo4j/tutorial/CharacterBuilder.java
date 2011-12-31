@@ -1,15 +1,11 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+
+import java.util.*;
+
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 public class CharacterBuilder
 {
@@ -23,6 +19,7 @@ public class CharacterBuilder
     private boolean ally;
     private ArrayList<String> actors = new ArrayList<String>();
     private HashMap<String, Integer> startDates = new HashMap<String, Integer>();
+    private String wikipediaUri;
 
     public static CharacterBuilder character( String characterName )
     {
@@ -100,6 +97,10 @@ public class CharacterBuilder
         if ( actors != null )
         {
             ensureActorsInDb( characterNode, actors, db );
+        }
+        
+        if(wikipediaUri != null) {
+            characterNode.setProperty("wikipedia", wikipediaUri);
         }
     }
 
@@ -313,6 +314,11 @@ public class CharacterBuilder
     {
         this.actors.add( actor );
         this.startDates.put( actor, new Integer( year ) );
+        return this;
+    }
+
+    public CharacterBuilder wikipedia(String wikipediaEntry) {
+        this.wikipediaUri = wikipediaEntry;
         return this;
     }
 }

@@ -25,7 +25,7 @@ public class Koan08a
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
 
     @AfterClass
@@ -35,49 +35,57 @@ public class Koan08a
     }
 
     @Test
-    public void shouldFindAllTheEpisodesInWhichTheDaleksAppeared() throws Exception
+    public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = node:species(species ='Dalek') match (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) RETURN episode";
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
-        Iterator<Node> episodes = result.javaColumnAs( "episode" );
+        ExecutionResult result = engine.execute(cql);
+        Iterator<Node> episodes = result.javaColumnAs("episode");
 
-        assertThat( asIterable( episodes ),
-                containsOnlyTitles( "The Wedding of River Song", "The Pandorica Opens", "Victory of the Daleks", "Journey's End", "The Stolen Earth", "Evolution of the Daleks",
-                        "Daleks in Manhattan", "Doomsday", "Army of Ghosts", "The Parting of the Ways", "Bad Wolf", "Dalek", "Remembrance of the Daleks",
-                        "Revelation of the Daleks", "Resurrection of the Daleks", "The Five Doctors", "Destiny of the Daleks", "Genesis of the Daleks", "Death to the Daleks",
-                        "Planet of the Daleks", "Frontier in Space", "Day of the Daleks", "The War Games", "The Evil of the Daleks", "The Power of the Daleks", "The Daleks' Master Plan", "The Chase",
-                        "The Space Museum", "The Dalek Invasion of Earth", "The Daleks" ) );
-
+        assertThat(asIterable(episodes), containsOnlyTitles("Closing Time",
+                                                            "A Good Man Goes to War",
+                                                            "The Pandorica Opens",
+                                                            "The Next Doctor",
+                                                            "Doomsday",
+                                                            "Army of Ghosts",
+                                                            "The Age of Steel",
+                                                            "Rise of the Cybermen",
+                                                            "Silver Nemesis",
+                                                            "Earthshock",
+                                                            "Revenge of the Cybermen",
+                                                            "The Wheel in Space",
+                                                            "The Tomb of the Cybermen",
+                                                            "The Moonbase"));
     }
 
     @Test
     public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
         cql = "start daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
-        cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
-        cql += "return ep";
+        cql += "match (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
+        cql += "return episode";
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
-        Iterator<Node> episodes = result.javaColumnAs( "ep" );
+        ExecutionResult result = engine.execute(cql);
+        Iterator<Node> episodes = result.javaColumnAs("episode");
 
-        assertThat( asIterable( episodes ),
-                containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts", "The Parting of the Ways" ) );
+        assertThat(asIterable(episodes),
+                   containsOnlyTitles("Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts",
+                                      "The Parting of the Ways"));
     }
 }

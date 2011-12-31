@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
@@ -23,7 +24,7 @@ public class Koan08c
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
 
     @AfterClass
@@ -33,38 +34,29 @@ public class Koan08c
     }
 
     @Test
-    public void shouldFindTheFifthMostRecentPropToAppear() throws Exception
+    public void shouldFindTheLatestRegenerationYear()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
-        ExecutionResult result = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        //Not every prop part can be identified with a prop - e.g. the Exhibition skirt
-        //As a result, prop.prop will not exist for every prop node
-        //So, we must use prop.prop? - this fills the prop.prop column with a <null>
-        //value for prop parts with no identifiable prop
-
-        cql = "start dalek  = node:species( species = 'Dalek') ";
-        cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
-        cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
-
-        result = engine.execute( cql );
+        cql = "start doctor = node:characters(character = 'Doctor')"
+                + "match (doctor)<-[:PLAYED]-()-[regeneratedRelationship:REGENERATED_TO]->()"
+                + "return max(regeneratedRelationship.year) as latestRegenerationYear";
 
 
         // SNIPPET_END
 
-        assertEquals( "Supreme Dalek", result.javaColumnAs( "prop.prop" ).next() );
+        ExecutionResult result = engine.execute(cql);
+        Assert.assertEquals(2010, result.javaColumnAs("latestRegenerationYear").next());
     }
-
 
     @Test
     public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -76,22 +68,22 @@ public class Koan08c
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        ExecutionResult result = engine.execute(cql);
 
-        assertHardestWorkingPropParts( result.javaIterator(), "Dalek 1", "shoulder", 15 );
+        assertHardestWorkingPropParts(result.javaIterator(), "Dalek 1", "shoulder", 15);
 
     }
 
-    private void assertHardestWorkingPropParts( Iterator<Map<String, Object>> results, Object... partsAndCounts )
+    private void assertHardestWorkingPropParts(Iterator<Map<String, Object>> results, Object... partsAndCounts)
     {
-        for ( int index = 0; index < partsAndCounts.length; index = index + 3 )
+        for (int index = 0; index < partsAndCounts.length; index = index + 3)
         {
             Map<String, Object> row = results.next();
-            assertEquals( partsAndCounts[index], row.get( "originalprop.prop" ) );
-            assertEquals( partsAndCounts[index + 1], row.get( "part.part" ) );
-            assertEquals( partsAndCounts[index + 2], row.get( "count(episode.title)" ) );
+            assertEquals(partsAndCounts[index], row.get("originalprop.prop"));
+            assertEquals(partsAndCounts[index + 1], row.get("part.part"));
+            assertEquals(partsAndCounts[index + 2], row.get("count(episode.title)"));
         }
 
-        assertFalse( results.hasNext() );
+        assertFalse(results.hasNext());
     }
 }

@@ -1,9 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +10,10 @@ import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.kernel.Traversal;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
+import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
 
 /**
  * In this Koan we start using the new traversal framework to find interesting
@@ -27,7 +27,7 @@ public class Koan07
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
     }
 
     @AfterClass
@@ -46,26 +46,26 @@ public class Koan07
         // SNIPPET_START
 
         regeneratedActors = Traversal.description()
-                .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
-                .breadthFirst()
-                .evaluator( new Evaluator()
-                {
-                    public Evaluation evaluate( Path path )
-                    {
-                        if ( path.endNode().hasRelationship( DoctorWhoRelationships.REGENERATED_TO ) )
-                        {
-                            return Evaluation.INCLUDE_AND_CONTINUE;
-                        }
-                        else
-                        {
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        }
-                    }
-                } );
+                                     .relationships(DoctorWhoRelationships.PLAYED, Direction.INCOMING)
+                                     .breadthFirst()
+                                     .evaluator(new Evaluator()
+                                     {
+                                         public Evaluation evaluate(Path path)
+                                         {
+                                             if (path.endNode().hasRelationship(DoctorWhoRelationships.REGENERATED_TO))
+                                             {
+                                                 return Evaluation.INCLUDE_AND_CONTINUE;
+                                             }
+                                             else
+                                             {
+                                                 return Evaluation.EXCLUDE_AND_CONTINUE;
+                                             }
+                                         }
+                                     });
 
         // SNIPPET_END
 
-        assertThat( regeneratedActors.traverse( theDoctor ).nodes(), containsNumberOfNodes( 11 ) );
+        assertThat(regeneratedActors.traverse(theDoctor).nodes(), containsNumberOfNodes(11));
     }
 
     @Test
@@ -78,32 +78,34 @@ public class Koan07
         // SNIPPET_START
 
         firstDoctor = Traversal.description()
-                .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
-                .depthFirst()
-                .evaluator( new Evaluator()
-                {
-                    public Evaluation evaluate( Path path )
-                    {
-                        if ( path.endNode().hasRelationship( DoctorWhoRelationships.REGENERATED_TO, Direction.INCOMING ) )
-                        {
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        }
-                        else if ( !path.endNode().hasRelationship( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING ) )
-                        {
-                            // Catches Richard Hurdnall who played the William
-                            // Hartnell's Doctor in The Five Doctors (William
-                            // Hartnell had died by then)
-                            return Evaluation.EXCLUDE_AND_CONTINUE;
-                        }
-                        else
-                        {
-                            return Evaluation.INCLUDE_AND_PRUNE;
-                        }
-                    }
-                } );
+                               .relationships(DoctorWhoRelationships.PLAYED, Direction.INCOMING)
+                               .depthFirst()
+                               .evaluator(new Evaluator()
+                               {
+                                   public Evaluation evaluate(Path path)
+                                   {
+                                       if (path.endNode().hasRelationship(DoctorWhoRelationships.REGENERATED_TO,
+                                                                          Direction.INCOMING))
+                                       {
+                                           return Evaluation.EXCLUDE_AND_CONTINUE;
+                                       }
+                                       else if (!path.endNode().hasRelationship(DoctorWhoRelationships.REGENERATED_TO,
+                                                                                Direction.OUTGOING))
+                                       {
+                                           // Catches Richard Hurdnall who played the William
+                                           // Hartnell's Doctor in The Five Doctors (William
+                                           // Hartnell had died by then)
+                                           return Evaluation.EXCLUDE_AND_CONTINUE;
+                                       }
+                                       else
+                                       {
+                                           return Evaluation.INCLUDE_AND_PRUNE;
+                                       }
+                                   }
+                               });
 
         // SNIPPET_END
 
-        assertThat( firstDoctor.traverse( theDoctor ).nodes(), containsOnlyActors( "William Hartnell" ) );
+        assertThat(firstDoctor.traverse(theDoctor).nodes(), containsOnlyActors("William Hartnell"));
     }
 }

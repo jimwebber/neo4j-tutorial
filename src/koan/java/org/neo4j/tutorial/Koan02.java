@@ -1,20 +1,11 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.DynamicRelationshipType;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
+
+import static org.junit.Assert.*;
 
 /**
  * This first programming Koan will get you started with the basics of managing
@@ -31,7 +22,7 @@ public class Koan02
     public static void createADatabase()
     {
         db = DatabaseHelper.createDatabase();
-        databaseHelper = new DatabaseHelper( db );
+        databaseHelper = new DatabaseHelper(db);
     }
 
     @AfterClass
@@ -60,7 +51,7 @@ public class Koan02
 
         // SNIPPET_END
 
-        assertTrue( databaseHelper.nodeExistsInDatabase( node ) );
+        assertTrue(databaseHelper.nodeExistsInDatabase(node));
     }
 
     @Test
@@ -75,8 +66,8 @@ public class Koan02
         try
         {
             theDoctor = db.createNode();
-            theDoctor.setProperty( "firstname", "William" );
-            theDoctor.setProperty( "lastname", "Hartnell" );
+            theDoctor.setProperty("firstname", "William");
+            theDoctor.setProperty("lastname", "Hartnell");
             tx.success();
         } finally
         {
@@ -85,11 +76,11 @@ public class Koan02
 
         // SNIPPET_END
 
-        assertTrue( databaseHelper.nodeExistsInDatabase( theDoctor ) );
+        assertTrue(databaseHelper.nodeExistsInDatabase(theDoctor));
 
-        Node storedNode = db.getNodeById( theDoctor.getId() );
-        assertEquals( "William", storedNode.getProperty( "firstname" ) );
-        assertEquals( "Hartnell", storedNode.getProperty( "lastname" ) );
+        Node storedNode = db.getNodeById(theDoctor.getId());
+        assertEquals("William", storedNode.getProperty("firstname"));
+        assertEquals("Hartnell", storedNode.getProperty("lastname"));
     }
 
     @Test
@@ -106,14 +97,14 @@ public class Koan02
         try
         {
             theDoctor = db.createNode();
-            theDoctor.setProperty( "character", "Doctor" );
+            theDoctor.setProperty("character", "Doctor");
 
             susan = db.createNode();
-            susan.setProperty( "firstname", "Susan" );
-            susan.setProperty( "lastname", "Campbell" );
+            susan.setProperty("firstname", "Susan");
+            susan.setProperty("lastname", "Campbell");
 
-            companionRelationship = susan.createRelationshipTo( theDoctor,
-                    DoctorWhoRelationships.COMPANION_OF );
+            companionRelationship = susan.createRelationshipTo(theDoctor,
+                                                               DoctorWhoRelationships.COMPANION_OF);
 
             tx.success();
         } finally
@@ -123,10 +114,10 @@ public class Koan02
 
         // SNIPPET_END
 
-        Relationship storedCompanionRelationship = db.getRelationshipById( companionRelationship.getId() );
-        assertNotNull( storedCompanionRelationship );
-        assertEquals( susan, storedCompanionRelationship.getStartNode() );
-        assertEquals( theDoctor, storedCompanionRelationship.getEndNode() );
+        Relationship storedCompanionRelationship = db.getRelationshipById(companionRelationship.getId());
+        assertNotNull(storedCompanionRelationship);
+        assertEquals(susan, storedCompanionRelationship.getStartNode());
+        assertEquals(theDoctor, storedCompanionRelationship.getEndNode());
     }
 
     @Test
@@ -145,7 +136,7 @@ public class Koan02
             // This is the tricky part, you have to remove the active
             // relationships before you can remove a node
             Iterable<Relationship> relationships = captainKirk.getRelationships();
-            for ( Relationship r : relationships )
+            for (Relationship r : relationships)
             {
                 r.delete();
             }
@@ -162,13 +153,13 @@ public class Koan02
 
         try
         {
-            captainKirk.hasProperty( "character" );
+            captainKirk.hasProperty("character");
             fail();
-        } catch ( NotFoundException nfe )
+        } catch (NotFoundException nfe)
         {
             // If the exception is thrown, we've removed Captain Kirk from the
             // database
-            assertNotNull( nfe );
+            assertNotNull(nfe);
         }
     }
 
@@ -184,13 +175,13 @@ public class Koan02
         try
         {
 
-            Iterable<Relationship> relationships = susan.getRelationships( DoctorWhoRelationships.ENEMY_OF,
-                    Direction.OUTGOING );
-            for ( Relationship r : relationships )
+            Iterable<Relationship> relationships = susan.getRelationships(DoctorWhoRelationships.ENEMY_OF,
+                                                                          Direction.OUTGOING);
+            for (Relationship r : relationships)
             {
                 Node n = r.getEndNode();
-                if ( n.hasProperty( "character" ) && n.getProperty( "character" )
-                        .equals( "The Doctor" ) )
+                if (n.hasProperty("character") && n.getProperty("character")
+                                                   .equals("The Doctor"))
                 {
                     r.delete();
                 }
@@ -203,7 +194,7 @@ public class Koan02
         }
 
         // SNIPPET_END
-        assertEquals( 1, databaseHelper.countRelationships( susan.getRelationships() ) );
+        assertEquals(1, databaseHelper.destructivelyCountRelationships(susan.getRelationships()));
     }
 
     private Node createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor()
@@ -213,14 +204,14 @@ public class Koan02
         try
         {
             Node theDoctor = db.createNode();
-            theDoctor.setProperty( "character", "The Doctor" );
+            theDoctor.setProperty("character", "The Doctor");
 
             susan = db.createNode();
-            susan.setProperty( "firstname", "Susan" );
-            susan.setProperty( "lastname", "Campbell" );
+            susan.setProperty("firstname", "Susan");
+            susan.setProperty("lastname", "Campbell");
 
-            susan.createRelationshipTo( theDoctor, DoctorWhoRelationships.COMPANION_OF );
-            susan.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
+            susan.createRelationshipTo(theDoctor, DoctorWhoRelationships.COMPANION_OF);
+            susan.createRelationshipTo(theDoctor, DoctorWhoRelationships.ENEMY_OF);
 
             tx.success();
             return susan;
@@ -238,14 +229,14 @@ public class Koan02
         try
         {
             Node theDoctor = db.createNode();
-            theDoctor.setProperty( "character", "The Doctor" );
+            theDoctor.setProperty("character", "The Doctor");
 
             captainKirk = db.createNode();
-            captainKirk.setProperty( "firstname", "James" );
-            captainKirk.setProperty( "initial", "T" );
-            captainKirk.setProperty( "lastname", "Kirk" );
+            captainKirk.setProperty("firstname", "James");
+            captainKirk.setProperty("initial", "T");
+            captainKirk.setProperty("lastname", "Kirk");
 
-            captainKirk.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "COMPANION_OF" ) );
+            captainKirk.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("COMPANION_OF"));
 
             tx.success();
             return captainKirk;

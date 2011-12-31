@@ -6,46 +6,53 @@ public class DoctorWhoUniverseGenerator
 {
 
     private final String dbDir = DatabaseHelper.createTempDatabaseDir()
-            .getAbsolutePath();
+                                               .getAbsolutePath();
 
     public DoctorWhoUniverseGenerator()
     {
-        GraphDatabaseService db = DatabaseHelper.createDatabase( dbDir );
-        addCharacters( db );
-        addSpecies( db );
-        addPlanets( db );
-        addEpisodes( db );
-        addDalekProps( db );
+        GraphDatabaseService db = DatabaseHelper.createDatabase(dbDir);
+        addCharacters(db);
+        addActors(db);
+        addSpecies(db);
+        addPlanets(db);
+        addEpisodes(db);
+        addDalekProps(db);
         db.shutdown();
     }
 
-    private void addEpisodes( GraphDatabaseService db )
+    private void addActors(GraphDatabaseService db)
     {
-        Episodes episodes = new Episodes( db );
+        Actors actors = new Actors(db);
+        actors.insert();
+    }
+    
+    private void addEpisodes(GraphDatabaseService db)
+    {
+        Episodes episodes = new Episodes(db);
         episodes.insert();
     }
 
-    private void addCharacters( GraphDatabaseService db )
+    private void addCharacters(GraphDatabaseService db)
     {
-        Characters characters = new Characters( db );
+        Characters characters = new Characters(db);
         characters.insert();
     }
 
-    private void addSpecies( GraphDatabaseService db )
+    private void addSpecies(GraphDatabaseService db)
     {
-        Species species = new Species( db );
+        Species species = new Species(db);
         species.insert();
     }
 
-    private void addPlanets( GraphDatabaseService db )
+    private void addPlanets(GraphDatabaseService db)
     {
-        Planets planets = new Planets( db );
+        Planets planets = new Planets(db);
         planets.insert();
     }
 
-    private void addDalekProps( GraphDatabaseService db )
+    private void addDalekProps(GraphDatabaseService db)
     {
-        DalekProps dalekProps = new DalekProps( db );
+        DalekProps dalekProps = new DalekProps(db);
         dalekProps.insert();
     }
 

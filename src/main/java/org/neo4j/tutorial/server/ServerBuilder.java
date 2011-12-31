@@ -54,27 +54,29 @@ public class ServerBuilder
     @SuppressWarnings("unchecked")
     public NeoServerWithEmbeddedWebServer build() throws IOException
     {
-        if ( dbDir == null )
+        if (dbDir == null)
         {
             this.dbDir = createTempDir().getAbsolutePath();
         }
         File configFile = createPropertiesFiles();
 
-        if ( serverModules == null )
+        if (serverModules == null)
         {
-            withSpecificServerModulesOnly( RESTApiModule.class, WebAdminModule.class, ManagementApiModule.class,
-                    ThirdPartyJAXRSModule.class, DiscoveryModule.class );
+            withSpecificServerModulesOnly(RESTApiModule.class, WebAdminModule.class, ManagementApiModule.class,
+                                          ThirdPartyJAXRSModule.class, DiscoveryModule.class);
         }
 
-        if ( startupHealthCheck == null )
+        if (startupHealthCheck == null)
         {
-            startupHealthCheck = mock( StartupHealthCheck.class );
-            when( startupHealthCheck.run() ).thenReturn( true );
+            startupHealthCheck = mock(StartupHealthCheck.class);
+            when(startupHealthCheck.run()).thenReturn(true);
         }
 
-        return new NeoServerWithEmbeddedWebServer( new NeoServerBootstrapper(), startupHealthCheck,
-                new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), configFile ),
-                new Jetty6WebServer(), serverModules );
+        return new NeoServerWithEmbeddedWebServer(new NeoServerBootstrapper(), startupHealthCheck,
+                                                  new PropertyFileConfigurator(
+                                                          new Validator(new DatabaseLocationMustBeSpecifiedRule()),
+                                                          configFile),
+                                                  new Jetty6WebServer(), serverModules);
 
     }
 
@@ -82,50 +84,52 @@ public class ServerBuilder
     {
         File temporaryConfigFile = createTempPropertyFile();
 
-        createPropertiesFile( temporaryConfigFile );
-        createTuningFile( temporaryConfigFile );
+        createPropertiesFile(temporaryConfigFile);
+        createTuningFile(temporaryConfigFile);
 
         return temporaryConfigFile;
     }
 
-    private void createPropertiesFile( File temporaryConfigFile )
+    private void createPropertiesFile(File temporaryConfigFile)
     {
-        writePropertyToFile( Configurator.DATABASE_LOCATION_PROPERTY_KEY, dbDir, temporaryConfigFile );
-        if ( portNo != null )
+        writePropertyToFile(Configurator.DATABASE_LOCATION_PROPERTY_KEY, dbDir, temporaryConfigFile);
+        if (portNo != null)
         {
-            writePropertyToFile( Configurator.WEBSERVER_PORT_PROPERTY_KEY, portNo, temporaryConfigFile );
+            writePropertyToFile(Configurator.WEBSERVER_PORT_PROPERTY_KEY, portNo, temporaryConfigFile);
         }
-        writePropertyToFile( Configurator.MANAGEMENT_PATH_PROPERTY_KEY, webAdminUri, temporaryConfigFile );
-        writePropertyToFile( Configurator.REST_API_PATH_PROPERTY_KEY, webAdminDataUri, temporaryConfigFile );
+        writePropertyToFile(Configurator.MANAGEMENT_PATH_PROPERTY_KEY, webAdminUri, temporaryConfigFile);
+        writePropertyToFile(Configurator.REST_API_PATH_PROPERTY_KEY, webAdminDataUri, temporaryConfigFile);
 
-        if ( thirdPartyPackages.keySet()
-                .size() > 0 )
+        if (thirdPartyPackages.keySet()
+                              .size() > 0)
         {
-            writePropertiesToFile( Configurator.THIRD_PARTY_PACKAGES_KEY, thirdPartyPackages, temporaryConfigFile );
+            writePropertiesToFile(Configurator.THIRD_PARTY_PACKAGES_KEY, thirdPartyPackages, temporaryConfigFile);
         }
     }
 
-    private void createTuningFile( File temporaryConfigFile ) throws IOException
+    private void createTuningFile(File temporaryConfigFile) throws IOException
     {
-        if ( action == WhatToDo.CREATE_GOOD_TUNING_FILE )
+        if (action == WhatToDo.CREATE_GOOD_TUNING_FILE)
         {
             File databaseTuningPropertyFile = createTempPropertyFile();
-            writePropertyToFile( "neostore.nodestore.db.mapped_memory", "25M", databaseTuningPropertyFile );
-            writePropertyToFile( "neostore.relationshipstore.db.mapped_memory", "50M", databaseTuningPropertyFile );
-            writePropertyToFile( "neostore.propertystore.db.mapped_memory", "90M", databaseTuningPropertyFile );
-            writePropertyToFile( "neostore.propertystore.db.strings.mapped_memory", "130M", databaseTuningPropertyFile );
-            writePropertyToFile( "neostore.propertystore.db.arrays.mapped_memory", "130M", databaseTuningPropertyFile );
-            writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY,
-                    databaseTuningPropertyFile.getAbsolutePath(), temporaryConfigFile );
-        } else if ( action == WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY )
+            writePropertyToFile("neostore.nodestore.db.mapped_memory", "25M", databaseTuningPropertyFile);
+            writePropertyToFile("neostore.relationshipstore.db.mapped_memory", "50M", databaseTuningPropertyFile);
+            writePropertyToFile("neostore.propertystore.db.mapped_memory", "90M", databaseTuningPropertyFile);
+            writePropertyToFile("neostore.propertystore.db.strings.mapped_memory", "130M", databaseTuningPropertyFile);
+            writePropertyToFile("neostore.propertystore.db.arrays.mapped_memory", "130M", databaseTuningPropertyFile);
+            writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY,
+                                databaseTuningPropertyFile.getAbsolutePath(), temporaryConfigFile);
+        }
+        else if (action == WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY)
         {
-            writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY, createTempPropertyFile().getAbsolutePath(),
-                    temporaryConfigFile );
-        } else if ( action == WhatToDo.CREATE_CORRUPT_TUNING_FILE )
+            writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY, createTempPropertyFile().getAbsolutePath(),
+                                temporaryConfigFile);
+        }
+        else if (action == WhatToDo.CREATE_CORRUPT_TUNING_FILE)
         {
             File corruptTuningFile = trashFile();
-            writePropertyToFile( Configurator.DB_TUNING_PROPERTY_FILE_KEY, corruptTuningFile.getAbsolutePath(),
-                    temporaryConfigFile );
+            writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY, corruptTuningFile.getAbsolutePath(),
+                                temporaryConfigFile);
         }
     }
 
@@ -133,12 +137,12 @@ public class ServerBuilder
     {
         File f = createTempPropertyFile();
 
-        FileWriter fstream = new FileWriter( f, true );
-        BufferedWriter out = new BufferedWriter( fstream );
+        FileWriter fstream = new FileWriter(f, true);
+        BufferedWriter out = new BufferedWriter(fstream);
 
-        for ( int i = 0; i < 100; i++ )
+        for (int i = 0; i < 100; i++)
         {
-            out.write( (int) System.currentTimeMillis() );
+            out.write((int) System.currentTimeMillis());
         }
 
         out.close();
@@ -149,52 +153,54 @@ public class ServerBuilder
     {
     }
 
-    public ServerBuilder onPort( int portNo )
+    public ServerBuilder onPort(int portNo)
     {
-        this.portNo = String.valueOf( portNo );
+        this.portNo = String.valueOf(portNo);
         return this;
     }
 
-    public ServerBuilder usingDatabaseDir( String dbDir )
+    public ServerBuilder usingDatabaseDir(String dbDir)
     {
         this.dbDir = dbDir;
         return this;
     }
 
-    public ServerBuilder withRelativeWebAdminUriPath( String webAdminUri )
+    public ServerBuilder withRelativeWebAdminUriPath(String webAdminUri)
     {
         try
         {
-            URI theUri = new URI( webAdminUri );
-            if ( theUri.isAbsolute() )
+            URI theUri = new URI(webAdminUri);
+            if (theUri.isAbsolute())
             {
                 this.webAdminUri = theUri.getPath();
-            } else
+            }
+            else
             {
                 this.webAdminUri = theUri.toString();
             }
-        } catch ( URISyntaxException e )
+        } catch (URISyntaxException e)
         {
-            throw new RuntimeException( e );
+            throw new RuntimeException(e);
         }
         return this;
     }
 
-    public ServerBuilder withRelativeWebDataAdminUriPath( String webAdminDataUri )
+    public ServerBuilder withRelativeWebDataAdminUriPath(String webAdminDataUri)
     {
         try
         {
-            URI theUri = new URI( webAdminDataUri );
-            if ( theUri.isAbsolute() )
+            URI theUri = new URI(webAdminDataUri);
+            if (theUri.isAbsolute())
             {
                 this.webAdminDataUri = theUri.getPath();
-            } else
+            }
+            else
             {
                 this.webAdminDataUri = theUri.toString();
             }
-        } catch ( URISyntaxException e )
+        } catch (URISyntaxException e)
         {
-            throw new RuntimeException( e );
+            throw new RuntimeException(e);
         }
         return this;
     }
@@ -207,9 +213,9 @@ public class ServerBuilder
 
     public ServerBuilder withFailingStartupHealthcheck()
     {
-        startupHealthCheck = mock( StartupHealthCheck.class );
-        when( startupHealthCheck.run() ).thenReturn( false );
-        when( startupHealthCheck.failedRule() ).thenReturn( new StartupHealthCheckRule()
+        startupHealthCheck = mock(StartupHealthCheck.class);
+        when(startupHealthCheck.run()).thenReturn(false);
+        when(startupHealthCheck.failedRule()).thenReturn(new StartupHealthCheckRule()
         {
 
             public String getFailureMessage()
@@ -217,11 +223,11 @@ public class ServerBuilder
                 return "mockFailure";
             }
 
-            public boolean execute( Properties properties )
+            public boolean execute(Properties properties)
             {
                 return false;
             }
-        } );
+        });
         return this;
     }
 
@@ -243,15 +249,15 @@ public class ServerBuilder
         return this;
     }
 
-    public ServerBuilder withThirdPartyJaxRsPackage( String packageName, String mountPoint )
+    public ServerBuilder withThirdPartyJaxRsPackage(String packageName, String mountPoint)
     {
-        thirdPartyPackages.put( packageName, mountPoint );
+        thirdPartyPackages.put(packageName, mountPoint);
         return this;
     }
 
-    public ServerBuilder withSpecificServerModulesOnly( Class<? extends ServerModule>... modules )
+    public ServerBuilder withSpecificServerModulesOnly(Class<? extends ServerModule>... modules)
     {
-        serverModules = Arrays.asList( modules );
+        serverModules = Arrays.asList(modules);
         return this;
     }
 }

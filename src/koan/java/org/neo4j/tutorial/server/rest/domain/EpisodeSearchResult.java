@@ -7,7 +7,7 @@ public class EpisodeSearchResult
 {
     private final List<Map<String, Object>> nodes;
 
-    public EpisodeSearchResult( List<Map<String, Object>> nodes )
+    public EpisodeSearchResult(List<Map<String, Object>> nodes)
     {
         super();
         this.nodes = nodes;
@@ -16,17 +16,17 @@ public class EpisodeSearchResult
     @SuppressWarnings("unchecked")
     public String getActor()
     {
-        Map<String, Object> actor = (Map<String, Object>) nodes.get( 1 )
-                .get( "data" );
-        return (String) actor.get( "actor" );
+        Map<String, Object> actor = (Map<String, Object>) nodes.get(1)
+                                                               .get("data");
+        return (String) actor.get("actor");
     }
 
     @SuppressWarnings("unchecked")
     public String getEpisode()
     {
-        Map<String, Object> actor = (Map<String, Object>) nodes.get( 2 )
-                .get( "data" );
-        return (String) actor.get( "title" );
+        Map<String, Object> actor = (Map<String, Object>) nodes.get(2)
+                                                               .get("data");
+        return (String) actor.get("title");
     }
 
 }

@@ -9,22 +9,22 @@ public class EmbeddedDoctorWhoUniverse
 
     private final EmbeddedGraphDatabase db;
 
-    public EmbeddedDoctorWhoUniverse( DoctorWhoUniverseGenerator universe )
+    public EmbeddedDoctorWhoUniverse(DoctorWhoUniverseGenerator universe)
     {
-        db = new EmbeddedGraphDatabase( universe.getDatabaseDirectory() );
+        db = new EmbeddedGraphDatabase(universe.getDatabaseDirectory());
     }
 
     public Node theDoctor()
     {
         return db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
+                 .forNodes("characters")
+                 .get("character", "Doctor")
+                 .getSingle();
     }
 
     public void stop()
     {
-        if ( db != null )
+        if (db != null)
         {
             db.shutdown();
         }
