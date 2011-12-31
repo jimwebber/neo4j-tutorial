@@ -4,13 +4,18 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.Index;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 public class ActorBuilder
 {
     private String actorName;
-    private String characterName;
+    private List<String> characterNames = new ArrayList<String>();
     private int cash = -1;
+    private String wikipediaUri;
 
     public static ActorBuilder actor(String actorName)
     {
@@ -22,9 +27,9 @@ public class ActorBuilder
         this.actorName = actorName;
     }
 
-    public ActorBuilder played(String characterName)
+    public ActorBuilder played(String... characterNames)
     {
-        this.characterName = characterName;
+        Collections.addAll(this.characterNames, characterNames);
         return this;
     }
 
@@ -51,6 +56,10 @@ public class ActorBuilder
             actor.setProperty("actor", actorName);
             index.add(actor, "actor", actorName);
         }
+        
+        if(wikipediaUri != null) {
+            actor.setProperty("wikipedia", wikipediaUri);
+        }
 
         if (cash > 0)
         {
@@ -62,16 +71,22 @@ public class ActorBuilder
 
     private void ensureCharacterIsInDb(Node actor, GraphDatabaseService db)
     {
-        if (characterName != null)
+        for(String characterName : characterNames)
         {
             new CharacterBuilder(characterName).fact(db);
 
-            Node character = db.index().forNodes("characters").get("character", characterName).getSingle();
+            Node character = db.index().forNodes("characters").get("character", characterNames).getSingle();
 
             if (actor != null && character != null)
             {
                 ensureRelationshipInDb(actor, DoctorWhoRelationships.PLAYED, character);
             }
         }
+    }
+
+    public ActorBuilder wikipedia(String wikipediaUri)
+    {
+        this.wikipediaUri = wikipediaUri;
+        return this;
     }
 }

@@ -19,9 +19,13 @@ public class Actors
         Transaction tx = db.beginTx();
         try
         {
-            actor("David Tennant").played("Doctor").salary(1000000).fact(db);
-            actor("Matt Smith").played("Doctor").salary(200000).fact(db);
-            actor("Alex Kingston").played("River Song").fact(db);
+            actor("David Tennant").wikipedia("http://en.wikipedia.org/wiki/David_Tennant").played("Doctor").salary(1000000).fact(db);
+            actor("Matt Smith").wikipedia("http://en.wikipedia.org/wiki/Matt_Smith_(actor)").played("Doctor").salary(200000).fact(db);
+            actor("Alex Kingston").wikipedia("http://en.wikipedia.org/wiki/Alex_Kingston").played("River Song").fact(db);
+            actor("Karen Gillan").played("Amy Pond").fact(db);
+            actor("Arthur Darvill").played("Rory Williams").fact(db);
+            actor("Freema Agyeman").played("Martha Jones", "Adeola Oshodi").fact(db);
+
 
             tx.success();
         } finally
