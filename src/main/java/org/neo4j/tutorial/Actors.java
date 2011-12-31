@@ -26,7 +26,6 @@ public class Actors
             actor("Arthur Darvill").played("Rory Williams").fact(db);
             actor("Freema Agyeman").played("Martha Jones", "Adeola Oshodi").fact(db);
 
-
             tx.success();
         } finally
         {

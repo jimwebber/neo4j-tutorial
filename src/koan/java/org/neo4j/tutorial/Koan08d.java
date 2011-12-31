@@ -2,6 +2,7 @@ package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
@@ -9,6 +10,7 @@ import org.neo4j.cypher.ExecutionResult;
 /**
  * In this Koan we focus on calling pre-canned graph algorithms from Cypher.
  */
+@Ignore
 public class Koan08d
 {
     private static EmbeddedDoctorWhoUniverse universe;
@@ -34,15 +36,17 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor'), david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman') "
-                + "match path = shortestPath( (david)-[*..6]->(doctor) )"
-                + "return david";
+        cql = "start david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman') "
+                + "match p = allShortestPaths( (david)-[*..4]-(freema) )"
+                + "return extract(n in nodes(p) : min(n.episode?))";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
-        
+
         System.out.println(result.dumpToString());
+
+        //TODO: figure out if this is even possible in Cypher!
     }
 
     @Test
@@ -54,10 +58,16 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "";
+        cql = "start eccleston=node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
+                + "match p = shortestPath(baker-[:REGENERATED_TO*]->eccleston) "
+                + "return nodes(p)";
+
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
+        System.out.println(result.dumpToString());
+
+        //TODO: figure out if this is even possible in Cypher!
     }
 }
