@@ -75,7 +75,7 @@ public class ActorBuilder
         {
             new CharacterBuilder(characterName).fact(db);
 
-            Node character = db.index().forNodes("characters").get("character", characterNames).getSingle();
+            Node character = db.index().forNodes("characters").get("character", characterName).getSingle();
 
             if (actor != null && character != null)
             {
