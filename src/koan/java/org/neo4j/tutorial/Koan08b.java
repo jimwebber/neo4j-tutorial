@@ -2,7 +2,6 @@ package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
@@ -148,13 +147,10 @@ public class Koan08b
 
         ExecutionResult result = engine.execute(cql);
 
-        Double cash = (Double) result.javaColumnAs("cash").next();
-
-        assertEquals(600000.0, cash.doubleValue());
+        assertEquals(600000.0, result.javaColumnAs("cash").next());
     }
 
     @Test
-    @Ignore("Waiting for some input from Andres")
     public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
@@ -165,15 +161,14 @@ public class Koan08b
 
         cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
                 + "match p=(baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "return p, count(relationships(p))";
+                + "return length(p) as regenerations";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
-        System.out.println(result.dumpToString());
 
-        // TODO: finish this!
+        assertEquals(5, result.javaColumnAs("regenerations").next());
     }
 
     @Test
