@@ -2,12 +2,14 @@ package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -86,6 +88,49 @@ public class Koan08b
     }
 
     @Test
+    public void shouldFindEarliestAndLatestRegenerationYears()
+    {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start doctor = node:characters(character = 'Doctor') " +
+                "match (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
+                "return min(regen.year) as earliest, max(regen.year) as latest";
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+
+
+        Map<String, Object> map = result.javaIterator().next();
+        assertEquals(2010, map.get("latest"));
+        assertEquals(1966, map.get("earliest"));
+    }
+
+    @Test
+    public void shouldFindTheEarliestEpisodeWhereFreemaAgyemanAndDavidTennantWorkedTogether() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
+                + "match (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
+                + "return min(episode.episode) as earliest";
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+
+        assertEquals(179, result.javaColumnAs("earliest").next());
+    }
+
+    @Test
     public void shouldFindAverageSalaryOfActorsWhoPlayedTheDoctor()
     {
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
@@ -108,6 +153,28 @@ public class Koan08b
         assertEquals(600000.0, cash.doubleValue());
     }
 
+    @Test
+    @Ignore("Waiting for some input from Andres")
+    public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
+                + "match p=(baker)-[:REGENERATED_TO*]->(eccleston) "
+                + "return p, count(relationships(p))";
+
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+        System.out.println(result.dumpToString());
+
+        // TODO: finish this!
+    }
 
     @Test
     public void shouldListTheEnemySpeciesAndCharactersForEachEpisodeWithPeterDavisonOrderedByIncreasingEpisodeNumber()
@@ -160,8 +227,6 @@ public class Koan08b
         assertThat(asIterable(result.javaColumnAs("episode.episode")),
                    containsOnlySpecificInts(116, 118, 119, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132,
                                             133, 134, 135));
-
-        // TODO: strengthen this brittle string-based assertion!
     }
 
     @Test
