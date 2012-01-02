@@ -9,6 +9,7 @@ import org.neo4j.graphdb.Node;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
@@ -35,6 +36,26 @@ public class Koan08a
     }
 
     @Test
+    public void shouldFindAndReturnTheDoctor() {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start doctor = node:characters(character='Doctor') return doctor";
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+        Iterator<Node> episodes = result.javaColumnAs("doctor");
+        
+        assertEquals(episodes.next(), universe.theDoctor());
+    }
+
+
+
+    @Test
     public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
@@ -43,7 +64,7 @@ public class Koan08a
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) return episode";
 
         // SNIPPET_END
 

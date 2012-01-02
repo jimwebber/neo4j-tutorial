@@ -47,7 +47,7 @@ public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
     }
 
     @Factory
-    public static <T> Matcher<Path> containsOnly(Node... nodes)
+    public static <T> Matcher<Path> containsOnlySpecificNodes(Node... nodes)
     {
         return new ContainsOnlySpecificNodes(nodes);
     }

@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnly;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnlySpecificNodes;
 import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
 /**
@@ -143,6 +143,6 @@ public class Koan09
                                         .forNodes("episodes")
                                         .get("title", "The End of Time")
                                         .getSingle();
-        assertThat(path, containsOnly(tennant, smith, endOfTimeEpisode));
+        assertThat(path, containsOnlySpecificNodes(tennant, smith, endOfTimeEpisode));
     }
 }
