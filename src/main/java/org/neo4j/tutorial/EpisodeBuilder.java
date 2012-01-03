@@ -16,19 +16,24 @@ public class EpisodeBuilder
 
     private String title;
     private List<String> companionNames = new ArrayList<String>();
-    private int episodeNumber = 0;
+    private String episodeNumber = null;
     private List<String> doctorActors = new ArrayList<String>();
     private List<String> enemySpecies = new ArrayList<String>();
     private List<String> enemies = new ArrayList<String>();
     private String[] allies;
     private List<String> alliedSpecies = new ArrayList<String>();
 
-    private EpisodeBuilder(int episodeNumber)
+    private EpisodeBuilder(String episodeNumber)
     {
         this.episodeNumber = episodeNumber;
     }
 
     public static EpisodeBuilder episode(int episodeNumber)
+    {
+        return new EpisodeBuilder(String.valueOf(episodeNumber));
+    }
+
+    public static EpisodeBuilder episode(String episodeNumber)
     {
         return new EpisodeBuilder(episodeNumber);
     }
@@ -175,7 +180,7 @@ public class EpisodeBuilder
             throw new RuntimeException("Episodes must have a title");
         }
 
-        if (episodeNumber < 1)
+        if (episodeNumber == null)
         {
             throw new RuntimeException("Episodes must have a number");
         }

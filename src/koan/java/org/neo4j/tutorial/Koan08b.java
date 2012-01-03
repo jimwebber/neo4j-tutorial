@@ -14,7 +14,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificInts.containsOnlySpecificInts;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
 import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsWikipediaEntries;
 
@@ -61,7 +60,8 @@ public class Koan08b
         Iterator<String> iterator = result.javaColumnAs("companion.wikipedia");
 
         assertThat(asIterable(iterator), containsWikipediaEntries("http://en.wikipedia.org/wiki/Rory_Williams",
-                                                                  "http://en.wikipedia.org/wiki/Amy_Pond"));
+                                                                  "http://en.wikipedia.org/wiki/Amy_Pond",
+                                                                  "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)"));
 
     }
 
@@ -126,7 +126,7 @@ public class Koan08b
 
         ExecutionResult result = engine.execute(cql);
 
-        assertEquals(179, result.javaColumnAs("earliest").next());
+        assertEquals("179", result.javaColumnAs("earliest").next());
     }
 
     @Test
@@ -148,27 +148,6 @@ public class Koan08b
         ExecutionResult result = engine.execute(cql);
 
         assertEquals(600000.0, result.javaColumnAs("cash").next());
-    }
-
-    @Test
-    public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
-    {
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
-                + "match p=(baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "return length(p) as regenerations";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute(cql);
-
-        assertEquals(5, result.javaColumnAs("regenerations").next());
     }
 
     @Test
@@ -219,9 +198,6 @@ public class Koan08b
         final List<String> columnNames = result.javaColumns();
         assertThat(columnNames,
                    containsOnlySpecificStrings("episode.episode", "episode.title", "species", "characters"));
-        assertThat(asIterable(result.javaColumnAs("episode.episode")),
-                   containsOnlySpecificInts(116, 118, 119, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132,
-                                            133, 134, 135));
     }
 
     @Test

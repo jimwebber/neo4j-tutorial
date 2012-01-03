@@ -63,32 +63,35 @@ public class Episodes
                     .companion("Grace Holloway")
                     .enemy("Master")
                     .fact(db);
-            series01();
+            season27();
             episode(167).title("The Christmas Invasion")
                     .doctor("David Tennant")
                     .companion("Rose Tyler")
                     .enemySpecies("Sycorax")
                     .fact(db);
-            series02();
+            season28();
             episode(178).title("The Runaway Bride")
                     .doctor("David Tennant")
                     .companion("Donna Noble")
                     .enemy("Empress of Racnoss")
                     .fact(db);
-            series03();
+            season29();
             episode(188).title("Voyage of the Damned")
                     .doctor("David Tennant")
                     .companion("Astrid Peth")
                     .fact(db);
-            series04();
-            series05();
+            season30();
+            season31();
             episode(213).title("A Christmas Carol")
                     .doctor("Matt Smith")
                     .companion("Amy Pond", "Rory Williams")
                     .enemy("Kazran Sardick")
                     .fact(db);
-            series06();
-
+            season32();
+            episode(224).title("The Doctor, The Widow, and The Wardrobe")
+                    .doctor("Matt Smith")
+                    .alliedSpecies("human")
+                    .fact(db);
             tx.success();
         } finally
         {
@@ -96,7 +99,7 @@ public class Episodes
         }
     }
 
-    private void series06()
+    private void season32()
     {
         episode(214).title("The Impossible Astronaut")
                 .doctor("Matt Smith")
@@ -127,7 +130,7 @@ public class Episodes
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams")
                 .fact(db);
-        episode(218).title("A Good Man Goes to War")
+        episode("218a").title("A Good Man Goes to War")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams", "River Song")
                 .allies("Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar")
@@ -135,33 +138,33 @@ public class Episodes
                 .enemySpecies("Cyberman")
                 .enemy("Madame Kovarian")
                 .fact(db);
-        episode(219).title("Let's Kill Hitler!")
+        episode("218b").title("Let's Kill Hitler!")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams")
                 .enemy("River Song")
                 .fact(db);
-        episode(220).title("Night Terrors")
+        episode(219).title("Night Terrors")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams")
                 .allies("Alex")
                 .enemySpecies("Peg Dolls")
                 .fact(db);
-        episode(221).title("The Girl Who Waited")
+        episode(220).title("The Girl Who Waited")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams")
                 .enemySpecies("Handbots")
                 .fact(db);
-        episode(222).title("The God Complex")
+        episode(221).title("The God Complex")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams")
                 .enemy("Minotaur")
                 .fact(db);
-        episode(223).title("Closing Time")
+        episode(222).title("Closing Time")
                 .doctor("Matt Smith")
                 .companion("Craig Owens")
                 .enemySpecies("Cyberman")
                 .fact(db);
-        episode(224).title("The Wedding of River Song")
+        episode(223).title("The Wedding of River Song")
                 .doctor("Matt Smith")
                 .companion("Amy Pond", "Rory Williams", "River Song")
                 .allies("Winston Churchill", "Charles Dickens", "Dorium Maldovar")
@@ -171,7 +174,7 @@ public class Episodes
 
     }
 
-    private void series05()
+    private void season31()
     {
         episode(199).title("The Next Doctor")
                 .doctor("David Tennant")
@@ -258,7 +261,7 @@ public class Episodes
                 .fact(db);
     }
 
-    private void series04()
+    private void season30()
     {
         episode(189).title("Partners in Crime")
                 .doctor("David Tennant")
@@ -323,7 +326,7 @@ public class Episodes
                 .fact(db);
     }
 
-    private void series03()
+    private void season29()
     {
         episode(179).title("Smith and Jones")
                 .doctor("David Tennant")
@@ -391,7 +394,7 @@ public class Episodes
                 .fact(db);
     }
 
-    private void series02()
+    private void season28()
     {
         episode(168).title("New Earth")
                 .doctor("David Tennant")
@@ -457,7 +460,7 @@ public class Episodes
                 .fact(db);
     }
 
-    private void series01()
+    private void season27()
     {
         episode(157).title("Rose")
                 .doctor("Christopher Eccleston")

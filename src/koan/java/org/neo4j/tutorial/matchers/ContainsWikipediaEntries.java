@@ -13,7 +13,6 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterable<String>>
 {
 
     private final Set<String> entries = new HashSet<String>();
-
     public ContainsWikipediaEntries(String... wikipediaEntries)
     {
         Collections.addAll(this.entries, wikipediaEntries);
@@ -21,7 +20,7 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterable<String>>
 
     public void describeTo(Description description)
     {
-        description.appendText("Shit hit the fan");
+        description.appendText("Failed to match wikipedia entries to given nodes.");
     }
 
     @Override

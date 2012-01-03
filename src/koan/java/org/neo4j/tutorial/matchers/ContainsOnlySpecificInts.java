@@ -8,14 +8,15 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ContainsOnlySpecificInts extends TypeSafeMatcher<Iterable<Object>>
+public class ContainsOnlySpecificInts extends TypeSafeMatcher<Iterable<Integer>>
 {
 
-    private final Set<Object> specificInts;
+    private final Set<Integer> specificInts;
+    private Iterable<Integer> candidateInts;
 
     public ContainsOnlySpecificInts(int... ints)
     {
-        this.specificInts = new HashSet<Object>();
+        this.specificInts = new HashSet<Integer>();
         for(int i : ints) {
             specificInts.add(new Integer(i));
         }
@@ -23,18 +24,20 @@ public class ContainsOnlySpecificInts extends TypeSafeMatcher<Iterable<Object>>
 
     public void describeTo(Description description)
     {
-//        description.appendText(String.format("Node [%d] does not contain all of the specified titles",
-//                                             failedNode.getId()));
+        description.appendText("Failed to match all integers.");
+        description.appendValueList("Expected: ", ",", "", specificInts);
+        description.appendValueList("Received: ", ",", "", candidateInts);
     }
 
     @Override
-    public boolean matchesSafely(Iterable<Object> candidateInts)
+    public boolean matchesSafely(Iterable<Integer> candidateInts)
     {
-        for (Object o : candidateInts)
+        this.candidateInts = candidateInts;
+        for (Integer i : candidateInts)
         {
-            if (o != null)
+            if (i != null)
             {
-                specificInts.remove(o);
+                specificInts.remove(i);
             }
         }
 
@@ -42,7 +45,7 @@ public class ContainsOnlySpecificInts extends TypeSafeMatcher<Iterable<Object>>
     }
 
     @Factory
-    public static Matcher<Iterable<Object>> containsOnlySpecificInts(int... ints)
+    public static Matcher<Iterable<Integer>> containsOnlySpecificInts(int... ints)
     {
         return new ContainsOnlySpecificInts(ints);
     }

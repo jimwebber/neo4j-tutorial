@@ -11,6 +11,7 @@ public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String
 {
 
     private final Set<String> specificStrings;
+    private Iterable<String> candidateStrings;
 
     public ContainsOnlySpecificStrings(String... strings)
     {
@@ -20,13 +21,17 @@ public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String
 
     public void describeTo(Description description)
     {
-//        description.appendText(String.format("Node [%d] does not contain all of the specified titles",
-//                                             failedNode.getId()));
+        description.appendText("Failed to exactly match all strings");
+        description.appendText(System.getProperty("line.separator"));
+        description.appendValueList("Expected: ", ",", "", specificStrings);
+        description.appendText(System.getProperty("line.separator"));
+        description.appendValueList("Received: ", ",", "", candidateStrings);
     }
 
     @Override
     public boolean matchesSafely(Iterable<String> candidateStrings)
     {
+        this.candidateStrings = candidateStrings;
         for (String s : candidateStrings)
         {
             if (s != null)

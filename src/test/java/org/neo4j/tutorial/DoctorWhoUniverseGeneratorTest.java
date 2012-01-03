@@ -137,7 +137,7 @@ public class DoctorWhoUniverseGeneratorTest
             speciesCount++;
         }
 
-        int numberOfSpecies = 55;
+        int numberOfSpecies = 56;
         assertEquals(numberOfSpecies, speciesCount);
     }
 
