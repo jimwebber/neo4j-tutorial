@@ -37,8 +37,8 @@ public class Koan08d
         // SNIPPET_START
 
         cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
-                + "match p=(baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "return length(p) as regenerations";
+                + "match path = (baker)-[:REGENERATED_TO*]->(eccleston) "
+                + "return length(path) as regenerations";
 
 
         // SNIPPET_END

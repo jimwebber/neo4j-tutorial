@@ -53,7 +53,29 @@ public class Koan08a
         assertEquals(episodes.next(), universe.theDoctor());
     }
 
+    @Test
+    public void shouldCountTheNumberOfEpisodes()
+    {
+        // The number of episodes is not the same as the highest episode number.
+        // Some episodes are two-parters with the same episode number, others use schemes like
+        // 218a and 218b as their episode numbers seemingly just to be difficult!
 
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start episodes= node:episodes('episode:*') "
+                + "return count(episodes)";
+
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+
+        assertEquals(246, result.javaColumnAs("count(episodes)").next());
+    }
 
     @Test
     public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception

@@ -15,7 +15,8 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
- * the history of the Dalek props.
+ * the regenerations and the history of the Dalek props, with a focus on longer matches
+ * and using aggregates to process the returned data.
  */
 public class Koan08c
 {
