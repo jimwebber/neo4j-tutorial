@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * In this Koan we enhance the default REST API with managed and unmanaged (JAX-RS) extensions
+ * In this Koan we enhance the default REST API with unmanaged (JAX-RS) extensions
  * to provide a domain-specific set of Doctor Who resources inside the Neo4j server.
  */
 public class Koan12
