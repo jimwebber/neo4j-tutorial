@@ -8,7 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
-import org.neo4j.tutorial.koan13.UserNameAndPasswordForSalariesSecurityRule;
+import org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule;
 
 import javax.ws.rs.core.MediaType;
 
@@ -19,7 +19,7 @@ import static org.neo4j.tutorial.server.ServerBuilder.server;
  * In this Koan we enhance the default REST API with managed and unmanaged (JAX-RS) extensions
  * to provide a domain-specific set of Doctor Who resources inside the Neo4j server.
  */
-public class Koan13
+public class Koan14
 {
 
     private static ServerDoctorWhoUniverse universe;
@@ -32,7 +32,7 @@ public class Koan13
         NeoServerWithEmbeddedWebServer server =
                 server()
                         .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
-                        .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan13", "/koan13")
+                        .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan14", "/koan14")
                         .withSecurityRules(UserNameAndPasswordForSalariesSecurityRule.class)
                         .build();
 
@@ -51,7 +51,7 @@ public class Koan13
 
         // This unit test provides the client side HTTP actions and assertions.
         // Your work happens in
-        // org.neo4j.tutorial.koan13.UserNameAndPasswordForSalariesSecurityRule
+        // org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule
         // where you have to build the server-side infrastructure to make this Koan pass.
 
         // Note: this isn't a secure password scheme - this Koan is only to aid
@@ -60,7 +60,7 @@ public class Koan13
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
 
-        ClientResponse response = client.resource("http://localhost:7474/koan13/David%20Tennant/salary").accept(
+        ClientResponse response = client.resource("http://localhost:7474/koan14/David%20Tennant/salary").accept(
                 MediaType.TEXT_PLAIN).get(
                 ClientResponse.class);
 
@@ -75,7 +75,7 @@ public class Koan13
 
         // This unit test provides the client side HTTP actions and assertions.
         // Your work happens in
-        // org.neo4j.tutorial.koan13.UserNameAndPasswordForSalariesSecurityRule
+        // org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule
         // where you have to build the server-side infrastructure to make this Koan pass.
 
         // Note: this isn't a secure password scheme - this Koan is only to aid
@@ -84,7 +84,7 @@ public class Koan13
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
 
-        ClientResponse response = client.resource("http://localhost:7474/koan13/David%20Tennant/salary").header(
+        ClientResponse response = client.resource("http://localhost:7474/koan14/David%20Tennant/salary").header(
                 "X-Username", "Alice").header("X-Password", "1337").accept(MediaType.TEXT_PLAIN).get(
                 ClientResponse.class);
 

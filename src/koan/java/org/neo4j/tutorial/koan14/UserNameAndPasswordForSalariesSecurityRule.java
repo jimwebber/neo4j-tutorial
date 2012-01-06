@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan13;
+package org.neo4j.tutorial.koan14;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.server.rest.security.SecurityRule;
@@ -10,13 +10,14 @@ public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
     @Override
     public boolean isAuthorized(HttpServletRequest httpServletRequest, GraphDatabaseService graphDatabaseService)
     {
-        return "Alice".equals(httpServletRequest.getHeader("X-Username")) && "1337".equals(httpServletRequest.getHeader("X-Password"));
+        return "Alice".equals(httpServletRequest.getHeader("X-Username")) && "1337".equals(httpServletRequest.getHeader(
+                "X-Password"));
     }
 
     @Override
     public String forUriPath()
     {
-        return "/koan13";
+        return "/koan14";
     }
 
     @Override
