@@ -17,21 +17,6 @@ public class HomePlanetUnmanagedExtension
     // YOUR CODE GOES HERE
     // SNIPPET_START
 
-    // Alternative version using the core API
-
-//    @Path("/{character}")
-//    @GET
-//    public String findHomePlanetFor(@PathParam("character") String character, @Context GraphDatabaseService db)
-//    {
-//        Node characterNode = db.index().forNodes("characters").get("character", character).getSingle();
-//
-//        if(characterNode != null && characterNode.hasRelationship(DoctorWhoRelationships.COMES_FROM, Direction.OUTGOING)) {
-//            return (String) characterNode.getSingleRelationship(DoctorWhoRelationships.COMES_FROM, Direction.OUTGOING).getEndNode().getProperty("planet");
-//        } else {
-//            throw new NotFoundException(String.format("The specified character [%s] was not found in the database", character));
-//        }
-//    }
-
     @GET
     @Path("/homeplanet")
     public String findHomePlanetFor(@PathParam("character") String character, @Context GraphDatabaseService db)
@@ -45,6 +30,7 @@ public class HomePlanetUnmanagedExtension
 
         ExecutionResult result = engine.execute(cql);
         String planet = (String) result.javaColumnAs("planet.planet").next();
+
         if (planet != null)
         {
             return planet;

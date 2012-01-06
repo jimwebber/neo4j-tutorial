@@ -47,6 +47,23 @@ public class Koan14
     }
 
     @Test
+    public void regularRESTAPIShouldNotBeSecured()
+    {
+        // This unit test provides the client side HTTP actions and assertions.
+        // Your work happens in
+        // org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule
+        // where you have to build the server-side infrastructure to make this Koan pass.
+
+        ClientConfig config = new DefaultClientConfig();
+        Client client = Client.create(config);
+
+        ClientResponse response = client.resource("http://localhost:7474/db/data").get(ClientResponse.class);
+
+        assertEquals(200, response.getStatus());
+
+    }
+
+    @Test
     public void shouldNotAccessDavidTennantSalaryWithoutProperCredentials()
     {
 
@@ -54,9 +71,6 @@ public class Koan14
         // Your work happens in
         // org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule
         // where you have to build the server-side infrastructure to make this Koan pass.
-
-        // Note: this isn't a secure password scheme - this Koan is only to aid
-        // understanding of how to register security rules with the server.
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
