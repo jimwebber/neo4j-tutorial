@@ -1,5 +1,6 @@
 package org.neo4j.tutorial.server;
 
+import org.apache.commons.lang.StringUtils;
 import org.neo4j.server.NeoServerBootstrapper;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.configuration.Configurator;
@@ -7,6 +8,7 @@ import org.neo4j.server.configuration.PropertyFileConfigurator;
 import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecifiedRule;
 import org.neo4j.server.configuration.validation.Validator;
 import org.neo4j.server.modules.*;
+import org.neo4j.server.rest.security.SecurityRule;
 import org.neo4j.server.startup.healthcheck.StartupHealthCheck;
 import org.neo4j.server.startup.healthcheck.StartupHealthCheckRule;
 import org.neo4j.server.web.Jetty6WebServer;
@@ -35,15 +37,8 @@ public class ServerBuilder
     private String webAdminDataUri = "/db/data/";
     private StartupHealthCheck startupHealthCheck;
     private final HashMap<String, String> thirdPartyPackages = new HashMap<String, String>();
+    private String[] securityRuleClassNames = null;
 
-    private static enum WhatToDo
-    {
-        CREATE_GOOD_TUNING_FILE,
-        CREATE_DANGLING_TUNING_FILE_PROPERTY,
-        CREATE_CORRUPT_TUNING_FILE
-    }
-
-    private WhatToDo action;
     private List<Class<? extends ServerModule>> serverModules = null;
 
     public static ServerBuilder server()
@@ -71,7 +66,7 @@ public class ServerBuilder
             startupHealthCheck = mock(StartupHealthCheck.class);
             when(startupHealthCheck.run()).thenReturn(true);
         }
-
+        
         return new NeoServerWithEmbeddedWebServer(new NeoServerBootstrapper(), startupHealthCheck,
                                                   new PropertyFileConfigurator(
                                                           new Validator(new DatabaseLocationMustBeSpecifiedRule()),
@@ -100,6 +95,12 @@ public class ServerBuilder
         writePropertyToFile(Configurator.MANAGEMENT_PATH_PROPERTY_KEY, webAdminUri, temporaryConfigFile);
         writePropertyToFile(Configurator.REST_API_PATH_PROPERTY_KEY, webAdminDataUri, temporaryConfigFile);
 
+        if (securityRuleClassNames != null && securityRuleClassNames.length > 0)
+        {
+            writePropertyToFile(Configurator.SECURITY_RULES_KEY, StringUtils.join(securityRuleClassNames, ","),
+                                temporaryConfigFile);
+        }
+
         if (thirdPartyPackages.keySet()
                               .size() > 0)
         {
@@ -109,8 +110,7 @@ public class ServerBuilder
 
     private void createTuningFile(File temporaryConfigFile) throws IOException
     {
-        if (action == WhatToDo.CREATE_GOOD_TUNING_FILE)
-        {
+
             File databaseTuningPropertyFile = createTempPropertyFile();
             writePropertyToFile("neostore.nodestore.db.mapped_memory", "25M", databaseTuningPropertyFile);
             writePropertyToFile("neostore.relationshipstore.db.mapped_memory", "50M", databaseTuningPropertyFile);
@@ -119,18 +119,7 @@ public class ServerBuilder
             writePropertyToFile("neostore.propertystore.db.arrays.mapped_memory", "130M", databaseTuningPropertyFile);
             writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY,
                                 databaseTuningPropertyFile.getAbsolutePath(), temporaryConfigFile);
-        }
-        else if (action == WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY)
-        {
-            writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY, createTempPropertyFile().getAbsolutePath(),
-                                temporaryConfigFile);
-        }
-        else if (action == WhatToDo.CREATE_CORRUPT_TUNING_FILE)
-        {
-            File corruptTuningFile = trashFile();
-            writePropertyToFile(Configurator.DB_TUNING_PROPERTY_FILE_KEY, corruptTuningFile.getAbsolutePath(),
-                                temporaryConfigFile);
-        }
+
     }
 
     private File trashFile() throws IOException
@@ -231,21 +220,13 @@ public class ServerBuilder
         return this;
     }
 
-    public ServerBuilder withDefaultDatabaseTuning() throws IOException
+    public ServerBuilder withSecurityRules(Class<? extends SecurityRule>... securityRuleClassNames) throws IOException
     {
-        action = WhatToDo.CREATE_GOOD_TUNING_FILE;
-        return this;
-    }
-
-    public ServerBuilder withNonResolvableTuningFile() throws IOException
-    {
-        action = WhatToDo.CREATE_DANGLING_TUNING_FILE_PROPERTY;
-        return this;
-    }
-
-    public ServerBuilder withCorruptTuningFile() throws IOException
-    {
-        action = WhatToDo.CREATE_CORRUPT_TUNING_FILE;
+        this.securityRuleClassNames = new String[securityRuleClassNames.length];
+        for (int i = 0; i < securityRuleClassNames.length; i++)
+        {
+            this.securityRuleClassNames[i] = securityRuleClassNames[i].getCanonicalName();
+        }
         return this;
     }
 

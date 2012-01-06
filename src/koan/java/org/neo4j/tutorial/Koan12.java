@@ -32,7 +32,7 @@ public class Koan12
         NeoServerWithEmbeddedWebServer server = ServerBuilder
                 .server()
                 .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
-                .withThirdPartyJaxRsPackage("org.neo4j.tutorial", "/koan12")
+                .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan12", "/koan12")
                 .build();
 
         universe = new ServerDoctorWhoUniverse(server, doctorWhoUniverseGenerator);
@@ -48,8 +48,9 @@ public class Koan12
     public void shouldReturnTheDoctorsHomePlanetName() throws Exception
     {
         // This unit test provides the client side HTTP actions and assertions.
-        // Your work happens in Koan12Plugin where you have to build the server-side
-        // infrastructure to make this Koan pass.
+        // Your work happens in org.neo4j.tutorial.koan12.HomePlanetUnmanagedExtension
+        // where you have to build the server-side infrastructure to make this
+        // Koan pass.
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
