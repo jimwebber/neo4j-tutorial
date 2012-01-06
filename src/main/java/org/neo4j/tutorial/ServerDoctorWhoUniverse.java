@@ -7,7 +7,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
-import org.neo4j.tutorial.server.ServerBuilder;
 import org.neo4j.tutorial.server.rest.FunctionalTestHelper;
 
 import javax.ws.rs.core.MediaType;
@@ -18,13 +17,9 @@ public class ServerDoctorWhoUniverse
 
     private final NeoServerWithEmbeddedWebServer server;
 
-    public ServerDoctorWhoUniverse(DoctorWhoUniverseGenerator universe) throws Exception
+    public ServerDoctorWhoUniverse(NeoServerWithEmbeddedWebServer server, DoctorWhoUniverseGenerator universe) throws Exception
     {
-        super();
-        server = ServerBuilder
-                .server()
-                .usingDatabaseDir(universe.getDatabaseDirectory())
-                .build();
+        this.server = server;
         server.start();
     }
 

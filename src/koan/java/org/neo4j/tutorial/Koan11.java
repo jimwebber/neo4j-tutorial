@@ -17,7 +17,9 @@ import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
 import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.AbstractGraphDatabase;
+import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.rest.domain.JsonHelper;
+import org.neo4j.tutorial.server.ServerBuilder;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
 import org.neo4j.tutorial.server.rest.RelationshipDescription;
 import org.neo4j.tutorial.server.rest.TraversalDescription;
@@ -42,7 +44,14 @@ public class Koan11
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new ServerDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+        DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
+
+        NeoServerWithEmbeddedWebServer server = ServerBuilder
+                .server()
+                .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
+                .build();
+
+        universe = new ServerDoctorWhoUniverse(server, doctorWhoUniverseGenerator);
     }
 
     @AfterClass
