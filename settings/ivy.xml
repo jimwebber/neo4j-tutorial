@@ -8,6 +8,7 @@
             <artifact name="neo4j-server" m:classifier="tests" ext="jar"/>
 			<exclude org="org.slf4j" />
         </dependency>
+        <dependency org="org.neo4j" name="server-api" rev="1.6-SNAPSHOT"/>
         <dependency org="org.neo4j" name="neo4j-community" rev="1.6-SNAPSHOT"/>
         <dependency org="org.neo4j" name="neo4j-kernel" rev="1.6-SNAPSHOT">
             <artifact name="neo4j-kernel" ext="jar"/>

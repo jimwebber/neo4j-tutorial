@@ -119,6 +119,14 @@
         <koan number="12"/>
     </target>
 
+    <target name="run.koan13" depends="test, compile.koans">
+        <koan number="13"/>
+    </target>
+
+    <target name="run.koan14" depends="test, compile.koans">
+        <koan number="14"/>
+    </target>
+
 
     <target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
         <mkdir dir="${main.target}"/>

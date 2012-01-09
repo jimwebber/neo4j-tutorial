@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/activation.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/ant.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/antlr.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/asm-analysis.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/asm-commons.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/asm-tree.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/asm-util.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/asm.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/blueprints-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/blueprints-neo4j-graph.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/cal10n-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/cdi-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-beanutils-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-beanutils.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-collections.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-configuration.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-digester.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-io.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-lang.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/commons-logging.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/geronimo-jta_1.1_spec.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/gremlin-groovy.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/gremlin-java.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/groovy.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/guava.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jackson-core-asl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jackson-jaxrs.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jackson-mapper-asl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jansi.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javassist.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.annotation.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.ejb.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.inject.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.servlet-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.transaction.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jaxb-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss-interceptor-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss-interceptor-spi.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss-interceptors-api_1.1_spec.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/je.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jersey-client.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jersey-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jersey-multipart.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jersey-server.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jettison.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jetty-util.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jetty.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jsp-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jsr250-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jsr311-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/junit.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/lucene-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mail.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mimepull.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mockito-all.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mongo-java-driver.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-community.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-cypher.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-graph-algo.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-graph-matching.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-jmx.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-kernel-tests.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-kernel.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-lucene-index.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-server-static-web.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-server-tests.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-server.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-shell.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/neo4j-udc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/org.apache.servicemix.bundles.jline.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/osgi_R4_compendium.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/osgi_R4_core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/persistence-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/pipes.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/rrd4j.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/scala-library.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/server-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/servlet-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/slf4j-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/slf4j-ext.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/slf4j-jdk14.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/stax-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/weld-api.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/weld-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/weld-osgi-bundle.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/weld-spi.jar!/" />
+    <src_description expected_position="1">
+      <src_folder value="file://$MODULE_DIR$/src/main/java" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/src/test/java" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/src/koan/java" expected_position="3" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/koan/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="activation.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/activation.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="antlr.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/antlr.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-analysis.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/asm-analysis.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-commons.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/asm-commons.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-tree.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/asm-tree.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-util.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/asm-util.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/asm.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="blueprints-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/blueprints-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="blueprints-neo4j-graph.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/blueprints-neo4j-graph.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="cal10n-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/cal10n-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="cdi-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/cdi-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-beanutils-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-beanutils-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-beanutils.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-beanutils.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-collections.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-collections.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-configuration.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-configuration.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-digester.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-digester.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-io.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-lang.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-lang.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-logging.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-logging.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="geronimo-jta_1.1_spec.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/geronimo-jta_1.1_spec.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gremlin-groovy.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/gremlin-groovy.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gremlin-java.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/gremlin-java.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="groovy.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/groovy.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="guava.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/guava.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-core-asl.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jackson-core-asl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-jaxrs.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jackson-jaxrs.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-mapper-asl.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jackson-mapper-asl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jansi.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jansi.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javassist.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javassist.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.annotation.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.annotation.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.ejb.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.ejb.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.inject.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.inject.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.servlet-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.servlet-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.transaction.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.transaction.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jaxb-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jaxb-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jboss-interceptor-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-interceptor-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jboss-interceptor-spi.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-interceptor-spi.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jboss-interceptors-api_1.1_spec.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-interceptors-api_1.1_spec.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="je.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/je.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-client.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jersey-client.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jersey-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-multipart.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jersey-multipart.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-server.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jersey-server.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jettison.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jettison.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-util.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jetty-util.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jetty.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsp-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jsp-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsr250-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jsr250-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsr311-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jsr311-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lucene-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/lucene-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mail.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mail.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mimepull.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mimepull.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mockito-all.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mockito-all.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mongo-java-driver.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mongo-java-driver.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-community.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-community.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-cypher.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-cypher.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-graph-algo.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-graph-algo.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-graph-matching.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-graph-matching.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-jmx.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-jmx.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-kernel-tests.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-kernel-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-kernel.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-kernel.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-lucene-index.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-lucene-index.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-server-static-web.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-server-static-web.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-server-tests.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-server-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-server.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-server.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-shell.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-shell.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="neo4j-udc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/neo4j-udc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="org.apache.servicemix.bundles.jline.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/org.apache.servicemix.bundles.jline.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="osgi_R4_compendium.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/osgi_R4_compendium.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="osgi_R4_core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/osgi_R4_core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="persistence-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/persistence-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="pipes.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/pipes.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="rrd4j.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/rrd4j.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="scala-library.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/scala-library.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="server-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/server-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="servlet-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/servlet-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-ext.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-ext.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-jdk14.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-jdk14.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="stax-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/stax-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="weld-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/weld-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="weld-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/weld-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="weld-osgi-bundle.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/weld-osgi-bundle.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="weld-spi.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/weld-spi.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+
