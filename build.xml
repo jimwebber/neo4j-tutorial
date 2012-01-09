@@ -43,7 +43,7 @@
         <tstamp>
             <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
-        <copy file="src/main/resources/version.txt" todir="${main.target}" overwrite="true">
+        <copy file="src/koan/resources/version.txt" todir="${main.target}" overwrite="true">
             <filterset>
                 <filter token="BUILD_DATE" value="${build.timestamp}"/>
             </filterset>

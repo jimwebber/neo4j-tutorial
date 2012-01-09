@@ -50,24 +50,32 @@ public class Koan13
 
 
     @Test
-    public void shouldFindAwesomenessRatingsForTheDoctorRoseGallifreyAndEarth() throws Exception
+    public void shouldFindAwesomenessRatingsRoseTyler() throws Exception
     {
+        // This unit test provides the client side HTTP actions and assertions.
+        // Your work happens in
+        // org.neo4j.tutorial.koan13.AwesomenessServerPlugin
+        // where you have to build the server plugin implementation to make this Koan pass.
+
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
 
-        WebResource resource = client.resource("http://localhost:7474/db/data/index/node/characters/character/Doctor");
+        WebResource resource = client.resource("http://localhost:7474/db/data/index/node/characters/character/Rose%20Tyler");
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
-        List<Map<String, Object>> json = JsonHelper.jsonToList(response.getEntity(String.class));
-        URI doctorsAwesomeness = extractAwesomenessUri(json);
+        List<Map<String, Object>> json =  JsonHelper.jsonToList(response.getEntity(String.class));
+        URI roseAwesomeness = extractAwesomenessUri(json);
 
-
+        response = client.resource(roseAwesomeness).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class);
 
         assertEquals(200, response.getStatus());
+        assertEquals(50.0, Double.valueOf(response.getEntity(String.class)));
     }
 
-    private URI extractAwesomenessUri(List<Map<String, Object>> json)
+    private URI extractAwesomenessUri(List<Map<String, Object>> json) throws Exception
     {
-        return null;
+        Map<String, Map<String, String>> extensions = (Map<String, Map<String, String>>) json.get(0).get("extensions");
+        String s = extensions.get("AwesomenessServerPlugin").get("awesomeness");
+        return new URI(s);
     }
 }
