@@ -50,7 +50,7 @@
         <javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.6"/>
     </target>
 
-    <target name="test" depends="clean, compile, compile.tests">
+    <target name="test" depends="compile, compile.tests">
         <fileset id="unittest.source.files" dir="${test.src}">
             <include name="**/*Test*.java"/>
         </fileset>

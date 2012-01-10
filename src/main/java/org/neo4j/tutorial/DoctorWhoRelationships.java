@@ -18,5 +18,7 @@ public enum DoctorWhoRelationships implements RelationshipType
     ALLY_OF,
     COMPOSED_OF,
     ORIGINAL_PROP,
+    PREVIOUS,
+    NEXT,
     MEMBER_OF
 }

@@ -45,6 +45,31 @@ public class DoctorWhoUniverseGeneratorTest
         database.shutdown();
     }
 
+    @Test
+    public void shouldHaveCorrectNextAndPreviousLinks()
+    {
+
+        Node ep = universe.getDatabase().index().forNodes("episodes").get("episode", 1).getSingle();
+
+        int count = 1;
+        while (ep.hasRelationship(DoctorWhoRelationships.NEXT, Direction.OUTGOING))
+        {
+            ep = ep.getSingleRelationship(DoctorWhoRelationships.NEXT, Direction.OUTGOING).getEndNode();
+            count++;
+        }
+
+        assertEquals(databaseHelper.count(universe.getDatabase().index().forNodes("episodes").query("episode", "*")),
+                     count);
+
+        while (ep.hasRelationship(DoctorWhoRelationships.PREVIOUS, Direction.OUTGOING))
+        {
+            ep = ep.getSingleRelationship(DoctorWhoRelationships.PREVIOUS, Direction.OUTGOING).getEndNode();
+            count--;
+        }
+
+        assertEquals(1, count);
+    }
+
     @SuppressWarnings("unused")
     @Test
     public void shouldHaveCorrectNumberOfPlanetsInIndex()

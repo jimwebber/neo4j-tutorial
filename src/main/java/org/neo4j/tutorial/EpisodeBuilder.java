@@ -23,7 +23,9 @@ public class EpisodeBuilder
     private String[] allies;
     private List<String> alliedSpecies = new ArrayList<String>();
 
-    private EpisodeBuilder(String episodeNumber)
+    private static Node previousEpisode = null;
+    
+    public EpisodeBuilder(String episodeNumber)
     {
         this.episodeNumber = episodeNumber;
     }
@@ -135,6 +137,17 @@ public class EpisodeBuilder
             }
         }
 
+        linkToPrevious(episode, db);
+    }
+
+    private void linkToPrevious(Node episode, GraphDatabaseService db)
+    {
+        if(previousEpisode != null) {
+            previousEpisode.createRelationshipTo(episode, DoctorWhoRelationships.NEXT);
+            episode.createRelationshipTo(previousEpisode, DoctorWhoRelationships.PREVIOUS);
+        }
+
+        previousEpisode = episode;
     }
 
     private void ensureDoctorActorsAreInDb(GraphDatabaseService db, Node episode)

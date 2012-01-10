@@ -19,7 +19,6 @@ public class DoctorWhoUniverseGenerator
         addDalekProps(db);
         db.shutdown();
     }
-
     private void addActors(GraphDatabaseService db)
     {
         Actors actors = new Actors(db);
