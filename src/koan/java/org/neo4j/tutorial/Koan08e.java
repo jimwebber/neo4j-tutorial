@@ -30,13 +30,17 @@ public class Koan08e
     @Test
     public void shouldFindTheNumberOfEpisodesUsingShortestPath() throws Exception
     {
+        // Some free domain knowledge here :-)
+        final int first = 1;
+        final int mostRecent = 224;
+        
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start first=node:episodes(episode='1'), last=node:episodes(episode='224') "
+        cql = String.format("start first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first, mostRecent)
             + "match path = shortestPath( first-[*..500]->last )"
             + "return length(path) as episodes";
 
