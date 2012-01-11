@@ -24,10 +24,15 @@ public class EpisodeBuilder
     private List<String> alliedSpecies = new ArrayList<String>();
 
     private static Node previousEpisode = null;
-    
+
     public EpisodeBuilder(String episodeNumber)
     {
         this.episodeNumber = episodeNumber;
+    }
+
+    public static void reset()
+    {
+        previousEpisode = null;
     }
 
     public static EpisodeBuilder episode(int episodeNumber)
@@ -142,7 +147,8 @@ public class EpisodeBuilder
 
     private void linkToPrevious(Node episode, GraphDatabaseService db)
     {
-        if(previousEpisode != null) {
+        if (previousEpisode != null)
+        {
             previousEpisode.createRelationshipTo(episode, DoctorWhoRelationships.NEXT);
             episode.createRelationshipTo(previousEpisode, DoctorWhoRelationships.PREVIOUS);
         }

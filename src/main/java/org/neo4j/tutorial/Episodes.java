@@ -92,6 +92,9 @@ public class Episodes
                     .doctor("Matt Smith")
                     .alliedSpecies("human")
                     .fact(db);
+            
+            EpisodeBuilder.reset();
+            
             tx.success();
         } finally
         {
@@ -529,21 +532,21 @@ public class Episodes
 
     private void season26()
     {
-        episode(151).title("Battlefield")
+        episode(152).title("Battlefield")
                 .doctor("Sylvester McCoy")
                 .companion("Ace")
                 .fact(db);
-        episode(152).title("Ghost Light")
+        episode(153).title("Ghost Light")
                 .doctor("Sylvester McCoy")
                 .companion("Ace")
                 .enemy("Josiah Samuel Smith")
                 .fact(db);
-        episode(153).title("The Curse of Fenric")
+        episode(154).title("The Curse of Fenric")
                 .doctor("Sylvester McCoy")
                 .companion("Ace")
                 .enemy("Fenric")
                 .fact(db);
-        episode(154).title("Survival")
+        episode(155).title("Survival")
                 .doctor("Sylvester McCoy")
                 .companion("Ace")
                 .enemy("Master")

@@ -12,8 +12,6 @@
         <mkdir dir="${lib.dir}"/>
         <ivy:settings file="${settings.dir}/ivysettings.xml"/>
         <ivy:resolve file="${settings.dir}/ivy.xml"/>
-        <!-- <ivy:retrieve type="jar" changing="true"/>
-        <ivy:retrieve type="bundle" changing="true"/> -->
 
 		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact](-[classifier]).[ext]" changing="true"/>
 				<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
