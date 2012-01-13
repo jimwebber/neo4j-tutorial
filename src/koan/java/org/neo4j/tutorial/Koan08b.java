@@ -170,29 +170,32 @@ public class Koan08b
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
+        
+        System.out.println(result.dumpToString()    );
+        
         assertThat(result.dumpToString(), containsString(
-                "+----------------------------------------------------------------------------------------------------------+\n" +
-                        "| episode.episode | episode.title              | species                   | characters                    |\n" +
-                        "+----------------------------------------------------------------------------------------------------------+\n" +
-                        "| 116             | Castrovalva                | List(null)                | List(Master)                  |\n" +
-                        "| 118             | Kinda                      | List(null)                | List(Mara)                    |\n" +
-                        "| 119             | The Visitation             | List(null)                | List(Terileptils)             |\n" +
-                        "| 121             | Earthshock                 | List(Cyberman)            | List(null)                    |\n" +
-                        "| 122             | Time-Flight                | List(null)                | List(Master)                  |\n" +
-                        "| 123             | Arc of Infinity            | List(null)                | List(Omega)                   |\n" +
-                        "| 124             | Snakedance                 | List(null)                | List(Mara)                    |\n" +
-                        "| 125             | Mawdryn Undead             | List(null, null)          | List(Mawdryn, Black Guardian) |\n" +
-                        "| 126             | Terminus                   | List(null)                | List(Vanir)                   |\n" +
-                        "| 127             | Enlightenment              | List(null)                | List(Black Guardian)          |\n" +
-                        "| 128             | The King's Demons          | List(null)                | List(Master)                  |\n" +
-                        "| 129             | The Five Doctors           | List(Dalek, null)         | List(null, Master)            |\n" +
-                        "| 130             | Warriors of the Deep       | List(Silurian, Sea Devil) | List(null, null)              |\n" +
-                        "| 131             | The Awakening              | List(null)                | List(Malus)                   |\n" +
-                        "| 132             | Frontios                   | List(Tractator)           | List(null)                    |\n" +
-                        "| 133             | Resurrection of the Daleks | List(Dalek)               | List(null)                    |\n" +
-                        "| 134             | Planet of Fire             | List(null)                | List(Master)                  |\n" +
-                        "| 135             | The Caves of Androzani     | List(null)                | List(Master)                  |\n" +
-                        "+----------------------------------------------------------------------------------------------------------+"
+                "+------------------------------------------------------------------------------------------------------------+\n" +
+                        "| episode.episode | episode.title                | species                   | characters                    |\n" +
+                        "+------------------------------------------------------------------------------------------------------------+\n" +
+                        "| \"116\"           | \"Castrovalva\"                | List(null)                | List(Master)                  |\n" +
+                        "| \"118\"           | \"Kinda\"                      | List(null)                | List(Mara)                    |\n" +
+                        "| \"119\"           | \"The Visitation\"             | List(null)                | List(Terileptils)             |\n" +
+                        "| \"121\"           | \"Earthshock\"                 | List(Cyberman)            | List(null)                    |\n" +
+                        "| \"122\"           | \"Time-Flight\"                | List(null)                | List(Master)                  |\n" +
+                        "| \"123\"           | \"Arc of Infinity\"            | List(null)                | List(Omega)                   |\n" +
+                        "| \"124\"           | \"Snakedance\"                 | List(null)                | List(Mara)                    |\n" +
+                        "| \"125\"           | \"Mawdryn Undead\"             | List(null, null)          | List(Mawdryn, Black Guardian) |\n" +
+                        "| \"126\"           | \"Terminus\"                   | List(null)                | List(Vanir)                   |\n" +
+                        "| \"127\"           | \"Enlightenment\"              | List(null)                | List(Black Guardian)          |\n" +
+                        "| \"128\"           | \"The King's Demons\"          | List(null)                | List(Master)                  |\n" +
+                        "| \"129\"           | \"The Five Doctors\"           | List(Dalek, null)         | List(null, Master)            |\n" +
+                        "| \"130\"           | \"Warriors of the Deep\"       | List(Silurian, Sea Devil) | List(null, null)              |\n" +
+                        "| \"131\"           | \"The Awakening\"              | List(null)                | List(Malus)                   |\n" +
+                        "| \"132\"           | \"Frontios\"                   | List(Tractator)           | List(null)                    |\n" +
+                        "| \"133\"           | \"Resurrection of the Daleks\" | List(Dalek)               | List(null)                    |\n" +
+                        "| \"134\"           | \"Planet of Fire\"             | List(null)                | List(Master)                  |\n" +
+                        "| \"135\"           | \"The Caves of Androzani\"     | List(null)                | List(Master)                  |\n" +
+                        "+------------------------------------------------------------------------------------------------------------+"
         ));
 
         final List<String> columnNames = result.javaColumns();
