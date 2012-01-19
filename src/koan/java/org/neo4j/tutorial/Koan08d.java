@@ -47,4 +47,29 @@ public class Koan08d
 
         assertEquals(5, result.javaColumnAs("regenerations").next());
     }
+
+    @Test
+    public void shouldFindTheLongestContinuousStoryArcWithTheMaster() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start master = node:characters(character = 'Master')\n" +
+                "match (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
+                "where all(ep in nodes(storyArcs) where master-[:APPEARED_IN]->ep)"+
+                "return length(storyArcs) as noOfPathHops\n" +
+                "order by noOfPathHops desc limit 1";
+
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+
+        // noOfPathHops is one less than the number of episodes in a story arc
+        final int noOfStories = 5;
+        assertEquals(noOfStories - 1, result.javaColumnAs("noOfPathHops").next());
+    }
 }

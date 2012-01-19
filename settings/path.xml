@@ -12,6 +12,7 @@
     <property name="test.target" location="${target}/test/classes"/>
     <property name="test.reports" location="${target}/test/reports"/>
     <property name="koan.src" location="src/koan/java"/>
+    <property name="koan.resource" location="src/koan/resources"/>
     <property name="koan.target" location="${target}/koan/classes"/>
     <property name="koan.reports" location="${target}/koan/reports"/>
 

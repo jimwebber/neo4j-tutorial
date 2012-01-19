@@ -135,6 +135,7 @@
                 <source path="${main.src}"/>
                 <source path="${test.src}"/>
                 <source path="${koan.src}"/>
+                <source path="${koan.resource}"/>
                 <output path="${target}"/>
             </classpath>
         </eclipse>
