@@ -49,6 +49,16 @@ The sed script removes all lines between
 
 in the Koans, leaving them compiling but failing. 
 
+If you want to run individual Koans (rather than all of them) then just type the specific Koan's target on the command line. For example to run Koan 5:
+
+   ant run.koan05
+
+and to run all of Koan 8 (which has many parts):
+
+   ant run.koan08
+
+If you're already wired for an IDE, you can of course just use your favourite development environment to run the Koans too.
+
 I want my IDE
 -------------
 
@@ -76,7 +86,8 @@ Live Sessions
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London, UK
-* April 2011 at [ScanDev] (http://www.scandevconf.se/2012/conference/tutorials/tutorial/?tId=4) Gothenburg, Sweden
+* March 2012 at [QCon London] (http://qconlondon.com/london-2012/presentations/show_presentation.jsp?oid=3888) London, UK
+* April 2012 at [ScanDev] (http://www.scandevconf.se/2012/conference/tutorials/tutorial/?tId=4) Gothenburg, Sweden
 
 Authors <a name="authors">
 -------
@@ -92,6 +103,8 @@ Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 [Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
 
 [Aleksa Vukotic](http://aleksavukotic.com), [@aleksavukotic](http://twitter.com/aleksavukotic)
+
+Niklas Uhrberg
 
 [Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
 
