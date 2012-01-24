@@ -170,9 +170,7 @@ public class Koan08b
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
-        
-        System.out.println(result.dumpToString()    );
-        
+
         assertThat(result.dumpToString(), containsString(
                 "+------------------------------------------------------------------------------------------------------------+\n" +
                         "| episode.episode | episode.title                | species                   | characters                    |\n" +

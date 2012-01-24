@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
 {
-    @Override
     public boolean isAuthorized(HttpServletRequest httpServletRequest)
     {
         boolean loggedIn = false;
@@ -22,7 +21,6 @@ public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
         return loggedIn;
     }
 
-    @Override
     public String forUriPath()
     {
         String uriPath = null;
@@ -37,7 +35,6 @@ public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
         return uriPath;
     }
 
-    @Override
     public String wwwAuthenticateHeader()
     {
         String message = null;
