@@ -62,7 +62,7 @@
     </target>
 
     <target name="run.koans"
-            depends="test, compile.koans, run.koan01, run.koan02, run.koan03, run.koan04, run.koan05, run.koan06, run.koan07, run.koan08, run.koan09, run.koan10, run.koan11, run.koan12"/>
+            depends="test, compile.koans, run.koan01, run.koan02, run.koan03, run.koan04, run.koan05, run.koan06, run.koan07, run.koan08, run.koan09, run.koan10, run.koan11, run.koan12, run.koan13, run.koan14"/>
 
     <target name="run.koan01" depends="test, compile.koans">
         <koan number="01"/>
