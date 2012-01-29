@@ -8,12 +8,12 @@ This set of Koans will provide practical guidance for getting to grips with grap
 What are Koans?
 ---------------
 
-The Koan idea was borrowed from the [Ruby Koans](http://rubykoans.com/) which provide a number of broken unit tests, and in fixing those tests increasingly advanced facets of Ruby are explored. The Koan model provides very rapid feedback and a structured learning path wrapped in a pre-configured environment that gets us up and running very quickly. These are very desirable characteristics when it comes to learning Neo4j, and so these Koans have adopted the same model - there are a set of (broken) unit tests, and in fixing each of them we learn some aspect of using Neo4j. As we work forwards through the Koans we'll learn more sophisticated APIs, query languages and techniques and by the end of the Koans we'll feel supremely confident about using Neo4j in production.
+The Koan idea was borrowed from the [Ruby Koans](http://rubykoans.com/) which provide a number of broken unit tests, and in fixing those tests increasingly advanced facets of Ruby are explored. The Koan model provides very rapid feedback and a structured learning path wrapped in a pre-configured environment that gets us up and running very quickly. These are very desirable characteristics when it comes to learning Neo4j, and so these Koans have adopted the same model: there are a set of (broken) unit tests, and in fixing each of them we learn some aspect of using Neo4j. As we work forwards through the Koans we'll learn more sophisticated APIs, query languages and techniques and by the end of the Koans we'll feel supremely confident about using Neo4j in production.
 
 Prerequisites
 -------------
 
-You'll need to be familiar with the Java programming language, and it'd be helpful if you understood unit testing too. If you like a particular IDE like Eclipse or IntelliJ, that's fine but you can run these Koans from the command line if that's the way you're wired. All the graph database knowledge you'll needed will be developed as part of completing the Koans. 
+You'll need to be familiar with the Java programming language, and it'd be helpful if you understood unit testing too. If you like a particular IDE like Eclipse or IntelliJ, that's fine but you can run these Koans from the command line if that's the way you're wired. All the graph database knowledge you'll need will be developed as part of completing the Koans.
 
 Setting up Koans
 ----------------
