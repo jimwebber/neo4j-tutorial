@@ -3,7 +3,7 @@ package org.neo4j.tutorial.matchers;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import java.util.HashSet;
 import java.util.Set;

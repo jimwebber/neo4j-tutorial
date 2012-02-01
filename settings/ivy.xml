@@ -23,6 +23,7 @@
         <dependency org="com.sun.jersey" name="jersey-core" rev="1.9"/>
         <dependency org="com.sun.jersey" name="jersey-server" rev="1.9"/>
         <dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
-        <dependency org="junit" name="junit" rev="4.7"/>
+        <dependency org="junit" name="junit" rev="4.10"/>
+        <dependency org="org.hamcrest" name="hamcrest-all" rev="1.2"/>
     </dependencies>
 </ivy-module>
