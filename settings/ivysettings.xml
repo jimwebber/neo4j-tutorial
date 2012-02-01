@@ -9,7 +9,7 @@
 			<ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true"/>
 			<ibiblio name="springframework" root="http://maven.springframework.org/release" m2compatible="true"/>
 			<ibiblio name="springframework_milestone" root="http://maven.springframework.org/milestone" m2compatible="true"/>
-			<ibiblio name="jacorb" root="http://maven.ow2.org/maven2/" m2compatible="true"/>
+			<ibiblio name="ow2" root="http://maven.ow2.org/maven2/" m2compatible="true"/>
 			<ibiblio name="oracle" root="http://download.oracle.com/maven" m2compatible="true"/>
 		</chain>
 	</resolvers>
