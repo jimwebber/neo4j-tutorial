@@ -37,12 +37,6 @@
                     <istrue value="@{failbuild}"/>
                 </and>
             </condition>
-            <move todir="@{outputdir}" includeemptydirs="false">
-                <fileset dir="@{outputdir}">
-                    <exclude name="**/*.xml"/>
-                </fileset>
-                <mapper type="glob" from="*" to="*.xml"/>
-            </move>
             <antcall target="-generate_junit_report_and_fail">
                 <param name="_junit_report_dir_" value="@{outputdir}"/>
             </antcall>
