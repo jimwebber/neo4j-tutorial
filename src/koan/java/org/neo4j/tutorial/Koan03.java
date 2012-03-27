@@ -75,7 +75,8 @@ public class Koan03
               .forNodes("characters")
               .add(abigailPettigrew, "character", abigailPettigrew.getProperty("character"));
             transaction.success();
-        } finally
+        }
+        finally
         {
             transaction.finish();
         }
@@ -129,7 +130,8 @@ public class Koan03
             }
             cyberleader.delete();
             tx.success();
-        } finally
+        }
+        finally
         {
             tx.finish();
         }
@@ -142,7 +144,8 @@ public class Koan03
         {
             db.getNodeById(cyberleader.getId());
             fail("Cyberleader has not been deleted from the database.");
-        } catch (NotFoundException nfe)
+        }
+        catch (NotFoundException nfe)
         {
         }
     }
@@ -164,7 +167,8 @@ public class Koan03
             abigailPettigrew = db.createNode();
             abigailPettigrew.setProperty("character", "Abigail Pettigrew");
             tx.success();
-        } finally
+        }
+        finally
         {
             tx.finish();
         }

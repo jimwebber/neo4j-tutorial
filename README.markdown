@@ -86,8 +86,10 @@ Live Sessions
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London, UK
-* March 2012 at [QCon London] (http://qconlondon.com/london-2012/presentations/show_presentation.jsp?oid=3888) London, UK
 * April 2012 at [ScanDev] (http://www.scandevconf.se/2012/conference/tutorials/tutorial/?tId=4) Gothenburg, Sweden
+* May 2012 at [Gotocon Amsterdam](http://gotocon.com/amsterdam-2011/presentations/show_presentation.jsp?oid=3273)
+* June 2012 at [QCon NYC](http://qconnewyork.com/qcon-nyc-2012/presentations/show_presentation.jsp?oid=4078)
+* October 2012 at [Gotocon Århus](http://gotocon.com/aarhus-2012/presentations/show_presentation.jsp?oid=3967)
 
 Authors <a name="authors">
 -------
@@ -96,15 +98,19 @@ Authors <a name="authors">
 
 [Tobias Ivarsson](http://www.thobe.org/), [@thobe](http://twitter.com/thobe)
 
+Alistair Jones, [@apcj](http://twitter.com/apcj)
+
 Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
 [Michael Peterson](http://thornydev.blogspot.com/), [@midpeter444](http://twitter.com/midpeter444)
 
 [Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
 
-[Aleksa Vukotic](http://aleksavukotic.com), [@aleksavukotic](http://twitter.com/aleksavukotic)
+Andres Taylor, [@andres_taylor](http://twitter.com/andres_taylor)
 
 Niklas Uhrberg
+
+[Aleksa Vukotic](http://aleksavukotic.com), [@aleksavukotic](http://twitter.com/aleksavukotic)
 
 [Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
 
