@@ -1,5 +1,6 @@
 package org.neo4j.tutorial.server.rest;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.server.NeoServerWithEmbeddedWebServer;
 import org.neo4j.server.rest.domain.JsonHelper;
@@ -157,7 +158,7 @@ public final class FunctionalTestHelper
         return extensionUri(name) + "/relationship/" + id + "/" + method;
     }
 
-    public AbstractGraphDatabase getDatabase()
+    public GraphDatabaseService getDatabase()
     {
         return server.getDatabase().graph;
     }

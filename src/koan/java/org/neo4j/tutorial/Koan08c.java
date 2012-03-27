@@ -71,7 +71,7 @@ public class Koan08c
 
         ExecutionResult result = engine.execute(cql);
 
-        assertHardestWorkingPropParts(result.javaIterator(), "Dalek 1", "shoulder", 15);
+        assertHardestWorkingPropParts(result.javaIterator(), "Dalek 1", "shoulder", 15l);
 
     }
 

@@ -739,6 +739,7 @@ public class Episodes
         episode(117).title("Four to Doomsday")
                 .doctor("Peter Davison")
                 .companion("Adric", "Nyssa", "Tegan Jovanka")
+                .enemy("Monarch")
                 .fact(db);
         episode(118).title("Kinda")
                 .doctor("Peter Davison")
@@ -753,6 +754,7 @@ public class Episodes
         episode(120).title("Black Orchid")
                 .doctor("Peter Davison")
                 .companion("Adric", "Nyssa", "Tegan Jovanka")
+                .enemy("George Cranleigh")
                 .fact(db);
         episode(121).title("Earthshock")
                 .doctor("Peter Davison")

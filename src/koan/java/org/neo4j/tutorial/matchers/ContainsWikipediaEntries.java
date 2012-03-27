@@ -7,9 +7,10 @@ import org.hamcrest.TypeSafeMatcher;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterable<String>>
+public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
 {
 
     private final Set<String> entries = new HashSet<String>();
@@ -24,10 +25,11 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterable<String>>
     }
 
     @Override
-    public boolean matchesSafely(Iterable<String> candidateStrings)
+    public boolean matchesSafely(Iterator<String> candidateStrings)
     {
-        for (String s : candidateStrings)
+        while(candidateStrings.hasNext())
         {
+            String s = candidateStrings.next();
             if (s != null)
             {
                 entries.remove(s);
@@ -38,7 +40,7 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterable<String>>
     }
 
     @Factory
-    public static Matcher<Iterable<String>> containsWikipediaEntries(String... wikepediaEntries)
+    public static Matcher<Iterator<String>> containsWikipediaEntries(String... wikepediaEntries)
     {
         return new ContainsWikipediaEntries(wikepediaEntries);
     }

@@ -74,7 +74,7 @@ public class Koan08a
 
         ExecutionResult result = engine.execute(cql);
 
-        assertEquals(246, result.javaColumnAs("count(episodes)").next());
+        assertEquals(246l, result.javaColumnAs("count(episodes)").next());
     }
 
     @Test
