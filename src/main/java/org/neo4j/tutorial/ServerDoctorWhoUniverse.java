@@ -14,10 +14,9 @@ import java.util.Map;
 
 public class ServerDoctorWhoUniverse
 {
-
     private final NeoServerWithEmbeddedWebServer server;
 
-    public ServerDoctorWhoUniverse(NeoServerWithEmbeddedWebServer server, DoctorWhoUniverseGenerator universe) throws Exception
+    public ServerDoctorWhoUniverse( NeoServerWithEmbeddedWebServer server ) throws Exception
     {
         this.server = server;
         server.start();

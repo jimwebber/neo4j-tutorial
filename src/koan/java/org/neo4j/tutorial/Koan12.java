@@ -35,7 +35,7 @@ public class Koan12
                 .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan12", "/koan12")
                 .build();
 
-        universe = new ServerDoctorWhoUniverse(server, doctorWhoUniverseGenerator);
+        universe = new ServerDoctorWhoUniverse(server );
     }
 
     @AfterClass

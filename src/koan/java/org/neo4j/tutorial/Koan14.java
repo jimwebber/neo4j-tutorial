@@ -37,7 +37,7 @@ public class Koan14
                         .withSecurityRules(UserNameAndPasswordForSalariesSecurityRule.class)
                         .build();
 
-        universe = new ServerDoctorWhoUniverse(server, doctorWhoUniverseGenerator);
+        universe = new ServerDoctorWhoUniverse(server );
     }
 
     @AfterClass
