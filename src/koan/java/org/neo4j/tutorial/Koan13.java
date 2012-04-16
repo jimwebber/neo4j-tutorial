@@ -60,6 +60,7 @@ public class Koan13
 
         // Remember to configure src/koan/resources as test source in your IDE or the org.neo4j.server.plugins.ServerPlugin
         // file will not be found and this unit test will fail (the Ant build will still be ok)
+        // See: http://www.markhneedham.com/blog/2011/06/09/intellij-adding-resources-with-unusual-extensions-onto-the-classpath/
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
