@@ -9,8 +9,12 @@ import static org.junit.Assert.*;
 
 /**
  * This first programming Koan will get you started with the basics of managing
- * nodes and relationships with the core API. It will also introduce you to the
- * earliest Doctor Who storylines!
+ * nodes and relationships with the core API.
+ *
+ * We'll also have think about transaction semantics (read uncommitted!)
+ * and neo4j's caching infrastructure
+ *
+ * It will also introduce you to the earliest Doctor Who storylines!
  */
 public class Koan02
 {
