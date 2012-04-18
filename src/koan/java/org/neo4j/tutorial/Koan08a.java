@@ -97,10 +97,13 @@ public class Koan08a
 
         cql = "start rels=relationship(*) "
             + "return count(rels)";
+
+        // SNIPPET_END
+
         result = engine.execute(cql);
         items += ((Long)result.javaColumnAs("count(rels)").next()).longValue();
 
-        // SNIPPET_END
+
 
 
         assertEquals(3354, items);
