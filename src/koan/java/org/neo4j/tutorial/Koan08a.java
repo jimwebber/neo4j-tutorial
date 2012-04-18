@@ -77,35 +77,6 @@ public class Koan08a
         assertEquals(246l, result.javaColumnAs("count(episodes)").next());
     }
 
-    @Test
-    public void shouldSizeTheDoctorWhoDataset()
-    {
-        // The Java APIs make it quite easy to brute force count nodes and relationships
-        // But as of Neo4j 1.7, Cypher can do it too...
-
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
-        String cqlNodes = null;
-        String cqlRels = null;
-        long items = 0;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cqlNodes = "start nodes=node(*) "//, r=relationship(*) "
-                + "return count(nodes)";
-
-        cqlRels = "start rels=relationship(*) "
-            + "return count(rels)";
-
-        // SNIPPET_END
-        ExecutionResult nodesResult = engine.execute(cqlNodes);
-        items += ((Long)nodesResult .javaColumnAs("count(nodes)").next()).longValue();
-
-        ExecutionResult  relsResult = engine.execute(cqlRels);
-        items += ((Long)relsResult.javaColumnAs("count(rels)").next()).longValue();
-
-        assertEquals(3354, items);
-    }
 
     @Test
     public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
