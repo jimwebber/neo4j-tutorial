@@ -25,13 +25,11 @@ import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsWikip
 public class Koan08b
 {
     private static EmbeddedDoctorWhoUniverse universe;
-    private static DatabaseHelper databaseHelper;
 
     @BeforeClass
     public static void createDatabase() throws Exception
     {
         universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
-        databaseHelper = new DatabaseHelper(universe.getDatabase());
     }
 
     @AfterClass
