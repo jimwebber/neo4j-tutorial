@@ -28,10 +28,10 @@
         <delete dir="${lib.dir}"/>
     </target>
 
-    <target name="clean" depends="-lib.clean"
-            description="Removes the build directory, but not any cached ivy dependencies">
+    <target name="clean" depends="-lib.clean" description="Removes the build directory, but not any cached ivy dependencies">
         <delete dir="target"/>
         <delete dir="build"/>
+        <delete dir="out"/>
     </target>
 
     <target name="compile" description="Compile production classes" depends="lib.retrieve">
@@ -119,7 +119,6 @@
     <target name="run.koan14" depends="test, compile.koans">
         <koan number="14"/>
     </target>
-
 
     <target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
         <mkdir dir="${main.target}"/>
