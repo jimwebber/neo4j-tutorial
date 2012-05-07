@@ -16,7 +16,7 @@ import org.neo4j.graphdb.Node;
 
 /**
  * In this Koan we learn the basics of the Cypher query language, focusing on the
- * matching capabilities to return subgraphs of information about the Doctor Who
+ * matching capabilities to RETURN subgraphs of information about the Doctor Who
  * universe.
  */
 public class Koan08b
@@ -44,7 +44,7 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character='Doctor') return doctor";
+        cql = "START doctor = node:characters(character='Doctor') RETURN doctor";
 
         // SNIPPET_END
 
@@ -67,15 +67,15 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start episodes= node:episodes('episode:*') "
-            + "return count(episodes)";
+        cql = "START episodes= node:episodes('episode:*') "
+            + "RETURN COUNT(episodes)";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 246l, result.javaColumnAs( "count(episodes)" ).next() );
+        assertEquals( 246l, result.javaColumnAs( "COUNT(episodes)" ).next() );
     }
 
 
@@ -88,7 +88,7 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) return episode";
+        cql = "START cybermen = node:species(species ='Cyberman') MATCH (cybermen)-[:APPEARED_IN]->(episode) RETURN episode";
 
         // SNIPPET_END
 
@@ -120,9 +120,9 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
-        cql += "match (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
-        cql += "return episode";
+        cql = "START daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
+        cql += "MATCH (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
+        cql += "RETURN episode";
 
         // SNIPPET_END
 
@@ -141,11 +141,11 @@ public class Koan08b
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
-        String cql = "start doctor = node:characters(character= 'Doctor') ";
+        String cql = "START doctor = node:characters(character= 'Doctor') ";
 
-        cql += "match (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
-        cql += "where has(other.character) ";
-        cql += "return other.character";
+        cql += "MATCH (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
+        cql += "WHERE has(other.character) ";
+        cql += "RETURN other.character";
 
         // SNIPPET_END
 

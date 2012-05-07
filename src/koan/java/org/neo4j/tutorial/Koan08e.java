@@ -36,9 +36,9 @@ public class Koan08e
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
-                + "match path = (baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "return length(path) as regenerations";
+        cql = "START eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
+                + "MATCH path = (baker)-[:REGENERATED_TO*]->(eccleston) "
+                + "RETURN LENGTH(path) as regenerations";
 
 
         // SNIPPET_END
@@ -57,11 +57,11 @@ public class Koan08e
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start master = node:characters(character = 'Master')\n" +
-                "match (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
-                "where all(ep in nodes(storyArcs) where master-[:APPEARED_IN]->ep)"+
-                "return length(storyArcs) as noOfPathHops\n" +
-                "order by noOfPathHops desc limit 1";
+        cql = "START master = node:characters(character = 'Master')\n" +
+                "MATCH (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
+                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)"+
+                "RETURN LENGTH(storyArcs) as noOfPathHops\n" +
+                "ORDER BY noOfPathHops DESC LIMIT 1";
 
 
         // SNIPPET_END

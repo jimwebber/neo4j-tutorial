@@ -48,9 +48,9 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor') " +
-            "match (doctor)<-[:COMPANION_OF]-(companion) " +
-            "return companion.wikipedia?";
+        cql = "START doctor = node:characters(character = 'Doctor') " +
+            "MATCH (doctor)<-[:COMPANION_OF]-(companion) " +
+            "RETURN companion.wikipedia?";
 
 
         // SNIPPET_END
@@ -73,9 +73,9 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor) "
-            + "return count(actor) as numberOfActorsWhoPlayedTheDoctor";
+        cql = "START doctor = node:characters(character = 'Doctor')"
+            + "MATCH (doctor)<-[:PLAYED]-(actor) "
+            + "RETURN count(actor) AS numberOfActorsWhoPlayedTheDoctor";
 
         // SNIPPET_END
 
@@ -94,9 +94,9 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor') " +
-            "match (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
-            "return min(regen.year) as earliest, max(regen.year) as latest";
+        cql = "START doctor = node:characters(character = 'Doctor') " +
+            "MATCH (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
+            "RETURN min(regen.year) AS earliest, max(regen.year) AS latest";
 
         // SNIPPET_END
 
@@ -117,9 +117,9 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
-            + "match (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
-            + "return min(episode.episode) as earliest";
+        cql = "START david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
+            + "MATCH (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
+            + "RETURN min(episode.episode) AS earliest";
 
         // SNIPPET_END
 
@@ -137,9 +137,9 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor)"
-            + "return avg(actor.salary?) as cash";
+        cql = "START doctor = node:characters(character = 'Doctor')"
+            + "MATCH (doctor)<-[:PLAYED]-(actor)"
+            + "RETURN avg(actor.salary?) AS cash";
 
 
         // SNIPPET_END
@@ -158,12 +158,12 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
+        cql = "START doctor = node:characters(character = 'Doctor')"
+            + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
             + "(enemy)-[:ENEMY_OF]->(doctor)"
-            + "where actor.actor = 'Peter Davison'"
-            + "return episode.episode, episode.title, collect(enemy.species?) as species, collect(enemy.character?) as characters "
-            + "order by episode.episode";
+            + "WHERE actor.actor = 'Peter Davison'"
+            + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
+            + "ORDER BY episode.episode";
 
 
         // SNIPPET_END
@@ -186,11 +186,11 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start rose = node:characters(character = 'Rose Tyler'), doctor = node:characters(character = 'Doctor') "
-            + "match rose-[:APPEARED_IN]->episode, "
+        cql = "START rose = node:characters(character = 'Rose Tyler'), doctor = node:characters(character = 'Doctor') "
+            + "MATCH rose-[:APPEARED_IN]->episode, "
             + "(doctor)-[:ENEMY_OF]->(enemy)-[:APPEARED_IN]->(episode) "
-            + "where has(enemy.species)  "
-            + "return distinct enemy.species as enemySpecies";
+            + "WHERE has(enemy.species)  "
+            + "RETURN DISTINCT enemy.species AS enemySpecies";
 
 
         // SNIPPET_END

@@ -40,9 +40,9 @@ public class Koan08f
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = String.format("start first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first, mostRecent)
-            + "match path = shortestPath( first-[*..500]->last )"
-            + "return length(path) as episodes";
+        cql = String.format("START first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first, mostRecent)
+            + "MATCH path = shortestPath( first-[*..500]->last )"
+            + "RETURN LENGTH(path) as episodes";
 
 
         // SNIPPET_END
