@@ -1,15 +1,22 @@
 package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 
-import static junit.framework.Assert.assertEquals;
+import java.util.Iterator;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
- * In this Koan we focus on paths in Cypher.
+ * In this Koan we use the Cypher graph pattern matching language to investigate
+ * the regenerations and the history of the Dalek props, with a focus on longer matches
+ * and using aggregates to process the returned data.
  */
 public class Koan08d
 {
@@ -28,7 +35,7 @@ public class Koan08d
     }
 
     @Test
-    public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
+    public void shouldFindTheLatestRegenerationYear()
     {
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
@@ -36,20 +43,19 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
-                + "match path = (baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "return length(path) as regenerations";
+        cql = "start doctor = node:characters(character = 'Doctor')"
+                + "match (doctor)<-[:PLAYED]-()-[regeneratedRelationship:REGENERATED_TO]->()"
+                + "return max(regeneratedRelationship.year) as latestRegenerationYear";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
-
-        assertEquals(5, result.javaColumnAs("regenerations").next());
+        Assert.assertEquals(2010, result.javaColumnAs("latestRegenerationYear").next());
     }
 
     @Test
-    public void shouldFindTheLongestContinuousStoryArcWithTheMaster() throws Exception
+    public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
@@ -57,19 +63,28 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start master = node:characters(character = 'Master')\n" +
-                "match (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
-                "where all(ep in nodes(storyArcs) where master-[:APPEARED_IN]->ep)"+
-                "return length(storyArcs) as noOfPathHops\n" +
-                "order by noOfPathHops desc limit 1";
-
+        cql = "start daleks= node:species(species = 'Dalek') match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
+                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.part, count(episode.title)"
+                + " order by count (episode.title) desc limit 1";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
 
-        // noOfPathHops is one less than the number of episodes in a story arc
-        final int noOfStories = 5;
-        assertEquals(noOfStories - 1, result.javaColumnAs("noOfPathHops").next());
+        assertHardestWorkingPropParts(result.javaIterator(), "Dalek 1", "shoulder", 15l);
+
+    }
+
+    private void assertHardestWorkingPropParts(Iterator<Map<String, Object>> results, Object... partsAndCounts)
+    {
+        for (int index = 0; index < partsAndCounts.length; index = index + 3)
+        {
+            Map<String, Object> row = results.next();
+            assertEquals(partsAndCounts[index], row.get("originalprop.prop"));
+            assertEquals(partsAndCounts[index + 1], row.get("part.part"));
+            assertEquals(partsAndCounts[index + 2], row.get("count(episode.title)"));
+        }
+
+        assertFalse(results.hasNext());
     }
 }

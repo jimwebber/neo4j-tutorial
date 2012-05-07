@@ -1,26 +1,23 @@
 package org.neo4j.tutorial;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
-import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsWikipediaEntries;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.Node;
 
 /**
- * In this Koan we focus on aggregate functions from the Cypher graph pattern matching language
- * to process some statistics about the Doctor Who universe.
+ * In this Koan we learn the basics of the Cypher query language, focusing on the
+ * matching capabilities to return subgraphs of information about the Doctor Who
+ * universe.
  */
 public class Koan08b
 {
@@ -39,33 +36,51 @@ public class Koan08b
     }
 
     @Test
-    public void shouldReturnAnyWikpediaEntriesForCompanions()
+    public void shouldFindAndReturnTheDoctor()
     {
-
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor') " +
-            "match (doctor)<-[:COMPANION_OF]-(companion) " +
-            "return companion.wikipedia?";
-
+        cql = "start doctor = node:characters(character='Doctor') return doctor";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-        Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia?" );
+        Iterator<Node> episodes = result.javaColumnAs( "doctor" );
 
-        assertThat( iterator, containsWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
-            "http://en.wikipedia.org/wiki/Amy_Pond",
-            "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
-
+        assertEquals( episodes.next(), universe.theDoctor() );
     }
 
     @Test
-    public void shouldCountTheNumberOfActorsKnownToHavePlayedTheDoctor()
+    public void shouldCountTheNumberOfEpisodes()
+    {
+        // The number of episodes is not the same as the highest episode number.
+        // Some episodes are two-parters with the same episode number, others use schemes like
+        // 218a and 218b as their episode numbers seemingly just to be difficult!
+
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "start episodes= node:episodes('episode:*') "
+            + "return count(episodes)";
+
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute( cql );
+
+        assertEquals( 246l, result.javaColumnAs( "count(episodes)" ).next() );
+    }
+
+
+    @Test
+    public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
@@ -73,20 +88,31 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor) "
-            + "return count(actor) as numberOfActorsWhoPlayedTheDoctor";
+        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) return episode";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-        Long actorsCount = (Long) result.javaColumnAs( "numberOfActorsWhoPlayedTheDoctor" ).next();
+        Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
-        assertEquals( 12l, actorsCount.longValue() );
+        assertThat( asIterable( episodes ), containsOnlyTitles( "Closing Time",
+            "A Good Man Goes to War",
+            "The Pandorica Opens",
+            "The Next Doctor",
+            "Doomsday",
+            "Army of Ghosts",
+            "The Age of Steel",
+            "Rise of the Cybermen",
+            "Silver Nemesis",
+            "Earthshock",
+            "Revenge of the Cybermen",
+            "The Wheel in Space",
+            "The Tomb of the Cybermen",
+            "The Moonbase" ) );
     }
 
     @Test
-    public void shouldFindEarliestAndLatestRegenerationYears()
+    public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
@@ -94,218 +120,37 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor') " +
-            "match (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
-            "return min(regen.year) as earliest, max(regen.year) as latest";
+        cql = "start daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
+        cql += "match (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
+        cql += "return episode";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
+        Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
-
-        Map<String, Object> map = result.javaIterator().next();
-        assertEquals( 2010, map.get( "latest" ) );
-        assertEquals( 1966, map.get( "earliest" ) );
+        assertThat( asIterable( episodes ),
+            containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts",
+                "The Parting of the Ways" ) );
     }
 
     @Test
-    public void shouldFindTheEarliestEpisodeWhereFreemaAgyemanAndDavidTennantWorkedTogether() throws Exception
+    public void shouldFindIndividualCompanionsAndEnemiesOfTheDoctor()
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
+        String cql = "start doctor = node:characters(character= 'Doctor') ";
 
-        cql = "start david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
-            + "match (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
-            + "return min(episode.episode) as earliest";
+        cql += "match (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
+        cql += "where has(other.character) ";
+        cql += "return other.character";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( "179", result.javaColumnAs( "earliest" ).next() );
-    }
-
-    @Test
-    public void shouldFindAverageSalaryOfActorsWhoPlayedTheDoctor()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor)"
-            + "return avg(actor.salary?) as cash";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-
-        assertEquals( 600000.0, result.javaColumnAs( "cash" ).next() );
-    }
-
-    @Test
-    public void shouldListTheEnemySpeciesAndCharactersForEachEpisodeWithPeterDavisonOrderedByIncreasingEpisodeNumber()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start doctor = node:characters(character = 'Doctor')"
-            + "match (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
-            + "(enemy)-[:ENEMY_OF]->(doctor)"
-            + "where actor.actor = 'Peter Davison'"
-            + "return episode.episode, episode.title, collect(enemy.species?) as species, collect(enemy.character?) as characters "
-            + "order by episode.episode";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-
-        final List<String> columnNames = result.javaColumns();
-        assertThat( columnNames,
-            containsOnlySpecificStrings( "episode.episode", "episode.title", "species", "characters" ) );
-
-        assertDavisonEpisodesRetrievedCorrectly( result.javaIterator() );
-    }
-
-    @Test
-    public void shouldFindTheEnemySpeciesThatRoseTylerFought()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start rose = node:characters(character = 'Rose Tyler'), doctor = node:characters(character = 'Doctor') "
-            + "match rose-[:APPEARED_IN]->episode, "
-            + "(doctor)-[:ENEMY_OF]->(enemy)-[:APPEARED_IN]->(episode) "
-            + "where has(enemy.species)  "
-            + "return distinct enemy.species as enemySpecies";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-        Iterator<String> enemySpecies = result.javaColumnAs( "enemySpecies" );
-
-        assertThat( asIterable( enemySpecies ),
-            containsOnlySpecificStrings( "Krillitane", "Sycorax", "Cyberman", "Dalek", "Auton", "Slitheen",
-                "Clockwork Android" ) );
-
-    }
-
-
-    private void assertDavisonEpisodesRetrievedCorrectly( Iterator<Map<String, Object>> iterator )
-    {
-        Map<String, Object> next = iterator.next();
-        assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
-        assertEquals( "116", next.get( "episode.episode" ) );
-        assertEquals( "Castrovalva", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Monarch" ), next.get( "characters" ) );
-        assertEquals( "117", next.get( "episode.episode" ) );
-        assertEquals( "Four to Doomsday", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Mara" ), next.get( "characters" ) );
-        assertEquals( "118", next.get( "episode.episode" ) );
-        assertEquals( "Kinda", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Terileptils" ), next.get( "characters" ) );
-        assertEquals( "119", next.get( "episode.episode" ) );
-        assertEquals( "The Visitation", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "George Cranleigh" ), next.get( "characters" ) );
-        assertEquals( "120", next.get( "episode.episode" ) );
-        assertEquals( "Black Orchid", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Cyberman" ), next.get( "species" ) );
-        assertEquals( "121", next.get( "episode.episode" ) );
-        assertEquals( "Earthshock", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
-        assertEquals( "122", next.get( "episode.episode" ) );
-        assertEquals( "Time-Flight", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Omega" ), next.get( "characters" ) );
-        assertEquals( "123", next.get( "episode.episode" ) );
-        assertEquals( "Arc of Infinity", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Mara" ), next.get( "characters" ) );
-        assertEquals( "124", next.get( "episode.episode" ) );
-        assertEquals( "Snakedance", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Mawdryn", "Black Guardian" ), next.get( "characters" ) );
-        assertEquals( "125", next.get( "episode.episode" ) );
-        assertEquals( "Mawdryn Undead", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Vanir" ), next.get( "characters" ) );
-        assertEquals( "126", next.get( "episode.episode" ) );
-        assertEquals( "Terminus", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Black Guardian" ), next.get( "characters" ) );
-        assertEquals( "127", next.get( "episode.episode" ) );
-        assertEquals( "Enlightenment", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
-        assertEquals( "128", next.get( "episode.episode" ) );
-        assertEquals( "The King's Demons", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertThat( (Iterable<String>) next.get( "species" ), hasItems( null, "Dalek" ) );
-        assertThat( (Iterable<String>) next.get( "characters" ), hasItems( "Master", null ) );
-        assertEquals( "129", next.get( "episode.episode" ) );
-        assertEquals( "The Five Doctors", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertThat( (Iterable<String>) next.get( "species" ), hasItems( "Sea Devil", "Silurian" ) );
-        assertEquals( "130", next.get( "episode.episode" ) );
-        assertEquals( "Warriors of the Deep", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Malus" ), next.get( "characters" ) );
-        assertEquals( "131", next.get( "episode.episode" ) );
-        assertEquals( "The Awakening", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Tractator" ), next.get( "species" ) );
-        assertEquals( "132", next.get( "episode.episode" ) );
-        assertEquals( "Frontios", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Dalek" ), next.get( "species" ) );
-        assertEquals( "133", next.get( "episode.episode" ) );
-        assertEquals( "Resurrection of the Daleks", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
-        assertEquals( "134", next.get( "episode.episode" ) );
-        assertEquals( "Planet of Fire", next.get( "episode.title" ) );
-
-        next = iterator.next();
-        assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
-        assertEquals( "135", next.get( "episode.episode" ) );
-        assertEquals( "The Caves of Androzani", next.get( "episode.title" ) );
+        assertEquals( 151, result.size() );
     }
 }
