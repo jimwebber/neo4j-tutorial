@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 
 /**
  * In this Koan we focus on paths in Cypher.
@@ -28,27 +28,48 @@ public class Koan08e
     }
 
     @Test
-    public void shouldFindTheNumberOfEpisodesUsingShortestPath() throws Exception
+    public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
     {
-        // Some free domain knowledge here :-)
-        final int first = 1;
-        final int mostRecent = 224;
-        
         ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = String.format("start first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first, mostRecent)
-            + "match path = shortestPath( first-[*..500]->last )"
-            + "return length(path) as episodes";
+        cql = "START eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
+                + "MATCH path = (baker)-[:REGENERATED_TO*]->(eccleston) "
+                + "RETURN LENGTH(path) as regenerations";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute(cql);
 
-        assertEquals(245, result.javaColumnAs("episodes").next());
+        assertEquals(5, result.javaColumnAs("regenerations").next());
+    }
+
+    @Test
+    public void shouldFindTheLongestContinuousStoryArcWithTheMaster() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "START master = node:characters(character = 'Master')\n" +
+                "MATCH (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
+                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)"+
+                "RETURN LENGTH(storyArcs) as noOfPathHops\n" +
+                "ORDER BY noOfPathHops DESC LIMIT 1";
+
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute(cql);
+
+        // noOfPathHops is one less than the number of episodes in a story arc
+        final int noOfStories = 5;
+        assertEquals(noOfStories - 1, result.javaColumnAs("noOfPathHops").next());
     }
 }

@@ -1,23 +1,16 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
-import java.util.Iterator;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.graphdb.Node;
 
 /**
- * In this Koan we learn the basics of the Cypher query language, focusing on the
- * matching capabilities to return subgraphs of information about the Doctor Who
- * universe.
+ * In this Koan we learn how to create, update, and delete nodes and relationships in the
+ * database using the Cypher language.
  */
 public class Koan08a
 {
@@ -36,121 +29,68 @@ public class Koan08a
     }
 
     @Test
-    public void shouldFindAndReturnTheDoctor()
+    public void shouldCreateASingleNode()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character='Doctor') return doctor";
+        cql = "CREATE n";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-        Iterator<Node> episodes = result.javaColumnAs( "doctor" );
 
-        assertEquals( episodes.next(), universe.theDoctor() );
+        final ExecutionResult executionResult = engine.execute( "START n=node(*) return n" );
+
+        final int oneNewNodePlusTheReferenceNodeExpected = 2;
+        assertEquals( oneNewNodePlusTheReferenceNodeExpected, executionResult.size() );
     }
 
     @Test
-    public void shouldCountTheNumberOfEpisodes()
+    public void shouldCreateASingleNodeWithSomeProperties()
     {
-        // The number of episodes is not the same as the highest episode number.
-        // Some episodes are two-parters with the same episode number, others use schemes like
-        // 218a and 218b as their episode numbers seemingly just to be difficult!
-
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start episodes= node:episodes('episode:*') "
-            + "return count(episodes)";
-
+        cql = "CREATE n = { firstname : 'Tom', lastname : 'Baker' }";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 246l, result.javaColumnAs( "count(episodes)" ).next() );
+        final ExecutionResult executionResult = engine.execute(
+            "START n=node(*) WHERE has(n.firstname) AND n.firstname = 'Tom' AND  has(n.lastname) AND n.lastname = 'Baker' return n" );
+
+        assertEquals( 1, executionResult.size() );
     }
 
-
     @Test
-    public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
+    public void shouldCreateASimpleConnectedGraph()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start cybermen = node:species(species ='Cyberman') match (cybermen)-[:APPEARED_IN]->(episode) return episode";
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-        Iterator<Node> episodes = result.javaColumnAs( "episode" );
-
-        assertThat( asIterable( episodes ), containsOnlyTitles( "Closing Time",
-            "A Good Man Goes to War",
-            "The Pandorica Opens",
-            "The Next Doctor",
-            "Doomsday",
-            "Army of Ghosts",
-            "The Age of Steel",
-            "Rise of the Cybermen",
-            "Silver Nemesis",
-            "Earthshock",
-            "Revenge of the Cybermen",
-            "The Wheel in Space",
-            "The Tomb of the Cybermen",
-            "The Moonbase" ) );
-    }
-
-    @Test
-    public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
-        cql += "match (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
-        cql += "return episode";
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-        Iterator<Node> episodes = result.javaColumnAs( "episode" );
-
-        assertThat( asIterable( episodes ),
-            containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts",
-                "The Parting of the Ways" ) );
-    }
-
-    @Test
-    public void shouldFindIndividualCompanionsAndEnemiesOfTheDoctor()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = "start doctor = node:characters(character= 'Doctor') ";
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql += "match (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
-        cql += "where has(other.character) ";
-        cql += "return other.character";
+        cql = "CREATE n1 = { name : 'Bill' }, n2 = { name : 'Ted' }, n1-[r:FRIEND]->n2 ";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 151, result.size() );
+        final ExecutionResult executionResult = engine.execute(
+            "START a=node(*) \n" +
+                "MATCH a-[:FRIEND]->b \n" +
+                "WHERE has(a.name) AND a.name='Bill' AND has(b.name) AND b.name = 'Ted' \n" +
+                "RETURN a, b \n" );
+
+        assertEquals( 2, executionResult.columns().toList().size() );
     }
 }
