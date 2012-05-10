@@ -138,11 +138,13 @@ public class Koan08b
     public void shouldFindIndividualCompanionsAndEnemiesOfTheDoctor()
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        String cql = "";
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-        String cql = "START doctor = node:characters(character= 'Doctor') ";
 
+        // SNIPPET_START
+
+        cql = "START doctor = node:characters(character= 'Doctor') ";
         cql += "MATCH (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
         cql += "WHERE has(other.character) ";
         cql += "RETURN other.character";
