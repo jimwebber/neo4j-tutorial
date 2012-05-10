@@ -3,7 +3,7 @@
 # Script to remove any code between //SNIPPET_START and //SNIPPET_END in Java unit test files
 # Must be run from the top level Koan directory
 
-dashi='-i ""'  # default is version of sed that works on Mac OS X
+dashi='-i .deleteme'  # default is version of sed that works on Mac OS X
 
 # sed on Linux/Cygwin is different and wants no space between -i and the arg
 # or can leave the arg off entirely if empty
@@ -17,4 +17,4 @@ case "$os_lwr" in
 esac
 
 find src/koan/java -name *.java -print | xargs sed -f src/main/scripts/remove_snippets.sed $dashi
-
+find src/koan/java -name *.deleteme -print | xargs rm
