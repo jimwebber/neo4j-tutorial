@@ -1,23 +1,17 @@
 package org.neo4j.tutorial;
 
+import static junit.framework.Assert.assertEquals;
+
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.DynamicRelationshipType;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-/**
- * In this Koan we use the Cypher graph pattern matching language to investigate
- * the regenerations and the history of the Dalek props, with a focus on longer matches
- * and using aggregates to process the returned data.
- */
 public class Koan08d
 {
     private static EmbeddedDoctorWhoUniverse universe;
@@ -25,7 +19,7 @@ public class Koan08d
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
@@ -33,58 +27,88 @@ public class Koan08d
     {
         universe.stop();
     }
-
     @Test
-    public void shouldFindTheLatestRegenerationYear()
+    public void shouldRemoveCaptainKirkFromTheDatabase()
     {
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        polluteUniverseWithStarTrekData();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start doctor = node:characters(character = 'Doctor')"
-                + "match (doctor)<-[:PLAYED]-()-[regeneratedRelationship:REGENERATED_TO]->()"
-                + "return max(regeneratedRelationship.year) as latestRegenerationYear";
+        cql = "START doctor=node:characters(character='Doctor') " +
+            "MATCH doctor<-[r:COMPANION_OF]-companion " +
+            "WHERE has(companion.firstname) AND companion.firstname='James' " +
+            "AND has(companion.initial) AND companion.initial='T' " +
+            "AND has(companion.lastname) AND companion.lastname='Kirk' " +
+            "DELETE r, companion";
 
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute(cql);
-        Assert.assertEquals(2010, result.javaColumnAs("latestRegenerationYear").next());
+        engine.execute( cql );
+
+        final ExecutionResult executionResult = engine.execute(
+            "START doctor=node:characters(character='Doctor') " +
+                "MATCH doctor<-[:COMPANION_OF]-companion " +
+                "WHERE has(companion.firstname) AND companion.firstname='James' " +
+                "AND has(companion.initial) AND companion.initial='T' " +
+                "AND has(companion.lastname) AND companion.lastname='Kirk' " +
+                "RETURN companion" );
+
+        assertEquals( 0, executionResult.size() );
     }
 
     @Test
-    public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
+    public void shouldRemoveSalaryDataFromDoctorActors()
     {
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        polluteUniverseWithStarTrekData();
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks= node:species(species = 'Dalek') match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.part, count(episode.title)"
-                + " order by count (episode.title) desc limit 1";
+        cql = "START doctor=node:characters(character='Doctor') " +
+            "MATCH doctor<-[:PLAYED]-actor " +
+            "DELETE actor.salary";
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute(cql);
+        engine.execute( cql );
 
-        assertHardestWorkingPropParts(result.javaIterator(), "Dalek 1", "shoulder", 15l);
+        final ExecutionResult executionResult = engine.execute(
+            "START doctor=node:characters(character='Doctor') " +
+                "MATCH doctor<-[:PLAYED]-actor " +
+                "WHERE has(actor.salary) " +
+                "RETURN actor.salary" );
 
+        assertEquals( 0, executionResult.size() );
     }
 
-    private void assertHardestWorkingPropParts(Iterator<Map<String, Object>> results, Object... partsAndCounts)
+
+    private void polluteUniverseWithStarTrekData()
     {
-        for (int index = 0; index < partsAndCounts.length; index = index + 3)
+        GraphDatabaseService db = universe.getDatabase();
+        Transaction tx = db.beginTx();
+        Node captainKirk = null;
+        try
         {
-            Map<String, Object> row = results.next();
-            assertEquals(partsAndCounts[index], row.get("originalprop.prop"));
-            assertEquals(partsAndCounts[index + 1], row.get("part.part"));
-            assertEquals(partsAndCounts[index + 2], row.get("count(episode.title)"));
-        }
+            Node theDoctor = universe.theDoctor();
 
-        assertFalse(results.hasNext());
+            captainKirk = db.createNode();
+            captainKirk.setProperty( "firstname", "James" );
+            captainKirk.setProperty( "initial", "T" );
+            captainKirk.setProperty( "lastname", "Kirk" );
+
+            captainKirk.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "COMPANION_OF" ) );
+
+            tx.success();
+        }
+        finally
+        {
+            tx.finish();
+        }
     }
 }
