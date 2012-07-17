@@ -1,5 +1,10 @@
 package org.neo4j.tutorial;
 
+import static junit.framework.Assert.assertEquals;
+import static org.neo4j.tutorial.server.ServerBuilder.server;
+
+import javax.ws.rs.core.MediaType;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -7,13 +12,8 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.tutorial.koan14.UserNameAndPasswordForSalariesSecurityRule;
-
-import javax.ws.rs.core.MediaType;
-
-import static junit.framework.Assert.assertEquals;
-import static org.neo4j.tutorial.server.ServerBuilder.server;
 
 /**
  * In this Koan we mix an unmanaged (JAX-RS) extension with security rules to provide
@@ -30,7 +30,7 @@ public class Koan14
     {
         DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
 
-        NeoServerWithEmbeddedWebServer server =
+        CommunityNeoServer server =
                 server()
                         .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
                         .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan14", "/koan14")

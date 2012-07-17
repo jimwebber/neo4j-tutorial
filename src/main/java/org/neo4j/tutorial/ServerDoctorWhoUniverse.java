@@ -1,22 +1,23 @@
 package org.neo4j.tutorial;
 
+import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
 import org.neo4j.tutorial.server.rest.FunctionalTestHelper;
 
-import javax.ws.rs.core.MediaType;
-import java.util.Map;
-
 public class ServerDoctorWhoUniverse
 {
-    private final NeoServerWithEmbeddedWebServer server;
+    private final CommunityNeoServer server;
 
-    public ServerDoctorWhoUniverse( NeoServerWithEmbeddedWebServer server ) throws Exception
+    public ServerDoctorWhoUniverse( CommunityNeoServer server ) throws Exception
     {
         this.server = server;
         server.start();
@@ -65,7 +66,7 @@ public class ServerDoctorWhoUniverse
         server.stop();
     }
 
-    public NeoServerWithEmbeddedWebServer getServer()
+    public CommunityNeoServer getServer()
     {
         return server;
     }

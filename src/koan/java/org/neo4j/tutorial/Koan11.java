@@ -25,7 +25,7 @@ import org.neo4j.graphmatching.PatternMatch;
 import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
 import org.neo4j.helpers.collection.MapUtil;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.ServerBuilder;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
@@ -47,7 +47,7 @@ public class Koan11
     {
         DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
 
-        NeoServerWithEmbeddedWebServer server = ServerBuilder
+        CommunityNeoServer server = ServerBuilder
             .server()
             .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
             .build();

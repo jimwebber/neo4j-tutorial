@@ -1,20 +1,19 @@
 package org.neo4j.tutorial.server.rest;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.kernel.AbstractGraphDatabase;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
-import org.neo4j.server.rest.domain.JsonHelper;
-import org.neo4j.server.rest.domain.JsonParseException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.server.CommunityNeoServer;
+import org.neo4j.server.rest.domain.JsonHelper;
+import org.neo4j.server.rest.domain.JsonParseException;
+
 public final class FunctionalTestHelper
 {
-    private final NeoServerWithEmbeddedWebServer server;
+    private final CommunityNeoServer server;
 
-    public FunctionalTestHelper(NeoServerWithEmbeddedWebServer server)
+    public FunctionalTestHelper(CommunityNeoServer server)
     {
         if (server.getDatabase() == null)
         {

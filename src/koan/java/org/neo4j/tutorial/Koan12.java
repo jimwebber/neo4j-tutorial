@@ -1,5 +1,9 @@
 package org.neo4j.tutorial;
 
+import static junit.framework.Assert.assertEquals;
+
+import javax.ws.rs.core.MediaType;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -8,12 +12,8 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.tutorial.server.ServerBuilder;
-
-import javax.ws.rs.core.MediaType;
-
-import static junit.framework.Assert.assertEquals;
 
 /**
  * In this Koan we enhance the default REST API with unmanaged (JAX-RS) extensions
@@ -29,7 +29,7 @@ public class Koan12
     {
         DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
 
-        NeoServerWithEmbeddedWebServer server = ServerBuilder
+        CommunityNeoServer server = ServerBuilder
                 .server()
                 .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
                 .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan12", "/koan12")

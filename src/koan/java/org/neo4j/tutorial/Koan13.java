@@ -16,7 +16,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.server.NeoServerWithEmbeddedWebServer;
+import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.ServerBuilder;
 
@@ -35,7 +35,7 @@ public class Koan13
     {
         DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
 
-        NeoServerWithEmbeddedWebServer server = ServerBuilder
+        CommunityNeoServer server = ServerBuilder
             .server()
             .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
             .build();
