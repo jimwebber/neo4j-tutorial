@@ -92,5 +92,6 @@ public class Koan08a
                 "RETURN a, b \n" );
 
         assertEquals( 2, executionResult.columns().toList().size() );
+        assertEquals( 1, executionResult.size() );
     }
 }
