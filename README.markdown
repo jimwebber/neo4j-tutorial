@@ -78,7 +78,15 @@ The Koans themselves are in:
 
 and you'll see that they're numerically increasing in number. Start with *Koan01.java* and run it. If you're running the Koans in your IDE, then you can run Koan01.java as a unit test and verify that a Neo4j database can be created and populated with Doctor Who data, and that you have your IDE project set up properly.
 
-Now that you're at this point, you're ready to move to *Koan02.java* and start hacking on Neo4j proper. Don't forget that in the presentation directory you'll find a full set of slides that will help you navigate the Koans, and build up a picture of the Doctor Who universe.
+Now that you're at this point, you're ready to move to *Koan02.java* and start hacking on Neo4j proper. 
+
+
+Where are the docs?
+-------------------
+
+Don't forget that in the presentation directory you'll find a full set of slides that will help you navigate the Koans, and build up a picture of the Doctor Who universe.
+
+You should really check this section if you don't know "Doctor Who".
 
 Live Sessions
 -------------
