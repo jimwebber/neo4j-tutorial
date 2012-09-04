@@ -1,21 +1,21 @@
 package org.neo4j.tutorial.koan14;
 
-import org.neo4j.server.rest.security.SecurityRule;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.neo4j.server.rest.security.SecurityRule;
 
 public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
 {
-    public boolean isAuthorized(HttpServletRequest httpServletRequest)
+    public boolean isAuthorized( HttpServletRequest httpServletRequest )
     {
         boolean loggedIn = false;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        loggedIn = "Alice".equals(httpServletRequest.getHeader("X-Username")) && "1337".equals(
+        loggedIn = "Alice".equals( httpServletRequest.getHeader( "X-Username" ) ) && "1337".equals(
                 httpServletRequest.getHeader(
-                        "X-Password"));
+                        "X-Password" ) );
         // SNIPPET_END
 
         return loggedIn;

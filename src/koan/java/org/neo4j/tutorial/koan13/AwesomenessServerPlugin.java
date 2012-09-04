@@ -12,10 +12,10 @@ public class AwesomenessServerPlugin extends ServerPlugin
     // SNIPPET_START
 
     @PluginTarget(Node.class)
-    public double awesomeness(@Source Node node)
+    public double awesomeness( @Source Node node )
     {
         AwesomenessRatingEngine ratingEngine = new AwesomenessRatingEngine();
-        return ratingEngine.rateAwesomeness(node.getGraphDatabase(), node.getId());
+        return ratingEngine.rateAwesomeness( node.getGraphDatabase(), node.getId() );
     }
 
     // SNIPPET_END

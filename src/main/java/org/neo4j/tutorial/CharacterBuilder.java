@@ -1,11 +1,15 @@
 package org.neo4j.tutorial;
 
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-
-import java.util.*;
-
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 public class CharacterBuilder
 {
@@ -98,9 +102,10 @@ public class CharacterBuilder
         {
             ensureActorsInDb( characterNode, actors, db );
         }
-        
-        if(wikipediaUri != null) {
-            characterNode.setProperty("wikipedia", wikipediaUri);
+
+        if ( wikipediaUri != null )
+        {
+            characterNode.setProperty( "wikipedia", wikipediaUri );
         }
     }
 
@@ -317,7 +322,8 @@ public class CharacterBuilder
         return this;
     }
 
-    public CharacterBuilder wikipedia(String wikipediaEntry) {
+    public CharacterBuilder wikipedia( String wikipediaEntry )
+    {
         this.wikipediaUri = wikipediaEntry;
         return this;
     }

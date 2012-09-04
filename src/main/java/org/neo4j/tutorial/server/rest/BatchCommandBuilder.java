@@ -13,81 +13,81 @@ public class BatchCommandBuilder
 
     private final List<String> commands = new ArrayList<String>();
 
-    public BatchCommandBuilder createNode(int jobId, Map<String, String> bodyParams)
+    public BatchCommandBuilder createNode( int jobId, Map<String, String> bodyParams )
     {
-        return formatCreateNode(bodyParams, jobId);
+        return formatCreateNode( bodyParams, jobId );
     }
 
-    public BatchCommandBuilder createNode(Map<String, String> bodyParams)
+    public BatchCommandBuilder createNode( Map<String, String> bodyParams )
     {
-        return formatCreateNode(bodyParams, null);
+        return formatCreateNode( bodyParams, null );
     }
 
-    public BatchCommandBuilder createRelationship(int jobId, String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams)
+    public BatchCommandBuilder createRelationship( int jobId, String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams )
     {
-        return formatCreateRelationship(startNodeRelationshipUri, endNodeUri, relType, dataParams, jobId);
+        return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, jobId );
     }
 
-    public BatchCommandBuilder createRelationship(String startNodeRelationshipUri, String endNodeUri, String relType)
+    public BatchCommandBuilder createRelationship( String startNodeRelationshipUri, String endNodeUri, String relType )
     {
-        return formatCreateRelationship(startNodeRelationshipUri, endNodeUri, relType, null, null);
+        return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, null, null );
     }
 
-    public BatchCommandBuilder createRelationship(String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams)
+    public BatchCommandBuilder createRelationship( String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams )
     {
-        return formatCreateRelationship(startNodeRelationshipUri, endNodeUri, relType, dataParams, null);
+        return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, null );
     }
 
-    public BatchCommandBuilder deleteNodeOrRelationship(String uri)
+    public BatchCommandBuilder deleteNodeOrRelationship( String uri )
     {
-        commands.add(String.format(DeleteTemplate, uri));
+        commands.add( String.format( DeleteTemplate, uri ) );
         return this;
     }
 
-    private BatchCommandBuilder formatCreateNode(Map<String, String> bodyParams, Integer jobId)
+    private BatchCommandBuilder formatCreateNode( Map<String, String> bodyParams, Integer jobId )
     {
-        commands.add(String.format(CreateNodeTemplate, formatParams(bodyParams), formatJobId(jobId)));
+        commands.add( String.format( CreateNodeTemplate, formatParams( bodyParams ), formatJobId( jobId ) ) );
         return this;
     }
 
-    private BatchCommandBuilder formatCreateRelationship(String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams, Integer jobId)
+    private BatchCommandBuilder formatCreateRelationship( String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams, Integer jobId )
     {
-        commands.add(String.format(CreateRelationshipTemplate, startNodeRelationshipUri, endNodeUri, relType,
-                                   createData(dataParams), formatJobId(jobId)));
+        commands.add( String.format( CreateRelationshipTemplate, startNodeRelationshipUri, endNodeUri, relType,
+                createData( dataParams ), formatJobId( jobId ) ) );
         return this;
     }
 
-    private String formatJobId(Integer jobId)
+    private String formatJobId( Integer jobId )
     {
-        if (jobId == null)
+        if ( jobId == null )
         {
             return "";
         }
-        return String.format(",\"id\":%s", jobId);
+        return String.format( ",\"id\":%s", jobId );
     }
 
-    private String createData(Map<String, String> dataParams)
+    private String createData( Map<String, String> dataParams )
     {
-        if (dataParams == null || dataParams.isEmpty())
+        if ( dataParams == null || dataParams.isEmpty() )
         {
             return "";
         }
-        return ",\"data\":{" + formatParams(dataParams) + "}";
+        return ",\"data\":{" + formatParams( dataParams ) + "}";
     }
 
-    private String formatParams(Map<String, String> params)
+    private String formatParams( Map<String, String> params )
     {
-        if (params == null)
+        if ( params == null )
         {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         Iterator<String> keys = params.keySet().iterator();
-        while (keys.hasNext())
+        while ( keys.hasNext() )
         {
             String key = keys.next();
-            sb.append(String.format("\"%s\":\"%s\"", key, params.get(key)));
-            sb.append(keys.hasNext() ? "," : "");
+            sb.append( String.format( "\"%s\":\"%s\"", key, params.get( key ) ) );
+            sb.append( keys.hasNext() ? "," : "" );
         }
         return sb.toString();
     }
@@ -95,14 +95,14 @@ public class BatchCommandBuilder
     public String build()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
+        sb.append( "[" );
         Iterator<String> cmds = commands.iterator();
-        while (cmds.hasNext())
+        while ( cmds.hasNext() )
         {
-            sb.append(cmds.next());
-            sb.append(cmds.hasNext() ? "," : "");
+            sb.append( cmds.next() );
+            sb.append( cmds.hasNext() ? "," : "" );
         }
-        sb.append("]");
+        sb.append( "]" );
         return sb.toString();
     }
 }

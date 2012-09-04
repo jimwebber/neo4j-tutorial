@@ -1,11 +1,11 @@
 package org.neo4j.tutorial;
 
+import static junit.framework.Assert.assertEquals;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Node;
-
-import static junit.framework.Assert.assertEquals;
 
 public class AwesomenessRatingEngineTest
 {
@@ -15,7 +15,7 @@ public class AwesomenessRatingEngineTest
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
@@ -28,25 +28,26 @@ public class AwesomenessRatingEngineTest
     public void shouldRateTheDoctorAs100PercentAwesome()
     {
         AwesomenessRatingEngine engine = new AwesomenessRatingEngine();
-        assertEquals(100.0, engine.rateAwesomeness(universe.getDatabase(), universe.theDoctor().getId()));
+        assertEquals( 100.0, engine.rateAwesomeness( universe.getDatabase(), universe.theDoctor().getId() ) );
     }
 
     @Test
     public void shouldRateCompanionsAs50PercentAwesome()
     {
-        Node rose = universe.getDatabase().index().forNodes("characters").get("character", "Rose Tyler").getSingle();
-        
+        Node rose = universe.getDatabase().index().forNodes( "characters" ).get( "character",
+                "Rose Tyler" ).getSingle();
+
         AwesomenessRatingEngine engine = new AwesomenessRatingEngine();
-        assertEquals(50.0, engine.rateAwesomeness(universe.getDatabase(), rose.getId()));
+        assertEquals( 50.0, engine.rateAwesomeness( universe.getDatabase(), rose.getId() ) );
     }
 
 
     @Test
     public void shouldRateEarthAs33PercentAwesome()
     {
-        Node earth = universe.getDatabase().index().forNodes("planets").get("planet", "Earth").getSingle();
-        
+        Node earth = universe.getDatabase().index().forNodes( "planets" ).get( "planet", "Earth" ).getSingle();
+
         AwesomenessRatingEngine engine = new AwesomenessRatingEngine();
-        assertEquals(33.3, engine.rateAwesomeness(universe.getDatabase(), earth.getId()), 0.3);
+        assertEquals( 33.3, engine.rateAwesomeness( universe.getDatabase(), earth.getId() ), 0.3 );
     }
 }

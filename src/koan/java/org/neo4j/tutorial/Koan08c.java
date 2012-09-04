@@ -49,8 +49,8 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START doctor = node:characters(character = 'Doctor') " +
-            "MATCH (doctor)<-[:COMPANION_OF]-(companion) " +
-            "RETURN companion.wikipedia?";
+                "MATCH (doctor)<-[:COMPANION_OF]-(companion) " +
+                "RETURN companion.wikipedia?";
 
 
         // SNIPPET_END
@@ -59,8 +59,8 @@ public class Koan08c
         Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia?" );
 
         assertThat( iterator, containsWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
-            "http://en.wikipedia.org/wiki/Amy_Pond",
-            "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
+                "http://en.wikipedia.org/wiki/Amy_Pond",
+                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
 
     }
 
@@ -74,8 +74,8 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START doctor = node:characters(character = 'Doctor')"
-            + "MATCH (doctor)<-[:PLAYED]-(actor) "
-            + "RETURN count(actor) AS numberOfActorsWhoPlayedTheDoctor";
+                + "MATCH (doctor)<-[:PLAYED]-(actor) "
+                + "RETURN count(actor) AS numberOfActorsWhoPlayedTheDoctor";
 
         // SNIPPET_END
 
@@ -95,8 +95,8 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START doctor = node:characters(character = 'Doctor') " +
-            "MATCH (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
-            "RETURN min(regen.year) AS earliest, max(regen.year) AS latest";
+                "MATCH (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
+                "RETURN min(regen.year) AS earliest, max(regen.year) AS latest";
 
         // SNIPPET_END
 
@@ -118,8 +118,8 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
-            + "MATCH (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
-            + "RETURN min(episode.episode) AS earliest";
+                + "MATCH (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
+                + "RETURN min(episode.episode) AS earliest";
 
         // SNIPPET_END
 
@@ -138,8 +138,8 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START doctor = node:characters(character = 'Doctor')"
-            + "MATCH (doctor)<-[:PLAYED]-(actor)"
-            + "RETURN avg(actor.salary?) AS cash";
+                + "MATCH (doctor)<-[:PLAYED]-(actor)"
+                + "RETURN avg(actor.salary?) AS cash";
 
 
         // SNIPPET_END
@@ -159,11 +159,11 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START doctor = node:characters(character = 'Doctor')"
-            + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
-            + "(enemy)-[:ENEMY_OF]->(doctor)"
-            + "WHERE actor.actor = 'Peter Davison'"
-            + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
-            + "ORDER BY episode.episode";
+                + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
+                + "(enemy)-[:ENEMY_OF]->(doctor)"
+                + "WHERE actor.actor = 'Peter Davison'"
+                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
+                + "ORDER BY episode.episode";
 
 
         // SNIPPET_END
@@ -172,7 +172,7 @@ public class Koan08c
 
         final List<String> columnNames = result.javaColumns();
         assertThat( columnNames,
-            containsOnlySpecificStrings( "episode.episode", "episode.title", "species", "characters" ) );
+                containsOnlySpecificStrings( "episode.episode", "episode.title", "species", "characters" ) );
 
         assertDavisonEpisodesRetrievedCorrectly( result.javaIterator() );
     }
@@ -187,10 +187,10 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START rose = node:characters(character = 'Rose Tyler'), doctor = node:characters(character = 'Doctor') "
-            + "MATCH rose-[:APPEARED_IN]->episode, "
-            + "(doctor)-[:ENEMY_OF]->(enemy)-[:APPEARED_IN]->(episode) "
-            + "WHERE has(enemy.species)  "
-            + "RETURN DISTINCT enemy.species AS enemySpecies";
+                + "MATCH rose-[:APPEARED_IN]->episode, "
+                + "(doctor)-[:ENEMY_OF]->(enemy)-[:APPEARED_IN]->(episode) "
+                + "WHERE has(enemy.species)  "
+                + "RETURN DISTINCT enemy.species AS enemySpecies";
 
 
         // SNIPPET_END
@@ -199,8 +199,8 @@ public class Koan08c
         Iterator<String> enemySpecies = result.javaColumnAs( "enemySpecies" );
 
         assertThat( asIterable( enemySpecies ),
-            containsOnlySpecificStrings( "Krillitane", "Sycorax", "Cyberman", "Dalek", "Auton", "Slitheen",
-                "Clockwork Android" ) );
+                containsOnlySpecificStrings( "Krillitane", "Sycorax", "Cyberman", "Dalek", "Auton", "Slitheen",
+                        "Clockwork Android" ) );
 
     }
 

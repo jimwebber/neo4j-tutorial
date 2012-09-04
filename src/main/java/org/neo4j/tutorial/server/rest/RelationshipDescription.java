@@ -12,33 +12,33 @@ public class RelationshipDescription
     public String toJsonCollection()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("{ ");
-        sb.append(" \"type\" : \"" + type + "\"");
-        if (direction != null)
+        sb.append( "{ " );
+        sb.append( " \"type\" : \"" + type + "\"" );
+        if ( direction != null )
         {
-            sb.append(", \"direction\" : \"" + direction + "\"");
+            sb.append( ", \"direction\" : \"" + direction + "\"" );
         }
-        sb.append(" }");
+        sb.append( " }" );
         return sb.toString();
     }
 
-    public RelationshipDescription(String type, String direction)
+    public RelationshipDescription( String type, String direction )
     {
-        setType(type);
-        setDirection(direction);
+        setType( type );
+        setDirection( direction );
     }
 
-    public RelationshipDescription(String type)
+    public RelationshipDescription( String type )
     {
-        this(type, null);
+        this( type, null );
     }
 
-    public void setType(String type)
+    public void setType( String type )
     {
         this.type = type;
     }
 
-    public void setDirection(String direction)
+    public void setDirection( String direction )
     {
         this.direction = direction;
     }

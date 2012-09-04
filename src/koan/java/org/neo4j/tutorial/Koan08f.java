@@ -1,12 +1,12 @@
 package org.neo4j.tutorial;
 
+import static junit.framework.Assert.assertEquals;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-
-import static junit.framework.Assert.assertEquals;
 
 /**
  * In this Koan we focus on paths in Cypher.
@@ -18,7 +18,7 @@ public class Koan08f
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
@@ -30,7 +30,7 @@ public class Koan08f
     @Test
     public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -42,33 +42,33 @@ public class Koan08f
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute(cql);
+        ExecutionResult result = engine.execute( cql );
 
-        assertEquals(5, result.javaColumnAs("regenerations").next());
+        assertEquals( 5, result.javaColumnAs( "regenerations" ).next() );
     }
 
     @Test
     public void shouldFindTheLongestContinuousStoryArcWithTheMaster() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine(universe.getDatabase());
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
         cql = "START master = node:characters(character = 'Master')\n" +
-                "MATCH (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()"+
-                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)"+
+                "MATCH (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()" +
+                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)" +
                 "RETURN LENGTH(storyArcs) as noOfPathHops\n" +
                 "ORDER BY noOfPathHops DESC LIMIT 1";
 
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute(cql);
+        ExecutionResult result = engine.execute( cql );
 
         // noOfPathHops is one less than the number of episodes in a story arc
         final int noOfStories = 5;
-        assertEquals(noOfStories - 1, result.javaColumnAs("noOfPathHops").next());
+        assertEquals( noOfStories - 1, result.javaColumnAs( "noOfPathHops" ).next() );
     }
 }

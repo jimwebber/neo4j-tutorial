@@ -65,7 +65,7 @@ public class Koan08a
         ExecutionResult result = engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-            "START n=node(*) WHERE has(n.firstname) AND n.firstname = 'Tom' AND  has(n.lastname) AND n.lastname = 'Baker' return n" );
+                "START n=node(*) WHERE has(n.firstname) AND n.firstname = 'Tom' AND  has(n.lastname) AND n.lastname = 'Baker' return n" );
 
         assertEquals( 1, executionResult.size() );
     }
@@ -86,10 +86,10 @@ public class Koan08a
         ExecutionResult result = engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-            "START a=node(*) \n" +
-                "MATCH a-[:FRIEND]->b \n" +
-                "WHERE has(a.name) AND a.name='Bill' AND has(b.name) AND b.name = 'Ted' \n" +
-                "RETURN a, b \n" );
+                "START a=node(*) \n" +
+                        "MATCH a-[:FRIEND]->b \n" +
+                        "WHERE has(a.name) AND a.name='Bill' AND has(b.name) AND b.name = 'Ted' \n" +
+                        "RETURN a, b \n" );
 
         assertEquals( 2, executionResult.columns().toList().size() );
     }

@@ -1,11 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import java.util.*;
 
 public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String>>
 {
@@ -13,30 +15,30 @@ public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String
     private final Set<String> specificStrings;
     private Iterable<String> candidateStrings;
 
-    public ContainsOnlySpecificStrings(String... strings)
+    public ContainsOnlySpecificStrings( String... strings )
     {
         this.specificStrings = new HashSet<String>();
-        Collections.addAll(this.specificStrings, strings);
+        Collections.addAll( this.specificStrings, strings );
     }
 
-    public void describeTo(Description description)
+    public void describeTo( Description description )
     {
-        description.appendText("Failed to exactly match all strings");
-        description.appendText(System.getProperty("line.separator"));
-        description.appendValueList("Expected: ", ",", "", specificStrings);
-        description.appendText(System.getProperty("line.separator"));
-        description.appendValueList("Received: ", ",", "", candidateStrings);
+        description.appendText( "Failed to exactly match all strings" );
+        description.appendText( System.getProperty( "line.separator" ) );
+        description.appendValueList( "Expected: ", ",", "", specificStrings );
+        description.appendText( System.getProperty( "line.separator" ) );
+        description.appendValueList( "Received: ", ",", "", candidateStrings );
     }
 
     @Override
-    public boolean matchesSafely(Iterable<String> candidateStrings)
+    public boolean matchesSafely( Iterable<String> candidateStrings )
     {
         this.candidateStrings = candidateStrings;
-        for (String s : candidateStrings)
+        for ( String s : candidateStrings )
         {
-            if (s != null)
+            if ( s != null )
             {
-                specificStrings.remove(s);
+                specificStrings.remove( s );
             }
         }
 
@@ -44,8 +46,8 @@ public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String
     }
 
     @Factory
-    public static Matcher<Iterable<String>> containsOnlySpecificStrings(String... strings)
+    public static Matcher<Iterable<String>> containsOnlySpecificStrings( String... strings )
     {
-        return new ContainsOnlySpecificStrings(strings);
+        return new ContainsOnlySpecificStrings( strings );
     }
 }

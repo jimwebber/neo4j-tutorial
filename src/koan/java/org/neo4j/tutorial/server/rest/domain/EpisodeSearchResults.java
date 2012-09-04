@@ -10,13 +10,13 @@ public class EpisodeSearchResults implements Iterable<EpisodeSearchResult>
     private List<EpisodeSearchResult> results;
 
     @SuppressWarnings("unchecked")
-    public EpisodeSearchResults(List<Map<String, Object>> json)
+    public EpisodeSearchResults( List<Map<String, Object>> json )
     {
         super();
         this.results = new ArrayList<EpisodeSearchResult>();
-        for (Map<String, Object> result : json)
+        for ( Map<String, Object> result : json )
         {
-            results.add(new EpisodeSearchResult((List<Map<String, Object>>) result.get("nodes")));
+            results.add( new EpisodeSearchResult( (List<Map<String, Object>>) result.get( "nodes" ) ) );
         }
     }
 

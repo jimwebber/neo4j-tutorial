@@ -17,9 +17,9 @@ public class EmbeddedDoctorWhoUniverse
     public Node theDoctor()
     {
         return db.index()
-            .forNodes( "characters" )
-            .get( "character", "Doctor" )
-            .getSingle();
+                .forNodes( "characters" )
+                .get( "character", "Doctor" )
+                .getSingle();
     }
 
     public void stop()

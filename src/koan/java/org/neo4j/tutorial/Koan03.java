@@ -1,15 +1,22 @@
 package org.neo4j.tutorial;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
+import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-
-import static org.junit.Assert.*;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
-import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
 /**
  * This Koan will introduce indexing based on the built-in index framework based
@@ -24,7 +31,7 @@ public class Koan03
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse(new DoctorWhoUniverseGenerator());
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
     }
 
     @AfterClass
@@ -42,28 +49,28 @@ public class Koan03
         // SNIPPET_START
 
         characters = universe.getDatabase()
-                             .index()
-                             .forNodes("characters");
+                .index()
+                .forNodes( "characters" );
 
         // SNIPPET_END
 
-        assertNotNull(characters);
+        assertNotNull( characters );
         assertThat(
                 characters,
-                contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith",
-                         "Donna Noble", "Martha Jones"));
+                contains( "Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith",
+                        "Donna Noble", "Martha Jones" ) );
     }
 
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation()
     {
         GraphDatabaseService db = universe.getDatabase();
-        Node abigailPettigrew = createAbigailPettigrew(db);
+        Node abigailPettigrew = createAbigailPettigrew( db );
 
-        assertNull(db.index()
-                     .forNodes("characters")
-                     .get("character", "Abigail Pettigrew")
-                     .getSingle());
+        assertNull( db.index()
+                .forNodes( "characters" )
+                .get( "character", "Abigail Pettigrew" )
+                .getSingle() );
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
@@ -72,8 +79,8 @@ public class Koan03
         try
         {
             db.index()
-              .forNodes("characters")
-              .add(abigailPettigrew, "character", abigailPettigrew.getProperty("character"));
+                    .forNodes( "characters" )
+                    .add( abigailPettigrew, "character", abigailPettigrew.getProperty( "character" ) );
             transaction.success();
         }
         finally
@@ -83,10 +90,10 @@ public class Koan03
 
         // SNIPPET_END
 
-        assertNotNull(db.index()
-                        .forNodes("characters")
-                        .get("character", "Abigail Pettigrew")
-                        .getSingle());
+        assertNotNull( db.index()
+                .forNodes( "characters" )
+                .get( "character", "Abigail Pettigrew" )
+                .getSingle() );
     }
 
     @Test
@@ -98,13 +105,13 @@ public class Koan03
         // SNIPPET_START
 
         species = universe.getDatabase()
-                          .index()
-                          .forNodes("species")
-                          .query("species", "S*n");
+                .index()
+                .forNodes( "species" )
+                .query( "species", "S*n" );
 
         // SNIPPET_END
 
-        assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
+        assertThat( species, containsOnlySpecies( "Silurian", "Slitheen", "Sontaran", "Skarasen" ) );
     }
 
     /**
@@ -116,7 +123,7 @@ public class Koan03
     public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception
     {
         GraphDatabaseService db = universe.getDatabase();
-        Node cyberleader = retriveCyberleaderFromIndex(db);
+        Node cyberleader = retriveCyberleaderFromIndex( db );
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
@@ -124,7 +131,7 @@ public class Koan03
         Transaction tx = db.beginTx();
         try
         {
-            for (Relationship rel : cyberleader.getRelationships())
+            for ( Relationship rel : cyberleader.getRelationships() )
             {
                 rel.delete();
             }
@@ -138,34 +145,34 @@ public class Koan03
 
         // SNIPPET_END
 
-        assertNull("Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex(db));
+        assertNull( "Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex( db ) );
 
         try
         {
-            db.getNodeById(cyberleader.getId());
-            fail("Cyberleader has not been deleted from the database.");
+            db.getNodeById( cyberleader.getId() );
+            fail( "Cyberleader has not been deleted from the database." );
         }
-        catch (NotFoundException nfe)
+        catch ( NotFoundException nfe )
         {
         }
     }
 
-    private Node retriveCyberleaderFromIndex(GraphDatabaseService db)
+    private Node retriveCyberleaderFromIndex( GraphDatabaseService db )
     {
         return db.index()
-                 .forNodes("characters")
-                 .get("character", "Cyberleader")
-                 .getSingle();
+                .forNodes( "characters" )
+                .get( "character", "Cyberleader" )
+                .getSingle();
     }
 
-    private Node createAbigailPettigrew(GraphDatabaseService db)
+    private Node createAbigailPettigrew( GraphDatabaseService db )
     {
         Node abigailPettigrew;
         Transaction tx = db.beginTx();
         try
         {
             abigailPettigrew = db.createNode();
-            abigailPettigrew.setProperty("character", "Abigail Pettigrew");
+            abigailPettigrew.setProperty( "character", "Abigail Pettigrew" );
             tx.success();
         }
         finally

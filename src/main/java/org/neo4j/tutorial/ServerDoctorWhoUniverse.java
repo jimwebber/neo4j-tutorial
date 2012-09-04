@@ -25,39 +25,41 @@ public class ServerDoctorWhoUniverse
 
     public Map<String, Object> theDoctor()
     {
-        return getJsonFor(getUriFromIndex("characters", "character", "Doctor"));
+        return getJsonFor( getUriFromIndex( "characters", "character", "Doctor" ) );
     }
 
-    public Map<String, Object> getJsonFor(String uri)
+    public Map<String, Object> getJsonFor( String uri )
     {
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
-        WebResource resource = client.resource(uri);
-        String response = resource.accept(MediaType.APPLICATION_JSON).get(
-                String.class);
+        Client client = Client.create( config );
+        WebResource resource = client.resource( uri );
+        String response = resource.accept( MediaType.APPLICATION_JSON ).get(
+                String.class );
         try
         {
-            return JsonHelper.jsonToMap(response);
-        } catch (JsonParseException e)
+            return JsonHelper.jsonToMap( response );
+        }
+        catch ( JsonParseException e )
         {
-            throw new RuntimeException("Invalid response when looking up Doctor node");
+            throw new RuntimeException( "Invalid response when looking up Doctor node" );
         }
     }
 
-    public String getUriFromIndex(String indexName, String key, String value)
+    public String getUriFromIndex( String indexName, String key, String value )
     {
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
-        WebResource resource = client.resource(new FunctionalTestHelper(server)
-                                                       .indexNodeUri(indexName, key, value));
-        String response = resource.accept(MediaType.APPLICATION_JSON).get(
-                String.class);
+        Client client = Client.create( config );
+        WebResource resource = client.resource( new FunctionalTestHelper( server )
+                .indexNodeUri( indexName, key, value ) );
+        String response = resource.accept( MediaType.APPLICATION_JSON ).get(
+                String.class );
         try
         {
-            return JsonHelper.jsonToList(response).get(0).get("self").toString();
-        } catch (JsonParseException e)
+            return JsonHelper.jsonToList( response ).get( 0 ).get( "self" ).toString();
+        }
+        catch ( JsonParseException e )
         {
-            throw new RuntimeException("Invalid response when looking up node");
+            throw new RuntimeException( "Invalid response when looking up node" );
         }
     }
 

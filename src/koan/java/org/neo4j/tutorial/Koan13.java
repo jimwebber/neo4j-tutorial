@@ -36,9 +36,9 @@ public class Koan13
         DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
 
         CommunityNeoServer server = ServerBuilder
-            .server()
-            .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
-            .build();
+                .server()
+                .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                .build();
 
         universe = new ServerDoctorWhoUniverse( server );
     }
@@ -66,7 +66,7 @@ public class Koan13
         Client client = Client.create( config );
 
         WebResource resource = client.resource(
-            "http://localhost:7474/db/data/index/node/characters/character/Rose%20Tyler" );
+                "http://localhost:7474/db/data/index/node/characters/character/Rose%20Tyler" );
         ClientResponse response = resource.accept( MediaType.APPLICATION_JSON ).get( ClientResponse.class );
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response.getEntity( String.class ) );
@@ -81,7 +81,7 @@ public class Koan13
     private URI extractAwesomenessUri( List<Map<String, Object>> json ) throws Exception
     {
         Map<String, Map<String, String>> extensions = (Map<String, Map<String, String>>) json.get( 0 ).get(
-            "extensions" );
+                "extensions" );
         String s = extensions.get( "AwesomenessServerPlugin" ).get( "awesomeness" );
         return new URI( s );
     }

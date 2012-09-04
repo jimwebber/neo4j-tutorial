@@ -12,22 +12,22 @@ public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node
     private final int number;
     private int count;
 
-    private ContainsSpecificNumberOfNodes(int number)
+    private ContainsSpecificNumberOfNodes( int number )
     {
         this.number = number;
     }
 
     @Override
-    public void describeTo(Description description)
+    public void describeTo( Description description )
     {
-        description.appendText(String.format("Expected [%d] nodes, found [%s]", number, count));
+        description.appendText( String.format( "Expected [%d] nodes, found [%s]", number, count ) );
     }
 
     @Override
-    public boolean matchesSafely(Iterable<Node> nodes)
+    public boolean matchesSafely( Iterable<Node> nodes )
     {
         count = 0;
-        for (@SuppressWarnings("unused") Node n : nodes)
+        for ( @SuppressWarnings("unused") Node n : nodes )
         {
             count++;
         }
@@ -35,8 +35,8 @@ public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node
     }
 
     @Factory
-    public static <T> Matcher<Iterable<Node>> containsNumberOfNodes(int number)
+    public static <T> Matcher<Iterable<Node>> containsNumberOfNodes( int number )
     {
-        return new ContainsSpecificNumberOfNodes(number);
+        return new ContainsSpecificNumberOfNodes( number );
     }
 }

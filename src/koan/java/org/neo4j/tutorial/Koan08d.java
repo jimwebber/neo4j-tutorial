@@ -27,6 +27,7 @@ public class Koan08d
     {
         universe.stop();
     }
+
     @Test
     public void shouldRemoveCaptainKirkFromTheDatabase()
     {
@@ -38,11 +39,11 @@ public class Koan08d
         // SNIPPET_START
 
         cql = "START doctor=node:characters(character='Doctor') " +
-            "MATCH doctor<-[r:COMPANION_OF]-companion " +
-            "WHERE has(companion.firstname) AND companion.firstname='James' " +
-            "AND has(companion.initial) AND companion.initial='T' " +
-            "AND has(companion.lastname) AND companion.lastname='Kirk' " +
-            "DELETE r, companion";
+                "MATCH doctor<-[r:COMPANION_OF]-companion " +
+                "WHERE has(companion.firstname) AND companion.firstname='James' " +
+                "AND has(companion.initial) AND companion.initial='T' " +
+                "AND has(companion.lastname) AND companion.lastname='Kirk' " +
+                "DELETE r, companion";
 
 
         // SNIPPET_END
@@ -50,12 +51,12 @@ public class Koan08d
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-            "START doctor=node:characters(character='Doctor') " +
-                "MATCH doctor<-[:COMPANION_OF]-companion " +
-                "WHERE has(companion.firstname) AND companion.firstname='James' " +
-                "AND has(companion.initial) AND companion.initial='T' " +
-                "AND has(companion.lastname) AND companion.lastname='Kirk' " +
-                "RETURN companion" );
+                "START doctor=node:characters(character='Doctor') " +
+                        "MATCH doctor<-[:COMPANION_OF]-companion " +
+                        "WHERE has(companion.firstname) AND companion.firstname='James' " +
+                        "AND has(companion.initial) AND companion.initial='T' " +
+                        "AND has(companion.lastname) AND companion.lastname='Kirk' " +
+                        "RETURN companion" );
 
         assertEquals( 0, executionResult.size() );
     }
@@ -71,18 +72,18 @@ public class Koan08d
         // SNIPPET_START
 
         cql = "START doctor=node:characters(character='Doctor') " +
-            "MATCH doctor<-[:PLAYED]-actor " +
-            "DELETE actor.salary";
+                "MATCH doctor<-[:PLAYED]-actor " +
+                "DELETE actor.salary";
 
         // SNIPPET_END
 
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-            "START doctor=node:characters(character='Doctor') " +
-                "MATCH doctor<-[:PLAYED]-actor " +
-                "WHERE has(actor.salary) " +
-                "RETURN actor.salary" );
+                "START doctor=node:characters(character='Doctor') " +
+                        "MATCH doctor<-[:PLAYED]-actor " +
+                        "WHERE has(actor.salary) " +
+                        "RETURN actor.salary" );
 
         assertEquals( 0, executionResult.size() );
     }

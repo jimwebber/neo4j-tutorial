@@ -12,25 +12,25 @@ public class ContainsSpecificCompanions extends TypeSafeMatcher<Index<Node>>
 
     private final String[] companionNames;
 
-    private ContainsSpecificCompanions(String[] companionNames)
+    private ContainsSpecificCompanions( String[] companionNames )
     {
         this.companionNames = companionNames;
     }
 
     @Override
-    public void describeTo(Description description)
+    public void describeTo( Description description )
     {
         description.appendText(
-                "Checks whether each index in the presented arguments contains the supplied companion names.");
+                "Checks whether each index in the presented arguments contains the supplied companion names." );
     }
 
     @Override
-    public boolean matchesSafely(Index<Node> companions)
+    public boolean matchesSafely( Index<Node> companions )
     {
-        for (String name : companionNames)
+        for ( String name : companionNames )
         {
-            if (companions.get("character", name)
-                          .getSingle() == null)
+            if ( companions.get( "character", name )
+                    .getSingle() == null )
             {
                 return false;
             }
@@ -40,8 +40,8 @@ public class ContainsSpecificCompanions extends TypeSafeMatcher<Index<Node>>
     }
 
     @Factory
-    public static <T> Matcher<Index<Node>> contains(String... companionNames)
+    public static <T> Matcher<Index<Node>> contains( String... companionNames )
     {
-        return new ContainsSpecificCompanions(companionNames);
+        return new ContainsSpecificCompanions( companionNames );
     }
 }

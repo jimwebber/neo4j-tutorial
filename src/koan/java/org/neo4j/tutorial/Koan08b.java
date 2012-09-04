@@ -68,7 +68,7 @@ public class Koan08b
         // SNIPPET_START
 
         cql = "START episodes= node:episodes('episode:*') "
-            + "RETURN COUNT(episodes)";
+                + "RETURN COUNT(episodes)";
 
 
         // SNIPPET_END
@@ -96,19 +96,19 @@ public class Koan08b
         Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
         assertThat( asIterable( episodes ), containsOnlyTitles( "Closing Time",
-            "A Good Man Goes to War",
-            "The Pandorica Opens",
-            "The Next Doctor",
-            "Doomsday",
-            "Army of Ghosts",
-            "The Age of Steel",
-            "Rise of the Cybermen",
-            "Silver Nemesis",
-            "Earthshock",
-            "Revenge of the Cybermen",
-            "The Wheel in Space",
-            "The Tomb of the Cybermen",
-            "The Moonbase" ) );
+                "A Good Man Goes to War",
+                "The Pandorica Opens",
+                "The Next Doctor",
+                "Doomsday",
+                "Army of Ghosts",
+                "The Age of Steel",
+                "Rise of the Cybermen",
+                "Silver Nemesis",
+                "Earthshock",
+                "Revenge of the Cybermen",
+                "The Wheel in Space",
+                "The Tomb of the Cybermen",
+                "The Moonbase" ) );
     }
 
     @Test
@@ -130,8 +130,8 @@ public class Koan08b
         Iterator<Node> episodes = result.javaColumnAs( "episode" );
 
         assertThat( asIterable( episodes ),
-            containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts",
-                "The Parting of the Ways" ) );
+                containsOnlyTitles( "Journey's End", "The Stolen Earth", "Doomsday", "Army of Ghosts",
+                        "The Parting of the Ways" ) );
     }
 
     @Test

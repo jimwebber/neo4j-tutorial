@@ -32,12 +32,12 @@ public class Koan14
 
         CommunityNeoServer server =
                 server()
-                        .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
-                        .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan14", "/koan14")
-                        .withSecurityRules(UserNameAndPasswordForSalariesSecurityRule.class)
+                        .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                        .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.koan14", "/koan14" )
+                        .withSecurityRules( UserNameAndPasswordForSalariesSecurityRule.class )
                         .build();
 
-        universe = new ServerDoctorWhoUniverse(server );
+        universe = new ServerDoctorWhoUniverse( server );
     }
 
     @AfterClass
@@ -55,11 +55,11 @@ public class Koan14
         // where you have to build the server-side infrastructure to make this Koan pass.
 
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
+        Client client = Client.create( config );
 
-        ClientResponse response = client.resource("http://localhost:7474/db/data").get(ClientResponse.class);
+        ClientResponse response = client.resource( "http://localhost:7474/db/data" ).get( ClientResponse.class );
 
-        assertEquals(200, response.getStatus());
+        assertEquals( 200, response.getStatus() );
 
     }
 
@@ -73,14 +73,14 @@ public class Koan14
         // where you have to build the server-side infrastructure to make this Koan pass.
 
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
+        Client client = Client.create( config );
 
-        ClientResponse response = client.resource("http://localhost:7474/koan14/David%20Tennant/salary").accept(
-                MediaType.TEXT_PLAIN).get(
-                ClientResponse.class);
+        ClientResponse response = client.resource( "http://localhost:7474/koan14/David%20Tennant/salary" ).accept(
+                MediaType.TEXT_PLAIN ).get(
+                ClientResponse.class );
 
 
-        assertEquals(401, response.getStatus());
+        assertEquals( 401, response.getStatus() );
 
     }
 
@@ -97,14 +97,14 @@ public class Koan14
         // understanding of how to register security rules with the server.
 
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
+        Client client = Client.create( config );
 
-        ClientResponse response = client.resource("http://localhost:7474/koan14/David%20Tennant/salary").header(
-                "X-Username", "Alice").header("X-Password", "1337").accept(MediaType.TEXT_PLAIN).get(
-                ClientResponse.class);
+        ClientResponse response = client.resource( "http://localhost:7474/koan14/David%20Tennant/salary" ).header(
+                "X-Username", "Alice" ).header( "X-Password", "1337" ).accept( MediaType.TEXT_PLAIN ).get(
+                ClientResponse.class );
 
-        assertEquals(200, response.getStatus());
-        assertEquals("text/plain", response.getHeaders().get("Content-Type").get(0));
-        assertEquals("1000000", response.getEntity(String.class));
+        assertEquals( 200, response.getStatus() );
+        assertEquals( "text/plain", response.getHeaders().get( "Content-Type" ).get( 0 ) );
+        assertEquals( "1000000", response.getEntity( String.class ) );
     }
 }

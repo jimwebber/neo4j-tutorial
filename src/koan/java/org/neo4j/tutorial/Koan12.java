@@ -31,11 +31,11 @@ public class Koan12
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir(doctorWhoUniverseGenerator.getDatabaseDirectory())
-                .withThirdPartyJaxRsPackage("org.neo4j.tutorial.koan12", "/koan12")
+                .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.koan12", "/koan12" )
                 .build();
 
-        universe = new ServerDoctorWhoUniverse(server );
+        universe = new ServerDoctorWhoUniverse( server );
     }
 
     @AfterClass
@@ -53,13 +53,13 @@ public class Koan12
         // Koan pass.
 
         ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
+        Client client = Client.create( config );
 
-        WebResource resource = client.resource("http://localhost:7474/koan12/Doctor/homeplanet");
-        ClientResponse response = resource.accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);
+        WebResource resource = client.resource( "http://localhost:7474/koan12/Doctor/homeplanet" );
+        ClientResponse response = resource.accept( MediaType.TEXT_PLAIN ).get( ClientResponse.class );
 
-        assertEquals(200, response.getStatus());
-        assertEquals("text/plain", response.getHeaders().get("Content-Type").get(0));
-        assertEquals("Gallifrey", response.getEntity(String.class));
+        assertEquals( 200, response.getStatus() );
+        assertEquals( "text/plain", response.getHeaders().get( "Content-Type" ).get( 0 ) );
+        assertEquals( "Gallifrey", response.getEntity( String.class ) );
     }
 }
