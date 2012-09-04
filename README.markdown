@@ -86,10 +86,7 @@ Live Sessions
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London, UK
-* April 2012 at [ScanDev] (http://www.scandevconf.se/2012/conference/tutorials/tutorial/?tId=4) Gothenburg, Sweden
-* May 2012 at [Gotocon Amsterdam](http://gotocon.com/amsterdam-2011/presentations/show_presentation.jsp?oid=3273)
-* June 2012 at [QCon NYC](http://qconnewyork.com/qcon-nyc-2012/presentations/show_presentation.jsp?oid=4078)
-* October 2012 at [Gotocon Århus](http://gotocon.com/aarhus-2012/presentations/show_presentation.jsp?oid=3967)
+* November 5, 2012 at [Graph Connect](www.graphconnect.com/tutorial/) San Francisco, USA
 
 Authors <a name="authors">
 -------
