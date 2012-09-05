@@ -29,6 +29,7 @@ public class Actors
             actor( "Karen Gillan" ).played( "Amy Pond" ).fact( db );
             actor( "Arthur Darvill" ).played( "Rory Williams" ).fact( db );
             actor( "Freema Agyeman" ).played( "Martha Jones", "Adeola Oshodi" ).fact( db );
+            actor( "Jenna-Louise Coleman" ).played( "Oswin Oswald" ).fact( db );
 
             tx.success();
         }
