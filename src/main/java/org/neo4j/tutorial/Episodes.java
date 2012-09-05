@@ -88,10 +88,8 @@ public class Episodes
                     .enemy( "Kazran Sardick" )
                     .fact( db );
             season32();
-            episode( 224 ).title( "The Doctor, The Widow, and The Wardrobe" )
-                    .doctor( "Matt Smith" )
-                    .alliedSpecies( "human" )
-                    .fact( db );
+            season33();
+
 
             EpisodeBuilder.reset();
 
@@ -101,6 +99,22 @@ public class Episodes
         {
             tx.finish();
         }
+    }
+
+    private void season33()
+    {
+        episode( 224 ).title( "The Doctor, The Widow, and The Wardrobe" )
+                .doctor( "Matt Smith" )
+                .alliedSpecies( "human" )
+                .fact( db );
+
+        episode( 225 ).title( "Asylum of the Daleks" )
+                .doctor( "Matt Smith" )
+                .allies( "Oswin Oswald" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemySpecies( "Dalek" )
+                .enemy("Darla von Karlsen", "Harvey")
+                .fact( db );
     }
 
     private void season32()

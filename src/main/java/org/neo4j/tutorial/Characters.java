@@ -214,6 +214,19 @@ class Characters
                 .isFrom( "Earth" )
                 .isAlly()
                 .fact( db );
+        character( "Oswin Oswald" ).isA( "Human" )
+                .isA( "Dalek" )
+                .isAlly()
+                .fact( db );
+        character( "Darla von Karlsen" ).isA( "Human" )
+                .isA( "Dalek" )
+                .isAlly()
+                .fact( db );
+        character( "Harvey" ).isA( "Human" )
+                .isA( "Dalek" )
+                .isAlly()
+                .isFrom( "Skaro" )
+                .fact( db );
     }
 
     private void loadCompanions()
