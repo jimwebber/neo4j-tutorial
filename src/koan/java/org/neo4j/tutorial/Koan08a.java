@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -91,6 +92,6 @@ public class Koan08a
                         "WHERE has(a.name) AND a.name='Bill' AND has(b.name) AND b.name = 'Ted' \n" +
                         "RETURN a, b \n" );
 
-        assertEquals( 2, executionResult.columns().toList().size() );
+        assertFalse( executionResult.isEmpty() );
     }
 }
