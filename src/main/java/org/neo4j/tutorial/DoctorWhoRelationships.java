@@ -20,5 +20,6 @@ public enum DoctorWhoRelationships implements RelationshipType
     ORIGINAL_PROP,
     PREVIOUS,
     NEXT,
+    FATHER_OF,
     MEMBER_OF
 }

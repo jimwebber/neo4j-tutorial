@@ -3,6 +3,7 @@ package org.neo4j.tutorial;
 import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ public class CharacterBuilder
     private ArrayList<String> actors = new ArrayList<String>();
     private HashMap<String, Integer> startDates = new HashMap<String, Integer>();
     private String wikipediaUri;
+    private String[] children;
 
     public static CharacterBuilder character( String characterName )
     {
@@ -106,6 +108,20 @@ public class CharacterBuilder
         if ( wikipediaUri != null )
         {
             characterNode.setProperty( "wikipedia", wikipediaUri );
+        }
+
+        if ( children != null )
+        {
+            ensureChildrenInDb( characterNode, children, db );
+        }
+    }
+
+    private static void ensureChildrenInDb( Node characterNode, String[] children, GraphDatabaseService db )
+    {
+        for ( String child : children )
+        {
+            Node childNode = ensureCharacterIsInDb( child, db );
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.FATHER_OF, childNode );
         }
     }
 
@@ -308,23 +324,26 @@ public class CharacterBuilder
 
     public CharacterBuilder regeneration( String... actors )
     {
-        for ( String actor : actors )
-        {
-            this.actors.add( actor );
-        }
+        Collections.addAll( this.actors, actors );
         return this;
     }
 
     public CharacterBuilder regeneration( String actor, int year )
     {
         this.actors.add( actor );
-        this.startDates.put( actor, new Integer( year ) );
+        this.startDates.put( actor, year );
         return this;
     }
 
     public CharacterBuilder wikipedia( String wikipediaEntry )
     {
         this.wikipediaUri = wikipediaEntry;
+        return this;
+    }
+
+    public CharacterBuilder fatherOf( String... children )
+    {
+        this.children = children;
         return this;
     }
 }

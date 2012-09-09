@@ -113,7 +113,14 @@ public class Episodes
                 .allies( "Oswin Oswald" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemySpecies( "Dalek" )
-                .enemy("Darla von Karlsen", "Harvey")
+                .enemy( "Darla von Karlsen", "Harvey" )
+                .fact( db );
+
+        episode( 226 ).title( "Dinosaurs on a Spaceship" )
+                .doctor( "Matt Smith" )
+                .allies( "Queen Nefertiti", "Riddell", "Brian Williams" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemy( "Solomon" )
                 .fact( db );
     }
 

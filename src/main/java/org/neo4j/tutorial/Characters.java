@@ -173,10 +173,31 @@ class Characters
         character( "Yartek" ).isA( "Voord" )
                 .isEnemy()
                 .fact( db );
+        character( "Darla von Karlsen" ).isA( "Human" )
+                .isA( "Dalek" )
+                .isEnemy()
+                .fact( db );
+        character( "Harvey" ).isA( "Human" )
+                .isA( "Dalek" )
+                .isEnemy()
+                .fact( db );
+        character( "Solomon" ).isA( "Humanoid" )
+                .isEnemy()
+                .fact( db );
     }
 
     private void loadAllies()
     {
+        character( "Riddell" ).isA( "Human" )
+                .isAlly()
+                .fact( db );
+        character( "Brian Williams" ).isA( "Human" )
+                .fatherOf( "Rory Williams" )
+                .isAlly()
+                .fact( db );
+        character( "Queen Nefertiti" ).isA( "Human" )
+                .isAlly()
+                .fact( db );
         character( "River Song" ).isA( "Human" )
                 .loves( "Doctor" )
                 .isAlly()
@@ -217,15 +238,6 @@ class Characters
         character( "Oswin Oswald" ).isA( "Human" )
                 .isA( "Dalek" )
                 .isAlly()
-                .fact( db );
-        character( "Darla von Karlsen" ).isA( "Human" )
-                .isA( "Dalek" )
-                .isAlly()
-                .fact( db );
-        character( "Harvey" ).isA( "Human" )
-                .isA( "Dalek" )
-                .isAlly()
-                .isFrom( "Skaro" )
                 .fact( db );
     }
 

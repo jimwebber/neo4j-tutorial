@@ -78,7 +78,7 @@ public class Koan11
         // SNIPPET_END
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response );
-        int numberOfEnemiesOfTheDoctor = 148;
+        int numberOfEnemiesOfTheDoctor = 151;
         assertEquals( numberOfEnemiesOfTheDoctor, json.size() );
     }
 
@@ -167,7 +167,7 @@ public class Koan11
 
         // SNIPPET_END
 
-        assertFirstAndSecondDoctorCreatedAndLinkedToActors( universe.getServer().getDatabase().graph );
+        assertFirstAndSecondDoctorCreatedAndLinkedToActors( universe.getServer().getDatabase().getGraph() );
 
     }
 
