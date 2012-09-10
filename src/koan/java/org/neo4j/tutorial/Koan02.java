@@ -198,7 +198,7 @@ public class Koan02
             {
                 Node n = r.getEndNode();
                 if ( n.hasProperty( "character" ) && n.getProperty( "character" )
-                        .equals( "The Doctor" ) )
+                        .equals( "Doctor" ) )
                 {
                     r.delete();
                 }
@@ -221,7 +221,7 @@ public class Koan02
         try
         {
             Node theDoctor = db.createNode();
-            theDoctor.setProperty( "character", "The Doctor" );
+            theDoctor.setProperty( "character", "Doctor" );
 
             Node susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
