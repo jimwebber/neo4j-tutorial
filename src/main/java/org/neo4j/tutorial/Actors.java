@@ -31,6 +31,8 @@ public class Actors
             actor( "Freema Agyeman" ).played( "Martha Jones", "Adeola Oshodi" ).fact( db );
             actor( "Jenna-Louise Coleman" ).played( "Oswin Oswald" ).fact( db );
             actor( "Sophie Aldred" ).played( "Ace" ).fact( db );
+            actor( "Timothy Dalton" ).played( "Rassilon" ).fact( db );
+            actor( "Richard Mathews" ).played( "Rassilon" ).fact( db );
 
             tx.success();
         }

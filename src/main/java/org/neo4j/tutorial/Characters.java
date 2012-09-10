@@ -49,6 +49,11 @@ class Characters
 
     private void loadEnemies()
     {
+        character( "Rassilon" )
+                .isEnemy()
+                .isA( "Timelord" )
+                .isFrom( "Gallifrey" )
+                .fact( db );
         character( "Master" ).regeneration( "Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley",
                 "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm" )
                 .isEnemy()
@@ -403,6 +408,10 @@ class Characters
                 .isCompanion()
                 .fact( db );
         character( "Adelaide Brooke" ).isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( db );
+        character( "Craig Owens" ).isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
                 .fact( db );
