@@ -9,7 +9,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
@@ -219,13 +218,12 @@ public class Koan02
     private Node createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor()
     {
         Transaction tx = db.beginTx();
-        Node susan = null;
         try
         {
             Node theDoctor = db.createNode();
             theDoctor.setProperty( "character", "The Doctor" );
 
-            susan = db.createNode();
+            Node susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
@@ -256,7 +254,8 @@ public class Koan02
             captainKirk.setProperty( "initial", "T" );
             captainKirk.setProperty( "lastname", "Kirk" );
 
-            captainKirk.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "COMPANION_OF" ) );
+            captainKirk.createRelationshipTo( theDoctor, DoctorWhoRelationships.COMPANION_OF );
+            captainKirk.createRelationshipTo( theDoctor, DoctorWhoRelationships.FATHER_OF );
 
             tx.success();
             return captainKirk;
