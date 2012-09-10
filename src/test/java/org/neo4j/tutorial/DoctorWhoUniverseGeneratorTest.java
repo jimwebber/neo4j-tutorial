@@ -134,7 +134,7 @@ public class DoctorWhoUniverseGeneratorTest
                 humanSpeciesNode.getRelationships(
                         DoctorWhoRelationships.IS_A, Direction.INCOMING ) );
 
-        int knownNumberOfHumans = 54;
+        int knownNumberOfHumans = 55;
         assertEquals( knownNumberOfHumans, numberOfHumansFriendliesInTheDB );
     }
 
@@ -151,7 +151,7 @@ public class DoctorWhoUniverseGeneratorTest
                 timelordSpeciesNode.getRelationships(
                         DoctorWhoRelationships.IS_A, Direction.INCOMING ) );
 
-        int knownNumberOfTimelords = 8;
+        int knownNumberOfTimelords = 9;
         assertEquals( knownNumberOfTimelords, numberOfTimelordsInTheDb );
     }
 
