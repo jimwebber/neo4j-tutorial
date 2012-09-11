@@ -42,7 +42,6 @@ public class Koan08c
     @Test
     public void shouldReturnAnyWikpediaEntriesForCompanions()
     {
-
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
 
@@ -51,13 +50,14 @@ public class Koan08c
 
         cql = "START doctor = node:characters(character = 'Doctor') " +
                 "MATCH (doctor)<-[:COMPANION_OF]-(companion) " +
-                "RETURN companion.wikipedia?";
+                "WHERE has(companion.wikipedia) " +
+                "RETURN companion.wikipedia";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-        Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia?" );
+        Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia" );
 
         assertThat( iterator, containsOnlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
                 "http://en.wikipedia.org/wiki/Amy_Pond",
