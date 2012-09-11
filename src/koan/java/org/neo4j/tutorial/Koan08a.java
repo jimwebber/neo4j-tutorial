@@ -80,7 +80,7 @@ public class Koan08a
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE n1 = { character : 'Doctor' }, n2 = { character : 'Master' }, n1-[r:ENEMY_OF]->n2 ";
+        cql = "CREATE doctor = { character : 'Doctor' }, master = { character : 'Master' }, (doctor)<-[r:ENEMY_OF]-(master) ";
 
         // SNIPPET_END
 
