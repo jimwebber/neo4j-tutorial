@@ -96,7 +96,7 @@ public class Koan07
                         else if ( !path.endNode().hasRelationship( DoctorWhoRelationships.REGENERATED_TO,
                                 Direction.OUTGOING ) )
                         {
-                            // Catches Richard Hurdnall who played the William
+                            // Catches Richard Hurndall who played the William
                             // Hartnell's Doctor in The Five Doctors (William
                             // Hartnell had died by then)
                             return Evaluation.EXCLUDE_AND_CONTINUE;

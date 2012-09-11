@@ -41,7 +41,7 @@ public class Episodes
             season19();
             season20();
             episode( 129 ).title( "The Five Doctors" )
-                    .doctor( "Richard Hurdnall" )
+                    .doctor( "Richard Hurndall" )
                     .doctor( "William Hartnell" )
                     .doctor( "Patrick Troughton" )
                     .doctor( "Jon Pertwee" )

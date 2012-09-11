@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
-import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsWikipediaEntries;
+import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -58,7 +58,7 @@ public class Koan08c
         ExecutionResult result = engine.execute( cql );
         Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia?" );
 
-        assertThat( iterator, containsWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
+        assertThat( iterator, containsOnlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
                 "http://en.wikipedia.org/wiki/Amy_Pond",
                 "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
 

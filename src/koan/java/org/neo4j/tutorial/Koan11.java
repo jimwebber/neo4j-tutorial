@@ -138,8 +138,8 @@ public class Koan11
 
         Map<String, Object> williamHartnellJson = universe.getJsonFor(
                 universe.getUriFromIndex( "actors", "actor", "William Hartnell" ) );
-        Map<String, Object> richardHurdnallJson = universe.getJsonFor(
-                universe.getUriFromIndex( "actors", "actor", "Richard Hurdnall" ) );
+        Map<String, Object> richardHurndallJson = universe.getJsonFor(
+                universe.getUriFromIndex( "actors", "actor", "Richard Hurndall" ) );
         Map<String, Object> patrickTroughtonJson = universe.getJsonFor(
                 universe.getUriFromIndex( "actors", "actor", "Patrick Troughton" ) );
 
@@ -157,7 +157,7 @@ public class Koan11
                 .createRelationship( "{0}/relationships", theDoctorUri, INCARNATION_OF )
                 .createRelationship( "{1}/relationships", theDoctorUri, INCARNATION_OF )
                 .createRelationship( williamHartnellJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
-                .createRelationship( richardHurdnallJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
+                .createRelationship( richardHurndallJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
                 .createRelationship( patrickTroughtonJson.get( "create_relationship" ).toString(), "{1}", PLAYED );
 
         WebResource resource = client.resource( "http://localhost:7474/db/data/batch" );
@@ -208,8 +208,8 @@ public class Koan11
         final PatternNode williamHartell = new PatternNode();
         williamHartell.addPropertyConstraint( "actor", CommonValueMatchers.exact( "William Hartnell" ) );
 
-        final PatternNode richardHurdnall = new PatternNode();
-        richardHurdnall.addPropertyConstraint( "actor", CommonValueMatchers.exact( "Richard Hurdnall" ) );
+        final PatternNode richardHurndall = new PatternNode();
+        richardHurndall.addPropertyConstraint( "actor", CommonValueMatchers.exact( "Richard Hurndall" ) );
 
         final PatternNode patrickTroughton = new PatternNode();
         patrickTroughton.addPropertyConstraint( "actor", CommonValueMatchers.exact( "Patrick Troughton" ) );
@@ -219,7 +219,7 @@ public class Koan11
         secondDoctor.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "INCARNATION_OF" ),
                 Direction.OUTGOING );
         williamHartell.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
-        richardHurdnall.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
+        richardHurndall.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
         patrickTroughton.createRelationshipTo( secondDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
 
         PatternMatcher matcher = PatternMatcher.getMatcher();
