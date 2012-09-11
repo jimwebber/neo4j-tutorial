@@ -88,7 +88,7 @@ public class Koan08a
 
         final ExecutionResult executionResult = engine.execute(
                 "START a=node(*) \n" +
-                        "MATCH a-[:ENEMY_OF]->b \n" +
+                        "MATCH a<-[:ENEMY_OF]-b \n" +
                         "WHERE has(a.character) AND a.character='Doctor' AND has(b.character) AND b.character = 'Master' \n" +
                         "RETURN a, b \n" );
 
