@@ -80,7 +80,7 @@ public class Koan08a
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE n1 = { name : 'Bill' }, n2 = { name : 'Ted' }, n1-[r:FRIEND]->n2 ";
+        cql = "CREATE n1 = { character : 'Doctor' }, n2 = { character : 'Master' }, n1-[r:ENEMY_OF]->n2 ";
 
         // SNIPPET_END
 
@@ -88,8 +88,8 @@ public class Koan08a
 
         final ExecutionResult executionResult = engine.execute(
                 "START a=node(*) \n" +
-                        "MATCH a-[:FRIEND]->b \n" +
-                        "WHERE has(a.name) AND a.name='Bill' AND has(b.name) AND b.name = 'Ted' \n" +
+                        "MATCH a-[:ENEMY_OF]->b \n" +
+                        "WHERE has(a.character) AND a.character='Doctor' AND has(b.character) AND b.character = 'Master' \n" +
                         "RETURN a, b \n" );
 
         assertFalse( executionResult.isEmpty() );
