@@ -159,13 +159,6 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-//        cql = "START doctor = node:characters(character = 'Doctor')"
-//                + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
-//                + "(enemy)-[:ENEMY_OF]->(doctor)"
-//                + "WHERE actor.actor = 'Peter Davison'"
-//                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
-//                + "ORDER BY episode.episode";
-
         cql = "START davison=node:actors(actor='Peter Davison') "
                 + "MATCH (davison)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()<-[:PLAYED]-(davison)"
                 + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
