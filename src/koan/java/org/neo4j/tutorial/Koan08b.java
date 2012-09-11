@@ -55,7 +55,7 @@ public class Koan08b
     }
 
     @Test
-    public void shouldCountTheNumberOfEpisodes()
+    public void shouldFindAllTheEpisodesUsingIndexesOnly()
     {
         // The number of episodes is not the same as the highest episode number.
         // Some episodes are two-parters with the same episode number, others use schemes like
@@ -68,14 +68,14 @@ public class Koan08b
         // SNIPPET_START
 
         cql = "START episodes= node:episodes('episode:*') "
-                + "RETURN COUNT(episodes)";
+                + "RETURN episodes";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 248l, result.javaColumnAs( "COUNT(episodes)" ).next() );
+        assertEquals( 248l, result.length() );
     }
 
 
