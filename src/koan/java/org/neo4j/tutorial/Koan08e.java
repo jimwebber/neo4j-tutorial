@@ -35,26 +35,6 @@ public class Koan08e
     }
 
     @Test
-    public void shouldFindTheLatestRegenerationYear()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start doctor = node:characters(character = 'Doctor')"
-                + "match (doctor)<-[:PLAYED]-()-[regeneratedRelationship:REGENERATED_TO]->()"
-                + "return max(regeneratedRelationship.year) as latestRegenerationYear";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-        Assert.assertEquals( 2010, result.javaColumnAs( "latestRegenerationYear" ).next() );
-    }
-
-    @Test
     public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
