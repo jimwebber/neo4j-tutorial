@@ -2,6 +2,7 @@ package org.neo4j.tutorial;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
@@ -158,10 +159,15 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character = 'Doctor')"
-                + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
-                + "(enemy)-[:ENEMY_OF]->(doctor)"
-                + "WHERE actor.actor = 'Peter Davison'"
+//        cql = "START doctor = node:characters(character = 'Doctor')"
+//                + "MATCH (doctor)<-[:PLAYED]-(actor)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy),"
+//                + "(enemy)-[:ENEMY_OF]->(doctor)"
+//                + "WHERE actor.actor = 'Peter Davison'"
+//                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
+//                + "ORDER BY episode.episode";
+
+        cql = "START davison=node:actors(actor='Peter Davison') "
+                + "MATCH (davison)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()<-[:PLAYED]-(davison)"
                 + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
                 + "ORDER BY episode.episode";
 
@@ -253,7 +259,9 @@ public class Koan08c
         assertEquals( "Snakedance", next.get( "episode.title" ) );
 
         next = iterator.next();
-        assertEquals( Arrays.asList( "Mawdryn", "Black Guardian" ), next.get( "characters" ) );
+        final List chars = (List)next.get( "characters" );
+        assertTrue( chars.contains( "Mawdryn" ) );
+        assertTrue( chars.contains( "Black Guardian" ) );
         assertEquals( "125", next.get( "episode.episode" ) );
         assertEquals( "Mawdryn Undead", next.get( "episode.title" ) );
 

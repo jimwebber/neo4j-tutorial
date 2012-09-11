@@ -14,6 +14,7 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
 {
 
     private final Set<String> entries = new HashSet<String>();
+    private boolean nullsInResults;
 
     public ContainsWikipediaEntries( String... wikipediaEntries )
     {
@@ -22,7 +23,14 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
 
     public void describeTo( Description description )
     {
-        description.appendText( "Failed to match wikipedia entries to given nodes." );
+        if ( !nullsInResults )
+        {
+            description.appendText( "Failed to match wikipedia entries to given nodes." );
+        }
+        else
+        {
+            description.appendText( "Failed to match wikipedia entries to given nodes. Some of the result rows contained null." );
+        }
     }
 
     @Override
@@ -35,13 +43,18 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
             {
                 entries.remove( s );
             }
+            else
+            {
+                nullsInResults = true;
+                return false;
+            }
         }
 
         return entries.isEmpty();
     }
 
     @Factory
-    public static Matcher<Iterator<String>> containsWikipediaEntries( String... wikepediaEntries )
+    public static Matcher<Iterator<String>> containsOnlyWikipediaEntries( String... wikepediaEntries )
     {
         return new ContainsWikipediaEntries( wikepediaEntries );
     }
