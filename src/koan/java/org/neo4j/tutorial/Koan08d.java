@@ -50,13 +50,7 @@ public class Koan08d
 
         engine.execute( cql );
 
-        final ExecutionResult executionResult = engine.execute(
-                "START doctor=node:characters(character='Doctor') " +
-                        "MATCH doctor<-[:COMPANION_OF]-companion " +
-                        "WHERE has(companion.firstname) AND companion.firstname='James' " +
-                        "AND has(companion.initial) AND companion.initial='T' " +
-                        "AND has(companion.lastname) AND companion.lastname='Kirk' " +
-                        "RETURN companion" );
+        final ExecutionResult executionResult = engine.execute( deletedKirkQuery );
 
         assertEquals( 0, executionResult.size() );
     }
@@ -112,4 +106,11 @@ public class Koan08d
             tx.finish();
         }
     }
+
+    private static final String deletedKirkQuery = "START doctor=node:characters(character='Doctor') " +
+            "MATCH doctor<-[:COMPANION_OF]-companion " +
+            "WHERE has(companion.firstname) AND companion.firstname='James' " +
+            "AND has(companion.initial) AND companion.initial='T' " +
+            "AND has(companion.lastname) AND companion.lastname='Kirk' " +
+            "RETURN companion";
 }
