@@ -14,6 +14,7 @@ import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.kernel.Traversal;
+import org.neo4j.kernel.Uniqueness;
 
 /**
  * In this Koan we start using the new traversal framework to find interesting
@@ -43,6 +44,8 @@ public class Koan07
         TraversalDescription regeneratedActors = null;
 
         // YOUR CODE GOES HERE
+        // Note: every doctor has participated in a regeneration, including the first and last Doctors
+
         // SNIPPET_START
 
         regeneratedActors = Traversal.description()
@@ -80,6 +83,7 @@ public class Koan07
         firstDoctor = Traversal.description()
                 .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                 .depthFirst()
+                .uniqueness( Uniqueness.NODE_GLOBAL )
                 .evaluator( new Evaluator()
                 {
                     public Evaluation evaluate( Path path )
