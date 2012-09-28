@@ -93,9 +93,9 @@ Authors <a name="authors">
 
 [Glen Ford](http://usersource.net/), [@glen_ford](http://twitter.com/glen_ford)
 
-[Tobias Lindaaker](http://www.thobe.org/), [@thobe](http://twitter.com/thobe)
-
 Alistair Jones, [@apcj](http://twitter.com/apcj)
+
+[Tobias Lindaaker](http://www.thobe.org/), [@thobe](http://twitter.com/thobe)
 
 Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
