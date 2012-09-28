@@ -30,7 +30,7 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
 
         if ( !matchedParameterLengths )
         {
-            description.appendText( "Number of actor names presented does not match number of actors" );
+            description.appendText( "Number of actor names in traverser result does not match number of actors required by matcher" );
         }
     }
 
@@ -49,6 +49,7 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
             Object actorProperty = actor.getProperty( "actor" );
             if ( !actorNames.contains( actorProperty ) )
             {
+                nodeIsNotAnActor = true;
                 return false;
             }
             else
@@ -60,7 +61,7 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
     }
 
     @Factory
-    public static <T> Matcher<Iterable<Node>> containsOnlyActors( String... actorNames )
+    public static Matcher<Iterable<Node>> containsOnlyActors( String... actorNames )
     {
         return new ContainsOnlySpecificActors( actorNames );
     }
