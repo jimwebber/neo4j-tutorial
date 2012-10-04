@@ -6,6 +6,7 @@ import static org.neo4j.tutorial.CharacterBuilder.ensureEnemyOfRelationshipInDb;
 import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.neo4j.graphdb.Direction;
@@ -26,6 +27,7 @@ public class EpisodeBuilder
     private List<String> alliedSpecies = new ArrayList<String>();
 
     private static Node previousEpisode = null;
+    private List<String> others = new ArrayList<String>();
 
     public EpisodeBuilder( String episodeNumber )
     {
@@ -61,28 +63,19 @@ public class EpisodeBuilder
 
     public EpisodeBuilder companion( String... namesOfCompanions )
     {
-        for ( String str : namesOfCompanions )
-        {
-            companionNames.add( str );
-        }
+        Collections.addAll( companionNames, namesOfCompanions );
         return this;
     }
 
     public EpisodeBuilder enemySpecies( String... enemySpecies )
     {
-        for ( String str : enemySpecies )
-        {
-            this.enemySpecies.add( str );
-        }
+        Collections.addAll( this.enemySpecies, enemySpecies );
         return this;
     }
 
     public EpisodeBuilder enemy( String... enemies )
     {
-        for ( String str : enemies )
-        {
-            this.enemies.add( str );
-        }
+        Collections.addAll( this.enemies, enemies );
         return this;
     }
 
@@ -144,10 +137,19 @@ public class EpisodeBuilder
             }
         }
 
-        linkToPrevious( episode, db );
+        if ( this.others != null )
+        {
+            for ( String other : others )
+            {
+                Node otherCharacter = CharacterBuilder.ensureCharacterIsInDb( other, db );
+                otherCharacter.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
+            }
+        }
+
+        linkToPrevious( episode );
     }
 
-    private void linkToPrevious( Node episode, GraphDatabaseService db )
+    private void linkToPrevious( Node episode )
     {
         if ( previousEpisode != null )
         {
@@ -213,8 +215,10 @@ public class EpisodeBuilder
                 .forNodes( "characters" )
                 .get( "character", "Doctor" )
                 .getSingle();
+
         Iterable<Relationship> relationships = theDoctor.getRelationships( DoctorWhoRelationships.PLAYED,
                 Direction.INCOMING );
+
 
         for ( Relationship r : relationships )
         {
@@ -243,10 +247,13 @@ public class EpisodeBuilder
 
     public EpisodeBuilder alliedSpecies( String... alliedSpecies )
     {
-        for ( String str : alliedSpecies )
-        {
-            this.alliedSpecies.add( str );
-        }
+        Collections.addAll( this.alliedSpecies, alliedSpecies );
+        return this;
+    }
+
+    public EpisodeBuilder others( String... others )
+    {
+        Collections.addAll( this.others, others );
         return this;
     }
 }

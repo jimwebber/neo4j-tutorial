@@ -20,22 +20,7 @@ class Characters
         Transaction tx = db.beginTx();
         try
         {
-            character( "Doctor" ).regeneration( "William Hartnell" )
-                    .regeneration( "Patrick Troughton", 1966 )
-                    .regeneration( "Jon Pertwee", 1970 )
-                    .regeneration( "Tom Baker", 1974 )
-                    .regeneration( "Peter Davison", 1981 )
-                    .regeneration( "Colin Baker", 1984 )
-                    .regeneration( "Sylvester McCoy", 1987 )
-                    .regeneration( "Paul McGann", 1996 )
-                    .regeneration( "Christopher Eccleston", 2005 )
-                    .regeneration( "David Tennant", 2005 )
-                    .regeneration( "Matt Smith", 2010 )
-                    .loves( "Rose Tyler", "River Song" )
-                    .isA( "Timelord" )
-                    .isFrom( "Gallifrey" )
-                    .owns( "Tardis", "Sonic Screwdriver" )
-                    .fact( db );
+            embellishTheDoctor();
             loadCompanions();
             loadEnemies();
             loadAllies();
@@ -45,6 +30,27 @@ class Characters
         {
             tx.finish();
         }
+    }
+
+    private void embellishTheDoctor()
+    {
+        character( "Doctor" )
+                .regeneration( "William Hartnell" )
+                .regeneration( "Patrick Troughton", 1966 )
+                .regeneration( "Jon Pertwee", 1970 )
+                .regeneration( "Tom Baker", 1974 )
+                .regeneration( "Peter Davison", 1981 )
+                .regeneration( "Colin Baker", 1984 )
+                .regeneration( "Sylvester McCoy", 1987 )
+                .regeneration( "Paul McGann", 1996 )
+                .regeneration( "Christopher Eccleston", 2005 )
+                .regeneration( "David Tennant", 2005 )
+                .regeneration( "Matt Smith", 2010 )
+                .loves( "Rose Tyler", "River Song" )
+                .isA( "Timelord" )
+                .isFrom( "Gallifrey" )
+                .owns( "Tardis", "Sonic Screwdriver" )
+                .fact( db );
     }
 
     private void loadEnemies()
@@ -199,6 +205,7 @@ class Characters
         character( "Brian Williams" ).isA( "Human" )
                 .fatherOf( "Rory Williams" )
                 .isAlly()
+                .firstAppearedIn( 226 )
                 .fact( db );
         character( "Queen Nefertiti" ).isA( "Human" )
                 .isAlly()
@@ -219,6 +226,8 @@ class Characters
         character( "Brigadier Lethbridge-Stewart" ).isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
+                .firstAppearedIn( 41 )
+                .diedIn( 223 )
                 .fact( db );
         character( "Professor Travers" ).isA( "Human" )
                 .isFrom( "Earth" )
@@ -424,12 +433,16 @@ class Characters
                 .isCompanion()
                 .wikipedia( "http://en.wikipedia.org/wiki/Amy_Pond" )
                 .loves( "Rory Williams" )
+                .firstAppearedIn( 203 )
+                .diedIn( 229 )
                 .fact( db );
         character( "Rory Williams" ).isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
                 .wikipedia( "http://en.wikipedia.org/wiki/Rory_Williams" )
                 .loves( "Amy Pond" )
+                .firstAppearedIn( 203 )
+                .diedIn( 229 )
                 .fact( db );
     }
 

@@ -26,6 +26,8 @@ public class CharacterBuilder
     private HashMap<String, Integer> startDates = new HashMap<String, Integer>();
     private String wikipediaUri;
     private String[] children;
+    private String firstAppearance;
+    private String diedIn;
 
     public static CharacterBuilder character( String characterName )
     {
@@ -113,6 +115,18 @@ public class CharacterBuilder
         if ( children != null )
         {
             ensureChildrenInDb( characterNode, children, db );
+        }
+
+        if ( firstAppearance != null )
+        {
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.FIRST_APPEARED,
+                    db.index().forNodes( "episodes" ).get( "episode", firstAppearance ).getSingle() );
+        }
+
+        if ( diedIn != null )
+        {
+            ensureRelationshipInDb( characterNode, DoctorWhoRelationships.DIED_IN,
+                    db.index().forNodes( "episodes" ).get( "episode", diedIn ).getSingle() );
         }
     }
 
@@ -344,6 +358,28 @@ public class CharacterBuilder
     public CharacterBuilder fatherOf( String... children )
     {
         this.children = children;
+        return this;
+    }
+
+    public CharacterBuilder firstAppearedIn( int episodeNumber )
+    {
+        return firstAppearedIn( String.valueOf( episodeNumber ) );
+    }
+
+    public CharacterBuilder firstAppearedIn( String episodeNumber )
+    {
+        this.firstAppearance = episodeNumber;
+        return this;
+    }
+
+    public CharacterBuilder diedIn( int episodeNumber )
+    {
+        return this.diedIn( String.valueOf( episodeNumber ) );
+    }
+
+    public CharacterBuilder diedIn( String episodeNumber )
+    {
+        this.diedIn = episodeNumber;
         return this;
     }
 }

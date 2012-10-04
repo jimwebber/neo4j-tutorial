@@ -122,6 +122,24 @@ public class Episodes
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemy( "Solomon" )
                 .fact( db );
+
+        episode( 227 ).title( "A Town Called Mercy" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .others( "Gunslinger", "Kahler-Jex" )
+                .fact( db );
+
+        episode( 228 ).title( "The Power of Three" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemy( "Shakri" )
+                .fact( db );
+
+        episode( 229 ).title( "The Angels Take Manhattan" )
+                .doctor( "Matt Smith" )
+                .companion( "Amy Pond", "Rory Williams" )
+                .enemySpecies( "Weeping Angel" )
+                .fact( db );
     }
 
     private void season32()

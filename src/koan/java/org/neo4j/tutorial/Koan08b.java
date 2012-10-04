@@ -75,7 +75,7 @@ public class Koan08b
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 248l, result.length() );
+        assertEquals( 251l, result.length() );
     }
 
 
@@ -153,6 +153,6 @@ public class Koan08b
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 155, result.size() );
+        assertEquals( 156, result.size() );
     }
 }

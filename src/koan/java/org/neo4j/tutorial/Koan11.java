@@ -78,7 +78,7 @@ public class Koan11
         // SNIPPET_END
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response );
-        int numberOfEnemiesOfTheDoctor = 152;
+        int numberOfEnemiesOfTheDoctor = 153;
         assertEquals( numberOfEnemiesOfTheDoctor, json.size() );
     }
 
@@ -194,7 +194,7 @@ public class Koan11
 
     private void assertFirstAndSecondDoctorCreatedAndLinkedToActors( GraphDatabaseService db )
     {
-        Node doctorNode = db.getNodeById( 1 );
+        Node doctorNode = db.index().forNodes( "characters" ).get( "character", "Doctor" ).getSingle();
 
         final PatternNode theDoctor = new PatternNode();
         theDoctor.addPropertyConstraint( "character", CommonValueMatchers.exact( "Doctor" ) );
@@ -213,6 +213,7 @@ public class Koan11
 
         final PatternNode patrickTroughton = new PatternNode();
         patrickTroughton.addPropertyConstraint( "actor", CommonValueMatchers.exact( "Patrick Troughton" ) );
+
 
         firstDoctor.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "INCARNATION_OF" ),
                 Direction.OUTGOING );

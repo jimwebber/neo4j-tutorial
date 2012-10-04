@@ -1,6 +1,8 @@
 package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 
 public class DoctorWhoUniverseGenerator
 {
@@ -11,13 +13,30 @@ public class DoctorWhoUniverseGenerator
     public DoctorWhoUniverseGenerator()
     {
         GraphDatabaseService db = DatabaseHelper.createDatabase( dbDir );
-        addCharacters( db );
+        addDoctorAsNodeOneForToolSupportReasons( db );
         addActors( db );
+        addEpisodes( db );
+        addCharacters( db );
         addSpecies( db );
         addPlanets( db );
-        addEpisodes( db );
         addDalekProps( db );
         db.shutdown();
+    }
+
+    private void addDoctorAsNodeOneForToolSupportReasons( GraphDatabaseService db )
+    {
+        final Transaction transaction = db.beginTx();
+        try
+        {
+            final Node node = db.createNode();
+            node.setProperty( "character", "Doctor" );
+            db.index().forNodes( "characters" ).add( node, "character", "Doctor" );
+            transaction.success();
+        }
+        finally
+        {
+            transaction.finish();
+        }
     }
 
     private void addActors( GraphDatabaseService db )
