@@ -26,7 +26,7 @@ public class Koan08a
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute( "START n=node(*) return n" );
 
@@ -47,7 +47,7 @@ public class Koan08a
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
                 "START n=node(*) WHERE has(n.firstname) AND n.firstname = 'Tom' AND  has(n.lastname) AND n.lastname = 'Baker' return n" );
@@ -68,7 +68,7 @@ public class Koan08a
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
                 "START a=node(*) \n" +
