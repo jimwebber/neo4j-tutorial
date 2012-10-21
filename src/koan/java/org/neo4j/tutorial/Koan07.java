@@ -51,7 +51,7 @@ public class Koan07
         regeneratedActors = Traversal.description()
                 .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                 .breadthFirst()
-                .evaluator( new TraversalPrinter(   new Evaluator()
+                .evaluator( new Evaluator()
                 {
                     public Evaluation evaluate( Path path )
                     {
@@ -64,7 +64,7 @@ public class Koan07
                             return Evaluation.EXCLUDE_AND_CONTINUE;
                         }
                     }
-                }, "actor", "character" ));
+                } );
 
         // SNIPPET_END
 
