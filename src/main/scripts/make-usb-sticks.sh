@@ -11,12 +11,12 @@ if [ -z $1 ] || [ -z $2 ]	;
 	exit 1;
 fi
 
-diskutil eraseDisk "MS-DOS FAT32" NEO4J $1
-echo diskutil mountDisk $1
-diskutil mountDisk $1
+#diskutil eraseVolume fat32 NEO4J disk3s1
+diskutil eraseVolume fat32 NEO4J $1
 
-cp -r $2 /Volumes/NEO4J
+#diskutil info disk3s1 | grep "Mount Point" | awk -F: {'print $2'}
+cp -r $2 `diskutil info disk3s1 | grep "Mount Point" | awk -F: {'print $2'}`
 
-diskutil unmountDisk /Volumes/NEO4J
+diskutil unmountDisk $1
 
 
