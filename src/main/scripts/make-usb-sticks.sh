@@ -27,3 +27,6 @@ cp -r $SOURCE "$MOUNT_POINT/"
 
 diskutil unmountDisk $1
 
+echo "Finished, please physically remove stick"
+echo $'\cg'
+
