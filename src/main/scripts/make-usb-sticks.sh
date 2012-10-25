@@ -15,7 +15,7 @@ fi
 diskutil eraseVolume fat32 NEO4J $1
 
 #diskutil info disk3s1 | grep "Mount Point" | awk -F: {'print $2'}
-cp -r $2 `diskutil info disk3s1 | grep "Mount Point" | awk -F: {'print $2'}`
+cp -r $2 `diskutil info $1 | grep "Mount Point" | awk -F: {'print $2'}`
 
 diskutil unmountDisk $1
 
