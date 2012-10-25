@@ -14,16 +14,16 @@ if [ -z $DISK ] || [ -z $SOURCE ]	;
 	exit 1;
 fi
 
-diskutil eraseVolume fat32 NEO4J $1s1
+diskutil eraseDisk fat32 NEO4J MBR $1
 
 if [ $? -ne 0 ];
 	then echo "Something went wrong creating or mounting the fat32 USB stick";
 	exit 1;
 fi
 
-MOUNT_POINT=`diskutil info $1s1 | grep "Mount Point" | awk -F: {'print $2'} | sed 's/^ *//g'`
 
-cp -r $SOURCE \"$MOUNT_POINT/\"
+MOUNT_POINT=`diskutil info ${DISK}s1 | grep "Mount Point" | awk -F: {'print $2'} | sed 's/^ *//g'`
+cp -r $SOURCE "${MOUNT_POINT}"
 
 diskutil unmountDisk $1
 
