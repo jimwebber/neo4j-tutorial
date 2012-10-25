@@ -23,7 +23,7 @@ fi
 
 MOUNT_POINT=`diskutil info $1s1 | grep "Mount Point" | awk -F: {'print $2'} | sed 's/^ *//g'`
 
-cp -r $SOURCE "$MOUNT_POINT/"
+cp -r $SOURCE \"$MOUNT_POINT/\"
 
 diskutil unmountDisk $1
 
