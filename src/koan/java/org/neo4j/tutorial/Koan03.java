@@ -101,6 +101,11 @@ public class Koan03
     {
         IndexHits<Node> species = null;
 
+        //HINT: while the naming convention in the DrWho Indecies is
+        // Index name: 'actors', index key: 'actor'
+        // For the species (due to the English langauage) it is
+        // Index name: 'species', index key: 'species'
+        
         // YOUR CODE GOES HERE
         // SNIPPET_START
 

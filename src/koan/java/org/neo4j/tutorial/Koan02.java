@@ -48,6 +48,11 @@ public class Koan02
     {
         Node node = null;
 
+        // HINT: mutation operations need to be wrapped in transactions
+        // db.beginTx()
+        // db.success()/db.fail()
+        // db.finish()
+
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
@@ -103,6 +108,10 @@ public class Koan02
         Node theDoctor = null;
         Node susan = null;
         Relationship companionRelationship = null;
+
+        // HINT: you can create a new RelationshipsType with
+        // DynamicRelationshipType.withName(name) or use the precanned Types for this tutorial
+        // e.g. DoctorWhoRelationships.COMPANION_OF
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
