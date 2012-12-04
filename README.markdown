@@ -86,7 +86,7 @@ Live Sessions
 This tutorial is presented around the world. If you're interested in participating in a class, then it'll be taught at:
 
 * Quarterly at [Skillsmatter](http://skillsmatter.com/course/nosql/neo4j-tutorial) London, UK
-* November 5, 2012 at [Graph Connect](www.graphconnect.com/tutorial/) San Francisco, USA
+* Regularly at conferences around the world. Check the [Neo Technology calendar](www.neotechnology.com/calendar/) for more information
 
 Authors <a name="authors">
 -------
