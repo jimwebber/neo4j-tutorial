@@ -91,6 +91,13 @@ This tutorial is presented around the world. If you're interested in participati
 Authors <a name="authors">
 -------
 
+[Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
+
+[Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
+   
+Contributors <a name="contributors">
+-------
+ 
 [Glen Ford](http://usersource.net/), [@glen_ford](http://twitter.com/glen_ford)
 
 Alistair Jones, [@apcj](http://twitter.com/apcj)
@@ -101,15 +108,11 @@ Peter Neubauer, [@peterneubauer](http://twitter.com/peterneubauer)
 
 [Michael Peterson](http://thornydev.blogspot.com/), [@midpeter444](http://twitter.com/midpeter444)
 
-[Ian Robinson](http://iansrobinson.com), [@iansrobinson](http://twitter.com/iansrobinson)
-
 Andres Taylor, [@andres_taylor](http://twitter.com/andres_taylor)
 
 Niklas Uhrberg
 
 [Aleksa Vukotic](http://aleksavukotic.com), [@aleksavukotic](http://twitter.com/aleksavukotic)
-
-[Jim Webber](http://jimwebber.org/), [@jimwebber](http://twitter.com/jimwebber)
 
 Links
 -----
