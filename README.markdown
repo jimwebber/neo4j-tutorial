@@ -40,14 +40,14 @@ Since the Koans come complete with the answers, if you're going to benefit from 
 
     src/main/scripts/remove_snippets.sh
 
-Sorry to Windows users, you'll have to run this with [http://www.cygwin.com/](Cygwin) for now.
+Sorry to Windows users, you'll have to run this with [Cygwin](http://www.cygwin.com/) for now.
 
 The sed script removes all lines between
 
     //SNIPPET_START
     //SNIPPET_END
 
-in the Koans, leaving them compiling but failing. 
+in the Koans, leaving them compiling but in a failing state. 
 
 If you want to run individual Koans (rather than all of them) then just type the specific Koan's target on the command line. For example to run Koan 5:
 
@@ -66,19 +66,19 @@ If you'd like some help in setting up the Koans in your IDE, the Ant script cont
 
     ant generate.eclipse.project
 
-an Eclipse project will be created in the Koan directory. This can be opened readily with Eclipse or Intellij.
+an Eclipse project will be created in the Koan directory. This can be opened easily with Eclipse or Intellij where you can run individual koans as JUnit tests as normal.
 
 
 Where are my Koans?
 -------------------
 
-The Koans themselves are in:
+The Koans themselves are in the koans directory under:
 
     src/koan/java
 
 and you'll see that they're numerically increasing in number. Start with *Koan01.java* and run it. If you're running the Koans in your IDE, then you can run Koan01.java as a unit test and verify that a Neo4j database can be created and populated with Doctor Who data, and that you have your IDE project set up properly.
 
-Now that you're at this point, you're ready to move to *Koan02.java* and start hacking on Neo4j proper. Don't forget that in the presentation directory you'll find a full set of slides that will help you navigate the Koans, and build up a picture of the Doctor Who universe.
+Now that you're at this point, you're ready to move to *Koan02.java* and really start hacking on Neo4j.
 
 Live Sessions
 -------------

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ivysettings>
+	<settings defaultResolver="chained"/>
+	<resolvers>
+		<chain name="chained" returnFirst="false">
+			<ibiblio name="neo4j" root="http://m2.neo4j.org/content/groups/public/" m2compatible="true"/>
+			<ibiblio name="neo4j-snapshot" m2compatible="true" root="http://m2.neo4j.org/content/repositories/snapshots/"/>
+			<ibiblio name="maven_central" root="http://repo2.maven.org/maven2/" m2compatible="true"/>
+			<ibiblio name="jboss" root="http://repository.jboss.org/nexus/content/groups/public/" m2compatible="true"/>
+			<ibiblio name="springframework" root="http://maven.springframework.org/release" m2compatible="true"/>
+			<ibiblio name="springframework_milestone" root="http://maven.springframework.org/milestone" m2compatible="true"/>
+			<ibiblio name="ow2" root="http://maven.ow2.org/maven2/" m2compatible="true"/>
+			<ibiblio name="oracle" root="http://download.oracle.com/maven" m2compatible="true"/>
+		</chain>
+	</resolvers>
+	<caches>
+		<cache name="default-cache" basedir="${ivy.cache.dir}"/>
+	</caches>
+</ivysettings>

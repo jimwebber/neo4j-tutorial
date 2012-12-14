@@ -1,0 +1,30 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="..">
+
+    <property name="ant-eclipse.install.version" value="1.0"/>
+    <property name="ant-eclipse.dir" location="${basedir}/.ant-eclipse"/>
+    <property name="ant-eclipse.jar.file" location="${ant-eclipse.dir}/lib/ant-eclipse-1.0-jvm1.2.jar"/>
+
+    <target name="-ant-eclipse.jar.available">
+        <available property="skip.ant-eclipse.download" file="${ant-eclipse.jar.file}"/>
+    </target>
+
+    <target name="-download.ant-eclipse" depends="-ant-eclipse.jar.available" unless="skip.ant-eclipse.download">
+
+        <mkdir dir="${ant-eclipse.dir}"/>
+        <get dest="${ant-eclipse.dir}/ant-eclipse-1.0.bin.tar.bz2" usetimestamp="true"
+             src="http://downloads.sourceforge.net/project/ant-eclipse/ant-eclipse/1.0/ant-eclipse-1.0.bin.tar.bz2"/>
+        <untar compression="bzip2" src="${ant-eclipse.dir}/ant-eclipse-1.0.bin.tar.bz2" dest="${ant-eclipse.dir}"/>
+    </target>
+
+    <target name="-install.ant-eclipse" depends="-download.ant-eclipse">
+        <path id="ant-eclipse.lib.path">
+            <fileset dir="${ant-eclipse.dir}" includes="**/*.jar"/>
+        </path>
+        <taskdef name="eclipse" classname="prantl.ant.eclipse.EclipseTask" classpathref="ant-eclipse.lib.path"/>
+    </target>
+
+    <target name="clean-ant-eclipse">
+        <delete dir="${ant-eclipse.dir}"/>
+    </target>
+
+</project>

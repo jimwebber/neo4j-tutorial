@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="..">
+
+    <property name="neoclipse.version" value="1.8"/>
+    <property name="arch" value="${sun.arch.data.model}"/>
+    <property name="tools.dir" location="tools/"/>
+
+	<property name="mac.32.installer" value="neoclipse${neoclipse.version}-macosx.cocoa.x86.zip"/>
+	<property name="mac.64.installer" value="neoclipse${neoclipse.version}-macosx.cocoa.x86_64.zip"/>
+    <property name="win.32.installer" value="neoclipse${neoclipse.version}-win32.win32.x86.zip"/>
+    <property name="win.64.installer" value="neoclipse${neoclipse.version}-win32.win32.x86_64.zip"/>
+    <property name="linux.32.installer" value="neoclipse${neoclipse.version}-linux.gtk.x86.zip"/>
+    <property name="linux.64.installer" value="neoclipse${neoclipse.version}-linux.gtk.x86_64.zip"/>
+                                                
+    <property name="distribution.site" value="http://cloud.github.com/downloads/neo4j/neoclipse/"/>
+
+    <condition property="is.mac.intel.x86_64">
+        <and>
+            <equals arg1="${arch}" arg2="64"/>
+            <os family="mac"/>
+        </and>
+    </condition>
+
+    <condition property="is.mac.intel.x86">
+        <and>
+            <equals arg1="${arch}" arg2="32"/>
+            <os family="mac"/>
+        </and>
+    </condition>
+
+    <condition property="is.win.32.bit">
+        <and>
+            <equals arg1="${arch}" arg2="32"/>
+            <os family="windows"/>
+        </and>
+    </condition>
+
+    <condition property="is.win.64.bit">
+        <and>
+            <equals arg1="${arch}" arg2="64"/>
+            <os family="windows"/>
+        </and>
+    </condition>
+
+    <condition property="is.linux.32.bit">
+        <and>
+            <equals arg1="${arch}" arg2="32"/>
+            <os family="unix"/>
+            <not>
+                <os family="mac"/>
+            </not>
+        </and>
+    </condition>
+
+    <condition property="is.linux.64.bit">
+        <and>
+            <equals arg1="${arch}" arg2="64"/>
+            <os family="unix"/>
+            <not>
+                <os family="mac"/>
+            </not>
+        </and>
+    </condition>
+
+
+    <target name="-get.mac.32" if="is.mac.intel.x86">
+        <echo message="... found 32-bit Mac OS on Intel x86"/>
+        <get dest="${tools.dir}/${mac.32.installer}" src="${distribution.site}${mac.32.installer}"/>
+    </target>
+    <target name="-get.mac.64" if="is.mac.intel.x86_64">
+        <echo message="... found 64-bit Mac OS on Intel x86"/>
+        <get dest="${tools.dir}/${mac.64.installer}" src="${distribution.site}${mac.64.installer}"/>
+    </target>
+    <target name="-get.win.32" if="is.win.32.bit">
+        <echo message="... found 32-bit Windows"/>
+        <get dest="${tools.dir}/${win.32.installer}" src="${distribution.site}${win.32.installer}"/>
+    </target>
+    <target name="-get.win.64" if="is.win.64.bit">
+        <echo message="... found 64-bit Windows"/>
+        <get dest="${tools.dir}/${win.64.installer}" src="${distribution.site}${win.64.installer}"/>
+    </target>
+    <target name="-get.linux.32" if="is.linux.32.bit">
+        <echo message="... found 32-bit Linux"/>
+        <get dest="${tools.dir}/${linux.32.installer}" src="${distribution.site}${linux.32.installer}"/>
+    </target>
+    <target name="-get.linux.64" if="is.linux.64.bit">
+        <echo message="... found 64-bit Linux"/>
+        <get dest="${tools.dir}/${linux.64.installer}" src="${distribution.site}${linux.64.installer}"/>
+    </target>
+
+    <target name="-init">
+        <mkdir dir="${tools.dir}"/>
+        <echo message="Determining the best Neoclipse for your platform..."/>
+    </target>
+
+    <target name="download.neoclipse" depends="-init, -get.mac.32, -get.mac.64, -get.win.32, -get.win.64, -get.linux.32, -get.linux.64"
+            description="Downloads the most appropriate neoclipse version for the current platform"/>
+
+    <target name="download.all.neoclipse.versions" depends="-init"
+            description="Downloads all neoclipse versions which will take a very long time.">
+        <get dest="${tools.dir}/${mac.32.installer}" src="${distribution.site}${mac.32.installer}"/>
+        <get dest="${tools.dir}/${mac.64.installer}" src="${distribution.site}${mac.64.installer}"/>
+        <get dest="${tools.dir}/${win.32.installer}" src="${distribution.site}${win.32.installer}"/>
+        <get dest="${tools.dir}/${win.64.installer}" src="${distribution.site}${win.64.installer}"/>
+        <get dest="${tools.dir}/${linux.32.installer}" src="${distribution.site}${linux.32.installer}"/>
+        <get dest="${tools.dir}/${linux.64.installer}" src="${distribution.site}${linux.64.installer}"/>
+    </target>
+
+</project>
+
+
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+
+<project name="test" basedir=".">
+    <macrodef name="run_junit_tests" description="Macro for running junit tests">
+        <attribute name="testclasspath"/>
+        <attribute name="testfileset"/>
+        <attribute name="outputdir"/>
+        <attribute name="failbuild" default="true"/>
+
+        <sequential>
+            <condition property="isUnix">
+                <os family="unix"/>
+            </condition>
+            <echo message="@{outputdir}"/>
+            <mkdir dir="@{outputdir}"/>
+            <junit forkMode="perBatch"
+                   printsummary="yes"
+                   haltonfailure="false"
+                   failureproperty="junit.test.failure"
+                   haltonerror="false"
+                   errorproperty="junit.test.error"
+                   showoutput="true"
+                   dir=".">
+                <jvmarg value="-Dfile.encoding=ISO-8859-1"/>
+                <classpath refid="@{testclasspath}"/>
+                <formatter type="xml"/>
+                <batchtest fork="yes" todir="@{outputdir}">
+                    <fileset refid="@{testfileset}"/>
+                </batchtest>
+            </junit>
+            <condition property="tests.failed.or.errored">
+                <and>
+                    <or>
+                        <isset property="junit.test.failure"/>
+                        <isset property="junit.test.error"/>
+                    </or>
+                    <istrue value="@{failbuild}"/>
+                </and>
+            </condition>
+            <antcall target="-generate_junit_report_and_fail">
+                <param name="_junit_report_dir_" value="@{outputdir}"/>
+            </antcall>
+        </sequential>
+    </macrodef>
+
+    <target name="-generate_junit_report_and_fail"
+            description="Generate the unit test report if tests failed and cause build to stop short">
+        <echo message="Outputting to ${_junit_report_dir_}/output"/>
+        <junitreport todir="${_junit_report_dir_}">
+            <fileset dir="${_junit_report_dir_}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+
+            <report format="frames" todir="${_junit_report_dir_}/output"/>
+        </junitreport>
+    </target>
+
+</project>

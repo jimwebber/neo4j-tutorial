@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ivy-module xmlns:m="http://ant.apache.org/ivy/maven" version="2.0">
+  <info organisation="org.neo4j" module="neo4j-koans"/>
+  <dependencies>
+    <dependency org="org.neo4j.app" name="neo4j-server" rev="1.8">
+      <artifact name="neo4j-server" ext="jar"/>
+      <artifact name="neo4j-server" m:classifier="static-web" ext="jar"/>
+      <artifact name="neo4j-server" m:classifier="tests" ext="jar"/>
+      <exclude org="org.slf4j"/>
+    </dependency>
+    <dependency org="org.neo4j" name="server-api" rev="1.8"/>
+    <dependency org="org.neo4j" name="neo4j-community" rev="1.8"/>
+    <dependency org="org.neo4j" name="neo4j-kernel" rev="1.8">
+      <artifact name="neo4j-kernel" ext="jar"/>
+      <artifact name="neo4j-kernel" m:classifier="tests" ext="jar"/>
+    </dependency>
+    <dependency org="org.neo4j" name="neo4j-shell" rev="1.7"/>
+    <dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.7.5"/>
+    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.7.5"/>
+    <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.25"/>
+    <dependency org="org.rrd4j" name="rrd4j" rev="2.0.7" transitive="false"/>
+    <dependency org="com.sun.jersey" name="jersey-client" rev="1.9"/>
+    <dependency org="com.sun.jersey" name="jersey-core" rev="1.9"/>
+    <dependency org="com.sun.jersey" name="jersey-server" rev="1.9"/>
+    <dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
+    <dependency org="junit" name="junit" rev="4.10"/>
+    <dependency org="org.hamcrest" name="hamcrest-all" rev="1.2"/>
+  </dependencies>
+</ivy-module>

@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<project name="path" default="donothingToMakeAValidAntFile"
+         basedir=".">
+
+    <property name="target.build" location="target/artifacts"/>
+    <property name="main.src" location="src/main/java"/>
+    <property name="target" location="target"/>
+    <property name="main.target" location="${target}/main/classes"/>
+    <property name="koan.resources" location="src/koan/resources"/>
+    <property name="test.src" location="src/test/java"/>
+    <property name="test.target" location="${target}/test/classes"/>
+    <property name="test.reports" location="${target}/test/reports"/>
+    <property name="koan.src" location="src/koan/java"/>
+    <property name="koan.resource" location="src/koan/resources"/>
+    <property name="koan.target" location="${target}/koan/classes"/>
+    <property name="koan.reports" location="${target}/koan/reports"/>
+
+    <property name="ivy.dir" location=".ivy"/>
+    <property name="lib.dir" location="lib"/>
+    <property name="settings.dir" location="settings"/>
+
+    <target name="donothingToMakeAValidAntFile"/>
+
+    <path id="path.libs">
+        <fileset dir="lib"/>
+    </path>
+
+    <path id="path.compile">
+        <path refid="path.libs"/>
+        <dirset dir="${main.target}"/>
+    </path>
+
+    <path id="path.testing">
+        <path refid="path.libs"/>
+        <path refid="path.compile"/>
+        <dirset dir="${test.target}"/>
+    </path>
+
+    <path id="path.koan">
+        <path refid="path.libs"/>
+        <path refid="path.compile"/>
+		<dirset dir="${koan.resources}"/>
+        <dirset dir="${koan.target}"/>
+    </path>
+
+    <path id="all.src">
+        <path refid="path.compile"/>
+        <path refid="path.testing"/>
+        <path refid="path.koan"/>
+    </path>
+
+</project>

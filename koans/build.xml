@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<project name="neo4j-tutorial" default="run.koans" basedir=".">
+    <property name="settings.dir" location="settings"/>
+    <import file="${settings.dir}/download-neoclipse.xml"/>
+    <import file="${settings.dir}/install-ant-eclipse.xml"/>
+    <import file="${settings.dir}/install-ivy.xml"/>
+    <import file="${settings.dir}/path.xml"/>
+    <import file="${settings.dir}/test.xml"/>
+    <import file="${settings.dir}/koan.xml"/>
+
+    <target name="lib.retrieve" xmlns:ivy="antlib:org.apache.ivy.ant" depends="install-ivy" unless="skip.ivy.download">
+        <mkdir dir="${lib.dir}"/>
+        <ivy:settings file="${settings.dir}/ivysettings.xml"/>
+        <ivy:resolve file="${settings.dir}/ivy.xml"/>
+
+		<ivy:retrieve type="jar" pattern="${lib.dir}/[artifact](-[classifier]).[ext]" changing="true"/>
+				<ivy:retrieve type="bundle" pattern="${lib.dir}/[artifact].[ext]" changing="true"/>
+    </target>
+
+    <target name="refresh.dependencies" depends="-lib.clean, lib.retrieve"/>
+
+    <target name="clean.dependencies">
+        <delete dir="${lib.dir}"/>
+        <delete dir="${ivy.dir}"/>
+    </target>
+
+    <target name="-lib.clean">
+        <delete dir="${lib.dir}"/>
+    </target>
+
+    <target name="clean" depends="-lib.clean" description="Removes the build directory, but not any cached ivy dependencies">
+        <delete dir="target"/>
+        <delete dir="build"/>
+        <delete dir="out"/>
+    </target>
+
+    <target name="compile" description="Compile production classes" depends="lib.retrieve">
+        <mkdir dir="${main.target}"/>
+        <javac srcdir="${main.src}" destdir="${main.target}" classpathref="path.libs" source="1.6"/>
+
+        <tstamp>
+            <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        </tstamp>
+    </target>
+
+    <target name="compile.tests" description="Compile unit test classes" depends="compile">
+        <mkdir dir="${test.target}"/>
+        <javac srcdir="${test.src}" destdir="${test.target}" classpathref="path.testing" debug="true" target="1.6"/>
+    </target>
+
+    <target name="test" depends="compile, compile.tests">
+        <fileset id="unittest.source.files" dir="${test.src}">
+            <include name="**/*Test*.java"/>
+        </fileset>
+        <run_junit_tests testclasspath="path.testing" testfileset="unittest.source.files" outputdir="${test.reports}"/>
+        <fail if="tests.failed.or.errored" message="Build failed due to Unit test failures or errors"/>
+    </target>
+
+    <target name="compile.koans" description="Compile koans">
+        <mkdir dir="${koan.target}"/>
+        <javac srcdir="${koan.src}" destdir="${koan.target}" classpathref="path.koan" debug="true" target="1.6"/>
+    </target>
+
+    <target name="run.koans"
+            depends="test, compile.koans, run.koan01, run.koan02, run.koan03, run.koan04, run.koan05, run.koan06, run.koan07, run.koan08, run.koan09, run.koan10, run.koan11, run.koan12, run.koan13, run.koan14"/>
+
+    <target name="run.koan01" depends="test, compile.koans">
+        <koan number="01"/>
+    </target>
+
+    <target name="run.koan02" depends="test, compile.koans">
+        <koan number="02"/>
+    </target>
+
+    <target name="run.koan03" depends="test, compile.koans">
+        <koan number="03"/>
+    </target>
+
+    <target name="run.koan04" depends="test, compile.koans">
+        <koan number="04"/>
+    </target>
+
+    <target name="run.koan05" depends="test, compile.koans">
+        <koan number="05"/>
+    </target>
+
+    <target name="run.koan06" depends="test, compile.koans">
+        <koan number="06"/>
+    </target>
+
+    <target name="run.koan07" depends="test, compile.koans">
+        <koan number="07"/>
+    </target>
+
+    <target name="run.koan08" depends="test, compile.koans">
+        <koan number="08"/>
+    </target>
+
+    <target name="run.koan09" depends="test, compile.koans">
+        <koan number="09"/>
+    </target>
+
+    <target name="run.koan10" depends="test, compile.koans">
+        <koan number="10"/>
+    </target>
+
+    <target name="run.koan11" depends="test, compile.koans">
+        <koan number="11"/>
+    </target>
+
+    <target name="run.koan12" depends="test, compile.koans">
+        <koan number="12"/>
+    </target>
+
+    <target name="run.koan13" depends="test, compile.koans">
+        <koan number="13"/>
+    </target>
+
+    <target name="run.koan14" depends="test, compile.koans">
+        <koan number="14"/>
+    </target>
+
+    <target name="generate.eclipse.project" depends="-install.ant-eclipse, lib.retrieve">
+        <mkdir dir="${main.target}"/>
+        <mkdir dir="${test.target}"/>
+        <mkdir dir="${koan.target}"/>
+        <eclipse mode="java">
+            <settings>
+                <jdtcore compilercompliance="6.0"/>
+            </settings>
+            <project name="neo4j-tutorial"/>
+            <classpath>
+                <library pathref="path.libs"/>
+                <source path="${main.src}"/>
+                <source path="${test.src}"/>
+                <source path="${koan.src}"/>
+                <source path="${koan.resource}"/>
+                <output path="${target}"/>
+            </classpath>
+        </eclipse>
+    </target>
+</project>
