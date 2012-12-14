@@ -59,7 +59,7 @@ and to run all of Koan 8 (which has many parts):
 
    ant run.koan08
 
-If you're already wired for an IDE, you can of course just use your favourite development environment to run the Koans too.
+If you'd prefer to use an IDE, you can of course just use your favourite development environment to run the Koans too.
 
 I want my IDE
 -------------
