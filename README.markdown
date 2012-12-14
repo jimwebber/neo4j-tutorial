@@ -28,7 +28,7 @@ To download the latest version of the koans as a zipfile, click on the following
 
 [https://github.com/jimwebber/neo4j-tutorial/zipball/master](https://github.com/jimwebber/neo4j-tutorial/zipball/master)
 
-Once you have cloned or downloaded and unzipped the koans, you're almost ready. You just need the Neo4j binary dependencies, which you can get by running the default Apache Ant target from the Koan root directory:
+Once you have cloned or downloaded and unzipped the koans, you're almost ready. You just need the Neo4j binary dependencies, which you can get by running the default Apache Ant target from the root directory:
 
    ant 
 
@@ -74,7 +74,7 @@ an Eclipse project will be created in the Koan directory. This can be opened eas
 Where are my Koans?
 -------------------
 
-The Koans themselves are in the koans directory under:
+The Koans themselves are in the root directory under:
 
     src/koan/java
 
