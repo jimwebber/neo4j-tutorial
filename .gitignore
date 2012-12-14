@@ -6,11 +6,13 @@ out
 bin
 lib
 target
-.ivy
 .DS_Store
 .ant-eclipse
-.ant-eclipse
-.settings
+.classpath
+.git
+.gitignore
 .idea
+.ivy
+.project
+.settings
 tools
-*.iml
