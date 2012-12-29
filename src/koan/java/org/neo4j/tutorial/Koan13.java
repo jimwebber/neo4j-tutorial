@@ -78,10 +78,11 @@ public class Koan13
         assertEquals( 50.0, Double.valueOf( response.getEntity( String.class ) ) );
     }
 
+    @SuppressWarnings("unchecked")
     private URI extractAwesomenessUri( List<Map<String, Object>> json ) throws Exception
     {
-        Map<String, Map<String, String>> extensions = (Map<String, Map<String, String>>) json.get( 0 ).get(
-                "extensions" );
+        Map<String, Map<String, String>> extensions = (Map<String, Map<String, String>>) json.get( 0 )
+                .get( "extensions" );
         String s = extensions.get( "AwesomenessServerPlugin" ).get( "awesomeness" );
         return new URI( s );
     }
