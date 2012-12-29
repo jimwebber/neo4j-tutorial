@@ -103,12 +103,12 @@ public class Episodes
 
     private void season33()
     {
-        episode( 224 ).title( "The Doctor, The Widow, and The Wardrobe" )
+        episode( 225 ).title( "The Doctor, The Widow, and The Wardrobe" )
                 .doctor( "Matt Smith" )
                 .alliedSpecies( "human" )
                 .fact( db );
 
-        episode( 225 ).title( "Asylum of the Daleks" )
+        episode( 226 ).title( "Asylum of the Daleks" )
                 .doctor( "Matt Smith" )
                 .allies( "Oswin Oswald" )
                 .companion( "Amy Pond", "Rory Williams" )
@@ -116,41 +116,47 @@ public class Episodes
                 .enemy( "Darla von Karlsen", "Harvey" )
                 .fact( db );
 
-        episode( 226 ).title( "Dinosaurs on a Spaceship" )
+        episode( 227 ).title( "Dinosaurs on a Spaceship" )
                 .doctor( "Matt Smith" )
                 .allies( "Queen Nefertiti", "Riddell", "Brian Williams" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemy( "Solomon" )
                 .fact( db );
 
-        episode( 227 ).title( "A Town Called Mercy" )
+        episode( 228 ).title( "A Town Called Mercy" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .others( "Gunslinger", "Kahler-Jex" )
                 .fact( db );
 
-        episode( 228 ).title( "The Power of Three" )
+        episode( 229 ).title( "The Power of Three" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemy( "Shakri" )
                 .fact( db );
 
-        episode( 229 ).title( "The Angels Take Manhattan" )
+        episode( 230 ).title( "The Angels Take Manhattan" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemySpecies( "Weeping Angel" )
+                .fact( db );
+
+        episode( 231 ).title( "The Snowmen" )
+                .doctor( "Matt Smith" )
+                .companion( "Oswin Oswald" )
+                .enemySpecies( "The Great Intelligence" )
                 .fact( db );
     }
 
     private void season32()
     {
-        episode( 214 ).title( "The Impossible Astronaut" )
+        episode( "214a" ).title( "The Impossible Astronaut" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams", "River Song" )
                 .allies( "Richard Nixon", "Canton Everett Delaware III" )
                 .enemySpecies( "The Silence" )
                 .fact( db );
-        episode( 214 ).title( "Day of the Moon" )
+        episode( "214b" ).title( "Day of the Moon" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams", "River Song" )
                 .enemySpecies( "The Silence" )
@@ -173,7 +179,7 @@ public class Episodes
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .fact( db );
-        episode( "218a" ).title( "A Good Man Goes to War" )
+        episode( "218" ).title( "A Good Man Goes to War" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams", "River Song" )
                 .allies( "Commander Strax", "Madame Vastra", "Jenny", "Dorium Maldovar" )
@@ -181,33 +187,33 @@ public class Episodes
                 .enemySpecies( "Cyberman" )
                 .enemy( "Madame Kovarian" )
                 .fact( db );
-        episode( "218b" ).title( "Let's Kill Hitler!" )
+        episode( "219" ).title( "Let's Kill Hitler!" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemy( "River Song" )
                 .fact( db );
-        episode( 219 ).title( "Night Terrors" )
+        episode( 220 ).title( "Night Terrors" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .allies( "Alex" )
                 .enemySpecies( "Peg Dolls" )
                 .fact( db );
-        episode( 220 ).title( "The Girl Who Waited" )
+        episode( 221 ).title( "The Girl Who Waited" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemySpecies( "Handbots" )
                 .fact( db );
-        episode( 221 ).title( "The God Complex" )
+        episode( 222 ).title( "The God Complex" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams" )
                 .enemy( "Minotaur" )
                 .fact( db );
-        episode( 222 ).title( "Closing Time" )
+        episode( 223 ).title( "Closing Time" )
                 .doctor( "Matt Smith" )
                 .companion( "Craig Owens" )
                 .enemySpecies( "Cyberman" )
                 .fact( db );
-        episode( 223 ).title( "The Wedding of River Song" )
+        episode( 224 ).title( "The Wedding of River Song" )
                 .doctor( "Matt Smith" )
                 .companion( "Amy Pond", "Rory Williams", "River Song" )
                 .allies( "Winston Churchill", "Charles Dickens", "Dorium Maldovar" )
