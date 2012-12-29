@@ -56,7 +56,7 @@ public class Koan06
 
         Collection<Node> foundCompanions = t.getAllNodes();
 
-        int knownNumberOfCompanions = 46;
+        int knownNumberOfCompanions = 47;
         assertEquals( knownNumberOfCompanions, foundCompanions.size() );
     }
 

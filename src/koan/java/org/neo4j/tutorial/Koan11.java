@@ -78,7 +78,7 @@ public class Koan11
         // SNIPPET_END
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response );
-        int numberOfEnemiesOfTheDoctor = 153;
+        int numberOfEnemiesOfTheDoctor = 154;
         assertEquals( numberOfEnemiesOfTheDoctor, json.size() );
     }
 

@@ -385,7 +385,7 @@ public class DoctorWhoUniverseGeneratorTest
 
         List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes( nodes );
 
-        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 152;
+        int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 153;
         assertEquals( numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size() );
         assertTrue( isInList( dalek, enemiesOfEnemies ) );
         assertTrue( isInList( cyberman, enemiesOfEnemies ) );
@@ -433,7 +433,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberOfCompanionsInTotal()
     {
-        int numberOfCompanions = 46;
+        int numberOfCompanions = 47;
 
         Node theDoctor = universe.getDatabase()
                 .index()
@@ -449,7 +449,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal()
     {
-        int numberOfEnemies = 110;
+        int numberOfEnemies = 111;
 
         Node theDoctor = universe.getDatabase()
                 .index()

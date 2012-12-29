@@ -7,6 +7,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.tutorial.DoctorWhoRelationships;
 
 public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>>
@@ -25,17 +26,26 @@ public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>>
     {
         for ( Node n : nodes )
         {
-            if ( !(n.hasRelationship( DoctorWhoRelationships.IS_A, Direction.OUTGOING ) && n.getSingleRelationship(
-                    DoctorWhoRelationships.IS_A, Direction.OUTGOING )
-                    .getEndNode()
-                    .getProperty( "species" )
-                    .equals( "Human" )) )
+            if ( !linksToHumanSpeciesNode( n ) )
             {
                 failedNode = n;
                 return false;
             }
         }
         return true;
+    }
+
+    private boolean linksToHumanSpeciesNode( Node n )
+    {
+        for ( Relationship relationship : n.getRelationships( DoctorWhoRelationships.IS_A, Direction.OUTGOING ) )
+        {
+            if ( relationship.getEndNode().hasProperty( "species" ) &&
+                    relationship.getEndNode().getProperty( "species" ).equals( "Human" ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Factory

@@ -32,7 +32,7 @@ public class Koan08g
     {
         // Some free domain knowledge here :-)
         final int first = 1;
-        final int mostRecent = 224;
+        final int mostRecent = 231;
 
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
         String cql = null;
@@ -50,6 +50,6 @@ public class Koan08g
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 245, result.javaColumnAs( "episodes" ).next() );
+        assertEquals( 251, result.javaColumnAs( "episodes" ).next() );
     }
 }

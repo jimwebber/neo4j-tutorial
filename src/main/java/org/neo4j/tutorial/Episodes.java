@@ -144,7 +144,7 @@ public class Episodes
         episode( 231 ).title( "The Snowmen" )
                 .doctor( "Matt Smith" )
                 .companion( "Oswin Oswald" )
-                .enemySpecies( "The Great Intelligence" )
+                .enemy( "The Great Intelligence" )
                 .fact( db );
     }
 

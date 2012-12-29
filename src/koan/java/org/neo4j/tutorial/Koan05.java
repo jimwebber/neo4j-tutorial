@@ -89,19 +89,23 @@ public class Koan05
             Node companionNode = rel.getStartNode();
             if ( companionNode.hasRelationship( Direction.OUTGOING, DoctorWhoRelationships.IS_A ) )
             {
-                Relationship singleRelationship = companionNode.getSingleRelationship( DoctorWhoRelationships.IS_A,
-                        Direction.OUTGOING );
-                Node endNode = singleRelationship.getEndNode();
-                if ( endNode.equals( human ) )
+                final Iterable<Relationship> companionNodeRelationships = companionNode.getRelationships(
+                        DoctorWhoRelationships.IS_A, Direction.OUTGOING );
+
+                for ( Relationship companionNodeRelationship : companionNodeRelationships )
                 {
-                    humanCompanions.add( companionNode );
+                    Node endNode = companionNodeRelationship.getEndNode();
+                    if ( endNode.equals( human ) )
+                    {
+                        humanCompanions.add( companionNode );
+                    }
                 }
             }
         }
 
         // SNIPPET_END
 
-        int numberOfKnownHumanCompanions = 39;
+        int numberOfKnownHumanCompanions = 40;
         assertEquals( numberOfKnownHumanCompanions, humanCompanions.size() );
         assertThat( humanCompanions, containsOnlyHumanCompanions() );
     }
@@ -146,5 +150,4 @@ public class Koan05
                 containsOnlyTitles( "Army of Ghosts", "The Stolen Earth", "Doomsday", "Journey's End", "Bad Wolf",
                         "The Parting of the Ways", "Dalek" ) );
     }
-
 }
