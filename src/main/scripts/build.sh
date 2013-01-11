@@ -7,13 +7,17 @@ quitWithMessage () {
     exit 1
 }
 
-[ "$#" -eq 1 ] || quitWithMessage "This script requires an argument for the output directory only. $# argument(s) provided"
+[ "$#" -eq 2 ] || quitWithMessage "This script requires an argument for the root of the koans exercises, and an argument for the output directory. $# argument(s) provided"
             
 echo "Downloading all neoclipse versions, this could take a while"
                                                                  
 # ant download.all.neoclipse.versions
 
-OUTPUT_DIR=$1
+KOANS_ROOT_DIR=$1
+
+pushd $KOANS_ROOT_DIR
+
+OUTPUT_DIR=$2
 mkdir -p $OUTPUT_DIR
 echo using working directory [$OUTPUT_DIR]
 
@@ -22,6 +26,8 @@ cp -r build.xml	$OUTPUT_DIR
 cp -r settings $OUTPUT_DIR
 cp -r src $OUTPUT_DIR
 cp -r tools $OUTPUT_DIR
+
+popd
 
 pushd $OUTPUT_DIR
 
