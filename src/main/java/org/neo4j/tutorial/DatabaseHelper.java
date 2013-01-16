@@ -19,13 +19,11 @@ import org.neo4j.tooling.GlobalGraphOperations;
 
 public class DatabaseHelper
 {
-
     private final GraphDatabaseService db;
 
     public DatabaseHelper( GraphDatabaseService db )
     {
         this.db = db;
-
     }
 
     public static EmbeddedGraphDatabase createDatabase()
@@ -40,27 +38,26 @@ public class DatabaseHelper
 
     public static File createTempDatabaseDir()
     {
-
-        File d;
+        File directory;
         try
         {
-            d = File.createTempFile( "neo4j-koans", "dir" );
-            System.out.println( String.format( "Created a new Neo4j database at [%s]", d.getAbsolutePath() ) );
+            directory = File.createTempFile( "neo4j-koans", "dir" );
+            System.out.println( String.format( "Created a new Neo4j database at [%s]", directory.getAbsolutePath() ) );
         }
         catch ( IOException e )
         {
             throw new RuntimeException( e );
         }
-        if ( !d.delete() )
+        if ( !directory.delete() )
         {
             throw new RuntimeException( "temp config directory pre-delete failed" );
         }
-        if ( !d.mkdirs() )
+        if ( !directory.mkdirs() )
         {
             throw new RuntimeException( "temp config directory not created" );
         }
-        d.deleteOnExit();
-        return d;
+        directory.deleteOnExit();
+        return directory;
     }
 
     public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String, Object> relationshipProperties )
