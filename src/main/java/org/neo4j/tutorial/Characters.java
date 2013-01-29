@@ -153,7 +153,7 @@ class Characters
         character( "Loch Ness Monster" ).isA( "Skarasen" )
                 .isEnemy()
                 .fact( db );
-        character( "Morbious" ).isA( "Timelord" )
+        character( "Morbius" ).isA( "Timelord" )
                 .isEnemy()
                 .fact( db );
         character( "Omega" ).isA( "Timelord" )
