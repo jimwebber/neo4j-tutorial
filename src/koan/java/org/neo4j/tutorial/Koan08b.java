@@ -147,12 +147,12 @@ public class Koan08b
         cql = "START doctor = node:characters(character= 'Doctor') ";
         cql += "MATCH (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
         cql += "WHERE has(other.character) ";
-        cql += "RETURN other.character";
+        cql += "RETURN distinct other.character";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 158, result.size() );
+        assertEquals( 156, result.size() );
     }
 }
