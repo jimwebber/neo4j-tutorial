@@ -330,11 +330,13 @@ public class Episodes
                 .doctor( "David Tennant" )
                 .companion( "Donna Noble", "Martha Jones" )
                 .enemy( "General Staal" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
         episode( 192 ).title( "The Poison Sky" )
                 .doctor( "David Tennant" )
                 .companion( "Donna Noble", "Martha Jones" )
                 .enemy( "General Staal" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
         episode( 193 ).title( "The Doctor's Daughter" )
                 .doctor( "David Tennant" )
@@ -693,6 +695,7 @@ public class Episodes
                 .doctor( "Patrick Troughton" )
                 .companion( "Peri Brown", "Jamie McCrimmon" )
                 .enemy( "Shockeye", "Chessene", "Dastari" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
         episode( 141 ).title( "Timelash" )
                 .doctor( "Colin Baker" )
@@ -946,6 +949,7 @@ public class Episodes
                 .companion( "Leela", "K9" )
                 .enemySpecies( "Sontaran" )
                 .enemy( "Stor" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
     }
 
@@ -1030,6 +1034,7 @@ public class Episodes
                 .doctor( "Tom Baker" )
                 .companion( "Sarah Jane Smith", "Harry Sullivan" )
                 .enemy( "Styre" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
         episode( 78 ).title( "Genesis of the Daleks" )
                 .doctor( "Tom Baker" )
@@ -1051,6 +1056,7 @@ public class Episodes
                 .doctor( "Jon Pertwee" )
                 .companion( "Sarah Jane Smith" )
                 .enemy( "Linx" )
+                .enemySpecies( "Sontaran" )
                 .fact( db );
         episode( 71 ).title( "Invasion of the Dinosaurs" )
                 .doctor( "Jon Pertwee" )

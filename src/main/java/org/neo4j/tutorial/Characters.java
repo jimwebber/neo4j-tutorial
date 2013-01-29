@@ -150,6 +150,10 @@ class Characters
                 .isFrom( "Earth" )
                 .isEnemy()
                 .fact( db );
+        character( "Linx" ).isA( "Sontaran" )
+                .isFrom( "Sontar" )
+                .isEnemy()
+                .fact( db );
         character( "Loch Ness Monster" ).isA( "Skarasen" )
                 .isEnemy()
                 .fact( db );
