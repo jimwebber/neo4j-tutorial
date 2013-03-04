@@ -131,6 +131,7 @@ public class Koan02
 
         Relationship storedCompanionRelationship = db.getRelationshipById( companionRelationship.getId() );
         assertNotNull( storedCompanionRelationship );
+        assertNotNull( storedCompanionRelationship.getType().equals( DoctorWhoRelationships.COMPANION_OF ) );
         assertEquals( susan, storedCompanionRelationship.getStartNode() );
         assertEquals( theDoctor, storedCompanionRelationship.getEndNode() );
     }
@@ -212,6 +213,7 @@ public class Koan02
         }
 
         // SNIPPET_END
+
         assertEquals( 1, databaseHelper.destructivelyCountRelationships( susan.getRelationships() ) );
     }
 
