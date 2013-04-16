@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.Node;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 /**
  * In this Koan we learn the basics of the Cypher query language, focusing on the
@@ -38,7 +39,7 @@ public class Koan08b
     @Test
     public void shouldFindAndReturnTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -61,7 +62,7 @@ public class Koan08b
         // Some episodes are two-parters with the same episode number, others use schemes like
         // 218a and 218b as their episode numbers seemingly just to be difficult!
 
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -82,7 +83,7 @@ public class Koan08b
     @Test
     public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -114,7 +115,7 @@ public class Koan08b
     @Test
     public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -137,7 +138,7 @@ public class Koan08b
     @Test
     public void shouldFindIndividualCompanionsAndEnemiesOfTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = "";
 
         // YOUR CODE GOES HERE

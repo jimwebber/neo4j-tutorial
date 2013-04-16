@@ -6,6 +6,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 /**
  * In this Koan we learn how to create, update, and delete nodes and relationships in the
@@ -16,7 +17,7 @@ public class Koan08a
     @Test
     public void shouldCreateASingleNode()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -37,7 +38,7 @@ public class Koan08a
     @Test
     public void shouldCreateASingleNodeWithSomeProperties()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -58,7 +59,7 @@ public class Koan08a
     @Test
     public void shouldCreateASimpleConnectedGraph()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE

@@ -30,6 +30,7 @@ public class Koan02
     private static GraphDatabaseService db;
     private static DatabaseHelper databaseHelper;
 
+
     @BeforeClass
     public static void createADatabase()
     {
@@ -41,6 +42,42 @@ public class Koan02
     public static void closeTheDatabase()
     {
         db.shutdown();
+    }
+
+
+    @Test
+    public void shouldDeleteMe() throws Exception
+    {
+        final String BAD_PROPERTY = "badProperty";
+        final String NASTY_STRING = "d64704f2bfb95a50f083f4091b490d47688a998c";
+
+        Transaction tx = db.beginTx();
+        long id = -1;
+
+        try
+        {
+            Node node = db.createNode();
+            node.setProperty( BAD_PROPERTY, NASTY_STRING );
+            id = node.getId();
+            tx.success();
+        }
+        finally
+        {
+            tx.finish();
+        }
+
+        Node n = db.getNodeById( id );
+
+        if ( n.hasProperty( BAD_PROPERTY ) )
+        {
+            if ( n.getProperty( BAD_PROPERTY ).equals( NASTY_STRING ) )
+            {
+                System.out.println( "Success" );
+                return;
+            }
+        }
+
+        System.out.println( "Massive fail" );
     }
 
     @Test

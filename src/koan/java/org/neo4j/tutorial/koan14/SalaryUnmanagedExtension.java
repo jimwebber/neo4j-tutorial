@@ -9,6 +9,7 @@ import com.sun.jersey.api.NotFoundException;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 
 @Path("/{actor}")
@@ -18,7 +19,7 @@ public class SalaryUnmanagedExtension
     @Path("/salary")
     public String findSalaryForActor( @PathParam("actor") String actor, @Context GraphDatabaseService db )
     {
-        ExecutionEngine engine = new ExecutionEngine( db );
+        ExecutionEngine engine = new ExecutionEngine( db, StringLogger.DEV_NULL );
         String cql = null;
 
         cql = "start actor = node:actors(actor = '" + actor + "')"

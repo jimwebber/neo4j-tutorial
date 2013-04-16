@@ -11,6 +11,7 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 public class Koan08d
 {
@@ -32,7 +33,7 @@ public class Koan08d
     public void shouldRemoveCaptainKirkFromTheDatabase()
     {
         polluteUniverseWithStarTrekData();
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -59,7 +60,7 @@ public class Koan08d
     public void shouldRemoveSalaryDataFromDoctorActors()
     {
         polluteUniverseWithStarTrekData();
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE

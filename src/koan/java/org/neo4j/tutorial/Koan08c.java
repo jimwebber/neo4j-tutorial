@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 /**
  * In this Koan we focus on aggregate functions from the Cypher graph pattern matching language
@@ -42,7 +43,7 @@ public class Koan08c
     @Test
     public void shouldReturnAnyWikpediaEntriesForCompanions()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -68,7 +69,7 @@ public class Koan08c
     @Test
     public void shouldCountTheNumberOfActorsKnownToHavePlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -89,7 +90,7 @@ public class Koan08c
     @Test
     public void shouldFindEarliestAndLatestRegenerationYears()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -112,7 +113,7 @@ public class Koan08c
     @Test
     public void shouldFindTheEarliestEpisodeWhereFreemaAgyemanAndDavidTennantWorkedTogether() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -132,7 +133,7 @@ public class Koan08c
     @Test
     public void shouldFindAverageSalaryOfActorsWhoPlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -153,7 +154,7 @@ public class Koan08c
     @Test
     public void shouldListTheEnemySpeciesAndCharactersForEachEpisodeWithPeterDavisonOrderedByIncreasingEpisodeNumber()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -179,7 +180,7 @@ public class Koan08c
     @Test
     public void shouldFindTheEnemySpeciesThatRoseTylerFought()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -252,7 +253,7 @@ public class Koan08c
         assertEquals( "Snakedance", next.get( "episode.title" ) );
 
         next = iterator.next();
-        final List chars = (List)next.get( "characters" );
+        final List chars = (List) next.get( "characters" );
         assertTrue( chars.contains( "Mawdryn" ) );
         assertTrue( chars.contains( "Black Guardian" ) );
         assertEquals( "125", next.get( "episode.episode" ) );
@@ -274,8 +275,8 @@ public class Koan08c
         assertEquals( "The King's Demons", next.get( "episode.title" ) );
 
         next = iterator.next();
-        assertThat( (Iterable<String>) next.get( "species" ), hasItems( null, "Dalek" ) );
-        assertThat( (Iterable<String>) next.get( "characters" ), hasItems( "Master", null ) );
+        assertThat( (Iterable<String>) next.get( "species" ), hasItems( "Dalek" ) );
+        assertThat( (Iterable<String>) next.get( "characters" ), hasItems( "Master" ) );
         assertEquals( "129", next.get( "episode.episode" ) );
         assertEquals( "The Five Doctors", next.get( "episode.title" ) );
 

@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
@@ -36,7 +37,7 @@ public class Koan08e
     @Test
     public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase() );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE

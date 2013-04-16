@@ -9,6 +9,7 @@ import com.sun.jersey.api.NotFoundException;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.kernel.impl.util.StringLogger;
 
 
 @Path("/{character}")
@@ -21,7 +22,7 @@ public class HomePlanetUnmanagedExtension
     @Path("/homeplanet")
     public String findHomePlanetFor( @PathParam("character") String character, @Context GraphDatabaseService db )
     {
-        ExecutionEngine engine = new ExecutionEngine( db );
+        ExecutionEngine engine = new ExecutionEngine( db, StringLogger.DEV_NULL );
         String cql = null;
 
         cql = "start char = node:characters(character = '" + character + "')"
