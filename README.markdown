@@ -8,14 +8,14 @@ This set of Koans provides a hands-on tutorial for learning the Neo4j open sourc
 What are Koans?
 ---------------
 
-The Koan idea was borrowed from the [Ruby Koans](http://rubykoans.com/) which provide a number of broken unit tests, and in fixing those tests increasingly advanced Ruby features are learned. The Koan model provides very rapid feedback and a structured learning path wrapped in a pre-configured environment for rapid learning. 
+The Koan idea was borrowed from the [Ruby Koans](http://rubykoans.com/) which provide a number of broken unit tests, and in fixing those tests increasingly advanced Ruby features are learned. The Koan model provides very rapid feedback and a structured learning path wrapped in a pre-configured environment for effective learning. 
 
-These are very desirable characteristics when it comes to learning Neo4j too, and so the Neo4j Koans have adopted the same model: there are a set of (broken) unit tests, and in fixing each of them we learn some aspect of using Neo4j. As we work forwards through the Koans we'll learn more sophisticated APIs, query languages and techniques and by the end of the Koans we'll feel supremely confident about using Neo4j in production.
+These are very desirable characteristics when it comes to learning Neo4j too, and so the Neo4j Koans have adopted the same model: there are a set of (broken) unit tests, and in fixing each of them we learn some aspect of using Neo4j. As we work through the Koans we'll learn increasingly sophisticated APIs, modeling and querying techniques, and become fluent in the Cypher query language. At the Koans we'll feel supremely confident about using Neo4j in production.
 
 Prerequisites
 -------------
 
-You'll need to be familiar with the Java programming language for some of the Koans and confident enough in Java to be able to run JUnit tests. If you like a particular IDE like Eclipse or IntelliJ, that's fine but you can run these Koans from the command line too if you prefer to work that way (there's an [Ant](http://ant.apache.org) build script). All the graph database knowledge you'll need will be developed as part of completing the Koans.
+You'll need to be familiar with the Java programming language for some of the early Koans and confident enough in Java to be able to run JUnit tests. If you like a particular IDE like Eclipse or IntelliJ, that's helpful but you can run these Koans from the command line too using an [Ant](http://ant.apache.org) script. All the Neo4j skills you'll need will be developed as part of completing the Koans.
 
 Setting up Koans
 ----------------
