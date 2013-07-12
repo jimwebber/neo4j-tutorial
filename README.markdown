@@ -22,7 +22,7 @@ Setting up Koans
 
 The first step in setting up the koans is to clone this repository from github, or to download the latest tarball. To clone from github:
 
-    git clone git@github.com:jimwebber/neo4j-tutorial.git
+    git clone git://github.com/jimwebber/neo4j-tutorial.git
 
 To download the latest version of the koans as a zipfile, click on the following URI:
 
