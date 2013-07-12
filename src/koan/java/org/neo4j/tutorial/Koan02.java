@@ -1,19 +1,19 @@
 package org.neo4j.tutorial;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
 
 /**
  * This first programming Koan will get you started with the basics of managing
@@ -183,11 +183,11 @@ public class Koan02
             captainKirk.hasProperty( "character" );
             fail();
         }
-        catch ( NotFoundException nfe )
+        catch ( Exception e )
         {
             // If the exception is thrown, we've removed Captain Kirk from the
             // database
-            assertNotNull( nfe );
+            assertNotNull( e );
         }
     }
 
