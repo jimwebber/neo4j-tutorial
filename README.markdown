@@ -30,7 +30,7 @@ To download the latest version of the koans as a zipfile, click on the following
 
 Once you have cloned or downloaded and unzipped the koans, you're almost ready. You just need the Neo4j binary dependencies, which you can get by running the default Apache Ant target from the root directory:
 
-   ant 
+    ant 
 
 We use Apache Ivy for dependency resolution and for all the many wonderful benefits Ant and Ivy provide, speed isn't one of them so you might want to go fetch a cup of tea while you're waiting for (seemingly) most of the Internet to download. 
 
