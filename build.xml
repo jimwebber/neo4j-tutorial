@@ -139,4 +139,11 @@
             </classpath>
         </eclipse>
     </target>
+
+    <target name="remove.snippets" description="Remove the snippets">
+        <replaceregexp match="// SNIPPET_START(.+?)// SNIPPET_END" replace="" flags="gis">
+            <fileset dir="${koan.src}" includes="**/*.java" />
+        </replaceregexp>
+    </target>
+
 </project>
