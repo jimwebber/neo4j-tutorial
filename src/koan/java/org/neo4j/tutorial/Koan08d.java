@@ -59,7 +59,6 @@ public class Koan08d
     @Test
     public void shouldRemoveSalaryDataFromDoctorActors()
     {
-        polluteUniverseWithStarTrekData();
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
 
