@@ -51,8 +51,8 @@ public class Koan02
 
         // HINT: mutation operations need to be wrapped in transactions
         // db.beginTx()
-        // db.success()/db.fail()
-        // db.finish()
+        // tx.success()/tx.fail()
+        // tx.finish()
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
