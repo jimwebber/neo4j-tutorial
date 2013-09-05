@@ -6,6 +6,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
 
@@ -33,7 +34,7 @@ public class CharacterAutoIndexContainsSpecificCharacters extends TypeSafeMatche
         for ( String name : characterNames )
         {
             if ( characters.getAutoIndex()
-                    .get( "character-name", name )
+                    .get( "character", name )
                     .getSingle() == null )
             {
                 failedCharacterName = name;
