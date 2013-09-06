@@ -1,19 +1,21 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-
 import java.util.Iterator;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.Node;
 import org.neo4j.kernel.impl.util.StringLogger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
 /**
  * In this Koan we learn the basics of the Cypher query language, focusing on the
@@ -89,7 +91,8 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START cybermen = node:species(species ='Cyberman') MATCH (cybermen)-[:APPEARED_IN]->(episode) RETURN episode";
+        cql = "START cybermen = node:species(species ='Cyberman') MATCH (cybermen)-[:APPEARED_IN]->(episode) RETURN " +
+                "episode";
 
         // SNIPPET_END
 
@@ -121,8 +124,12 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START daleks = node:species(species = 'Dalek'), rose = node:characters(character = 'Rose Tyler'), tennant = node:actors(actor = 'David Tennant')";
-        cql += "MATCH (tennant)-[:APPEARED_IN]->(episode), (rose)-[:APPEARED_IN]->(episode), (daleks)-[:APPEARED_IN]->(episode)";
+        cql = "START daleks = node:species(species = 'Dalek'), " +
+                "rose = node:characters(character = 'Rose Tyler')," +
+                " tennant = node:actors(actor = 'David Tennant')";
+        cql += "MATCH (tennant)-[:APPEARED_IN]->(episode), " +
+                "(rose)-[:APPEARED_IN]->(episode), " +
+                "(daleks)-[:APPEARED_IN]->(episode)";
         cql += "RETURN episode";
 
         // SNIPPET_END
