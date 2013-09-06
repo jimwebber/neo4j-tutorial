@@ -174,6 +174,9 @@ public class Koan08c
 
         ExecutionResult result = engine.execute( cql );
 
+        System.out.println( "result.dumpToString() = " + result.dumpToString() );
+
+
         final List<String> columnNames = result.javaColumns();
         assertThat( columnNames,
                 containsOnlySpecificStrings( "episode.episode", "episode.title", "species", "characters" ) );

@@ -1,13 +1,14 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.kernel.impl.util.StringLogger;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * In this Koan we focus on paths in Cypher.
@@ -43,7 +44,7 @@ public class Koan08g
 
         cql = String.format( "START first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first,
                 mostRecent )
-                + "MATCH path = shortestPath( first-[*..500]->last )"
+                + "MATCH path = shortestPath( first-[:NEXT*..500]->last )"
                 + "RETURN LENGTH(path) as episodes";
 
 
