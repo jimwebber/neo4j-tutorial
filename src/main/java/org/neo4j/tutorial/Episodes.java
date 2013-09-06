@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.EpisodeBuilder.episode;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+
+import static org.neo4j.tutorial.EpisodeBuilder.episode;
 
 public class Episodes
 {
@@ -502,6 +502,7 @@ public class Episodes
         episode( 177 ).title( "Army of Ghosts" )
                 .doctor( "David Tennant" )
                 .companion( "Rose Tyler" )
+                .others( "Adeola Oshodi" )
                 .enemySpecies( "Cyberman", "Dalek" )
                 .fact( db );
         episode( 177 ).title( "Doomsday" )

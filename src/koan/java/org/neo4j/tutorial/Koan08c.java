@@ -1,13 +1,5 @@
 package org.neo4j.tutorial;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.matchers.JUnitMatchers.hasItems;
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
-import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -16,9 +8,19 @@ import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.kernel.impl.util.StringLogger;
+
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.matchers.JUnitMatchers.hasItems;
+
+import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
+import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
 
 /**
  * In this Koan we focus on aggregate functions from the Cypher graph pattern matching language
@@ -119,15 +121,15 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START david=node:actors(actor = 'David Tennant'), freema=node:actors(actor = 'Freema Agyeman'), doctor=node:characters(character = 'Doctor'), martha=node:characters(character = 'Martha Jones') "
-                + "MATCH (freema)-[:PLAYED]->(martha)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david)-[:PLAYED]->(doctor)"
-                + "RETURN min(episode.episode) AS earliest";
+        cql = "START freema = node:actors(actor = 'Freema Agyeman'), david = node:actors(actor = 'David Tennant') " +
+                "MATCH (freema)-[:PLAYED]->()-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david) " +
+                "RETURN min(episode.episode) as earliest";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( "179", result.javaColumnAs( "earliest" ).next() );
+        assertEquals( "177", result.javaColumnAs( "earliest" ).next() );
     }
 
     @Test
@@ -161,8 +163,10 @@ public class Koan08c
         // SNIPPET_START
 
         cql = "START davison=node:actors(actor='Peter Davison') "
-                + "MATCH (davison)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()<-[:PLAYED]-(davison)"
-                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, collect(enemy.character?) AS characters "
+                + "MATCH (davison)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()<-[:PLAYED]-" +
+                "(davison)"
+                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, " +
+                "collect(enemy.character?) AS characters "
                 + "ORDER BY episode.episode";
 
 
