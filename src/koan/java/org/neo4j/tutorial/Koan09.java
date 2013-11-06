@@ -84,7 +84,7 @@ public class Koan09
         List<String> roseVersusDaleksEpisodeTitles = Arrays.asList( "Dalek", "Army of Ghosts", "Doomsday",
                 "The Parting of the Ways", "The Stolen Earth",
                 "Bad Wolf", "Journey's End" );
-        HashSet<Node> roseVersusDaleksEpisodes = new HashSet<Node>();
+        HashSet<Node> roseVersusDaleksEpisodes = new HashSet<>();
         for ( String title : roseVersusDaleksEpisodeTitles )
         {
             roseVersusDaleksEpisodes.add( universe.getDatabase()

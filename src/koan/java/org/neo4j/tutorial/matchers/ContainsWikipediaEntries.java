@@ -13,7 +13,7 @@ import org.hamcrest.TypeSafeMatcher;
 public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
 {
 
-    private final Set<String> entries = new HashSet<String>();
+    private final Set<String> entries = new HashSet<>();
     private boolean nullsInResults;
 
     public ContainsWikipediaEntries( String... wikipediaEntries )

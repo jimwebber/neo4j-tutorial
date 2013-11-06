@@ -12,7 +12,7 @@ public class BatchCommandBuilder
             "\"body\":{\"to\":\"%s\",\"type\":\"%s\"%s}%s}";
     private static final String DeleteTemplate = "{\"method\":\"DELETE\",\"to\":\"%s\"}";
 
-    private final List<String> commands = new ArrayList<String>();
+    private final List<String> commands = new ArrayList<>();
 
     public BatchCommandBuilder createNode( int jobId, Map<String, String> bodyParams )
     {

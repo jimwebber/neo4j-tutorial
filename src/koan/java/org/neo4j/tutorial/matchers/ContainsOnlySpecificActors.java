@@ -13,7 +13,7 @@ import org.neo4j.graphdb.Node;
 public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
 {
 
-    private final HashSet<String> actorNames = new HashSet<String>();
+    private final HashSet<String> actorNames = new HashSet<>();
     private boolean matchedParameterLengths;
     private boolean nodeIsNotAnActor;
 

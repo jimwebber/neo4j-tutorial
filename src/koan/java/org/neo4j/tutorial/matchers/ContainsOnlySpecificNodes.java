@@ -13,7 +13,7 @@ import org.neo4j.graphdb.Path;
 public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
 {
 
-    private final HashSet<Node> nodes = new HashSet<Node>();
+    private final HashSet<Node> nodes = new HashSet<>();
 
     public ContainsOnlySpecificNodes( Node... nodes )
     {

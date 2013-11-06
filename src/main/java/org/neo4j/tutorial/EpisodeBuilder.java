@@ -20,16 +20,16 @@ public class EpisodeBuilder
 {
 
     private String title;
-    private List<String> companionNames = new ArrayList<String>();
+    private List<String> companionNames = new ArrayList<>();
     private String episodeNumber = null;
-    private List<String> doctorActors = new ArrayList<String>();
-    private List<String> enemySpecies = new ArrayList<String>();
-    private List<String> enemies = new ArrayList<String>();
+    private List<String> doctorActors = new ArrayList<>();
+    private List<String> enemySpecies = new ArrayList<>();
+    private List<String> enemies = new ArrayList<>();
     private String[] allies;
-    private List<String> alliedSpecies = new ArrayList<String>();
+    private List<String> alliedSpecies = new ArrayList<>();
 
     private static Node previousEpisode = null;
-    private List<String> others = new ArrayList<String>();
+    private List<String> others = new ArrayList<>();
 
     public EpisodeBuilder( String episodeNumber )
     {

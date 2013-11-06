@@ -112,7 +112,7 @@ public class Koan06
                 "Dalek 5", "Dalek 4", "Dalek 3", "Dalek IV-Ex", "Dalek Seven-II", "Necros 3", "Necros 2", "Necros 1",
                 "Goon III", "Goon VII", "Goon VI", "Goon V", "Gold Movie Dalek", "Dalek Six-7", "Dalek One-5"};
 
-        List<String> propList = new ArrayList<String>();
+        List<String> propList = new ArrayList<>();
         for ( Node n : nodes )
         {
             propList.add( n.getProperty( "prop" )

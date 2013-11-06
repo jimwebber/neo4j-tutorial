@@ -34,8 +34,8 @@ public class CharacterBuilder
     private String[] things;
     private boolean enemy;
     private boolean ally;
-    private ArrayList<String> actors = new ArrayList<String>();
-    private HashMap<String, Integer> startDates = new HashMap<String, Integer>();
+    private ArrayList<String> actors = new ArrayList<>();
+    private HashMap<String, Integer> startDates = new HashMap<>();
     private String wikipediaUri;
     private String[] children;
     private String firstAppearance;
@@ -55,7 +55,7 @@ public class CharacterBuilder
     {
         if ( species == null )
         {
-            species = new HashSet<String>();
+            species = new HashSet<>();
         }
         species.add( speciesString );
         return this;
@@ -219,7 +219,7 @@ public class CharacterBuilder
     private Map<String, Object> map( String key, Integer value )
     {
 
-        HashMap<String, Object> result = new HashMap<String, Object>();
+        HashMap<String, Object> result = new HashMap<>();
 
         if ( value != null )
         {

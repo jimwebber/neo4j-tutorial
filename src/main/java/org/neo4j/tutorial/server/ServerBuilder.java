@@ -25,7 +25,7 @@ public class ServerBuilder
     protected String dbDir = null;
     private String webAdminUri = "/db/manage/";
     private String webAdminDataUri = "/db/data/";
-    private final HashMap<String, String> thirdPartyPackages = new HashMap<String, String>();
+    private final HashMap<String, String> thirdPartyPackages = new HashMap<>();
     private final Properties arbitraryProperties = new Properties();
 
     private String[] autoIndexedNodeKeys = null;
@@ -150,7 +150,7 @@ public class ServerBuilder
 
     public ServerBuilder withSecurityRules( Class... securityRuleClasses )
     {
-        ArrayList<String> classNames = new ArrayList<String>();
+        ArrayList<String> classNames = new ArrayList<>();
         for ( Class c : securityRuleClasses )
         {
             classNames.add( c.getCanonicalName() );

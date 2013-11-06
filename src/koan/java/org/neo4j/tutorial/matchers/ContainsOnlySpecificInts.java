@@ -16,7 +16,7 @@ public class ContainsOnlySpecificInts extends TypeSafeMatcher<Iterable<Integer>>
 
     public ContainsOnlySpecificInts( int... ints )
     {
-        this.specificInts = new HashSet<Integer>();
+        this.specificInts = new HashSet<>();
         for ( int i : ints )
         {
             specificInts.add( new Integer( i ) );

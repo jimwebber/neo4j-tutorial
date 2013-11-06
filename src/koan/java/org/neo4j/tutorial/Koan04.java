@@ -85,7 +85,7 @@ public class Koan04
                     .forNodes( "characters" );
             IndexHits<Node> results = characters.query( "character", "*" );
 
-            HashSet<String> characterNames = new HashSet<String>();
+            HashSet<String> characterNames = new HashSet<>();
 
             for ( Node character : results )
             {

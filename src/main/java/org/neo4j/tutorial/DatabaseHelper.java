@@ -156,7 +156,7 @@ public class DatabaseHelper
 
     public List<Relationship> toListOfRelationships( Iterable<Relationship> iterable )
     {
-        ArrayList<Relationship> rels = new ArrayList<Relationship>();
+        ArrayList<Relationship> rels = new ArrayList<>();
         for ( Relationship r : iterable )
         {
             rels.add( r );
@@ -166,7 +166,7 @@ public class DatabaseHelper
 
     public List<Node> toListOfNodes( Iterable<Node> nodes )
     {
-        ArrayList<Node> rels = new ArrayList<Node>();
+        ArrayList<Node> rels = new ArrayList<>();
         for ( Node n : nodes )
         {
             rels.add( n );

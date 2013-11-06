@@ -14,7 +14,7 @@ import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 public class ActorBuilder
 {
     private String actorName;
-    private List<String> characterNames = new ArrayList<String>();
+    private List<String> characterNames = new ArrayList<>();
     private int cash = -1;
     private String wikipediaUri;
 

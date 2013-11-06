@@ -17,7 +17,7 @@ public class ContainsOnlySpecificStrings extends TypeSafeMatcher<Iterable<String
 
     public ContainsOnlySpecificStrings( String... strings )
     {
-        this.specificStrings = new HashSet<String>();
+        this.specificStrings = new HashSet<>();
         Collections.addAll( this.specificStrings, strings );
     }
 

@@ -20,7 +20,7 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>>
 
     public ContainsOnlySpecificSpecies( String... speciesNames )
     {
-        this.species = new HashSet<String>();
+        this.species = new HashSet<>();
         Collections.addAll( species, speciesNames );
     }
 

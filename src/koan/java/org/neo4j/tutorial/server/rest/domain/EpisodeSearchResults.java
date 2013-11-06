@@ -13,7 +13,7 @@ public class EpisodeSearchResults implements Iterable<EpisodeSearchResult>
     public EpisodeSearchResults( List<Map<String, Object>> json )
     {
         super();
-        this.results = new ArrayList<EpisodeSearchResult>();
+        this.results = new ArrayList<>();
         for ( Map<String, Object> result : json )
         {
             results.add( new EpisodeSearchResult( (List<Map<String, Object>>) result.get( "nodes" ) ) );

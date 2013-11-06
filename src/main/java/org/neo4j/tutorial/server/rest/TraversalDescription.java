@@ -15,7 +15,7 @@ public class TraversalDescription
     private int maxDepth = 1;
     private String returnFilter = ALL;
     private String order = DEPTH_FIRST;
-    private List<RelationshipDescription> relationships = new ArrayList<RelationshipDescription>();
+    private List<RelationshipDescription> relationships = new ArrayList<>();
 
     public void setOrder( String order )
     {

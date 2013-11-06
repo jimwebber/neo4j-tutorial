@@ -78,7 +78,7 @@ public class Koan05
     @Test
     public void shouldFindHumanCompanionsUsingCoreApi()
     {
-        HashSet<Node> humanCompanions = new HashSet<Node>();
+        HashSet<Node> humanCompanions = new HashSet<>();
 
         GraphDatabaseService database = universe.getDatabase();
 
@@ -137,7 +137,7 @@ public class Koan05
             Index<Node> speciesIndex = database
                     .index()
                     .forNodes( "species" );
-            HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<Node>();
+            HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<>();
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
