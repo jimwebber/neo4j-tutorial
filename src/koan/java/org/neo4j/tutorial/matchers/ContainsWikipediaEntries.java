@@ -29,7 +29,8 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
         }
         else
         {
-            description.appendText( "Failed to match wikipedia entries to given nodes. Some of the result rows contained null." );
+            description.appendText( "Failed to match wikipedia entries to given nodes. Some of the result rows " +
+                    "contained null." );
         }
     }
 

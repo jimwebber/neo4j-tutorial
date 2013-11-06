@@ -7,6 +7,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
 import org.neo4j.graphdb.Node;
 
 public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
@@ -30,7 +31,8 @@ public class ContainsOnlySpecificActors extends TypeSafeMatcher<Iterable<Node>>
 
         if ( !matchedParameterLengths )
         {
-            description.appendText( "Number of actor names in traverser result does not match number of actors required by matcher" );
+            description.appendText( "Number of actor names in traverser result does not match number of actors " +
+                    "required by matcher" );
         }
     }
 

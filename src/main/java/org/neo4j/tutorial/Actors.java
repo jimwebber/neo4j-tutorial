@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.ActorBuilder.actor;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+
+import static org.neo4j.tutorial.ActorBuilder.actor;
 
 public class Actors
 {
@@ -17,8 +17,7 @@ public class Actors
 
     public void insert()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = db.beginTx() )
         {
             actor( "David Tennant" ).wikipedia( "http://en.wikipedia.org/wiki/David_Tennant" ).played(
                     "Doctor" ).salary( 1000000 ).fact( db );
@@ -35,10 +34,6 @@ public class Actors
             actor( "Richard Mathews" ).played( "Rassilon" ).fact( db );
 
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
         }
     }
 }

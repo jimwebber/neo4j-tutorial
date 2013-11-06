@@ -1,7 +1,5 @@
 package org.neo4j.tutorial.server;
 
-import static org.neo4j.server.ServerTestUtils.asOneLine;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +15,8 @@ import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecified
 import org.neo4j.server.configuration.validation.Validator;
 import org.neo4j.server.database.CommunityDatabase;
 import org.neo4j.server.database.Database;
+
+import static org.neo4j.server.ServerTestUtils.asOneLine;
 
 public class ServerBuilder
 {
@@ -53,7 +53,7 @@ public class ServerBuilder
             @Override
             protected Database createDatabase()
             {
-                return new CommunityDatabase( configurator.configuration() );
+                return new CommunityDatabase( configurator );
             }
         };
     }

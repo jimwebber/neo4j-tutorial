@@ -1,77 +1,112 @@
 package org.neo4j.tutorial;
 
+import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
+
 public class DoctorWhoUniverseGenerator
 {
-
-    private final String dbDir = DatabaseHelper.createTempDatabaseDir()
-            .getAbsolutePath();
+    private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
+    private final GraphDatabaseService database;
 
     public DoctorWhoUniverseGenerator()
     {
-        GraphDatabaseService db = DatabaseHelper.createDatabase( dbDir );
-        addDoctorAsNodeOneForToolSupportReasons( db );
-        addActors( db );
-        addEpisodes( db );
-        addCharacters( db );
-        addSpecies( db );
-        addPlanets( db );
-        addDalekProps( db );
-        db.shutdown();
+        database = DatabaseHelper.createDatabase( dbDir );
+        addDoctorAsNodeOneForToolSupportReasons();
+        addActors();
+        addEpisodes();
+        addCharacters();
+        addSpecies();
+        addPlanets();
+        addDalekProps();
+
+        createActorsIndex();
+        createEpisodeIndex();
+        createCharactersIndex();
+        createSpeciesIndex();
+        createPlanetsIndex();
+
+        database.shutdown();
     }
 
-    private void addDoctorAsNodeOneForToolSupportReasons( GraphDatabaseService db )
+    private void createPlanetsIndex()
     {
-        final Transaction transaction = db.beginTx();
-        try
+        createIndex( "Planet", "planet" );
+    }
+
+    private void createSpeciesIndex()
+    {
+        createIndex( "Species", "species" );
+    }
+
+    private void createCharactersIndex()
+    {
+        createIndex( "Character", "character" );
+    }
+
+    private void createEpisodeIndex()
+    {
+        createIndex( "Episode", "episode" );
+    }
+
+    private void createActorsIndex()
+    {
+        createIndex( "Actor", "actor" );
+    }
+
+    private void createIndex( String label, String property )
+    {
+        ExecutionEngine engine = new ExecutionEngine( database, DEV_NULL );
+        engine.execute( String.format( "CREATE INDEX ON :%s(%s)", label, property ) );
+    }
+
+    private void addDoctorAsNodeOneForToolSupportReasons()
+    {
+        try ( Transaction transaction = database.beginTx() )
         {
-            final Node node = db.createNode();
+            final Node node = database.createNode();
             node.setProperty( "character", "Doctor" );
-            db.index().forNodes( "characters" ).add( node, "character", "Doctor" );
+            database.index().forNodes( "characters" ).add( node, "character", "Doctor" );
             transaction.success();
         }
-        finally
-        {
-            transaction.finish();
-        }
     }
 
-    private void addActors( GraphDatabaseService db )
+    private void addActors()
     {
-        Actors actors = new Actors( db );
+        Actors actors = new Actors( database );
         actors.insert();
     }
 
-    private void addEpisodes( GraphDatabaseService db )
+    private void addEpisodes()
     {
-        Episodes episodes = new Episodes( db );
+        Episodes episodes = new Episodes( database );
         episodes.insert();
     }
 
-    private void addCharacters( GraphDatabaseService db )
+    private void addCharacters()
     {
-        Characters characters = new Characters( db );
+        Characters characters = new Characters( database );
         characters.insert();
     }
 
-    private void addSpecies( GraphDatabaseService db )
+    private void addSpecies()
     {
-        Species species = new Species( db );
+        Species species = new Species( database );
         species.insert();
     }
 
-    private void addPlanets( GraphDatabaseService db )
+    private void addPlanets()
     {
-        Planets planets = new Planets( db );
+        Planets planets = new Planets( database );
         planets.insert();
     }
 
-    private void addDalekProps( GraphDatabaseService db )
+    private void addDalekProps()
     {
-        DalekProps dalekProps = new DalekProps( db );
+        DalekProps dalekProps = new DalekProps( database );
         dalekProps.insert();
     }
 

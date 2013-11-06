@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan14;
+package org.neo4j.tutorial.koan13;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 
 import com.sun.jersey.api.NotFoundException;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -22,8 +23,9 @@ public class SalaryUnmanagedExtension
         ExecutionEngine engine = new ExecutionEngine( db, StringLogger.DEV_NULL );
         String cql = null;
 
-        cql = "start actor = node:actors(actor = '" + actor + "')"
-                + "return actor.salary? as salary";
+        cql = "MATCH (actor:Actor) " +
+                "WHERE has(actor.salary)" +
+                "RETURN actor.salary as salary";
 
         ExecutionResult result = engine.execute( cql );
         Object salary = result.javaColumnAs( "salary" ).next();

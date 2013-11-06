@@ -1,13 +1,15 @@
 package org.neo4j.tutorial;
 
-import static junit.framework.Assert.assertEquals;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.kernel.impl.util.StringLogger;
+
+import static junit.framework.Assert.assertEquals;
+
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this Koan we focus on paths in Cypher.
@@ -31,15 +33,16 @@ public class Koan08f
     @Test
     public void shouldFindHowManyRegenerationsBetweenTomBakerAndChristopherEccleston() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START eccleston = node:actors(actor = 'Christopher Eccleston'), baker = node:actors(actor = 'Tom Baker') "
-                + "MATCH path = (baker)-[:REGENERATED_TO*]->(eccleston) "
-                + "RETURN LENGTH(path) as regenerations";
+        cql = "MATCH path = (baker:Actor)-[:REGENERATED_TO*]->(eccleston:Actor) " +
+                "WHERE eccleston.actor = 'Christopher Eccleston'\n" +
+                "AND baker.actor = 'Tom Baker'" +
+                "RETURN LENGTH(path) as regenerations";
 
         // SNIPPET_END
 
@@ -51,15 +54,15 @@ public class Koan08f
     @Test
     public void shouldFindTheLongestContinuousStoryArcWithTheMaster() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START master = node:characters(character = 'Master')\n" +
-                "MATCH (master)-[:APPEARED_IN]->(first), storyArcs = (first)-[:NEXT*]->()" +
-                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)" +
+        cql = "MATCH (master:Character)-[:APPEARED_IN]->(first:Episode), storyArcs = (first:Episode)-[:NEXT*]->()" +
+                "WHERE master.character = 'Master' " +
+                "AND ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)" +
                 "RETURN LENGTH(storyArcs) as noOfPathHops\n" +
                 "ORDER BY noOfPathHops DESC LIMIT 1";
 

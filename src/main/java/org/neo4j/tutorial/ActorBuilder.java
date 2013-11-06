@@ -1,7 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +7,9 @@ import java.util.List;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.Index;
+
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 
 public class ActorBuilder
 {
@@ -39,10 +40,11 @@ public class ActorBuilder
         return this;
     }
 
-    public void fact( GraphDatabaseService db )
+    public Node fact( GraphDatabaseService db )
     {
         Node actor = ensureActorIsInDb( db );
         ensureCharacterIsInDb( actor, db );
+        return actor;
     }
 
     private Node ensureActorIsInDb( GraphDatabaseService db )
@@ -66,6 +68,8 @@ public class ActorBuilder
         {
             actor.setProperty( "salary", cash );
         }
+
+        actor.addLabel( ACTOR );
 
         return actor;
     }

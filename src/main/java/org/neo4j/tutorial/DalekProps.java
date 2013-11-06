@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+
+import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
 
 public class DalekProps
 {
@@ -17,8 +17,7 @@ public class DalekProps
 
     public void insert()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = db.beginTx() )
         {
             dalekProps( "The Daleks" ).addProp( "Dalek 1", "Dalek 1", "Dalek 1" )
                     .addProp( "Dalek 2", "Dalek 2", "Dalek 2" )
@@ -128,10 +127,5 @@ public class DalekProps
                     .fact( db );
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
     }
-
 }

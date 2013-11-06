@@ -6,13 +6,11 @@ import org.junit.Test;
 
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.kernel.impl.util.StringLogger;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * In this Koan we focus on paths in Cypher.
- */
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
+
 public class Koan08g
 {
     private static EmbeddedDoctorWhoUniverse universe;
@@ -30,28 +28,23 @@ public class Koan08g
     }
 
     @Test
-    public void shouldFindTheNumberOfEpisodesUsingShortestPath() throws Exception
+    public void shouldFindLengthOfTheShortestPathBetweenSarahJaneSmithAndSkaro() throws Exception
     {
-        // Some free domain knowledge here :-)
-        final int first = 1;
-        final int mostRecent = 231;
-
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = String.format( "START first=node:episodes(episode='%d'), last=node:episodes(episode='%d') ", first,
-                mostRecent )
-                + "MATCH path = shortestPath( first-[:NEXT*..500]->last )"
-                + "RETURN LENGTH(path) as episodes";
-
+        cql = "MATCH path = shortestPath( (sarahJaneSmith:Character)-[*..50]-(skaro:Planet) )" +
+                "WHERE sarahJaneSmith.character = 'Sarah Jane Smith' " +
+                "AND skaro.planet = 'Skaro'"+
+                "RETURN length(path) as length";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 251, result.javaColumnAs( "episodes" ).next() );
+        assertEquals( 3, result.javaColumnAs( "length" ).next() );
     }
 }

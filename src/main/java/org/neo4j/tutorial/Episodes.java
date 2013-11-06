@@ -17,8 +17,7 @@ public class Episodes
 
     public void insert()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = db.beginTx() )
         {
             season01();
             season02();
@@ -94,10 +93,6 @@ public class Episodes
             EpisodeBuilder.reset();
 
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
         }
     }
 

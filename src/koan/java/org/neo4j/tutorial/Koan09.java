@@ -1,11 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnlySpecificNodes;
-import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -13,12 +7,22 @@ import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.Traversal;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnlySpecificNodes;
+import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
 /**
  * In this Koan we use some of the pre-canned graph algorithms that come with
@@ -44,28 +48,35 @@ public class Koan09
     @Test
     public void shouldRevealTheEpisodesWhereRoseTylerFoughtTheDaleks()
     {
-        Node rose = universe.getDatabase()
-                .index()
-                .forNodes( "characters" )
-                .get( "character", "Rose Tyler" )
-                .getSingle();
-        Node daleks = universe.getDatabase()
-                .index()
-                .forNodes( "species" )
-                .get( "species", "Dalek" )
-                .getSingle();
-        Iterable<Path> paths = null;
+        GraphDatabaseService database = universe.getDatabase();
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+        try ( Transaction tx = database.beginTx() )
+        {
+            Node rose = database
+                    .index()
+                    .forNodes( "characters" )
+                    .get( "character", "Rose Tyler" )
+                    .getSingle();
+            Node daleks = database
+                    .index()
+                    .forNodes( "species" )
+                    .get( "species", "Dalek" )
+                    .getSingle();
+            Iterable<Path> paths = null;
 
-        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
-        paths = pathFinder.findAllPaths( rose, daleks );
+            // YOUR CODE GOES HERE
+            // SNIPPET_START
 
-        // SNIPPET_END
+            PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
+                    Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
+            paths = pathFinder.findAllPaths( rose, daleks );
 
-        assertThat( paths, consistPreciselyOf( rose, knownRoseVersusDaleksEpisodes(), daleks ) );
+            // SNIPPET_END
+
+            tx.success();
+
+            assertThat( paths, consistPreciselyOf( rose, knownRoseVersusDaleksEpisodes(), daleks ) );
+        }
     }
 
     private HashSet<Node> knownRoseVersusDaleksEpisodes()
@@ -88,63 +99,76 @@ public class Koan09
     @Test
     public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay()
     {
-        Node delgado = universe.getDatabase()
-                .index()
-                .forNodes( "actors" )
-                .get( "actor", "Roger Delgado" )
-                .getSingle();
-        Node simm = universe.getDatabase()
-                .index()
-                .forNodes( "actors" )
-                .get( "actor", "John Simm" )
-                .getSingle();
-        Path path = null;
+        GraphDatabaseService database = universe.getDatabase();
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+        try ( Transaction tx = database.beginTx() )
+        {
+            Node delgado = database
+                    .index()
+                    .forNodes( "actors" )
+                    .get( "actor", "Roger Delgado" )
+                    .getSingle();
+            Node simm = database
+                    .index()
+                    .forNodes( "actors" )
+                    .get( "actor", "John Simm" )
+                    .getSingle();
+            Path path = null;
 
-        PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(
-                Traversal.expanderForTypes( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING ), 100 );
-        path = pathFinder.findSinglePath( delgado, simm );
+            // YOUR CODE GOES HERE
+            // SNIPPET_START
 
-        // SNIPPET_END
+            PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(
+                    Traversal.expanderForTypes( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING ), 100 );
+            path = pathFinder.findSinglePath( delgado, simm );
 
-        assertNotNull( path );
-        int numberOfMasterRegenerations = 8;
-        int numberOfActorsFound = path.length() + 1;
-        assertEquals( numberOfMasterRegenerations, numberOfActorsFound );
+            // SNIPPET_END
+
+            tx.success();
+
+            assertNotNull( path );
+            int numberOfMasterRegenerations = 8;
+            int numberOfActorsFound = path.length() + 1;
+            assertEquals( numberOfMasterRegenerations, numberOfActorsFound );
+        }
     }
 
     @Test
     public void shouldRevealEpisodeWhenTennantRegeneratedToSmith()
     {
-        Node tennant = universe.getDatabase()
-                .index()
-                .forNodes( "actors" )
-                .get( "actor", "David Tennant" )
-                .getSingle();
-        Node smith = universe.getDatabase()
-                .index()
-                .forNodes( "actors" )
-                .get( "actor", "Matt Smith" )
-                .getSingle();
-        Path path = null;
+        GraphDatabaseService database = universe.getDatabase();
+        try ( Transaction tx = database.beginTx() )
+        {
+            Node tennant = database
+                    .index()
+                    .forNodes( "actors" )
+                    .get( "actor", "David Tennant" )
+                    .getSingle();
+            Node smith = database
+                    .index()
+                    .forNodes( "actors" )
+                    .get( "actor", "Matt Smith" )
+                    .getSingle();
+            Path path = null;
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+            // YOUR CODE GOES HERE
+            // SNIPPET_START
 
-        PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
-        path = pathFinder.findSinglePath( tennant, smith );
+            PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
+                    Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
+            path = pathFinder.findSinglePath( tennant, smith );
 
-        // SNIPPET_END
+            // SNIPPET_END
 
-        assertNotNull( path );
-        Node endOfTimeEpisode = universe.getDatabase()
-                .index()
-                .forNodes( "episodes" )
-                .get( "title", "The End of Time" )
-                .getSingle();
-        assertThat( path, containsOnlySpecificNodes( tennant, smith, endOfTimeEpisode ) );
+            tx.success();
+
+            assertNotNull( path );
+            Node endOfTimeEpisode = database
+                    .index()
+                    .forNodes( "episodes" )
+                    .get( "title", "The End of Time" )
+                    .getSingle();
+            assertThat( path, containsOnlySpecificNodes( tennant, smith, endOfTimeEpisode ) );
+        }
     }
 }

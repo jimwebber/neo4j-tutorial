@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.kernel.impl.util.StringLogger;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -19,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
 import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
 
@@ -45,15 +45,15 @@ public class Koan08c
     @Test
     public void shouldReturnAnyWikpediaEntriesForCompanions()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character = 'Doctor') " +
-                "MATCH (doctor)<-[:COMPANION_OF]-(companion) " +
-                "WHERE has(companion.wikipedia) " +
+        cql = "MATCH (doctor:Character)<-[:COMPANION_OF]-(companion:Character) " +
+                "WHERE doctor.character ='Doctor' " +
+                "AND has(companion.wikipedia) " +
                 "RETURN companion.wikipedia";
 
 
@@ -71,19 +71,20 @@ public class Koan08c
     @Test
     public void shouldCountTheNumberOfActorsKnownToHavePlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character = 'Doctor')"
-                + "MATCH (doctor)<-[:PLAYED]-(actor) "
+        cql = "MATCH (doctor:Character)<-[:PLAYED]-(actor:Actor) "
+                + "WHERE doctor.character = 'Doctor' "
                 + "RETURN count(actor) AS numberOfActorsWhoPlayedTheDoctor";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
+
         Long actorsCount = (Long) result.javaColumnAs( "numberOfActorsWhoPlayedTheDoctor" ).next();
 
         assertEquals( 12l, actorsCount.longValue() );
@@ -92,14 +93,14 @@ public class Koan08c
     @Test
     public void shouldFindEarliestAndLatestRegenerationYears()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character = 'Doctor') " +
-                "MATCH (doctor)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
+        cql = "MATCH (doctor:Character)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
+                "WHERE doctor.character = 'Doctor' " +
                 "RETURN min(regen.year) AS earliest, max(regen.year) AS latest";
 
         // SNIPPET_END
@@ -115,14 +116,15 @@ public class Koan08c
     @Test
     public void shouldFindTheEarliestEpisodeWhereFreemaAgyemanAndDavidTennantWorkedTogether() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START freema = node:actors(actor = 'Freema Agyeman'), david = node:actors(actor = 'David Tennant') " +
-                "MATCH (freema)-[:PLAYED]->()-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(david) " +
+        cql = "MATCH (freema:Actor)-[:PLAYED]->()-[:APPEARED_IN]->(episode:Episode)<-[:APPEARED_IN]-(david:Actor) " +
+                "WHERE freema.actor = 'Freema Agyeman' " +
+                "AND david.actor = 'David Tennant' " +
                 "RETURN min(episode.episode) as earliest";
 
         // SNIPPET_END
@@ -135,15 +137,16 @@ public class Koan08c
     @Test
     public void shouldFindAverageSalaryOfActorsWhoPlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character = 'Doctor')"
-                + "MATCH (doctor)<-[:PLAYED]-(actor)"
-                + "RETURN avg(actor.salary?) AS cash";
+        cql = "MATCH (doctor:Character)<-[:PLAYED]-(actor:Actor)"
+                + "WHERE doctor.character = 'Doctor'"
+                + "AND has(actor.salary)"
+                + "RETURN avg(actor.salary) AS cash";
 
 
         // SNIPPET_END
@@ -156,26 +159,24 @@ public class Koan08c
     @Test
     public void shouldListTheEnemySpeciesAndCharactersForEachEpisodeWithPeterDavisonOrderedByIncreasingEpisodeNumber()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START davison=node:actors(actor='Peter Davison') "
-                + "MATCH (davison)-[:APPEARED_IN]->(episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()<-[:PLAYED]-" +
-                "(davison)"
-                + "RETURN episode.episode, episode.title, collect(enemy.species?) AS species, " +
-                "collect(enemy.character?) AS characters "
+        cql = "MATCH (davison:Actor)-[:APPEARED_IN]->(episode:Episode)<-[:APPEARED_IN]-(enemy)-[:ENEMY_OF]->()" +
+                "<-[:PLAYED]-(davison:Actor)"
+                + "WHERE davison.actor = 'Peter Davison' "
+                + "AND (has(enemy.character) OR has (enemy.species)) "
+                + "RETURN episode.episode, episode.title, collect(enemy.species) AS species, "
+                + "collect(enemy.character) AS characters "
                 + "ORDER BY episode.episode";
 
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
-
-        System.out.println( "result.dumpToString() = " + result.dumpToString() );
-
 
         final List<String> columnNames = result.javaColumns();
         assertThat( columnNames,
@@ -187,17 +188,18 @@ public class Koan08c
     @Test
     public void shouldFindTheEnemySpeciesThatRoseTylerFought()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START rose = node:characters(character = 'Rose Tyler'), doctor = node:characters(character = 'Doctor') "
-                + "MATCH rose-[:APPEARED_IN]->episode, "
-                + "(doctor)-[:ENEMY_OF]->(enemy)-[:APPEARED_IN]->(episode) "
-                + "WHERE has(enemy.species)  "
-                + "RETURN DISTINCT enemy.species AS enemySpecies";
+        cql = "MATCH (rose:Character)-[:APPEARED_IN]->(episode:Episode), " +
+                "(doctor:Character)-[:ENEMY_OF]->(enemy:Species)-[:APPEARED_IN]->(episode:Episode) " +
+                "WHERE rose.character = 'Rose Tyler'" +
+                "AND doctor.character = 'Doctor' " +
+                "AND has(enemy.species)  " +
+                "RETURN DISTINCT enemy.species AS enemySpecies";
 
 
         // SNIPPET_END

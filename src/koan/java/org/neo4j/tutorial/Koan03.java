@@ -1,15 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
-import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
@@ -17,6 +11,14 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificSpecies.containsOnlySpecies;
+import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 
 /**
  * This Koan will introduce indexing based on the built-in index framework based
@@ -45,78 +47,89 @@ public class Koan03
     {
         Index<Node> characters = null;
 
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
+        try ( Transaction tx = universe.getDatabase().beginTx() )
+        {
+            // YOUR CODE GOES HERE
+            // SNIPPET_START
 
-        characters = universe.getDatabase()
-                .index()
-                .forNodes( "characters" );
+            characters = universe.getDatabase()
+                    .index()
+                    .forNodes( "characters" );
 
-        // SNIPPET_END
+            // SNIPPET_END
 
-        assertNotNull( characters );
-        assertThat(
-                characters,
-                contains( "Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith",
-                        "Donna Noble", "Martha Jones" ) );
+            assertNotNull( characters );
+            assertThat(
+                    characters,
+                    contains( "Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith",
+                            "Donna Noble", "Martha Jones" ) );
+            tx.success();
+        }
     }
 
     @Test
     public void addingToAnIndexShouldBeHandledAsAMutatingOperation()
     {
-        GraphDatabaseService db = universe.getDatabase();
-        Node abigailPettigrew = createAbigailPettigrew( db );
+        GraphDatabaseService database = universe.getDatabase();
 
-        assertNull( db.index()
-                .forNodes( "characters" )
-                .get( "character", "Abigail Pettigrew" )
-                .getSingle() );
+        Node abigailPettigrew = createAbigailPettigrew( database );
+
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction transaction = db.beginTx();
-        try
+        try ( Transaction transaction = database.beginTx() )
         {
-            db.index()
+            database.index()
                     .forNodes( "characters" )
                     .add( abigailPettigrew, "character", abigailPettigrew.getProperty( "character" ) );
             transaction.success();
         }
-        finally
-        {
-            transaction.finish();
-        }
+
 
         // SNIPPET_END
 
-        assertNotNull( db.index()
-                .forNodes( "characters" )
-                .get( "character", "Abigail Pettigrew" )
-                .getSingle() );
+        try ( Transaction transaction = database.beginTx() )
+        {
+            assertNotNull( database.index()
+                    .forNodes( "characters" )
+                    .get( "character", "Abigail Pettigrew" )
+                    .getSingle() );
+            transaction.success();
+        }
     }
 
     @Test
-    public void shouldFindSpeciesBeginningWithCapitalLetterSAndEndingWithLowerCaseLetterNUsingLuceneQuery() throws Exception
+    public void shouldFindSpeciesBeginningWithCapitalLetterSAndEndingWithLowerCaseLetterNUsingLuceneQuery()
+            throws Exception
     {
+        GraphDatabaseService database = universe.getDatabase();
         IndexHits<Node> species = null;
 
         //HINT: while the naming convention in the DrWho Indecies is
         // Index name: 'actors', index key: 'actor'
         // For the species (due to the English langauage) it is
         // Index name: 'species', index key: 'species'
-        
+
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        species = universe.getDatabase()
-                .index()
-                .forNodes( "species" )
-                .query( "species", "S*n" );
+        try ( Transaction tx = database.beginTx() )
+        {
+            species = database
+                    .index()
+                    .forNodes( "species" )
+                    .query( "species", "S*n" );
+            tx.success();
+        }
 
         // SNIPPET_END
 
-        assertThat( species, containsOnlySpecies( "Silurian", "Slitheen", "Sontaran", "Skarasen" ) );
+        try ( Transaction tx = database.beginTx() )
+        {
+            assertThat( species, containsOnlySpecies( "Silurian", "Slitheen", "Sontaran", "Skarasen" ) );
+            tx.success();
+        }
     }
 
     /**
@@ -127,63 +140,75 @@ public class Koan03
     @Test
     public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception
     {
-        GraphDatabaseService db = universe.getDatabase();
-        Node cyberleader = retriveCyberleaderFromIndex( db );
+        GraphDatabaseService database = universe.getDatabase();
+        Node cyberleader = retriveCyberleaderFromIndex( database );
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
+
             for ( Relationship rel : cyberleader.getRelationships() )
             {
                 rel.delete();
             }
             cyberleader.delete();
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
-        }
 
+        }
         // SNIPPET_END
 
-        assertNull( "Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex( db ) );
+        assertNull( "Cyberleader has not been deleted from the characters index.",
+                retriveCyberleaderFromIndex( database ) );
 
-        try
+        assertTrue( "Cyberleader has not been deleted from the database.", cyberLeaderDeleted( database,
+                cyberleader ) );
+    }
+
+    private boolean cyberLeaderDeleted( GraphDatabaseService database, Node cyberleader )
+    {
+        try ( Transaction tx = database.beginTx() )
         {
-            db.getNodeById( cyberleader.getId() );
-            fail( "Cyberleader has not been deleted from the database." );
+            database.getNodeById( cyberleader.getId() );
+            return false;
         }
         catch ( NotFoundException nfe )
         {
+            return true;
         }
     }
 
-    private Node retriveCyberleaderFromIndex( GraphDatabaseService db )
+    private Node retriveCyberleaderFromIndex( GraphDatabaseService database )
     {
-        return db.index()
-                .forNodes( "characters" )
-                .get( "character", "Cyberleader" )
-                .getSingle();
+        try ( Transaction transaction = database.beginTx() )
+        {
+            Node cyberleader = database.index()
+                    .forNodes( "characters" )
+                    .get( "character", "Cyberleader" )
+                    .getSingle();
+            transaction.success();
+            return cyberleader;
+        }
     }
 
-    private Node createAbigailPettigrew( GraphDatabaseService db )
+    private Node createAbigailPettigrew( GraphDatabaseService database )
     {
         Node abigailPettigrew;
-        Transaction tx = db.beginTx();
-        try
+
+        try ( Transaction tx = database.beginTx() )
         {
-            abigailPettigrew = db.createNode();
+            abigailPettigrew = database.createNode();
             abigailPettigrew.setProperty( "character", "Abigail Pettigrew" );
+
+            assertNull( database.index()
+                    .forNodes( "characters" )
+                    .get( "character", "Abigail Pettigrew" )
+                    .getSingle() );
+
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
+
         return abigailPettigrew;
     }
 }

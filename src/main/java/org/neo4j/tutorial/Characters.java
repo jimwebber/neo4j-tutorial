@@ -1,9 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.CharacterBuilder.character;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+
+import static org.neo4j.tutorial.CharacterBuilder.character;
 
 class Characters
 {
@@ -17,18 +17,13 @@ class Characters
 
     public void insert()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = db.beginTx() )
         {
             embellishTheDoctor();
             loadCompanions();
             loadEnemies();
             loadAllies();
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
         }
     }
 

@@ -1,9 +1,10 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+
+import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
+import static org.neo4j.tutorial.DoctorWhoLabels.SPECIES;
 
 public class SpeciesBuilder
 {
@@ -70,6 +71,7 @@ public class SpeciesBuilder
             db.index()
                     .forNodes( "species" )
                     .add( speciesNode, "species", theSpecies );
+            speciesNode.addLabel( SPECIES );
         }
 
         return speciesNode;

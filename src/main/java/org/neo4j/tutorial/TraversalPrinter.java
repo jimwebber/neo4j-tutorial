@@ -1,8 +1,5 @@
 package org.neo4j.tutorial;
 
-import static java.lang.Math.min;
-import static java.util.Arrays.asList;
-
 import java.util.Iterator;
 
 import org.neo4j.graphdb.Node;
@@ -11,6 +8,9 @@ import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
+
+import static java.lang.Math.min;
+import static java.util.Arrays.asList;
 
 public class TraversalPrinter implements Evaluator
 {

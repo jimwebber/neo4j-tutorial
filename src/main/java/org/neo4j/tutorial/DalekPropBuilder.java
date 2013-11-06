@@ -10,6 +10,8 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.Index;
 
+import static org.neo4j.tutorial.DoctorWhoRelationships.USED_IN;
+
 public class DalekPropBuilder
 {
     private static final String PROP = "prop";
@@ -26,7 +28,7 @@ public class DalekPropBuilder
     {
         super();
         this.episode = episode;
-        props = new ArrayList<Prop>();
+        props = new ArrayList<>();
     }
 
     public DalekPropBuilder addProp( String shoulder, String skirt, String name )
@@ -77,7 +79,8 @@ public class DalekPropBuilder
 
         Node episodePropsNode = db.createNode();
         episodePropsNode.setProperty( PROPS, "Daleks" );
-        episodePropsNode.createRelationshipTo( episodeNode, DoctorWhoRelationships.USED_IN );
+        episodePropsNode.addLabel( DoctorWhoLabels.PROPS );
+        episodePropsNode.createRelationshipTo( episodeNode, USED_IN );
 
         for ( Prop prop : props )
         {
@@ -108,7 +111,6 @@ public class DalekPropBuilder
                     createPartAttachedToPropGroup( prop.getSkirt(), "skirt", episodePropsNode, db );
                 }
             }
-
         }
     }
 
@@ -133,7 +135,8 @@ public class DalekPropBuilder
         }
     }
 
-    private boolean relationshipExists( Node startNode, Node endNode, RelationshipType relationship, Direction direction )
+    private boolean relationshipExists( Node startNode, Node endNode, RelationshipType relationship,
+                                        Direction direction )
     {
         Iterable<Relationship> rels = startNode.getRelationships( direction, relationship );
         for ( Relationship rel : rels )
@@ -192,6 +195,9 @@ public class DalekPropBuilder
             dalekPropNode.setProperty( PROP, prop );
             index.add( dalekPropNode, PROP, prop );
         }
+
+        dalekPropNode.addLabel( DoctorWhoLabels.PROP );
+
         return dalekPropNode;
     }
 

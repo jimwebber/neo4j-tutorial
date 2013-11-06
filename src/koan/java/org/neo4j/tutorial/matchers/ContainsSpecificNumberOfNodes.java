@@ -4,6 +4,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
 import org.neo4j.graphdb.Node;
 
 public class ContainsSpecificNumberOfNodes extends TypeSafeMatcher<Iterable<Node>>

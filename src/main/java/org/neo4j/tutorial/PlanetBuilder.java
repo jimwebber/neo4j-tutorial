@@ -3,6 +3,8 @@ package org.neo4j.tutorial;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
+import static org.neo4j.tutorial.DoctorWhoLabels.PLANET;
+
 public class PlanetBuilder
 {
 
@@ -39,6 +41,8 @@ public class PlanetBuilder
                     .forNodes( "planets" )
                     .add( planetNode, "planet", planet );
         }
+
+        planetNode.addLabel( PLANET );
 
         return planetNode;
     }

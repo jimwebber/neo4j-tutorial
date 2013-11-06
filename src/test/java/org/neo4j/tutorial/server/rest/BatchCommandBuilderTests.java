@@ -1,9 +1,10 @@
 package org.neo4j.tutorial.server.rest;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
 import org.neo4j.helpers.collection.MapUtil;
+
+import static org.junit.Assert.assertEquals;
 
 public class BatchCommandBuilderTests
 {
@@ -50,7 +51,8 @@ public class BatchCommandBuilderTests
                 MapUtil.stringMap( "key", "value" ) )
                 .build();
         assertEquals(
-                "[{\"method\":\"POST\",\"to\":\"/node/1\",\"body\":{\"to\":\"node/2\",\"type\":\"KNOWS\",\"data\":{\"key\":\"value\"}},\"id\":1}]",
+                "[{\"method\":\"POST\",\"to\":\"/node/1\",\"body\":{\"to\":\"node/2\",\"type\":\"KNOWS\"," +
+                        "\"data\":{\"key\":\"value\"}},\"id\":1}]",
                 result );
     }
 
@@ -61,7 +63,8 @@ public class BatchCommandBuilderTests
                 MapUtil.stringMap( "key", "value" ) )
                 .build();
         assertEquals(
-                "[{\"method\":\"POST\",\"to\":\"/node/1\",\"body\":{\"to\":\"node/2\",\"type\":\"KNOWS\",\"data\":{\"key\":\"value\"}}}]",
+                "[{\"method\":\"POST\",\"to\":\"/node/1\",\"body\":{\"to\":\"node/2\",\"type\":\"KNOWS\"," +
+                        "\"data\":{\"key\":\"value\"}}}]",
                 result );
     }
 

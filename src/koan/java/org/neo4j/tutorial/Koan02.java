@@ -27,21 +27,21 @@ import static org.junit.Assert.fail;
 public class Koan02
 {
 
-    private static GraphDatabaseService db;
+    private static GraphDatabaseService database;
     private static DatabaseHelper databaseHelper;
 
 
     @BeforeClass
     public static void createADatabase()
     {
-        db = DatabaseHelper.createDatabase();
-        databaseHelper = new DatabaseHelper( db );
+        database = DatabaseHelper.createDatabase();
+        databaseHelper = new DatabaseHelper( database );
     }
 
     @AfterClass
     public static void closeTheDatabase()
     {
-        db.shutdown();
+        database.shutdown();
     }
 
     @Test
@@ -57,15 +57,11 @@ public class Koan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+
+        try ( Transaction tx = database.beginTx() )
         {
-            node = db.createNode();
+            node = database.createNode();
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
         }
 
         // SNIPPET_END
@@ -81,26 +77,26 @@ public class Koan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
-            theDoctor = db.createNode();
+            theDoctor = database.createNode();
             theDoctor.setProperty( "firstname", "William" );
             theDoctor.setProperty( "lastname", "Hartnell" );
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
 
         // SNIPPET_END
 
-        assertTrue( databaseHelper.nodeExistsInDatabase( theDoctor ) );
+        try ( Transaction tx = database.beginTx() )
+        {
+            assertTrue( databaseHelper.nodeExistsInDatabase( theDoctor ) );
 
-        Node storedNode = db.getNodeById( theDoctor.getId() );
-        assertEquals( "William", storedNode.getProperty( "firstname" ) );
-        assertEquals( "Hartnell", storedNode.getProperty( "lastname" ) );
+            Node storedNode = database.getNodeById( theDoctor.getId() );
+            assertEquals( "William", storedNode.getProperty( "firstname" ) );
+            assertEquals( "Hartnell", storedNode.getProperty( "lastname" ) );
+
+            tx.success();
+        }
     }
 
     @Test
@@ -117,13 +113,12 @@ public class Koan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
-            theDoctor = db.createNode();
+            theDoctor = database.createNode();
             theDoctor.setProperty( "character", "Doctor" );
 
-            susan = db.createNode();
+            susan = database.createNode();
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
@@ -132,18 +127,18 @@ public class Koan02
 
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
 
         // SNIPPET_END
 
-        Relationship storedCompanionRelationship = db.getRelationshipById( companionRelationship.getId() );
-        assertNotNull( storedCompanionRelationship );
-        assertNotNull( storedCompanionRelationship.getType().equals( DoctorWhoRelationships.COMPANION_OF ) );
-        assertEquals( susan, storedCompanionRelationship.getStartNode() );
-        assertEquals( theDoctor, storedCompanionRelationship.getEndNode() );
+        try ( Transaction tx = database.beginTx() )
+        {
+            Relationship storedCompanionRelationship = database.getRelationshipById( companionRelationship.getId() );
+            assertNotNull( storedCompanionRelationship );
+            assertNotNull( storedCompanionRelationship.getType().equals( DoctorWhoRelationships.COMPANION_OF ) );
+            assertEquals( susan, storedCompanionRelationship.getStartNode() );
+            assertEquals( theDoctor, storedCompanionRelationship.getEndNode() );
+            tx.success();
+        }
     }
 
     @Test
@@ -155,8 +150,7 @@ public class Koan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
 
             // This is the tricky part, you have to remove the active
@@ -170,10 +164,6 @@ public class Koan02
             captainKirk.delete();
 
             tx.success();
-        }
-        finally
-        {
-            tx.finish();
         }
 
         // SNIPPET_END
@@ -199,10 +189,8 @@ public class Koan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
-
             Iterable<Relationship> relationships = susan.getRelationships( DoctorWhoRelationships.ENEMY_OF,
                     Direction.OUTGOING );
             for ( Relationship r : relationships )
@@ -217,25 +205,24 @@ public class Koan02
 
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
 
         // SNIPPET_END
 
-        assertEquals( 1, databaseHelper.destructivelyCountRelationships( susan.getRelationships() ) );
+        try ( Transaction tx = database.beginTx() )
+        {
+            assertEquals( 1, databaseHelper.destructivelyCountRelationships( susan.getRelationships() ) );
+            tx.success();
+        }
     }
 
     private Node createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = database.beginTx() )
         {
-            Node theDoctor = db.createNode();
+            Node theDoctor = database.createNode();
             theDoctor.setProperty( "character", "Doctor" );
 
-            Node susan = db.createNode();
+            Node susan = database.createNode();
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
@@ -245,23 +232,17 @@ public class Koan02
             tx.success();
             return susan;
         }
-        finally
-        {
-            tx.finish();
-        }
-
     }
 
     private Node createPollutedDatabaseContainingStarTrekReferences()
     {
-        Transaction tx = db.beginTx();
         Node captainKirk = null;
-        try
+        try ( Transaction tx = database.beginTx() )
         {
-            Node theDoctor = db.createNode();
+            Node theDoctor = database.createNode();
             theDoctor.setProperty( "character", "The Doctor" );
 
-            captainKirk = db.createNode();
+            captainKirk = database.createNode();
             captainKirk.setProperty( "firstname", "James" );
             captainKirk.setProperty( "initial", "T" );
             captainKirk.setProperty( "lastname", "Kirk" );
@@ -271,10 +252,6 @@ public class Koan02
 
             tx.success();
             return captainKirk;
-        }
-        finally
-        {
-            tx.finish();
         }
     }
 }

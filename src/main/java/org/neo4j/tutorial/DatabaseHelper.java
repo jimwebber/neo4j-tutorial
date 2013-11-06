@@ -13,27 +13,28 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.IndexHits;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 public class DatabaseHelper
 {
-    private final GraphDatabaseService db;
+    private final GraphDatabaseService database;
 
-    public DatabaseHelper( GraphDatabaseService db )
+    public DatabaseHelper( GraphDatabaseService database )
     {
-        this.db = db;
+        this.database = database;
     }
 
-    public static EmbeddedGraphDatabase createDatabase()
+    public static GraphDatabaseService createDatabase()
     {
-        return new EmbeddedGraphDatabase( createTempDatabaseDir().getAbsolutePath() );
+        return createDatabase( createTempDatabaseDir().getAbsolutePath() );
     }
 
-    public static EmbeddedGraphDatabase createDatabase( String dbDir )
+    public static GraphDatabaseService createDatabase( String dbDir )
     {
-        return new EmbeddedGraphDatabase( dbDir );
+        return new GraphDatabaseFactory().newEmbeddedDatabase( dbDir );
     }
 
     public static File createTempDatabaseDir()
@@ -60,7 +61,8 @@ public class DatabaseHelper
         return directory;
     }
 
-    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String, Object> relationshipProperties )
+    public static void ensureRelationshipInDb( Node startNode, RelationshipType relType, Node endNode, Map<String,
+            Object> relationshipProperties )
     {
         for ( Relationship r : startNode.getRelationships( relType, Direction.OUTGOING ) )
         {
@@ -86,7 +88,7 @@ public class DatabaseHelper
 
     public void dumpGraphToConsole()
     {
-        for ( Node n : GlobalGraphOperations.at( db ).getAllNodes() )
+        for ( Node n : GlobalGraphOperations.at( database ).getAllNodes() )
         {
             Iterable<String> propertyKeys = n.getPropertyKeys();
             for ( String key : propertyKeys )
@@ -124,7 +126,12 @@ public class DatabaseHelper
 
     public boolean nodeExistsInDatabase( Node node )
     {
-        return db.getNodeById( node.getId() ) != null;
+        try ( Transaction tx = database.beginTx() )
+        {
+            Node nodeById = database.getNodeById( node.getId() );
+            tx.success();
+            return nodeById != null;
+        }
     }
 
     public int destructivelyCountRelationships( Iterable<Relationship> relationships )

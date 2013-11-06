@@ -4,6 +4,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.Index;
 

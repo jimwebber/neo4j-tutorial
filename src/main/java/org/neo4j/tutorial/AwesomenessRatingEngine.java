@@ -19,11 +19,6 @@ public class AwesomenessRatingEngine
 
         int hops = Integer.valueOf( String.valueOf( result.javaColumnAs( "hops" ).next() ) );
 
-        double ratio = 100 / ((hops + 1) * 1.0);
-
-
-        return ratio;
+        return 100 / ((hops + 1) * 1.0);
     }
-
-
 }

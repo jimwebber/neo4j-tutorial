@@ -8,6 +8,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
 import org.neo4j.graphdb.Node;
 
 public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>>
@@ -40,7 +41,6 @@ public class ContainsOnlySpecificSpecies extends TypeSafeMatcher<Iterable<Node>>
     @Override
     public boolean matchesSafely( Iterable<Node> nodes )
     {
-
         for ( Node n : nodes )
         {
             String speciesName = String.valueOf( n.getProperty( "species" ) );

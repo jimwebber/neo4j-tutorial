@@ -1,13 +1,12 @@
 package org.neo4j.tutorial;
 
-import static org.neo4j.tutorial.SpeciesBuilder.species;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
+import static org.neo4j.tutorial.SpeciesBuilder.species;
+
 public class Species
 {
-
     private final GraphDatabaseService db;
 
     public Species( GraphDatabaseService db )
@@ -17,8 +16,7 @@ public class Species
 
     public void insert()
     {
-        Transaction tx = db.beginTx();
-        try
+        try ( Transaction tx = db.beginTx() )
         {
             species( "Timelord" ).isEnemyOfSpecies( "Dalek" )
                     .isFrom( "Gallifrey" )
@@ -93,10 +91,5 @@ public class Species
             species( "Voord" ).fact( db );
             tx.success();
         }
-        finally
-        {
-            tx.finish();
-        }
     }
-
 }

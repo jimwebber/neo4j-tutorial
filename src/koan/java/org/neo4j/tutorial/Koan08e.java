@@ -1,17 +1,18 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.kernel.impl.util.StringLogger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
@@ -43,9 +44,12 @@ public class Koan08e
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "start daleks= node:species(species = 'Dalek') match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.part, count(episode.title)"
-                + " order by count (episode.title) desc limit 1";
+        cql = "MATCH (daleks:Species)-[:APPEARED_IN]->(episode:Episode)<-[:USED_IN]-(props:Props)<-[:MEMBER_OF]-" +
+                "(prop:Prop)"
+                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) " +
+                "WHERE daleks.species = 'Dalek'" +
+                "RETURN originalprop.prop, part.part, count(episode.title)"
+                + " ORDER BY count(episode.title) DESC LIMIT 1";
 
         // SNIPPET_END
 

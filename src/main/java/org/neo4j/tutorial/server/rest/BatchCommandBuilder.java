@@ -8,7 +8,8 @@ import java.util.Map;
 public class BatchCommandBuilder
 {
     private static final String CreateNodeTemplate = "{\"method\":\"POST\",\"to\":\"/node\",\"body\":{%s}%s}";
-    private static final String CreateRelationshipTemplate = "{\"method\":\"POST\",\"to\":\"%s\",\"body\":{\"to\":\"%s\",\"type\":\"%s\"%s}%s}";
+    private static final String CreateRelationshipTemplate = "{\"method\":\"POST\",\"to\":\"%s\"," +
+            "\"body\":{\"to\":\"%s\",\"type\":\"%s\"%s}%s}";
     private static final String DeleteTemplate = "{\"method\":\"DELETE\",\"to\":\"%s\"}";
 
     private final List<String> commands = new ArrayList<String>();
@@ -23,7 +24,8 @@ public class BatchCommandBuilder
         return formatCreateNode( bodyParams, null );
     }
 
-    public BatchCommandBuilder createRelationship( int jobId, String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams )
+    public BatchCommandBuilder createRelationship( int jobId, String startNodeRelationshipUri, String endNodeUri,
+                                                   String relType, Map<String, String> dataParams )
     {
         return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, jobId );
     }
@@ -33,7 +35,8 @@ public class BatchCommandBuilder
         return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, null, null );
     }
 
-    public BatchCommandBuilder createRelationship( String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams )
+    public BatchCommandBuilder createRelationship( String startNodeRelationshipUri, String endNodeUri,
+                                                   String relType, Map<String, String> dataParams )
     {
         return formatCreateRelationship( startNodeRelationshipUri, endNodeUri, relType, dataParams, null );
     }
@@ -50,7 +53,9 @@ public class BatchCommandBuilder
         return this;
     }
 
-    private BatchCommandBuilder formatCreateRelationship( String startNodeRelationshipUri, String endNodeUri, String relType, Map<String, String> dataParams, Integer jobId )
+    private BatchCommandBuilder formatCreateRelationship( String startNodeRelationshipUri, String endNodeUri,
+                                                          String relType, Map<String, String> dataParams,
+                                                          Integer jobId )
     {
         commands.add( String.format( CreateRelationshipTemplate, startNodeRelationshipUri, endNodeUri, relType,
                 createData( dataParams ), formatJobId( jobId ) ) );

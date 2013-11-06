@@ -45,7 +45,7 @@ public class Koan08a
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE n = { firstname : 'Tom', lastname : 'Baker' }";
+        cql = "CREATE (n { firstname : 'Tom', lastname : 'Baker' })";
 
         // SNIPPET_END
 
@@ -67,7 +67,7 @@ public class Koan08a
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE doctor = { character : 'Doctor' }, master = { character : 'Master' }, " +
+        cql = "CREATE (doctor { character : 'Doctor' }), (master { character : 'Master' }), " +
                 "(doctor)<-[r:ENEMY_OF]-(master) ";
 
         // SNIPPET_END

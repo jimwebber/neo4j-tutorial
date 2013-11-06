@@ -2,22 +2,26 @@
 <ivy-module xmlns:m="http://ant.apache.org/ivy/maven" version="2.0">
   <info organisation="org.neo4j" module="neo4j-koans"/>
   <dependencies>
-    <dependency org="org.neo4j.app" name="neo4j-server" rev="1.9">
+    <dependency org="org.neo4j.app" name="neo4j-server" rev="2.0.0-M06">
       <artifact name="neo4j-server" ext="jar"/>
       <artifact name="neo4j-server" m:classifier="static-web" ext="jar"/>
       <artifact name="neo4j-server" m:classifier="tests" ext="jar"/>
       <exclude org="org.slf4j"/>
     </dependency>
-    <dependency org="org.neo4j" name="server-api" rev="1.9"/>
-    <dependency org="org.neo4j" name="neo4j-community" rev="1.9"/>
-    <dependency org="org.neo4j" name="neo4j-kernel" rev="1.9">
+    <dependency org="org.neo4j" name="server-api" rev="2.0.0-M06"/>
+    <dependency org="org.neo4j" name="neo4j-community" rev="2.0.0-M06"/>
+    <dependency org="org.neo4j" name="neo4j-kernel" rev="2.0.0-M06">
       <artifact name="neo4j-kernel" ext="jar"/>
       <artifact name="neo4j-kernel" m:classifier="tests" ext="jar"/>
     </dependency>
-    <dependency org="org.neo4j" name="neo4j-shell" rev="1.7"/>
+    <dependency org="org.neo4j" name="neo4j-shell" rev="2.0.0-M06"/>
     <dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.7.5"/>
     <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.7.5"/>
-    <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.25"/>
+    <dependency org="org.eclipse.jetty" name="jetty-server" rev="9.0.5.v20130815"/>
+    <dependency org="org.eclipse.jetty" name="jetty-webapp" rev="9.0.5.v20130815"/>
+    <dependency org="org.eclipse.jetty.orbit" name="javax.servlet" rev="3.0.0.v201112011016">
+      <artifact name="javax.servlet" ext="jar"/>
+    </dependency>
     <dependency org="org.rrd4j" name="rrd4j" rev="2.0.7" transitive="false"/>
     <dependency org="com.sun.jersey" name="jersey-client" rev="1.9"/>
     <dependency org="com.sun.jersey" name="jersey-core" rev="1.9"/>
@@ -25,6 +29,6 @@
     <dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
     <dependency org="junit" name="junit" rev="4.10"/>
     <dependency org="org.hamcrest" name="hamcrest-all" rev="1.2"/>
-    <dependency org="com.googlecode.concurrentlinkedhashmap" name="concurrentlinkedhashmap-lru" rev="1.3.2"/>
+    <dependency org="org.jboss.weld" name="weld-osgi-bundle" rev="1.1.10.Final"/>
   </dependencies>
 </ivy-module>
