@@ -1,33 +1,37 @@
 package org.neo4j.tutorial;
 
+import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.CharacterBuilder.character;
 
 class Characters
 {
-
     private final GraphDatabaseService db;
+    private final ExecutionEngine engine;
 
     public Characters( GraphDatabaseService db )
     {
         this.db = db;
+        this.engine = new ExecutionEngine( db, DEV_NULL );
     }
 
     public void insert()
     {
         try ( Transaction tx = db.beginTx() )
         {
-            embellishTheDoctor();
+            loadTheDoctor();
             loadCompanions();
             loadEnemies();
             loadAllies();
+
             tx.success();
         }
     }
 
-    private void embellishTheDoctor()
+    private void loadTheDoctor()
     {
         character( "Doctor" )
                 .regeneration( "William Hartnell" )
@@ -38,14 +42,16 @@ class Characters
                 .regeneration( "Colin Baker", 1984 )
                 .regeneration( "Sylvester McCoy", 1987 )
                 .regeneration( "Paul McGann", 1996 )
+                .regeneration( "John Hurt", 2013 )
                 .regeneration( "Christopher Eccleston", 2005 )
                 .regeneration( "David Tennant", 2005 )
                 .regeneration( "Matt Smith", 2010 )
+                .regeneration( "Peter Capaldi", 2013 )
                 .loves( "Rose Tyler", "River Song" )
                 .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .owns( "Tardis", "Sonic Screwdriver" )
-                .fact( db );
+                .fact( engine );
     }
 
     private void loadEnemies()
@@ -54,395 +60,513 @@ class Characters
                 .isEnemy()
                 .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
-                .fact( db );
-        character( "Master" ).regeneration( "Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley",
-                "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm" )
+                .fact( engine );
+        character( "Master" )
+                .regeneration( "Roger Delgado", "Peter Pratt", "Geoffrey Beevers", "Anthony Ainley",
+                        "Gordon Tipple", "Eric Roberts", "Derek Jacobi", "John Simm" )
                 .isEnemy()
                 .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .owns( "Tardis" )
-                .fact( db );
-        character( "Rani" ).isA( "Timelord" )
+                .fact( engine );
+        character( "Rani" )
+                .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .owns( "Tardis" )
-                .fact( db );
-        character( "Meddling Monk" ).isA( "Timelord" )
+                .fact( engine );
+        character( "Meddling Monk" )
+                .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .owns( "Tardis" )
-                .fact( db );
-        character( "Helen A" ).isA( "Human" )
+                .fact( engine );
+        character( "Helen A" )
+                .isA( "Human" )
                 .isFrom( "Terra Alpha" )
                 .isEnemy()
-                .fact( db );
-        character( "Abzorbaloff" ).isA( "Abrobvian" )
+                .fact( engine );
+        character( "Abzorbaloff" )
+                .isA( "Abrobvian" )
                 .isFrom( "Clom" )
                 .isEnemy()
-                .fact( db );
-        character( "Beast" ).isA( "Devil" )
+                .fact( engine );
+        character( "Beast" )
+                .isA( "Devil" )
                 .isEnemy()
-                .fact( db );
-        character( "Black Guardian" ).isEnemy()
-                .fact( db );
-        character( "Bok" ).isA( "Gargoyle" )
+                .fact( engine );
+        character( "Black Guardian" )
                 .isEnemy()
-                .fact( db );
-        character( "Cassandra" ).isA( "Human" )
+                .fact( engine );
+        character( "Bok" )
+                .isA( "Gargoyle" )
+                .isEnemy()
+                .fact( engine );
+        character( "Cassandra" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isEnemy()
-                .fact( db );
-        character( "Cybercontroller" ).isA( "Cyberman" )
+                .fact( engine );
+        character( "Cybercontroller" )
+                .isA( "Cyberman" )
                 .isFrom( "Mondas" )
                 .isEnemy()
-                .fact( db );
-        character( "Cyberleader" ).isA( "Cyberman" )
+                .fact( engine );
+        character( "Cyberleader" )
+                .isA( "Cyberman" )
                 .isFrom( "Mondas" )
                 .isEnemy()
-                .fact( db );
-        character( "Daemon" ).isEnemy()
-                .fact( db );
-        character( "Dalek Caan" ).isA( "Dalek" )
+                .fact( engine );
+        character( "Daemon" )
+                .isEnemy()
+                .fact( engine );
+        character( "Dalek Caan" )
+                .isA( "Dalek" )
                 .isFrom( "Skaro" )
                 .isEnemy()
-                .fact( db );
-        character( "Dalek Jast" ).isA( "Dalek" )
+                .fact( engine );
+        character( "Dalek Jast" )
+                .isA( "Dalek" )
                 .isFrom( "Skaro" )
                 .isEnemy()
-                .fact( db );
-        character( "Dalek Sec" ).isA( "Dalek" )
+                .fact( engine );
+        character( "Dalek Sec" )
+                .isA( "Dalek" )
                 .isFrom( "Skaro" )
                 .isEnemy()
-                .fact( db );
-        character( "Dalek Thay" ).isA( "Dalek" )
+                .fact( engine );
+        character( "Dalek Thay" )
+                .isA( "Dalek" )
                 .isFrom( "Skaro" )
                 .isEnemy()
-                .fact( db );
-        character( "Davros" ).isA( "Kaled" )
+                .fact( engine );
+        character( "Davros" )
+                .isA( "Kaled" )
                 .isFrom( "Skaro" )
                 .isEnemy()
-                .fact( db );
-        character( "Destroyer" ).isEnemy()
-                .fact( db );
-        character( "Eldrad" ).isA( "Kastrian" )
+                .fact( engine );
+        character( "Destroyer" )
+                .isEnemy()
+                .fact( engine );
+        character( "Eldrad" )
+                .isA( "Kastrian" )
                 .isFrom( "Kastria" )
                 .isEnemy()
-                .fact( db );
-        character( "Empress of Racnoss" ).isEnemy()
-                .fact( db );
-        character( "Fendahl" ).isEnemy()
-                .fact( db );
-        character( "General Staal" ).isA( "Sontaran" )
+                .fact( engine );
+        character( "Empress of Racnoss" )
+                .isEnemy()
+                .fact( engine );
+        character( "Fendahl" )
+                .isEnemy()
+                .fact( engine );
+        character( "General Staal" )
+                .isA( "Sontaran" )
                 .isFrom( "Sontar" )
                 .isEnemy()
-                .fact( db );
-        character( "K1 Robot" ).isEnemy()
-                .fact( db );
-        character( "Linx" ).isA( "Sontaran" )
+                .fact( engine );
+        character( "Grand Marshall Skaldak" )
+                .isA( "Ice Warrior" )
+                .isFrom( "Mars" )
+                .isEnemy()
+                .fact( engine );
+        character( "K1 Robot" )
+                .isEnemy()
+                .fact( engine );
+        character( "Linx" )
+                .isA( "Sontaran" )
                 .isFrom( "Sontar" )
                 .isEnemy()
-                .fact( db );
-        character( "Miss Hartigan" ).isA( "Human" )
+                .fact( engine );
+        character( "Miss Hartigan" )
+                .isA( "Human" )
                 .isA( "Cyberman" )
                 .isFrom( "Earth" )
                 .isEnemy()
-                .fact( db );
-        character( "Linx" ).isA( "Sontaran" )
+                .fact( engine );
+        character( "Linx" )
+                .isA( "Sontaran" )
                 .isFrom( "Sontar" )
                 .isEnemy()
-                .fact( db );
-        character( "Loch Ness Monster" ).isA( "Skarasen" )
+                .fact( engine );
+        character( "Loch Ness Monster" )
+                .isA( "Skarasen" )
                 .isEnemy()
-                .fact( db );
-        character( "Morbius" ).isA( "Timelord" )
+                .fact( engine );
+        character( "Morbius" )
+                .isA( "Timelord" )
                 .isEnemy()
-                .fact( db );
-        character( "Omega" ).isA( "Timelord" )
+                .fact( engine );
+        character( "Omega" )
+                .isA( "Timelord" )
                 .isEnemy()
-                .fact( db );
-        character( "Ogron" ).isEnemy()
-                .fact( db );
-        character( "Pyrovile" ).isEnemy()
-                .fact( db );
-        character( "Reaper" ).isEnemy()
-                .fact( db );
-        character( "Scaroth" ).isA( "Jagaroth" )
+                .fact( engine );
+        character( "Ogron" )
                 .isEnemy()
-                .fact( db );
-        character( "Stor" ).isA( "Sontaran" )
+                .fact( engine );
+        character( "Pyrovile" )
+                .isEnemy()
+                .fact( engine );
+        character( "Reaper" )
+                .isEnemy()
+                .fact( engine );
+        character( "Scaroth" )
+                .isA( "Jagaroth" )
+                .isEnemy()
+                .fact( engine );
+        character( "Stor" )
+                .isA( "Sontaran" )
                 .isFrom( "Sontar" )
                 .isEnemy()
-                .fact( db );
-        character( "Styre" ).isA( "Sontaran" )
+                .fact( engine );
+        character( "Styre" )
+                .isA( "Sontaran" )
                 .isFrom( "Sontar" )
                 .isEnemy()
-                .fact( db );
-        character( "Sutekh" ).isA( "Osiron" )
+                .fact( engine );
+        character( "Sutekh" )
+                .isA( "Osiron" )
                 .isEnemy()
-                .fact( db );
-        character( "Terileptils" ).isEnemy()
-                .fact( db );
-        character( "Yartek" ).isA( "Voord" )
+                .fact( engine );
+        character( "Terileptils" )
                 .isEnemy()
-                .fact( db );
-        character( "Darla von Karlsen" ).isA( "Human" )
+                .fact( engine );
+        character( "Yartek" )
+                .isA( "Voord" )
+                .isEnemy()
+                .fact( engine );
+        character( "Darla von Karlsen" )
+                .isA( "Human" )
                 .isA( "Dalek" )
                 .isEnemy()
-                .fact( db );
-        character( "Harvey" ).isA( "Human" )
+                .fact( engine );
+        character( "Harvey" )
+                .isA( "Human" )
                 .isA( "Dalek" )
                 .isEnemy()
-                .fact( db );
-        character( "Solomon" ).isA( "Humanoid" )
+                .fact( engine );
+        character( "Solomon" )
+                .isA( "Humanoid" )
                 .isEnemy()
-                .fact( db );
+                .fact( engine );
     }
 
     private void loadAllies()
     {
-        character( "Riddell" ).isA( "Human" )
+        character( "Riddell" )
+                .isA( "Human" )
                 .isAlly()
-                .fact( db );
-        character( "Brian Williams" ).isA( "Human" )
+                .fact( engine );
+        character( "Brian Williams" )
+                .isA( "Human" )
                 .fatherOf( "Rory Williams" )
                 .isAlly()
-                .firstAppearedIn( 226 )
-                .fact( db );
-        character( "Queen Nefertiti" ).isA( "Human" )
+                .firstAppearedIn( 226, "Asylum of the Daleks" )
+                .fact( engine );
+        character( "Queen Nefertiti" )
+                .isA( "Human" )
                 .isAlly()
-                .fact( db );
-        character( "River Song" ).isA( "Human" )
+                .fact( engine );
+        character( "River Song" )
+                .isA( "Human" )
                 .loves( "Doctor" )
                 .isAlly()
                 .wikipedia( "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" )
-                .fact( db );
-        character( "Sergeant Benton" ).isA( "Human" )
+                .fact( engine );
+        character( "Sergeant Benton" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Mike Yates" ).isA( "Human" )
+                .fact( engine );
+        character( "Mike Yates" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Brigadier Lethbridge-Stewart" ).isA( "Human" )
+                .fact( engine );
+        character( "Brigadier Lethbridge-Stewart" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .firstAppearedIn( 41 )
-                .diedIn( 223 )
-                .fact( db );
-        character( "Professor Travers" ).isA( "Human" )
+                .firstAppearedIn( 41, "The Web of Fear" )
+                .diedIn( 223, "Closing Time" )
+                .fact( engine );
+        character( "Professor Travers" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Alpha Centauri" ).isA( "Alpha Centauran" )
+                .fact( engine );
+        character( "Alpha Centauri" )
+                .isA( "Alpha Centauran" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Duggan" ).isA( "Human" )
+                .fact( engine );
+        character( "Duggan" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Richard Mace" ).isA( "Human" )
+                .fact( engine );
+        character( "Richard Mace" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Chang Lee" ).isA( "Human" )
+                .fact( engine );
+        character( "Chang Lee" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isAlly()
-                .fact( db );
-        character( "Oswin Oswald" ).isA( "Human" )
+                .fact( engine );
+        character( "Oswin Oswald" )
+                .isA( "Human" )
                 .isA( "Dalek" )
                 .isAlly()
-                .fact( db );
+                .fact( engine );
+        character( "Clara Oswin Oswald" )
+                .isA( "Human" )
+                .isAlly()
+                .fact( engine );
+
+        character( "War Doctor" )
+                .firstAppearedIn( 239, "The Name of the Doctor" )
+                .wikipedia( "http://en.wikipedia.org/wiki/War_Doctor" )
+                .playedBy( "John Hurt" )
+                .fact( engine );
     }
 
     private void loadCompanions()
     {
-        character( "Susan Foreman" ).isA( "Timelord" )
+        character( "Susan Foreman" )
+                .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .isCompanion()
-                .fact( db );
-        character( "Romana" ).isA( "Timelord" )
+                .fact( engine );
+        character( "Romana" )
+                .isA( "Timelord" )
                 .isFrom( "Gallifrey" )
                 .isCompanion()
-                .fact( db );
-        character( "Barbara Wright" ).isA( "Human" )
+                .fact( engine );
+        character( "Barbara Wright" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Ian Chesterton" ).isA( "Human" )
+                .fact( engine );
+        character( "Ian Chesterton" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Vicki" ).isA( "Human" )
+                .fact( engine );
+        character( "Vicki" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Steven Taylor" ).isA( "Human" )
+                .fact( engine );
+        character( "Steven Taylor" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Katarina" ).isA( "Human" )
+                .fact( engine );
+        character( "Katarina" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Sara Kingdom" ).isA( "Human" )
+                .fact( engine );
+        character( "Sara Kingdom" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
+                .fact( engine );
         character( "Dodo Chaplet" ).isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
+                .fact( engine );
         character( "Polly" ).isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Ben Jackson" ).isA( "Human" )
+                .fact( engine );
+        character( "Ben Jackson" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Jamie McCrimmon" ).isA( "Human" )
+                .fact( engine );
+        character( "Jamie McCrimmon" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Hamish Wilson" ).isA( "Human" )
+                .fact( engine );
+        character( "Hamish Wilson" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Victoria Waterfield" ).isA( "Human" )
+                .fact( engine );
+        character( "Victoria Waterfield" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Zoe Heriot" ).isA( "Human" )
+                .fact( engine );
+        character( "Zoe Heriot" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Liz Shaw" ).isA( "Human" )
+                .fact( engine );
+        character( "Liz Shaw" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Jo Grant" ).isA( "Human" )
+                .fact( engine );
+        character( "Jo Grant" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Sarah Jane Smith" ).isA( "Human" )
+                .fact( engine );
+        character( "Sarah Jane Smith" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Harry Sullivan" ).isA( "Human" )
+                .fact( engine );
+        character( "Harry Sullivan" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Leela" ).isA( "Human" )
+                .fact( engine );
+        character( "Leela" )
+                .isA( "Human" )
                 .isCompanion()
-                .fact( db );
-        character( "K9" ).isA( "Robotic Canine" )
+                .fact( engine );
+        character( "K9" )
+                .isA( "Robotic Canine" )
                 .isCompanion()
-                .fact( db );
-        character( "Adric" ).isA( "Humanoid" )
+                .fact( engine );
+        character( "Adric" )
+                .isA( "Humanoid" )
                 .isFrom( "Alzarius" )
                 .isCompanion()
-                .fact( db );
-        character( "Nyssa" ).isA( "Humanoid" )
+                .fact( engine );
+        character( "Nyssa" )
+                .isA( "Humanoid" )
                 .isCompanion()
-                .fact( db );
-        character( "Tegan Jovanka" ).isA( "Human" )
+                .fact( engine );
+        character( "Tegan Jovanka" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Vislor Turlough" ).isA( "Trion" )
+                .fact( engine );
+        character( "Vislor Turlough" )
+                .isA( "Trion" )
                 .isFrom( "Trion" )
                 .isCompanion()
-                .fact( db );
-        character( "Kamelion" ).isA( "Android" )
+                .fact( engine );
+        character( "Kamelion" )
+                .isA( "Android" )
                 .isFrom( "Xeriphas" )
                 .isCompanion()
-                .fact( db );
-        character( "Peri Brown" ).isA( "Human" )
+                .fact( engine );
+        character( "Peri Brown" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Melanie Bush" ).isA( "Human" )
+                .fact( engine );
+        character( "Melanie Bush" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Ace" ).isA( "Human" )
+                .fact( engine );
+        character( "Ace" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Grace Holloway" ).isA( "Human" )
+                .fact( engine );
+        character( "Grace Holloway" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Rose Tyler" ).isA( "Human" )
-                .isFrom( "Earth" )
-                .loves( "Doctor" )
-                .isCompanion()
-                .loves( "Doctor" )
-                .fact( db );
-        character( "Adam Mitchell" ).isA( "Human" )
-                .isFrom( "Earth" )
-                .isCompanion()
-                .fact( db );
-        character( "Jack Harkness" ).isA( "Human" )
-                .isCompanion()
-                .fact( db );
-        character( "Mickey Smith" ).isA( "Human" )
-                .isFrom( "Earth" )
-                .isCompanion()
-                .fact( db );
-        character( "Donna Noble" ).isA( "Human" )
-                .isFrom( "Earth" )
-                .isCompanion()
-                .fact( db );
-        character( "Martha Jones" ).isA( "Human" )
+                .fact( engine );
+        character( "Rose Tyler" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .loves( "Doctor" )
                 .isCompanion()
-                .fact( db );
-        character( "Astrid Peth" ).isA( "Human" )
+                .loves( "Doctor" )
+                .fact( engine );
+        character( "Adam Mitchell" )
+                .isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( engine );
+        character( "Jack Harkness" )
+                .isA( "Human" )
+                .isCompanion()
+                .fact( engine );
+        character( "Mickey Smith" )
+                .isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( engine );
+        character( "Donna Noble" )
+                .isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .fact( engine );
+        character( "Martha Jones" )
+                .isA( "Human" )
+                .isFrom( "Earth" )
+                .loves( "Doctor" )
+                .isCompanion()
+                .fact( engine );
+        character( "Astrid Peth" )
+                .isA( "Human" )
                 .isFrom( "Sto" )
                 .isCompanion()
-                .fact( db );
-        character( "Jackson Lake" ).isA( "Human" )
+                .fact( engine );
+        character( "Jackson Lake" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Rosita Farisi" ).isA( "Human" )
+                .fact( engine );
+        character( "Rosita Farisi" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Lady Christina de Souza" ).isA( "Human" )
+                .fact( engine );
+        character( "Lady Christina de Souza" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Adelaide Brooke" ).isA( "Human" )
+                .fact( engine );
+        character( "Adelaide Brooke" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Craig Owens" ).isA( "Human" )
+                .fact( engine );
+        character( "Craig Owens" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Wilfred Mott" ).isA( "Human" )
+                .fact( engine );
+        character( "Wilfred Mott" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
-                .fact( db );
-        character( "Amy Pond" ).isA( "Human" )
+                .fact( engine );
+        character( "Amy Pond" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
                 .wikipedia( "http://en.wikipedia.org/wiki/Amy_Pond" )
                 .loves( "Rory Williams" )
-                .firstAppearedIn( 203 )
-                .diedIn( 229 )
-                .fact( db );
-        character( "Rory Williams" ).isA( "Human" )
+                .firstAppearedIn( 203, "The Eleventh Hour" )
+                .diedIn( 229, "The Power of Three" )
+                .fact( engine );
+        character( "Rory Williams" )
+                .isA( "Human" )
                 .isFrom( "Earth" )
                 .isCompanion()
                 .wikipedia( "http://en.wikipedia.org/wiki/Rory_Williams" )
                 .loves( "Amy Pond" )
-                .firstAppearedIn( 203 )
-                .diedIn( 229 )
-                .fact( db );
+                .firstAppearedIn( 203, "The Eleventh Hour" )
+                .diedIn( 229, "The Power of Three" )
+                .fact( engine );
+        character( "Clara Oswald" )
+                .isA( "Human" )
+                .isFrom( "Earth" )
+                .isCompanion()
+                .wikipedia( "http://en.wikipedia.org/wiki/Clara_Oswald" )
+                .firstAppearedIn( 226, "Asylum of the Daleks" )
+                .fact( engine );
     }
-
 }

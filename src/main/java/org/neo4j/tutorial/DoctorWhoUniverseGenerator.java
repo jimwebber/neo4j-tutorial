@@ -2,8 +2,6 @@ package org.neo4j.tutorial;
 
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
 
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
@@ -11,25 +9,38 @@ public class DoctorWhoUniverseGenerator
 {
     private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
     private final GraphDatabaseService database;
+    private ExecutionEngine engine;
 
     public DoctorWhoUniverseGenerator()
     {
         database = DatabaseHelper.createDatabase( dbDir );
-        addDoctorAsNodeOneForToolSupportReasons();
+        engine = new ExecutionEngine( database, DEV_NULL );
+
+
+//        createActorsIndex();
+//        createEpisodeIndex();
+//        createCharactersIndex();
+//        createSpeciesIndex();
+//        createPlanetsIndex();
+
+        addUniquenessConstraints();
+
+        addCharacters();
         addActors();
         addEpisodes();
-        addCharacters();
         addSpecies();
         addPlanets();
         addDalekProps();
+    }
 
-        createActorsIndex();
-        createEpisodeIndex();
-        createCharactersIndex();
-        createSpeciesIndex();
-        createPlanetsIndex();
-
-        database.shutdown();
+    private void addUniquenessConstraints()
+    {
+        engine.execute( "CREATE CONSTRAINT ON (a:Actor) ASSERT a.actor IS UNIQUE" );
+        engine.execute( "CREATE CONSTRAINT ON (c:Character) ASSERT c.character IS UNIQUE" );
+        engine.execute( "CREATE CONSTRAINT ON (e:Episode) ASSERT e.title IS UNIQUE" );
+        engine.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
+        engine.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
+        engine.execute( "CREATE CONSTRAINT ON (s:Species) ASSERT s.species IS UNIQUE" );
     }
 
     private void createPlanetsIndex()
@@ -59,24 +70,12 @@ public class DoctorWhoUniverseGenerator
 
     private void createIndex( String label, String property )
     {
-        ExecutionEngine engine = new ExecutionEngine( database, DEV_NULL );
         engine.execute( String.format( "CREATE INDEX ON :%s(%s)", label, property ) );
-    }
-
-    private void addDoctorAsNodeOneForToolSupportReasons()
-    {
-        try ( Transaction transaction = database.beginTx() )
-        {
-            final Node node = database.createNode();
-            node.setProperty( "character", "Doctor" );
-            database.index().forNodes( "characters" ).add( node, "character", "Doctor" );
-            transaction.success();
-        }
     }
 
     private void addActors()
     {
-        Actors actors = new Actors( database );
+        Actors actors = new Actors( database);
         actors.insert();
     }
 
@@ -110,8 +109,14 @@ public class DoctorWhoUniverseGenerator
         dalekProps.insert();
     }
 
-    public final String getDatabaseDirectory()
+    public String getCleanlyShutdownDatabaseDirectory()
     {
+        database.shutdown();
         return dbDir;
+    }
+
+    public GraphDatabaseService getDatabase()
+    {
+        return database;
     }
 }

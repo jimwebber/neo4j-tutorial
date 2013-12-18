@@ -1,10 +1,10 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
+import org.neo4j.cypher.ExecutionEngine;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-import static org.neo4j.tutorial.DoctorWhoLabels.SPECIES;
+import static java.lang.String.format;
+
+import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class SpeciesBuilder
 {
@@ -24,23 +24,33 @@ public class SpeciesBuilder
         this.speciesName = speciesName;
     }
 
-    public void fact( GraphDatabaseService db )
+    public void fact( ExecutionEngine engine )
     {
-        Node speciesNode = ensureSpeciesInDb( speciesName, db );
+        StringBuilder sb = new StringBuilder();
+
+        sb.append( System.lineSeparator() );
+        sb.append( format( "MERGE (species:Species {species: \"%s\"})", speciesName ) );
 
         if ( planet != null )
         {
-            Node planetNode = PlanetBuilder.ensurePlanetInDb( planet, db );
-            ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.COMES_FROM, planetNode );
+            String planetId = shortId( "planet" );
+
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s:Planet {planet: \"%s\"})", planetId, planet ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (species)-[:COMES_FROM]->(%s)", planetId ) );
         }
 
         if ( enemies != null )
         {
             for ( String enemy : enemies )
             {
-                Node enemyNode = CharacterBuilder.ensureCharacterIsInDb( enemy, db );
-                ensureRelationshipInDb( enemyNode, DoctorWhoRelationships.ENEMY_OF, speciesNode );
-                ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.ENEMY_OF, enemyNode );
+                String enemyId = shortId( "enemy" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", enemyId, enemy ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (species)-[:ENEMY_OF]->(%s)", enemyId ) );
             }
         }
 
@@ -48,46 +58,18 @@ public class SpeciesBuilder
         {
             for ( String eSpecies : enemySpecies )
             {
-                Node enemySpeciesNode = ensureSpeciesInDb( eSpecies, db );
-                ensureRelationshipInDb( enemySpeciesNode, DoctorWhoRelationships.ENEMY_OF, speciesNode );
-                ensureRelationshipInDb( speciesNode, DoctorWhoRelationships.ENEMY_OF, enemySpeciesNode );
+                String enemySpeciesId = shortId( "enemySpecies" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Species {species: \"%s\"})", enemySpeciesId, eSpecies ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (species)-[:ENEMY_OF]->(%s)", enemySpeciesId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (species)<-[:ENEMY_OF]-(%s)", enemySpeciesId ) );
             }
         }
-    }
 
-    public static Node ensureSpeciesInDb( String theSpecies, GraphDatabaseService db )
-    {
-        ensureArgumentsAreSane( theSpecies, db );
-
-        Node speciesNode = db.index()
-                .forNodes( "species" )
-                .get( "species", theSpecies )
-                .getSingle();
-
-        if ( speciesNode == null )
-        {
-            speciesNode = db.createNode();
-            speciesNode.setProperty( "species", theSpecies );
-            db.index()
-                    .forNodes( "species" )
-                    .add( speciesNode, "species", theSpecies );
-            speciesNode.addLabel( SPECIES );
-        }
-
-        return speciesNode;
-    }
-
-    private static void ensureArgumentsAreSane( String theSpecies, GraphDatabaseService db )
-    {
-        if ( theSpecies == null )
-        {
-            throw new RuntimeException( "Must provide a value for the species to the species builder" );
-        }
-
-        if ( db == null )
-        {
-            throw new RuntimeException( "Must provide a value for the universe to the species builder" );
-        }
+        engine.execute( sb.toString() );
     }
 
     public SpeciesBuilder isFrom( String planet )

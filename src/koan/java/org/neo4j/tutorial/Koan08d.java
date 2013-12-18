@@ -23,7 +23,7 @@ public class Koan08d
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -42,9 +42,8 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (doctor:Character)<-[r:COMPANION_OF]-(companion:Character) " +
-                "WHERE doctor.character='Doctor' " +
-                "AND has(companion.firstname) AND companion.firstname='James' " +
+        cql = "MATCH (doctor:Character {character: 'Doctor'})<-[r:COMPANION_OF]-(companion:Character) " +
+                "WHERE has(companion.firstname) AND companion.firstname='James' " +
                 "AND has(companion.initial) AND companion.initial='T' " +
                 "AND has(companion.lastname) AND companion.lastname='Kirk' " +
                 "DELETE r, companion";
@@ -68,17 +67,19 @@ public class Koan08d
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (doctor:Character)<-[:PLAYED]-(actor:Character) " +
-                "WHERE doctor.character='Doctor' " +
-                "DELETE actor.salary";
+        cql = "MATCH (doctor:Character {character: 'Doctor'})" +
+                "<-[:PLAYED]-(actor:Actor) " +
+                "WHERE HAS (actor.salary) " +
+                "REMOVE actor.salary";
 
         // SNIPPET_END
 
+        // Just for now, while we're converting the builder code to Cypher
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-                "MATCH (doctor:Character)<-[:PLAYED]-(actor:Character) " +
-                        "WHERE doctor.character='Doctor' " +
+                "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Character) " +
+                        "WHERE HAS (actor.salary) " +
                         "RETURN actor" );
 
         assertEquals( 0, executionResult.size() );

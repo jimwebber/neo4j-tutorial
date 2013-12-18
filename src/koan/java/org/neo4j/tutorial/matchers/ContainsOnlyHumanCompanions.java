@@ -19,7 +19,7 @@ public class ContainsOnlyHumanCompanions extends TypeSafeMatcher<Set<Node>>
     public void describeTo( Description description )
     {
         description.appendText( String.format(
-                "Node [%d] does not have an IS_A relationship to the human species node.", failedNode.getId() ) );
+                "Node [%d] does not have an IS_A relationship to the Human species node.", failedNode.getId() ) );
     }
 
     @Override

@@ -42,6 +42,7 @@ public class Koan02
     public static void closeTheDatabase()
     {
         database.shutdown();
+        database = null;
     }
 
     @Test
@@ -248,7 +249,7 @@ public class Koan02
             captainKirk.setProperty( "lastname", "Kirk" );
 
             captainKirk.createRelationshipTo( theDoctor, DoctorWhoRelationships.COMPANION_OF );
-            captainKirk.createRelationshipTo( theDoctor, DoctorWhoRelationships.FATHER_OF );
+            captainKirk.createRelationshipTo( theDoctor, DoctorWhoRelationships.CHILD_OF );
 
             tx.success();
             return captainKirk;

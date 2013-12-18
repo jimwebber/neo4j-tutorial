@@ -2,7 +2,6 @@ package org.neo4j.tutorial;
 
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -13,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -22,7 +20,6 @@ import org.neo4j.graphmatching.CommonValueMatchers;
 import org.neo4j.graphmatching.PatternMatch;
 import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
-import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.ServerBuilder;
@@ -32,8 +29,16 @@ import org.neo4j.tutorial.server.rest.TraversalDescription;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResult;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResults;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import static org.neo4j.graphdb.Direction.OUTGOING;
+import static org.neo4j.helpers.collection.MapUtil.stringMap;
+import static org.neo4j.tutorial.DoctorWhoRelationships.PLAYED;
+import static org.neo4j.tutorial.server.rest.RelationshipDescription.IN;
+import static org.neo4j.tutorial.server.rest.RelationshipDescription.OUT;
 
 /**
  * In this Koan we use the default REST API to explore the Doctor Who universe.
@@ -50,7 +55,7 @@ public class Koan10
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
                 .build();
 
         universe = new ServerDoctorWhoUniverse( server );
@@ -74,12 +79,12 @@ public class Koan10
         // SNIPPET_START
 
         WebResource resource = client.resource( universe.theDoctor().get( "incoming_relationships" ) + "/ENEMY_OF" );
-        response = resource.accept( MediaType.APPLICATION_JSON ).get( String.class );
+        response = resource.accept( APPLICATION_JSON ).get( String.class );
 
         // SNIPPET_END
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response );
-        int numberOfEnemiesOfTheDoctor = 153;
+        int numberOfEnemiesOfTheDoctor = 156;
         assertEquals( numberOfEnemiesOfTheDoctor, json.size() );
     }
 
@@ -99,8 +104,8 @@ public class Koan10
         traversal.setOrder( "depth_first" );
         traversal.setUniqueness( "node_path" );
         traversal.setRelationships(
-                new RelationshipDescription( "PLAYED", RelationshipDescription.IN ),
-                new RelationshipDescription( "APPEARED_IN", RelationshipDescription.OUT ) );
+                new RelationshipDescription( "PLAYED", IN ),
+                new RelationshipDescription( "APPEARED_IN", OUT ) );
         traversal.setReturnFilter(
                 "position.endNode().hasProperty('title') && position.endNode().getProperty('title').contains" +
                         "('Invasion')" );
@@ -111,8 +116,8 @@ public class Koan10
         String requestJson = traversal.toJson();
 
         response = resource
-                .accept( MediaType.APPLICATION_JSON )
-                .type( MediaType.APPLICATION_JSON )
+                .accept( APPLICATION_JSON )
+                .type( APPLICATION_JSON )
                 .post( ClientResponse.class, requestJson );
 
         // SNIPPET_END
@@ -139,11 +144,11 @@ public class Koan10
         String theDoctorUri = theDoctorJson.get( "self" ).toString();
 
         Map<String, Object> williamHartnellJson = universe.getJsonFor(
-                universe.getUriFromIndex( "actors", "actor", "William Hartnell" ) );
+                universe.createUriForNode( "Actor", "actor", "William Hartnell" ) );
         Map<String, Object> richardHurndallJson = universe.getJsonFor(
-                universe.getUriFromIndex( "actors", "actor", "Richard Hurndall" ) );
+                universe.createUriForNode( "Actor", "actor", "Richard Hurndall" ) );
         Map<String, Object> patrickTroughtonJson = universe.getJsonFor(
-                universe.getUriFromIndex( "actors", "actor", "Patrick Troughton" ) );
+                universe.createUriForNode( "Actor", "actor", "Patrick Troughton" ) );
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
@@ -153,9 +158,8 @@ public class Koan10
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cmds
-                .createNode( 0, MapUtil.stringMap( "incarnation", "First Doctor" ) )
-                .createNode( 1, MapUtil.stringMap( "incarnation", "Second Doctor" ) )
+        cmds.createNode( 0, stringMap( "incarnation", "First Doctor" ) )
+                .createNode( 1, stringMap( "incarnation", "Second Doctor" ) )
                 .createRelationship( "{0}/relationships", theDoctorUri, INCARNATION_OF )
                 .createRelationship( "{1}/relationships", theDoctorUri, INCARNATION_OF )
                 .createRelationship( williamHartnellJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
@@ -163,20 +167,19 @@ public class Koan10
                 .createRelationship( patrickTroughtonJson.get( "create_relationship" ).toString(), "{1}", PLAYED );
 
         WebResource resource = client.resource( "http://localhost:7474/db/data/batch" );
-        resource.accept( MediaType.APPLICATION_JSON )
-                .type( MediaType.APPLICATION_JSON )
+        resource.accept( APPLICATION_JSON )
+                .type( APPLICATION_JSON )
                 .post( String.class, cmds.build() );
 
         // SNIPPET_END
 
         assertFirstAndSecondDoctorCreatedAndLinkedToActors( universe.getServer().getDatabase().getGraph() );
-
     }
 
     private void assertActorsAndInvasionEpisodes( EpisodeSearchResults results )
     {
 
-        Map<String, String> episodesAndActors = MapUtil.stringMap( "The Christmas Invasion", "David Tennant",
+        Map<String, String> episodesAndActors = stringMap( "The Christmas Invasion", "David Tennant",
                 "The Invasion of Time", "Tom Baker",
                 "The Android Invasion", "Tom Baker",
                 "Invasion of the Dinosaurs", "Jon Pertwee",
@@ -198,7 +201,7 @@ public class Koan10
     {
         try ( Transaction tx = db.beginTx() )
         {
-            Node doctorNode = db.index().forNodes( "characters" ).get( "character", "Doctor" ).getSingle();
+            Node doctorNode = db.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character", "Doctor" ).iterator().next();
 
             final PatternNode theDoctor = new PatternNode();
             theDoctor.addPropertyConstraint( "character", CommonValueMatchers.exact( "Doctor" ) );
@@ -209,8 +212,8 @@ public class Koan10
             final PatternNode secondDoctor = new PatternNode();
             secondDoctor.addPropertyConstraint( "incarnation", CommonValueMatchers.exact( "Second Doctor" ) );
 
-            final PatternNode williamHartell = new PatternNode();
-            williamHartell.addPropertyConstraint( "actor", CommonValueMatchers.exact( "William Hartnell" ) );
+            final PatternNode williamHartnell = new PatternNode();
+            williamHartnell.addPropertyConstraint( "actor", CommonValueMatchers.exact( "William Hartnell" ) );
 
             final PatternNode richardHurndall = new PatternNode();
             richardHurndall.addPropertyConstraint( "actor", CommonValueMatchers.exact( "Richard Hurndall" ) );
@@ -220,12 +223,12 @@ public class Koan10
 
 
             firstDoctor.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "INCARNATION_OF" ),
-                    Direction.OUTGOING );
+                    OUTGOING );
             secondDoctor.createRelationshipTo( theDoctor, DynamicRelationshipType.withName( "INCARNATION_OF" ),
-                    Direction.OUTGOING );
-            williamHartell.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
-            richardHurndall.createRelationshipTo( firstDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
-            patrickTroughton.createRelationshipTo( secondDoctor, DoctorWhoRelationships.PLAYED, Direction.OUTGOING );
+                    OUTGOING );
+            williamHartnell.createRelationshipTo( firstDoctor, PLAYED, OUTGOING );
+            richardHurndall.createRelationshipTo( firstDoctor, PLAYED, OUTGOING );
+            patrickTroughton.createRelationshipTo( secondDoctor, PLAYED, OUTGOING );
 
             PatternMatcher matcher = PatternMatcher.getMatcher();
             final Iterable<PatternMatch> matches = matcher.match( theDoctor, doctorNode );

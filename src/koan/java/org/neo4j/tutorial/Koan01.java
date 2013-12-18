@@ -13,7 +13,8 @@ public class Koan01
     @Test
     public void justEmitsThePathToTheDatabase() throws Exception
     {
-        EmbeddedDoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        EmbeddedDoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator()
+                .getDatabase() );
         assertNotNull( universe.getDatabase() );
         universe.stop();
     }

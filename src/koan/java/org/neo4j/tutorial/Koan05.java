@@ -1,21 +1,25 @@
 package org.neo4j.tutorial;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.index.Index;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import static org.neo4j.graphdb.Direction.INCOMING;
+import static org.neo4j.graphdb.Direction.OUTGOING;
+import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
+import static org.neo4j.tutorial.DoctorWhoLabels.SPECIES;
+import static org.neo4j.tutorial.DoctorWhoRelationships.APPEARED_IN;
 import static org.neo4j.tutorial.matchers.ContainsOnlyHumanCompanions.containsOnlyHumanCompanions;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 
@@ -24,6 +28,9 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnl
  * graph operations. We'll mix indexes and core graph operations to explore the
  * Doctor's universe.
  */
+
+// TODO: Move this to the core API koans
+
 public class Koan05
 {
 
@@ -32,7 +39,7 @@ public class Koan05
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -48,29 +55,27 @@ public class Koan05
 
         try ( Transaction tx = database.beginTx() )
         {
-            Index<Node> actorsIndex = database.index()
-                    .forNodes( "actors" );
-            int numberOfRegenerations = 1;
+            Node doctor = universe.theDoctor();
+
+            int numberOfRegenerations = 0;
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
-            Node firstDoctor = actorsIndex.get( "actor", "William Hartnell" )
-                    .getSingle();
 
-            Relationship regeneratedTo = firstDoctor.getSingleRelationship( DoctorWhoRelationships.REGENERATED_TO,
-                    Direction.OUTGOING );
 
-            while ( regeneratedTo != null )
+            for ( Relationship relationship : doctor.getRelationships( INCOMING,
+                    DoctorWhoRelationships.PLAYED ) )
             {
-                numberOfRegenerations++;
-                regeneratedTo = regeneratedTo.getEndNode()
-                        .getSingleRelationship( DoctorWhoRelationships.REGENERATED_TO,
-                                Direction.OUTGOING );
+                if ( relationship.getStartNode().hasRelationship( INCOMING,
+                        DoctorWhoRelationships.REGENERATED_TO ) )
+                {
+                    numberOfRegenerations++;
+                }
             }
 
             // SNIPPET_END
 
-            assertEquals( 11, numberOfRegenerations );
+            assertEquals( 12, numberOfRegenerations );
             tx.success();
         }
     }
@@ -78,7 +83,7 @@ public class Koan05
     @Test
     public void shouldFindHumanCompanionsUsingCoreApi()
     {
-        HashSet<Node> humanCompanions = new HashSet<>();
+        Set<Node> humanCompanions = new HashSet<>();
 
         GraphDatabaseService database = universe.getDatabase();
 
@@ -88,25 +93,23 @@ public class Koan05
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            Node human = database.index()
-                    .forNodes( "species" )
-                    .get( "species", "Human" )
-                    .getSingle();
+            Node human = database.findNodesByLabelAndProperty( SPECIES, "species",
+                    "Human" ).iterator().next();
 
-            Iterable<Relationship> relationships = universe.theDoctor()
-                    .getRelationships( Direction.INCOMING,
-                            DoctorWhoRelationships.COMPANION_OF );
-            for ( Relationship rel : relationships )
+
+            for ( Relationship rel : universe.theDoctor()
+                    .getRelationships( INCOMING,
+                            DoctorWhoRelationships.COMPANION_OF ) )
             {
                 Node companionNode = rel.getStartNode();
-                if ( companionNode.hasRelationship( Direction.OUTGOING, DoctorWhoRelationships.IS_A ) )
-                {
-                    final Iterable<Relationship> companionNodeRelationships = companionNode.getRelationships(
-                            DoctorWhoRelationships.IS_A, Direction.OUTGOING );
 
-                    for ( Relationship companionNodeRelationship : companionNodeRelationships )
+                if ( companionNode.hasRelationship( OUTGOING, DoctorWhoRelationships.IS_A ) )
+                {
+                    for ( Relationship companionNodeRelationship : companionNode.getRelationships(
+                            DoctorWhoRelationships.IS_A, OUTGOING ) )
                     {
                         Node endNode = companionNodeRelationship.getEndNode();
+
                         if ( endNode.equals( human ) )
                         {
                             humanCompanions.add( companionNode );
@@ -131,34 +134,24 @@ public class Koan05
 
         try ( Transaction tx = database.beginTx() )
         {
-            Index<Node> friendliesIndex = database
-                    .index()
-                    .forNodes( "characters" );
-            Index<Node> speciesIndex = database
-                    .index()
-                    .forNodes( "species" );
             HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<>();
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            Node roseTyler = friendliesIndex.get( "character", "Rose Tyler" )
-                    .getSingle();
-            Node daleks = speciesIndex.get( "species", "Dalek" )
-                    .getSingle();
+            Node roseTyler = database.findNodesByLabelAndProperty( CHARACTER, "character",
+                    "Rose Tyler" ).iterator().next();
+            Node daleks = database.findNodesByLabelAndProperty( SPECIES, "species", "Dalek" ).iterator().next();
 
-            for ( Relationship r1 : roseTyler.getRelationships( DoctorWhoRelationships.APPEARED_IN,
-                    Direction.OUTGOING ) )
+
+            for ( Relationship roseAppearedIn : roseTyler.getRelationships( OUTGOING, APPEARED_IN ) )
             {
-                Node episode = r1.getEndNode();
-
-                for ( Relationship r2 : episode.getRelationships( DoctorWhoRelationships.APPEARED_IN,
-                        Direction.INCOMING ) )
+                for ( Relationship appearedInEpisode : roseAppearedIn.getEndNode().getRelationships( INCOMING,
+                        APPEARED_IN ) )
                 {
-                    if ( r2.getStartNode()
-                            .equals( daleks ) )
+                    if ( appearedInEpisode.getStartNode().equals( daleks ) )
                     {
-                        episodesWhereRoseFightsTheDaleks.add( episode );
+                        episodesWhereRoseFightsTheDaleks.add( appearedInEpisode.getEndNode() );
                     }
                 }
             }
@@ -166,8 +159,7 @@ public class Koan05
             // SNIPPET_END
 
             tx.success();
-            assertThat(
-                    episodesWhereRoseFightsTheDaleks,
+            assertThat( episodesWhereRoseFightsTheDaleks,
                     containsOnlyTitles( universe.getDatabase(), "Army of Ghosts", "The Stolen Earth", "Doomsday",
                             "Journey's End", "Bad Wolf",
                             "The Parting of the Ways", "Dalek" ) );

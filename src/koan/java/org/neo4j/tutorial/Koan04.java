@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -24,6 +25,8 @@ import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificChar
  * following some conventions, will handle the lifefcycle of nodes and
  * relationships in the indexes automatically.
  */
+
+@Ignore("Convert this into a legacy auto index test towards the end of the koans")
 public class Koan04
 {
     private static EmbeddedDoctorWhoUniverse universe;
@@ -31,7 +34,7 @@ public class Koan04
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass

@@ -43,7 +43,6 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>>
     @Override
     public boolean matchesSafely( Iterable<Node> candidateNodes )
     {
-
         for ( Node n : candidateNodes )
         {
             try ( Transaction tx = database.beginTx() )
@@ -59,7 +58,6 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>>
                 tx.success();
             }
         }
-
 
         return titles.size() == 0;
 

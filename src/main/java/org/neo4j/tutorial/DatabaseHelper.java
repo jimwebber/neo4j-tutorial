@@ -15,7 +15,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 public class DatabaseHelper
@@ -43,7 +43,18 @@ public class DatabaseHelper
         try
         {
             directory = File.createTempFile( "neo4j-koans", "dir" );
-            System.out.println( String.format( "Created a new Neo4j database at [%s]", directory.getAbsolutePath() ) );
+//            System.out.println( String.format( "Created a new Neo4j database at [%s]",
+// directory.getAbsolutePath() ) );
+            System.out.println( System.lineSeparator() );
+            System.out.println( System.lineSeparator() );
+
+            System.out.println( "bin/neo4j stop" );
+            System.out.println( "rm -r data/graph.db/" );
+            System.out.println( String.format( "cp -r %s/ data/graph.db/", directory.getAbsolutePath() ) );
+            System.out.println( "bin/neo4j start" );
+
+            System.out.println( System.lineSeparator() );
+            System.out.println( System.lineSeparator() );
         }
         catch ( IOException e )
         {
@@ -99,31 +110,6 @@ public class DatabaseHelper
         }
     }
 
-    public int countNodesWithAllGivenProperties( Iterable<Node> allNodes, String... propertyNames )
-    {
-        Iterator<Node> iterator = allNodes.iterator();
-        int count = 0;
-        while ( iterator.hasNext() )
-        {
-            Node next = iterator.next();
-
-            boolean hasAllPropertyNames = true;
-            for ( String propertyName : propertyNames )
-            {
-                hasAllPropertyNames = hasAllPropertyNames && next.hasProperty( propertyName );
-                if ( !hasAllPropertyNames )
-                {
-                    break; // Modest optimisation
-                }
-            }
-            if ( hasAllPropertyNames )
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public boolean nodeExistsInDatabase( Node node )
     {
         try ( Transaction tx = database.beginTx() )
@@ -139,7 +125,7 @@ public class DatabaseHelper
         return destructivelyCount( relationships );
     }
 
-    public void dumpNode( Node node )
+    public static void dumpNode( Node node )
     {
         if ( node == null )
         {
@@ -174,12 +160,12 @@ public class DatabaseHelper
         return rels;
     }
 
-    public int count( IndexHits<Node> indexHits )
+    public int destructivelyCount( Iterator iterator )
     {
-        return destructivelyCount( indexHits );
+        return destructivelyCount( IteratorUtil.asIterable( iterator ) );
     }
 
-    public int destructivelyCount( Iterable<?> iterable )
+    public int destructivelyCount( Iterable iterable )
     {
         int count = 0;
 

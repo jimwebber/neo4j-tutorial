@@ -2,6 +2,7 @@ package org.neo4j.tutorial;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -25,6 +26,8 @@ import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
  * on Lucene. It'll give you a feeling for the wealth of bad guys the Doctor has
  * faced.
  */
+
+@Ignore("Turn this into a Koan on legacy indexes towards the end of the course")
 public class Koan03
 {
 
@@ -33,7 +36,7 @@ public class Koan03
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -68,7 +71,7 @@ public class Koan03
     }
 
     @Test
-    public void addingToAnIndexShouldBeHandledAsAMutatingOperation()
+    public void addingToALegacyIndexShouldBeHandledAsAMutatingOperation()
     {
         GraphDatabaseService database = universe.getDatabase();
 
@@ -100,13 +103,14 @@ public class Koan03
     }
 
     @Test
+    // TODO: UPGRADE TEST: should be handled by a cypher query with a regex
     public void shouldFindSpeciesBeginningWithCapitalLetterSAndEndingWithLowerCaseLetterNUsingLuceneQuery()
             throws Exception
     {
         GraphDatabaseService database = universe.getDatabase();
         IndexHits<Node> species = null;
 
-        //HINT: while the naming convention in the DrWho Indecies is
+        //HINT: while the naming convention in the Doctor Who indexes is
         // Index name: 'actors', index key: 'actor'
         // For the species (due to the English langauage) it is
         // Index name: 'species', index key: 'species'

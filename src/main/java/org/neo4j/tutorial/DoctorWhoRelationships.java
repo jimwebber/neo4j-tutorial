@@ -5,21 +5,24 @@ import org.neo4j.graphdb.RelationshipType;
 
 public enum DoctorWhoRelationships implements RelationshipType
 {
-    REGENERATED_TO,
-    PLAYED,
-    ENEMY_OF,
-    COMES_FROM,
-    IS_A,
-    COMPANION_OF,
-    APPEARED_IN,
-    USED_IN,
-    LOVES,
-    OWNS,
     ALLY_OF,
+    APPEARED_IN,
+    CHILD_OF,
+    COMES_FROM,
+    COMPANION_OF,
     COMPOSED_OF,
-    ORIGINAL_PROP,
-    PREVIOUS,
+    DIED_IN,
+    ENEMY_OF,
+    FIRST_APPEARED,
+    INCARNATION_OF,
+    IS_A,
+    LOVES,
+    MEMBER_OF,
     NEXT,
-    FATHER_OF,
-    FIRST_APPEARED, DIED_IN, MEMBER_OF
+    OWNS,
+    ORIGINAL_PROP,
+    PLAYED,
+    PREVIOUS,
+    REGENERATED_TO,
+    USED_IN
 }

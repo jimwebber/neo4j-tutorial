@@ -1,7 +1,5 @@
 package org.neo4j.tutorial;
 
-import javax.ws.rs.core.MediaType;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -12,6 +10,8 @@ import org.junit.Test;
 
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.tutorial.koan13.UserNameAndPasswordForSalariesSecurityRule;
+
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -34,7 +34,7 @@ public class Koan13
 
         CommunityNeoServer server =
                 server()
-                        .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                        .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
                         .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.koan13", "/koan13" )
                         .withSecurityRules( UserNameAndPasswordForSalariesSecurityRule.class )
                         .build();
@@ -78,9 +78,7 @@ public class Koan13
         Client client = Client.create( config );
 
         ClientResponse response = client.resource( "http://localhost:7474/koan13/David%20Tennant/salary" ).accept(
-                MediaType.TEXT_PLAIN ).get(
-                ClientResponse.class );
-
+                TEXT_PLAIN ).get( ClientResponse.class );
 
         assertEquals( 401, response.getStatus() );
 
@@ -102,8 +100,8 @@ public class Koan13
         Client client = Client.create( config );
 
         ClientResponse response = client.resource( "http://localhost:7474/koan13/David%20Tennant/salary" ).header(
-                "X-Username", "Alice" ).header( "X-Password", "1337" ).accept( MediaType.TEXT_PLAIN ).get(
-                ClientResponse.class );
+                "X-Username", "Alice" ).header( "X-Password", "1337" ).accept( TEXT_PLAIN )
+                .get( ClientResponse.class );
 
         assertEquals( 200, response.getStatus() );
         assertEquals( "text/plain", response.getHeaders().get( "Content-Type" ).get( 0 ) );

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.Index;
+import org.neo4j.cypher.ExecutionEngine;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
+import static java.lang.String.format;
+
+import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class ActorBuilder
 {
@@ -34,64 +33,50 @@ public class ActorBuilder
         return this;
     }
 
+    public ActorBuilder wikipedia( String wikipediaUri )
+    {
+        this.wikipediaUri = wikipediaUri;
+        return this;
+    }
+
     public ActorBuilder salary( int cash )
     {
         this.cash = cash;
         return this;
     }
 
-    public Node fact( GraphDatabaseService db )
+    public void fact( ExecutionEngine engine )
     {
-        Node actor = ensureActorIsInDb( db );
-        ensureCharacterIsInDb( actor, db );
-        return actor;
-    }
-
-    private Node ensureActorIsInDb( GraphDatabaseService db )
-    {
-        Index<Node> index = db.index().forNodes( "actors" );
-        Node actor = index.get( "actor", actorName ).getSingle();
-
-        if ( actor == null )
+        StringBuilder sb = new StringBuilder();
+        for ( String characterName : characterNames )
         {
-            actor = db.createNode();
-            actor.setProperty( "actor", actorName );
-            index.add( actor, "actor", actorName );
+            String characterId = shortId( "character" );
+            String actorId = shortId( "actor" );
+
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s:Character {character: \"%s\"})", characterId, characterName ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s:Actor {actor: \"%s\"})", actorId, actorName) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:PLAYED]->(%s)", actorId, characterId) );
         }
 
         if ( wikipediaUri != null )
         {
-            actor.setProperty( "wikipedia", wikipediaUri );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (a1:Actor {actor: \"%s\"})", actorName ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "SET a1.wikipedia = \"%s\"", wikipediaUri ) );
         }
 
-        if ( cash > 0 )
+        if ( cash > -1 )
         {
-            actor.setProperty( "salary", cash );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (a2:Actor {actor: \"%s\"})", actorName ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "SET a2.salary= %d", cash ) );
         }
 
-        actor.addLabel( ACTOR );
-
-        return actor;
-    }
-
-    private void ensureCharacterIsInDb( Node actor, GraphDatabaseService db )
-    {
-        for ( String characterName : characterNames )
-        {
-            new CharacterBuilder( characterName ).fact( db );
-
-            Node character = db.index().forNodes( "characters" ).get( "character", characterName ).getSingle();
-
-            if ( actor != null && character != null )
-            {
-                ensureRelationshipInDb( actor, DoctorWhoRelationships.PLAYED, character );
-            }
-        }
-    }
-
-    public ActorBuilder wikipedia( String wikipediaUri )
-    {
-        this.wikipediaUri = wikipediaUri;
-        return this;
+        engine.execute( sb.toString() );
     }
 }

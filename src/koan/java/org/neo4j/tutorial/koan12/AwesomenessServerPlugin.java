@@ -14,8 +14,8 @@ public class AwesomenessServerPlugin extends ServerPlugin
     @PluginTarget(Node.class)
     public double awesomeness( @Source Node node )
     {
-        AwesomenessRatingEngine ratingEngine = new AwesomenessRatingEngine();
-        return ratingEngine.rateAwesomeness( node.getGraphDatabase(), node.getId() );
+        AwesomenessRatingEngine ratingEngine = new AwesomenessRatingEngine( node.getGraphDatabase() );
+        return ratingEngine.rateAwesomeness( node );
     }
 
     // SNIPPET_END

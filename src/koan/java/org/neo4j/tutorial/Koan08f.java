@@ -21,7 +21,7 @@ public class Koan08f
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -39,16 +39,14 @@ public class Koan08f
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH path = (baker:Actor)-[:REGENERATED_TO*]->(eccleston:Actor) " +
-                "WHERE eccleston.actor = 'Christopher Eccleston'\n" +
-                "AND baker.actor = 'Tom Baker'" +
+        cql = "MATCH path = (baker:Actor {actor: 'Tom Baker'})-[:REGENERATED_TO*]->(eccleston:Actor {actor: 'Christopher Eccleston'}) " +
                 "RETURN LENGTH(path) as regenerations";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertEquals( 5, result.javaColumnAs( "regenerations" ).next() );
+        assertEquals( 6, result.javaColumnAs( "regenerations" ).next() );
     }
 
     @Test
@@ -60,9 +58,8 @@ public class Koan08f
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (master:Character)-[:APPEARED_IN]->(first:Episode), storyArcs = (first:Episode)-[:NEXT*]->()" +
-                "WHERE master.character = 'Master' " +
-                "AND ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)" +
+        cql = "MATCH (master:Character {character: 'Master'})-[:APPEARED_IN]->(first:Episode), storyArcs = (first:Episode)-[:NEXT*]->()" +
+                "WHERE ALL(ep in nodes(storyArcs) WHERE master-[:APPEARED_IN]->ep)" +
                 "RETURN LENGTH(storyArcs) as noOfPathHops\n" +
                 "ORDER BY noOfPathHops DESC LIMIT 1";
 

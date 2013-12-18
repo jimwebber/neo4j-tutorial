@@ -3,6 +3,16 @@
 <project name="path" default="donothingToMakeAValidAntFile"
          basedir=".">
 
+  <property name="neo4j.version" value="2.0.0"/>
+  <property name="download.dir" location="downloads"/>
+  <property name="neo4j.download.dir" location="${download.dir}/neo4j"/>
+  <property name="neo4j.install.dir" location="${neo4j.download.dir}/neo4j-community-${neo4j.version}"/>
+
+  <property name="neo4j.windows.distribution" value="neo4j-community-${neo4j.version}-windows.zip"/>
+  <property name="neo4j.unix.distribution" value="neo4j-community-${neo4j.version}-unix.tar.gz"/>
+
+  <property name="additional.jars.dir" location="${download.dir}/jars"/>
+
   <property name="target.build" location="target/artifacts"/>
   <property name="main.src" location="src/main/java"/>
   <property name="target" location="target"/>
@@ -16,14 +26,20 @@
   <property name="koan.target" location="${target}/koan/classes"/>
   <property name="koan.reports" location="${target}/koan/reports"/>
 
-  <property name="ivy.dir" location=".ivy"/>
-  <property name="lib.dir" location="lib"/>
   <property name="settings.dir" location="settings"/>
 
   <target name="donothingToMakeAValidAntFile"/>
 
   <path id="path.libs">
-    <fileset dir="lib"/>
+    <fileset dir="${neo4j.install.dir}/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${neo4j.install.dir}/system/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${additional.jars.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
   </path>
 
   <path id="path.compile">

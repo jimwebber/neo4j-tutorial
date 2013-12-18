@@ -1,23 +1,25 @@
 package org.neo4j.tutorial;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.index.Index;
+import org.neo4j.cypher.ExecutionEngine;
 
-import static org.neo4j.tutorial.DoctorWhoRelationships.USED_IN;
+import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
+
+import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class DalekPropBuilder
 {
-    private static final String PROP = "prop";
-    private static final String PROPS = "props";
+    private static final String PROP_KEY = "prop";
     private final String episode;
-    private List<Prop> props;
+    private Set<Prop> props = new HashSet<>();
+    private Set<Skirt> skirts = new HashSet<>();
+    private Set<Shoulder> shoulders = new HashSet<>();
+    private Set<String> operators = new HashSet<>();
+    private Set<String> voices = new HashSet<>();
 
     public static DalekPropBuilder dalekProps( String episode )
     {
@@ -26,37 +28,68 @@ public class DalekPropBuilder
 
     private DalekPropBuilder( String episode )
     {
-        super();
         this.episode = episode;
-        props = new ArrayList<>();
     }
 
-    public DalekPropBuilder addProp( String shoulder, String skirt, String name )
+    public DalekPropBuilder addProp( Shoulder shoulder, Skirt skirt, String name )
     {
         props.add( new Prop( shoulder, skirt, name ) );
         return this;
     }
 
-    private class Prop
+    public DalekPropBuilder addSkirt( Skirt skirt )
     {
-        private String shoulder;
-        private String skirt;
+        this.skirts.add( skirt );
+        return this;
+    }
+
+    /**
+     * This is a funky pattern. We need uniqueness when we create dalek parts,
+     * but in reality there is nothing uniquely identifying about them. So we add
+     * a synthetic property for uniqueness which simplifies creation massively.
+     * <p/>
+     * Ditto for the props aggregator nodes - they're just places where props,
+     * voice actors, and operators come together.
+     * <p/>
+     * In this method we quickly whizz through the database and remove those synthetic
+     * uniqueness properties (transient_id)
+     */
+    public static void cleanUp( ExecutionEngine engine )
+    {
+        engine.execute( "MATCH (part:Part), (props:Props) REMOVE part.transient_id, props.transient_id" );
+    }
+
+    public DalekPropBuilder operators( String... operators )
+    {
+        Collections.addAll( this.operators, operators );
+        return this;
+    }
+
+    public DalekPropBuilder voices( String... voices )
+    {
+        Collections.addAll( this.voices, voices );
+        return this;
+    }
+
+    private static class Prop
+    {
+        private Shoulder shoulder;
+        private Skirt skirt;
         private String name;
 
-        public Prop( String shoulder, String skirt, String name )
+        public Prop( Shoulder shoulder, Skirt skirt, String name )
         {
-            super();
             this.shoulder = shoulder;
             this.skirt = skirt;
             this.name = name;
         }
 
-        public String getShoulder()
+        public Shoulder getShoulder()
         {
             return shoulder;
         }
 
-        public String getSkirt()
+        public Skirt getSkirt()
         {
             return skirt;
         }
@@ -67,170 +100,146 @@ public class DalekPropBuilder
         }
     }
 
-    public void fact( GraphDatabaseService db )
+    public static abstract class Part
     {
-        Node dalekSpeciesNode = db.index()
-                .forNodes( "species" )
-                .get( "species", "Dalek" )
-                .getSingle();
+        String part;
 
-        Node episodeNode = ensureEpisodeIsInDb( episode, db );
-        ensureEpisodeIsConnectedToDalekSpecies( episodeNode, dalekSpeciesNode );
+        @Override
+        public boolean equals( Object o )
+        {
+            if ( o instanceof Part )
+            {
+                return part.equals( o.toString() );
+            }
+            return false;
+        }
 
-        Node episodePropsNode = db.createNode();
-        episodePropsNode.setProperty( PROPS, "Daleks" );
-        episodePropsNode.addLabel( DoctorWhoLabels.PROPS );
-        episodePropsNode.createRelationshipTo( episodeNode, USED_IN );
+        @Override
+        public int hashCode()
+        {
+            return part.hashCode();
+        }
+    }
+
+    public static class Skirt extends Part
+    {
+        public static Skirt skirt( String skirt )
+        {
+            return new Skirt( skirt );
+        }
+
+        private Skirt( String skirt )
+        {
+
+            this.part = skirt;
+        }
+
+        public String toString()
+        {
+            return part;
+        }
+    }
+
+    public static class Shoulder extends Part
+    {
+        public static Shoulder shoulder( String shoulder )
+        {
+            return new Shoulder( shoulder );
+        }
+
+        private Shoulder( String shoulder )
+        {
+
+            this.part = shoulder;
+        }
+
+        public String toString()
+        {
+            return part;
+        }
+    }
+
+    public void fact( ExecutionEngine engine, Set<Part> knownParts )
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append( lineSeparator() );
+        sb.append( format( "MERGE (ep:Episode {title: \"%s\"})", episode ) );
+        sb.append( lineSeparator() );
+        sb.append( format( "MERGE (dalek:Species {species: \"%s\"})", "Dalek" ) );
+        sb.append( lineSeparator() );
+        sb.append( "MERGE (dalek)-[:APPEARED_IN]->(ep)" );
+
+        String propsId = shortId( "props" );
+        sb.append( lineSeparator() );
+        sb.append( format( "MERGE (%s:Props {transient_id: \"%s\"})", propsId, propsId ) );
 
         for ( Prop prop : props )
         {
-            if ( isFullProp( prop ) )
+            String propId = shortId( "prop" );
+            String shoulderId = shortId( "shoulder" );
+            String skirtId = shortId( "skirt" );
+
+
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:USED_IN]->(ep)", propsId ) );
+
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s:Prop {prop: \"%s\"})", propId, prop.getName() ) );
+
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:MEMBER_OF]->(%s)", propId, propsId ) );
+
+            Shoulder shoulderPart = prop.getShoulder();
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s:Part {transient_id:\"%s\", part: \"%s\"})", shoulderId,
+                    shoulderPart.toString(), "shoulder" ) );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:COMPOSED_OF]->(%s)", propId, shoulderId ) );
+
+            if ( !knownParts.contains( shoulderPart ) )
             {
-                Node currentDalekPropNode = ensurePropAppearsInDb( prop.getName(), db );
-                currentDalekPropNode.createRelationshipTo( episodePropsNode, DoctorWhoRelationships.MEMBER_OF );
-
-                if ( shoulderExists( prop ) )
-                {
-                    createPartAttachedToProp( prop.getShoulder(), "shoulder", currentDalekPropNode, db );
-                }
-
-                if ( skirtExists( prop ) )
-                {
-                    createPartAttachedToProp( prop.getSkirt(), "skirt", currentDalekPropNode, db );
-                }
+                sb.append( lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ORIGINAL_PROP]->(%s)", shoulderId, propId ) );
+                knownParts.add( shoulderPart );
             }
-            else
+
+
+            Skirt skirtPart = prop.getSkirt();
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s:Part {transient_id:\"%s\", part: \"%s\"})", skirtId, skirtPart.toString(),
+                    "skirt" ) );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:COMPOSED_OF]->(%s)", propId, skirtId ) );
+
+            if ( !knownParts.contains( skirtPart ) )
             {
-                if ( shoulderExists( prop ) )
-                {
-                    createPartAttachedToPropGroup( prop.getShoulder(), "shoulder", episodePropsNode, db );
-                }
-
-                if ( skirtExists( prop ) )
-                {
-                    createPartAttachedToPropGroup( prop.getSkirt(), "skirt", episodePropsNode, db );
-                }
-            }
-        }
-    }
-
-    private void createPartAttachedToProp( String originalPropName, String part, Node currentDalekPropNode,
-                                           GraphDatabaseService db )
-    {
-        Node partNode = ensurePartExistsInDb( originalPropName, part, db );
-        if ( !relationshipExists( currentDalekPropNode, partNode, DoctorWhoRelationships.COMPOSED_OF,
-                Direction.OUTGOING ) )
-        {
-            currentDalekPropNode.createRelationshipTo( partNode, DoctorWhoRelationships.COMPOSED_OF );
-        }
-    }
-
-    private void createPartAttachedToPropGroup( String originalPropName, String part, Node propGroupNode,
-                                                GraphDatabaseService db )
-    {
-        Node partNode = ensurePartExistsInDb( originalPropName, part, db );
-        if ( !relationshipExists( partNode, propGroupNode, DoctorWhoRelationships.MEMBER_OF, Direction.OUTGOING ) )
-        {
-            partNode.createRelationshipTo( propGroupNode, DoctorWhoRelationships.MEMBER_OF );
-        }
-    }
-
-    private boolean relationshipExists( Node startNode, Node endNode, RelationshipType relationship,
-                                        Direction direction )
-    {
-        Iterable<Relationship> rels = startNode.getRelationships( direction, relationship );
-        for ( Relationship rel : rels )
-        {
-            if ( rel.getOtherNode( startNode )
-                    .equals( endNode ) )
-            {
-                return true;
+                sb.append( lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ORIGINAL_PROP]->(%s)", skirtId, propId ) );
+                knownParts.add( skirtPart );
             }
         }
-        return false;
-    }
 
-    private boolean skirtExists( Prop prop )
-    {
-        return prop.getSkirt() != null;
-    }
-
-    private boolean shoulderExists( Prop prop )
-    {
-        return prop.getShoulder() != null;
-    }
-
-    private boolean isFullProp( Prop prop )
-    {
-        return prop.getName() != null;
-    }
-
-    private Node ensurePartExistsInDb( String originalPropName, String part, GraphDatabaseService db )
-    {
-        Index<Node> index = db.index()
-                .forNodes( PROPS );
-        Node shoulderNode = index.get( part, originalPropName )
-                .getSingle();
-        if ( shoulderNode == null )
+        for ( String operator : operators )
         {
-            shoulderNode = db.createNode();
-            shoulderNode.setProperty( "part", part );
-            index.add( shoulderNode, part, originalPropName );
+            String operatorId = shortId( "operator" );
 
-            Node originalDalekPropNode = ensurePropAppearsInDb( originalPropName, db );
-            shoulderNode.createRelationshipTo( originalDalekPropNode, DoctorWhoRelationships.ORIGINAL_PROP );
-        }
-        return shoulderNode;
-    }
-
-    private Node ensurePropAppearsInDb( String prop, GraphDatabaseService db )
-    {
-        Index<Node> index = db.index()
-                .forNodes( PROPS );
-        Node dalekPropNode = index.get( PROP, prop )
-                .getSingle();
-        if ( dalekPropNode == null )
-        {
-            dalekPropNode = db.createNode();
-            dalekPropNode.setProperty( PROP, prop );
-            index.add( dalekPropNode, PROP, prop );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s:Operator {operator: \"%s\"})", operatorId, operator ) );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:OPERATED]->(%s)", operatorId, propsId ) );
         }
 
-        dalekPropNode.addLabel( DoctorWhoLabels.PROP );
-
-        return dalekPropNode;
-    }
-
-    private void ensureEpisodeIsConnectedToDalekSpecies( Node episodeNode, Node speciesNode )
-    {
-        boolean isConnected = false;
-        for ( Relationship rel : episodeNode.getRelationships( DoctorWhoRelationships.APPEARED_IN,
-                Direction.INCOMING ) )
+        for ( String voice : voices )
         {
-            if ( rel.getStartNode()
-                    .equals( speciesNode ) )
-            {
-                isConnected = true;
-                break;
-            }
-        }
-        if ( !isConnected )
-        {
-            throw new RuntimeException( "Episode '" + episodeNode.getProperty( "title" )
-                    + "' not connected to Dalek species." );
-        }
-    }
+            String voiceId = shortId( "operator" );
 
-    private Node ensureEpisodeIsInDb( String episode, GraphDatabaseService db )
-    {
-        Index<Node> index = db.index()
-                .forNodes( "episodes" );
-        Node episodeNode = index.get( "title", episode )
-                .getSingle();
-        if ( episodeNode == null )
-        {
-            throw new RuntimeException( "Episode '" + episode + "' missing from database." );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s:Voice {voice: \"%s\"})", voiceId, voice ) );
+            sb.append( lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:VOICED]->(%s)", voiceId, propsId ) );
         }
-        return episodeNode;
+
+        engine.execute( sb.toString() );
     }
 }

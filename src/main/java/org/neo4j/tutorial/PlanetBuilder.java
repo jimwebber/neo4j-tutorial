@@ -1,49 +1,54 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.helpers.collection.MapUtil;
+
+import static java.lang.String.format;
+
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.PLANET;
 
 public class PlanetBuilder
 {
+    private static final String queryString = format( "MERGE (n:%s {planet: {planet}}) RETURN n", PLANET.name() );
+    private final Set<String> planetNames = new HashSet<>();
 
-    private final String planetName;
-
-    public static PlanetBuilder planet( String planetName )
+    public static PlanetBuilder planets()
     {
-        return new PlanetBuilder( planetName );
+        return new PlanetBuilder();
     }
 
-    private PlanetBuilder( String planetName )
+    private PlanetBuilder()
     {
-        this.planetName = planetName;
     }
 
-    public void fact( GraphDatabaseService db )
+    public PlanetBuilder add( String planet )
     {
-        ensurePlanetInDb( planetName, db );
+        planetNames.add( planet );
+        return this;
     }
 
-    public static Node ensurePlanetInDb( String planet, GraphDatabaseService db )
+    public void commit( GraphDatabaseService db )
     {
-
-        Node planetNode = db.index()
-                .forNodes( "planets" )
-                .get( "planet", planet )
-                .getSingle();
-
-        if ( planetNode == null )
+        final ExecutionEngine engine = new ExecutionEngine( db, DEV_NULL );
+        try ( Transaction tx = db.beginTx() )
         {
-            planetNode = db.createNode();
-            planetNode.setProperty( "planet", planet );
-            db.index()
-                    .forNodes( "planets" )
-                    .add( planetNode, "planet", planet );
+            for ( String planetName : planetNames )
+            {
+                create( MapUtil.map( "planet", planetName ), engine );
+            }
+            tx.success();
         }
+    }
 
-        planetNode.addLabel( PLANET );
-
-        return planetNode;
+    private static void create( Map<String, Object> parameters, ExecutionEngine engine )
+    {
+        engine.execute( queryString, parameters );
     }
 }

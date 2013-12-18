@@ -1,7 +1,6 @@
 package org.neo4j.tutorial;
 
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -12,6 +11,8 @@ import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.server.rest.domain.JsonParseException;
 import org.neo4j.tutorial.server.rest.FunctionalTestHelper;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerDoctorWhoUniverse
 {
@@ -25,7 +26,7 @@ public class ServerDoctorWhoUniverse
 
     public Map<String, Object> theDoctor()
     {
-        return getJsonFor( getUriFromIndex( "characters", "character", "Doctor" ) );
+        return getJsonFor( createUriForNode( "Character", "character", "Doctor" ) );
     }
 
     public Map<String, Object> getJsonFor( String uri )
@@ -33,26 +34,24 @@ public class ServerDoctorWhoUniverse
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
         WebResource resource = client.resource( uri );
-        String response = resource.accept( MediaType.APPLICATION_JSON ).get(
-                String.class );
+        String response = resource.accept( APPLICATION_JSON ).get( String.class );
         try
         {
             return JsonHelper.jsonToMap( response );
         }
         catch ( JsonParseException e )
         {
-            throw new RuntimeException( "Invalid response when looking up Doctor node" );
+            throw new RuntimeException( "Invalid response when looking up node", e );
         }
     }
 
-    public String getUriFromIndex( String indexName, String key, String value )
+    public String createUriForNode( String label, String key, String value )
     {
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
         WebResource resource = client.resource( new FunctionalTestHelper( server )
-                .indexNodeUri( indexName, key, value ) );
-        String response = resource.accept( MediaType.APPLICATION_JSON ).get(
-                String.class );
+                .nodeUri( label, key, value ) );
+        String response = resource.accept( APPLICATION_JSON ).get( String.class );
         try
         {
             return JsonHelper.jsonToList( response ).get( 0 ).get( "self" ).toString();

@@ -32,7 +32,7 @@ public class Koan11
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
                 .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.koan11", "/koan11" )
                 .build();
 

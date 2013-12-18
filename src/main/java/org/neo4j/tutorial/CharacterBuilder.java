@@ -4,42 +4,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
+import org.neo4j.cypher.ExecutionEngine;
 
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-import static org.neo4j.tutorial.DoctorWhoRelationships.ALLY_OF;
-import static org.neo4j.tutorial.DoctorWhoRelationships.COMES_FROM;
-import static org.neo4j.tutorial.DoctorWhoRelationships.COMPANION_OF;
-import static org.neo4j.tutorial.DoctorWhoRelationships.DIED_IN;
-import static org.neo4j.tutorial.DoctorWhoRelationships.ENEMY_OF;
-import static org.neo4j.tutorial.DoctorWhoRelationships.FATHER_OF;
-import static org.neo4j.tutorial.DoctorWhoRelationships.FIRST_APPEARED;
-import static org.neo4j.tutorial.DoctorWhoRelationships.IS_A;
-import static org.neo4j.tutorial.DoctorWhoRelationships.LOVES;
-import static org.neo4j.tutorial.DoctorWhoRelationships.OWNS;
-import static org.neo4j.tutorial.DoctorWhoRelationships.PLAYED;
-import static org.neo4j.tutorial.DoctorWhoRelationships.REGENERATED_TO;
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
+
+import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class CharacterBuilder
 {
     private final String characterName;
-    private HashSet<String> species;
+    private HashSet<String> species = new HashSet<>();
     private boolean companion = false;
     private String[] loverNames;
     private String planet;
     private String[] things;
     private boolean enemy;
     private boolean ally;
-    private ArrayList<String> actors = new ArrayList<>();
+    private ArrayList<String> regenerations = new ArrayList<>();
     private HashMap<String, Integer> startDates = new HashMap<>();
     private String wikipediaUri;
     private String[] children;
-    private String firstAppearance;
-    private String diedIn;
+    private Episode firstAppearance;
+    private Episode diedIn;
+    private String singleActorName;
 
     public static CharacterBuilder character( String characterName )
     {
@@ -53,10 +42,6 @@ public class CharacterBuilder
 
     public CharacterBuilder isA( String speciesString )
     {
-        if ( species == null )
-        {
-            species = new HashSet<>();
-        }
         species.add( speciesString );
         return this;
     }
@@ -67,261 +52,176 @@ public class CharacterBuilder
         return this;
     }
 
-    public void fact( GraphDatabaseService db )
+    public void fact( ExecutionEngine engine )
     {
-        Node characterNode = ensureCharacterIsInDb( characterName, db );
+        if ( regenerations.size() > 0 && singleActorName != null )
+        {
+            throw new IllegalStateException(
+                    "Cannot have both regenerations and a single played by actor specified for the same character." );
+        }
 
-        Node theDoctor = db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
+        StringBuilder sb = new StringBuilder();
 
-        if ( species != null )
+        if ( wikipediaUri != null )
+        {
+            sb.append( format( "MERGE (c:Character {character: \"%s\"}) ON MATCH SET c.wikipedia = \"%s\" ON CREATE " +
+                    "SET c" +
+                    ".wikipedia = \"%s\"",
+                    characterName, wikipediaUri, wikipediaUri ) );
+        }
+        else
+        {
+            sb.append( format( "MERGE (c:Character {character: \"%s\"}) ", characterName ) );
+        }
+
+        // A list of actors playing a role (e.g. for timelords) XOR a single actor
+        if ( regenerations.size() > 0 )
+        {
+            String previousActorId = null;
+            for ( String actor : regenerations )
+            {
+                String actorId = shortId( "actor" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Actor {actor: \"%s\"})", actorId, actor ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (c)<-[:PLAYED]-(%s)", actorId ) );
+
+                if ( previousActorId != null )
+                {
+                    sb.append( System.lineSeparator() );
+                    if ( startDates.get( actor ) == null )
+                    {
+                        sb.append( format( "MERGE (%s)-[:REGENERATED_TO]->(%s)", previousActorId, actorId ) );
+                    }
+                    else
+                    {
+                        sb.append( format( "MERGE (%s)-[:REGENERATED_TO {year: %d}]->(%s)", previousActorId,
+                                startDates.get( actor ), actorId ) );
+                    }
+                }
+
+                previousActorId = actorId;
+            }
+        }
+        else if ( singleActorName != null )
+        {
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (actor:Actor {actor: \"%s\"})", singleActorName ) );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)<-[:PLAYED]-(actor)" );
+        }
+
+
+        if ( species.size() > 0 )
         {
             for ( String speciesString : species )
             {
-                ensureRelationshipInDb( characterNode, IS_A,
-                        SpeciesBuilder.ensureSpeciesInDb( speciesString, db ) );
-            }
-        }
+                String id = shortId( "species" );
 
-        if ( companion )
-        {
-            ensureCompanionRelationshipInDb( characterNode, db );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Species {species: \"%s\"})", id, speciesString ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (c)-[:IS_A]->(%s)", id ) );
+            }
         }
 
         if ( enemy )
         {
-            ensureEnemyOfRelationshipInDb( characterNode, db );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (doctor:Character {character: 'Doctor'})" );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)-[:ENEMY_OF]->(doctor)" );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)<-[:ENEMY_OF]-(doctor)" );
         }
 
         if ( ally )
         {
-            ensureRelationshipInDb( characterNode, ALLY_OF, theDoctor );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (doctor:Character {character: 'Doctor'})" );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)-[:ALLY_OF]->(doctor)" );
         }
 
         if ( loverNames != null )
         {
-            ensureLoversInDb( characterNode, loverNames, db );
+            for ( String loverName : loverNames )
+            {
+                String id = shortId( "lover" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", id, loverName ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (c)-[:LOVES]->(%s)", id ) );
+            }
         }
 
         if ( planet != null )
         {
-            ensurePlanetInDb( characterNode, planet, db );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (planet:Planet {planet: \"%s\"})", planet ) );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)-[:COMES_FROM]->(planet)" );
         }
 
         if ( things != null )
         {
-            ensureThingsInDb( characterNode, things, db );
-        }
+            for ( String thing : things )
+            {
+                String id = shortId( "thing" );
 
-        if ( actors != null )
-        {
-            ensureActorsInDb( characterNode, actors, db );
-        }
-
-        if ( wikipediaUri != null )
-        {
-            characterNode.setProperty( "wikipedia", wikipediaUri );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Thing {thing: \"%s\"})", id, thing ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (c)-[:OWNS]->(%s)", id ) );
+            }
         }
 
         if ( children != null )
         {
-            ensureChildrenInDb( characterNode, children, db );
+            for ( String child : children )
+            {
+                String id = shortId( "child" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", id, child ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (c)<-[:CHILD_OF]-(%s)", id ) );
+            }
         }
 
         if ( firstAppearance != null )
         {
-            ensureRelationshipInDb( characterNode, FIRST_APPEARED,
-                    db.index().forNodes( "episodes" ).get( "episode", firstAppearance ).getSingle() );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (fa:Episode {title: \"%s\", episode: \"%s\"})", firstAppearance.episodeTitle,
+                    firstAppearance.episodeNumber ) );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (fa)<-[:FIRST_APPEARED]-(c)" );
         }
 
         if ( diedIn != null )
         {
-            ensureRelationshipInDb( characterNode, DIED_IN,
-                    db.index().forNodes( "episodes" ).get( "episode", diedIn ).getSingle() );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (di:Episode {title: \"%s\", episode: \"%s\"})", diedIn.episodeTitle,
+                    diedIn.episodeNumber ) );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (di)<-[:DIED_IN]-(c)" );
         }
-    }
 
-    private static void ensureChildrenInDb( Node characterNode, String[] children, GraphDatabaseService db )
-    {
-        for ( String child : children )
+        if ( companion )
         {
-            Node childNode = ensureCharacterIsInDb( child, db );
-            ensureRelationshipInDb( characterNode, FATHER_OF, childNode );
-        }
-    }
-
-    public static void ensureAllyOfRelationshipInDb( Node allyNode, GraphDatabaseService db )
-    {
-        Node theDoctor = db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
-        ensureRelationshipInDb( allyNode, ALLY_OF, theDoctor );
-        ensureRelationshipInDb( theDoctor, ALLY_OF, allyNode );
-    }
-
-    public static void ensureEnemyOfRelationshipInDb( Node enemyNode, GraphDatabaseService db )
-    {
-        Node theDoctor = db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
-        ensureRelationshipInDb( enemyNode, ENEMY_OF, theDoctor );
-        ensureRelationshipInDb( theDoctor, ENEMY_OF, enemyNode );
-    }
-
-    public static void ensureCompanionRelationshipInDb( Node companionNode, GraphDatabaseService db )
-    {
-        Node theDoctor = db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
-        ensureRelationshipInDb( companionNode, COMPANION_OF, theDoctor );
-    }
-
-    public void ensureActorsInDb( Node characterNode, List<String> actors, GraphDatabaseService db )
-    {
-        Node previousActorNode = null;
-        for ( String actor : actors )
-        {
-            Node theActorNode = db.index()
-                    .forNodes( "actors" )
-                    .get( "actor", actor )
-                    .getSingle();
-            if ( theActorNode == null )
-            {
-                theActorNode = db.createNode();
-                theActorNode.setProperty( "actor", actor );
-                db.index()
-                        .forNodes( "actors" )
-                        .add( theActorNode, "actor", actor );
-            }
-
-            theActorNode.addLabel( DoctorWhoLabels.ACTOR );
-
-            ensureRelationshipInDb( theActorNode, PLAYED, characterNode );
-            db.index()
-                    .forNodes( "actors" )
-                    .add( theActorNode, "actor", actor );
-
-            if ( previousActorNode != null )
-            {
-                ensureRelationshipInDb( previousActorNode, REGENERATED_TO, theActorNode,
-                        map( "year", startDates.get( actor ) ) );
-            }
-
-            previousActorNode = theActorNode;
-        }
-    }
-
-    private Map<String, Object> map( String key, Integer value )
-    {
-
-        HashMap<String, Object> result = new HashMap<>();
-
-        if ( value != null )
-        {
-            result.put( key, value );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (doctor:Character {character: 'Doctor'})" );
+            sb.append( System.lineSeparator() );
+            sb.append( "MERGE (c)-[:COMPANION_OF]->(doctor)" );
         }
 
-        return result;
-    }
+        sb.append( System.lineSeparator() );
+        sb.append( System.lineSeparator() );
+        sb.append( System.lineSeparator() );
 
-    private static void ensureThingsInDb( Node characterNode, String[] things, GraphDatabaseService db )
-    {
-        for ( String thing : things )
-        {
-            ensureRelationshipInDb( characterNode, OWNS, ensureThingInDb( thing, db ) );
-        }
-    }
-
-    private static Node ensureThingInDb( String thing, GraphDatabaseService database )
-    {
-        Node theThingNode = database.index()
-                .forNodes( "things" )
-                .get( "thing", thing )
-                .getSingle();
-        if ( theThingNode == null )
-        {
-            theThingNode = database.createNode();
-            theThingNode.setProperty( "thing", thing );
-            ensureThingIsIndexed( theThingNode, database );
-        }
-
-        return theThingNode;
-    }
-
-    private static void ensureThingIsIndexed( Node thingNode, GraphDatabaseService database )
-    {
-        database.index()
-                .forNodes( "things" )
-                .add( thingNode, "thing", thingNode.getProperty( "thing" ) );
-    }
-
-    private static Node ensurePlanetInDb( Node characterNode, String planet, GraphDatabaseService database )
-    {
-        Node thePlanetNode = database.index()
-                .forNodes( "planets" )
-                .get( "planet", planet )
-                .getSingle();
-        if ( thePlanetNode == null )
-        {
-            thePlanetNode = database.createNode();
-            thePlanetNode.setProperty( "planet", planet );
-            ensurePlanetIsIndexed( thePlanetNode, database );
-        }
-
-        ensureRelationshipInDb( characterNode, COMES_FROM, thePlanetNode );
-
-        return thePlanetNode;
-    }
-
-    private static void ensurePlanetIsIndexed( Node thePlanetNode, GraphDatabaseService database )
-    {
-        database.index()
-                .forNodes( "planets" )
-                .add( thePlanetNode, "planet", thePlanetNode.getProperty( "planet" ) );
-    }
-
-    public static Node ensureCharacterIsInDb( String name, GraphDatabaseService db )
-    {
-        Node theCharacterNode = db.index()
-                .forNodes( "characters" )
-                .get( "character", name )
-                .getSingle();
-        if ( theCharacterNode == null )
-        {
-            theCharacterNode = db.createNode();
-            theCharacterNode.setProperty( "character", name );
-            ensureCharacterIsIndexed( theCharacterNode, db );
-        }
-
-        theCharacterNode.addLabel( DoctorWhoLabels.CHARACTER );
-
-        return theCharacterNode;
-    }
-
-    private static void ensureCharacterIsIndexed( Node characterNode, GraphDatabaseService database )
-    {
-        if ( database.index()
-                .forNodes( "characters" )
-                .get( "character", characterNode.getProperty( "character" ) )
-                .getSingle() == null )
-        {
-            database.index()
-                    .forNodes( "characters" )
-                    .add( characterNode, "character", characterNode.getProperty( "character" ) );
-        }
-    }
-
-    private static void ensureLoversInDb( Node characterNode, String[] loverNames, GraphDatabaseService db )
-    {
-        for ( String lover : loverNames )
-        {
-            ensureRelationshipInDb( characterNode, LOVES, ensureCharacterIsInDb( lover, db ) );
-        }
+        engine.execute( sb.toString() );
     }
 
     public CharacterBuilder loves( String... loverNames )
@@ -356,13 +256,13 @@ public class CharacterBuilder
 
     public CharacterBuilder regeneration( String... actors )
     {
-        Collections.addAll( this.actors, actors );
+        Collections.addAll( regenerations, actors );
         return this;
     }
 
     public CharacterBuilder regeneration( String actor, int year )
     {
-        this.actors.add( actor );
+        regeneration( actor );
         this.startDates.put( actor, year );
         return this;
     }
@@ -379,25 +279,43 @@ public class CharacterBuilder
         return this;
     }
 
-    public CharacterBuilder firstAppearedIn( int episodeNumber )
+    public CharacterBuilder firstAppearedIn( int episodeNumber, String episodeTitle )
     {
-        return firstAppearedIn( String.valueOf( episodeNumber ) );
+        return firstAppearedIn( valueOf( episodeNumber ), episodeTitle );
     }
 
-    public CharacterBuilder firstAppearedIn( String episodeNumber )
+    public CharacterBuilder firstAppearedIn( String episodeNumber, String episodeTitle )
     {
-        this.firstAppearance = episodeNumber;
+        this.firstAppearance = new Episode( episodeNumber, episodeTitle );
         return this;
     }
 
-    public CharacterBuilder diedIn( int episodeNumber )
+    public CharacterBuilder diedIn( int episodeNumber, String episodeTitle )
     {
-        return this.diedIn( String.valueOf( episodeNumber ) );
+        return diedIn( String.valueOf( episodeNumber ), episodeTitle );
     }
 
-    public CharacterBuilder diedIn( String episodeNumber )
+    public CharacterBuilder diedIn( String episodeNumber, String episodeTitle )
     {
-        this.diedIn = episodeNumber;
+        this.diedIn = new Episode( episodeNumber, episodeTitle );
         return this;
+    }
+
+    public CharacterBuilder playedBy( String actorName )
+    {
+        this.singleActorName = actorName;
+        return this;
+    }
+
+    private static class Episode
+    {
+        public final String episodeNumber;
+        public final String episodeTitle;
+
+        public Episode( String episodeNumber, String episodeTitle )
+        {
+            this.episodeNumber = episodeNumber;
+            this.episodeTitle = episodeTitle;
+        }
     }
 }

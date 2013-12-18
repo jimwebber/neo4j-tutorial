@@ -16,8 +16,6 @@ import org.neo4j.server.configuration.validation.Validator;
 import org.neo4j.server.database.CommunityDatabase;
 import org.neo4j.server.database.Database;
 
-import static org.neo4j.server.ServerTestUtils.asOneLine;
-
 public class ServerBuilder
 {
     private String portNo = "7474";
@@ -43,7 +41,7 @@ public class ServerBuilder
     {
         if ( dbDir == null )
         {
-            this.dbDir = org.neo4j.server.ServerTestUtils.createTempDir().getAbsolutePath();
+            this.dbDir = ServerTestUtils.createTempDir().getAbsolutePath();
         }
         File configFile = createPropertiesFiles();
 
@@ -60,7 +58,7 @@ public class ServerBuilder
 
     public File createPropertiesFiles() throws IOException
     {
-        File temporaryConfigFile = org.neo4j.server.ServerTestUtils.createTempPropertyFile();
+        File temporaryConfigFile = ServerTestUtils.createTempPropertyFile();
 
         createPropertiesFile( temporaryConfigFile );
 
@@ -128,7 +126,10 @@ public class ServerBuilder
             properties.put( String.valueOf( key ), String.valueOf( arbitraryProperties.get( key ) ) );
         }
 
-        org.neo4j.server.ServerTestUtils.writePropertiesToFile( properties, temporaryConfigFile );
+        for ( Map.Entry<String, String> entry : properties.entrySet() )
+        {
+            ServerTestUtils.writePropertyToFile( entry.getKey(), entry.getValue(), temporaryConfigFile );
+        }
     }
 
     protected ServerBuilder()
@@ -161,4 +162,16 @@ public class ServerBuilder
         return this;
     }
 
+    private static String asOneLine( Map<String, String> properties )
+    {
+        StringBuilder builder = new StringBuilder();
+        for ( Map.Entry<String, String> property : properties.entrySet() )
+        {
+            builder.append( (builder.length() > 0 ? "," : "") );
+            builder.append( property.getKey() );
+            builder.append( "=" );
+            builder.append( property.getValue() );
+        }
+        return builder.toString();
+    }
 }

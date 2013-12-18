@@ -4,17 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
+import org.neo4j.cypher.ExecutionEngine;
 
-import static org.neo4j.tutorial.CharacterBuilder.ensureAllyOfRelationshipInDb;
-import static org.neo4j.tutorial.CharacterBuilder.ensureCompanionRelationshipInDb;
-import static org.neo4j.tutorial.CharacterBuilder.ensureEnemyOfRelationshipInDb;
-import static org.neo4j.tutorial.DatabaseHelper.ensureRelationshipInDb;
-import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
-import static org.neo4j.tutorial.DoctorWhoLabels.EPISODE;
+import static java.lang.String.format;
+
+import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class EpisodeBuilder
 {
@@ -28,7 +22,7 @@ public class EpisodeBuilder
     private String[] allies;
     private List<String> alliedSpecies = new ArrayList<>();
 
-    private static Node previousEpisode = null;
+    private static Episode previousEpisode = null;
     private List<String> others = new ArrayList<>();
 
     public EpisodeBuilder( String episodeNumber )
@@ -43,7 +37,7 @@ public class EpisodeBuilder
 
     public static EpisodeBuilder episode( int episodeNumber )
     {
-        return new EpisodeBuilder( String.valueOf( episodeNumber ) );
+        return EpisodeBuilder.episode( String.valueOf( episodeNumber ) );
     }
 
     public static EpisodeBuilder episode( String episodeNumber )
@@ -57,9 +51,9 @@ public class EpisodeBuilder
         return this;
     }
 
-    public EpisodeBuilder doctor( String actorName )
+    public EpisodeBuilder doctor( String... actorNames )
     {
-        doctorActors.add( actorName );
+        Collections.addAll( doctorActors, actorNames );
         return this;
     }
 
@@ -81,31 +75,42 @@ public class EpisodeBuilder
         return this;
     }
 
-    public void fact( GraphDatabaseService db )
+    public void fact( ExecutionEngine engine )
     {
         checkEpisodeNumberAndTitle();
 
-        Node episode = ensureEpisodeNodeInDb( db );
+        StringBuilder sb = new StringBuilder();
 
-        ensureDoctorActorsAreInDb( db, episode );
+        String episodeId = shortId( "ep" );
+        final String doctorId = shortId( "doctor" );
+
+        sb.append( format( "MERGE (%s:Character {character: 'Doctor'})", doctorId ) );
+        sb.append( System.lineSeparator() );
+
+        sb.append( format( "MERGE (%s:Episode {episode: \"%s\", title:\"%s\"}) ", episodeId, episodeNumber, title ) );
+
+        for ( String actor : doctorActors )
+        {
+            String actorId = shortId( "actor" );
+
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s:Actor {actor: \"%s\"})", actorId, actor ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", actorId, episodeId ) );
+        }
 
         if ( this.companionNames != null )
         {
             for ( String companionName : companionNames )
             {
-                Node companionNode = CharacterBuilder.ensureCharacterIsInDb( companionName, db );
-                companionNode.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
-                ensureCompanionRelationshipInDb( companionNode, db );
-            }
-        }
+                String companionId = shortId( "companion" );
 
-        if ( this.enemySpecies != null )
-        {
-            for ( String eSpecies : enemySpecies )
-            {
-                Node speciesNode = SpeciesBuilder.ensureSpeciesInDb( eSpecies, db );
-                speciesNode.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
-                ensureEnemyOfRelationshipInDb( speciesNode, db );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", companionId, companionName ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", companionId, episodeId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)<-[:COMPANION_OF]-(%s)", doctorId, companionId ) );
             }
         }
 
@@ -113,9 +118,34 @@ public class EpisodeBuilder
         {
             for ( String enemy : enemies )
             {
-                Node enemyNode = CharacterBuilder.ensureCharacterIsInDb( enemy, db );
-                enemyNode.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
-                ensureEnemyOfRelationshipInDb( enemyNode, db );
+                String enemyId = shortId( "enemy" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", enemyId, enemy ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", enemyId, episodeId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ENEMY_OF]->(%s)", enemyId, doctorId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)<-[:ENEMY_OF]-(%s)", enemyId, doctorId ) );
+            }
+        }
+
+        if ( this.enemySpecies != null )
+        {
+            for ( String eSpecies : enemySpecies )
+            {
+                String enemySpeciesId = shortId( "enemySpecies" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Species {species: \"%s\"})", enemySpeciesId, eSpecies ) );
+                sb.append( System.lineSeparator() );
+                final String format = format( "MERGE (%s)-[:APPEARED_IN]->(%s)", enemySpeciesId, episodeId );
+                sb.append( format );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ENEMY_OF]->(%s)", enemySpeciesId, doctorId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)<-[:ENEMY_OF]-(%s)", enemySpeciesId, doctorId ) );
             }
         }
 
@@ -123,9 +153,14 @@ public class EpisodeBuilder
         {
             for ( String ally : allies )
             {
-                Node allyNode = CharacterBuilder.ensureCharacterIsInDb( ally, db );
-                allyNode.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
-                ensureAllyOfRelationshipInDb( allyNode, db );
+                String allyId = shortId( "ally" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", allyId, ally ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", allyId, episodeId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ALLY_OF]->(%s)", allyId, doctorId ) );
             }
         }
 
@@ -133,9 +168,14 @@ public class EpisodeBuilder
         {
             for ( String aSpecies : alliedSpecies )
             {
-                Node speciesNode = SpeciesBuilder.ensureSpeciesInDb( aSpecies, db );
-                speciesNode.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
-                ensureAllyOfRelationshipInDb( speciesNode, db );
+                String alliedSpeciesId = shortId( "alliedSpecies" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Species {species: \"%s\"})", alliedSpeciesId, aSpecies ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", alliedSpeciesId, episodeId ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:ALLY_OF]->(%s)", alliedSpeciesId, doctorId ) );
             }
         }
 
@@ -143,60 +183,29 @@ public class EpisodeBuilder
         {
             for ( String other : others )
             {
-                Node otherCharacter = CharacterBuilder.ensureCharacterIsInDb( other, db );
-                otherCharacter.createRelationshipTo( episode, DoctorWhoRelationships.APPEARED_IN );
+                String otherId = shortId( "other" );
+
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s:Character {character: \"%s\"})", otherId, other ) );
+                sb.append( System.lineSeparator() );
+                sb.append( format( "MERGE (%s)-[:APPEARED_IN]->(%s)", otherId, episodeId ) );
             }
         }
 
-        linkToPrevious( episode );
-    }
-
-    private void linkToPrevious( Node episode )
-    {
         if ( previousEpisode != null )
         {
-            previousEpisode.createRelationshipTo( episode, DoctorWhoRelationships.NEXT );
-            episode.createRelationshipTo( previousEpisode, DoctorWhoRelationships.PREVIOUS );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "WITH %s", episodeId ) );
+            sb.append( System.lineSeparator() );
+            sb.append( format( "MATCH (prevEp:Episode {title: \"%s\", episode: \"%s\"})",
+                    previousEpisode.title, previousEpisode.episodeNumber ) );
+            sb.append( System.lineSeparator() );
+            sb.append( String.format( "MERGE (%s)-[:PREVIOUS]->(prevEp)-[:NEXT]->(%s)", episodeId, episodeId ) );
         }
 
-        previousEpisode = episode;
-    }
+        previousEpisode = new Episode( episodeNumber, title );
 
-    private void ensureDoctorActorsAreInDb( GraphDatabaseService db, Node episode )
-    {
-        if ( doctorActors != null )
-        {
-            for ( String actor : doctorActors )
-            {
-                Node actorNode = ensureDoctorActorInDb( actor, db );
-                ensureRelationshipInDb( actorNode, DoctorWhoRelationships.APPEARED_IN, episode );
-            }
-        }
-    }
-
-    private Node ensureEpisodeNodeInDb( GraphDatabaseService db )
-    {
-        Node episode = db.index()
-                .forNodes( "episodes" )
-                .get( "title", this.title )
-                .getSingle();
-
-        if ( episode == null )
-        {
-            episode = db.createNode();
-            episode.setProperty( "episode", episodeNumber );
-            episode.setProperty( "title", title );
-            episode.addLabel( EPISODE );
-        }
-
-        db.index()
-                .forNodes( "episodes" )
-                .add( episode, "title", title );
-        db.index()
-                .forNodes( "episodes" )
-                .add( episode, "episode", episodeNumber );
-
-        return episode;
+        engine.execute( sb.toString() );
     }
 
     private void checkEpisodeNumberAndTitle()
@@ -210,39 +219,6 @@ public class EpisodeBuilder
         {
             throw new RuntimeException( "Episodes must have a number" );
         }
-    }
-
-    private Node ensureDoctorActorInDb( String doctorActor, GraphDatabaseService db )
-    {
-        Node theDoctor = db.index()
-                .forNodes( "characters" )
-                .get( "character", "Doctor" )
-                .getSingle();
-
-        Iterable<Relationship> relationships = theDoctor.getRelationships( DoctorWhoRelationships.PLAYED,
-                Direction.INCOMING );
-
-
-        for ( Relationship r : relationships )
-        {
-            Node current = r.getStartNode();
-            if ( current.getProperty( "actor" )
-                    .equals( doctorActor ) )
-            {
-                return current;
-            }
-        }
-
-        Node doctorActorNode = db.createNode();
-        doctorActorNode.setProperty( "actor", doctorActor );
-        doctorActorNode.createRelationshipTo( theDoctor, DoctorWhoRelationships.PLAYED );
-        db.index()
-                .forNodes( "actors" )
-                .add( doctorActorNode, "actor", doctorActor );
-
-        doctorActorNode.addLabel( ACTOR );
-
-        return doctorActorNode;
     }
 
     public EpisodeBuilder allies( String... allies )
@@ -261,5 +237,17 @@ public class EpisodeBuilder
     {
         Collections.addAll( this.others, others );
         return this;
+    }
+
+    private static class Episode
+    {
+        public String episodeNumber;
+        public String title;
+
+        public Episode( String episodeNumber, String title )
+        {
+            this.episodeNumber = episodeNumber;
+            this.title = title;
+        }
     }
 }

@@ -2,30 +2,30 @@ package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.ResourceIterable;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+
+import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 
 public class EmbeddedDoctorWhoUniverse
 {
+    private GraphDatabaseService database;
 
-    private final GraphDatabaseService database;
-
-    public EmbeddedDoctorWhoUniverse( DoctorWhoUniverseGenerator universe )
+    public EmbeddedDoctorWhoUniverse( GraphDatabaseService graphDatabaseService )
     {
-        database = new GraphDatabaseFactory().newEmbeddedDatabase( universe.getDatabaseDirectory() );
+        database = graphDatabaseService;
     }
 
     public Node theDoctor()
     {
         try ( Transaction tx = database.beginTx() )
         {
-            Node node = database.index()
-                    .forNodes( "characters" )
-                    .get( "character", "Doctor" )
-                    .getSingle();
+            final ResourceIterable<Node> nodes = database.findNodesByLabelAndProperty(
+                    CHARACTER, "character", "Doctor" );
 
             tx.success();
-            return node;
+
+            return nodes.iterator().next();
         }
     }
 
@@ -35,6 +35,8 @@ public class EmbeddedDoctorWhoUniverse
         {
             database.shutdown();
         }
+
+        database = null;
     }
 
     public GraphDatabaseService getDatabase()

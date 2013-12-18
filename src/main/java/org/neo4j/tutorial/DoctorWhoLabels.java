@@ -2,25 +2,16 @@ package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.Label;
 
+import static org.neo4j.graphdb.DynamicLabel.label;
+
 public class DoctorWhoLabels
 {
-    public static final Label ACTOR = createLabel( "Actor" );
-    public static final Label SPECIES = createLabel( "Species" );
-    public static final Label CHARACTER = createLabel( "Character" );
-    public static final Label PLANET = createLabel( "Planet" );
-    public static final Label EPISODE = createLabel( "Episode" );
-    public static final Label PROP = createLabel( "Prop" );
-    public static final Label PROPS = createLabel( "Props" );
-
-    private static Label createLabel( final String label )
-    {
-        return new Label()
-        {
-            @Override
-            public String name()
-            {
-                return label;
-            }
-        };
-    }
+    public static final Label ACTOR = label( "Actor" );
+    public static final Label CHARACTER = label( "Character" );
+    public static final Label EPISODE = label( "Episode" );
+    public static final Label THING = label( "Thing" );
+    public static final Label PLANET = label( "Planet" );
+    public static final Label PROP = label( "Prop" );
+    public static final Label SPECIES = label( "Species" );
+    public static final Label PART = label( "Part" );
 }

@@ -28,13 +28,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class Koan06
 {
-
     private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -77,10 +76,9 @@ public class Koan06
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node theDaleks = database.index()
-                    .forNodes( "species" )
-                    .get( "species", "Dalek" )
-                    .getSingle();
+            Node theDaleks = database.findNodesByLabelAndProperty( DoctorWhoLabels.SPECIES, "species",
+                    "Dalek" ).iterator().next();
+
             Traverser t = null;
 
             // YOUR CODE GOES HERE
@@ -91,7 +89,7 @@ public class Koan06
                 public boolean isReturnableNode( TraversalPosition currentPos )
                 {
                     return currentPos.currentNode()
-                            .hasProperty( "prop" );
+                            .hasLabel( DoctorWhoLabels.PROP );
                 }
             }, DoctorWhoRelationships.APPEARED_IN, Direction.BOTH, DoctorWhoRelationships.USED_IN, Direction.INCOMING,
                     DoctorWhoRelationships.MEMBER_OF, Direction.INCOMING );
@@ -115,8 +113,7 @@ public class Koan06
         List<String> propList = new ArrayList<>();
         for ( Node n : nodes )
         {
-            propList.add( n.getProperty( "prop" )
-                    .toString() );
+            propList.add( n.getProperty( "prop" ).toString() );
         }
 
         assertEquals( dalekProps.length, propList.size() );
@@ -133,12 +130,10 @@ public class Koan06
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node theMaster = database
-                    .index()
-                    .forNodes( "characters" )
-                    .get( "character", "Master" )
-                    .getSingle();
+            Node theMaster = database.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
+                    "Master" ).iterator().next();
             Traverser t = null;
+
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
@@ -147,18 +142,16 @@ public class Koan06
             {
                 public boolean isReturnableNode( TraversalPosition currentPos )
                 {
-                    if ( currentPos.currentNode()
-                            .hasProperty( "episode" ) )
+                    if ( currentPos.currentNode().hasLabel( DoctorWhoLabels.EPISODE ) )
                     {
                         Node episode = currentPos.currentNode();
 
                         for ( Relationship r : episode.getRelationships( DoctorWhoRelationships.APPEARED_IN,
                                 Direction.INCOMING ) )
                         {
-                            if ( r.getStartNode()
-                                    .hasProperty( "actor" ) && r.getStartNode()
-                                    .getProperty( "actor" )
-                                    .equals( "David Tennant" ) )
+                            if ( r.getStartNode().hasLabel( DoctorWhoLabels.ACTOR ) &&
+                                    r.getStartNode().getProperty( "actor" )
+                                            .equals( "David Tennant" ) )
                             {
                                 return true;
                             }

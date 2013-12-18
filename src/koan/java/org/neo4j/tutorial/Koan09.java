@@ -30,13 +30,12 @@ import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
  */
 public class Koan09
 {
-
     private static EmbeddedDoctorWhoUniverse universe;
 
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -52,16 +51,10 @@ public class Koan09
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node rose = database
-                    .index()
-                    .forNodes( "characters" )
-                    .get( "character", "Rose Tyler" )
-                    .getSingle();
-            Node daleks = database
-                    .index()
-                    .forNodes( "species" )
-                    .get( "species", "Dalek" )
-                    .getSingle();
+            Node rose = database.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
+                    "Rose Tyler" ).iterator().next();
+            Node daleks = database.findNodesByLabelAndProperty( DoctorWhoLabels.SPECIES, "species",
+                    "Dalek" ).iterator().next();
             Iterable<Path> paths = null;
 
             // YOUR CODE GOES HERE
@@ -87,11 +80,8 @@ public class Koan09
         HashSet<Node> roseVersusDaleksEpisodes = new HashSet<>();
         for ( String title : roseVersusDaleksEpisodeTitles )
         {
-            roseVersusDaleksEpisodes.add( universe.getDatabase()
-                    .index()
-                    .forNodes( "episodes" )
-                    .get( "title", title )
-                    .getSingle() );
+            roseVersusDaleksEpisodes.add( universe.getDatabase().findNodesByLabelAndProperty( DoctorWhoLabels
+                    .EPISODE, "title", title ).iterator().next() );
         }
         return roseVersusDaleksEpisodes;
     }
@@ -103,16 +93,10 @@ public class Koan09
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node delgado = database
-                    .index()
-                    .forNodes( "actors" )
-                    .get( "actor", "Roger Delgado" )
-                    .getSingle();
-            Node simm = database
-                    .index()
-                    .forNodes( "actors" )
-                    .get( "actor", "John Simm" )
-                    .getSingle();
+            Node delgado = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+                    "Roger Delgado" ).iterator().next();
+            Node simm = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+                    "John Simm" ).iterator().next();
             Path path = null;
 
             // YOUR CODE GOES HERE
@@ -139,16 +123,10 @@ public class Koan09
         GraphDatabaseService database = universe.getDatabase();
         try ( Transaction tx = database.beginTx() )
         {
-            Node tennant = database
-                    .index()
-                    .forNodes( "actors" )
-                    .get( "actor", "David Tennant" )
-                    .getSingle();
-            Node smith = database
-                    .index()
-                    .forNodes( "actors" )
-                    .get( "actor", "Matt Smith" )
-                    .getSingle();
+            Node tennant = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+                    "David Tennant" ).iterator().next();
+            Node smith = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+                    "Matt Smith" ).iterator().next();
             Path path = null;
 
             // YOUR CODE GOES HERE
@@ -163,11 +141,8 @@ public class Koan09
             tx.success();
 
             assertNotNull( path );
-            Node endOfTimeEpisode = database
-                    .index()
-                    .forNodes( "episodes" )
-                    .get( "title", "The End of Time" )
-                    .getSingle();
+            Node endOfTimeEpisode = database.findNodesByLabelAndProperty( DoctorWhoLabels.EPISODE, "title",
+                    "The End of Time" ).iterator().next();
             assertThat( path, containsOnlySpecificNodes( tennant, smith, endOfTimeEpisode ) );
         }
     }

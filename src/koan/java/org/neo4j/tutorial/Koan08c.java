@@ -33,7 +33,7 @@ public class Koan08c
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -87,7 +87,7 @@ public class Koan08c
 
         Long actorsCount = (Long) result.javaColumnAs( "numberOfActorsWhoPlayedTheDoctor" ).next();
 
-        assertEquals( 12l, actorsCount.longValue() );
+        assertEquals( 13l, actorsCount.longValue() );
     }
 
     @Test
@@ -99,18 +99,16 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (doctor:Character)<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
-                "WHERE doctor.character = 'Doctor' " +
+        cql = "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-()-[regen:REGENERATED_TO]->() " +
                 "RETURN min(regen.year) AS earliest, max(regen.year) AS latest";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-
         Map<String, Object> map = result.javaIterator().next();
-        assertEquals( 2010, map.get( "latest" ) );
-        assertEquals( 1966, map.get( "earliest" ) );
+        assertEquals( 2013l, map.get( "latest" ) );
+        assertEquals( 1966l, map.get( "earliest" ) );
     }
 
     @Test
@@ -143,9 +141,8 @@ public class Koan08c
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (doctor:Character)<-[:PLAYED]-(actor:Actor)"
-                + "WHERE doctor.character = 'Doctor'"
-                + "AND has(actor.salary)"
+        cql = "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Actor)"
+                + "WHERE has(actor.salary)"
                 + "RETURN avg(actor.salary) AS cash";
 
 

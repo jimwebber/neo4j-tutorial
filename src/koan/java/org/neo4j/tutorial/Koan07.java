@@ -31,7 +31,7 @@ public class Koan07
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -76,7 +76,7 @@ public class Koan07
 
             // SNIPPET_END
 
-            assertThat( regeneratedActors.traverse( theDoctor ).nodes(), containsNumberOfNodes( 11 ) );
+            assertThat( regeneratedActors.traverse( theDoctor ).nodes(), containsNumberOfNodes( 13 ) );
             tx.success();
         }
     }

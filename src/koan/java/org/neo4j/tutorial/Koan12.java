@@ -3,7 +3,6 @@ package org.neo4j.tutorial;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -18,7 +17,9 @@ import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.ServerBuilder;
 
-import static junit.framework.Assert.assertEquals;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * In this Koan we enhance the default REST API with managed extensions
@@ -37,7 +38,7 @@ public class Koan12
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
                 .build();
 
         universe = new ServerDoctorWhoUniverse( server );
@@ -61,24 +62,23 @@ public class Koan12
         // Remember to configure src/koan/resources as test source in your IDE or the org.neo4j.server.plugins
         // .ServerPlugin
         // file will not be found and this unit test will fail (the Ant build will still be ok)
-        // See: http://www.markhneedham.com/blog/2011/06/09/intellij-adding-resources-with-unusual-extensions-onto
-        // -the-classpath/
+        // See: http://www.markhneedham.com/blog/2011/06/09/intellij-adding-resources-with-unusual-extensions-onto-the-classpath/
         // You'll need to add *ServerPlugin* onto your classpath accordingly.
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
 
         WebResource resource = client.resource(
-                "http://localhost:7474/db/data/index/node/characters/character/Rose%20Tyler" );
-        ClientResponse response = resource.accept( MediaType.APPLICATION_JSON ).get( ClientResponse.class );
+                "http://localhost:7474/db/data/label/Character/nodes?character=%22Rose+Tyler%22" );
+        ClientResponse response = resource.accept( APPLICATION_JSON ).get( ClientResponse.class );
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response.getEntity( String.class ) );
         URI roseAwesomeness = extractAwesomenessUri( json );
 
-        response = client.resource( roseAwesomeness ).accept( MediaType.APPLICATION_JSON ).post( ClientResponse.class );
+        response = client.resource( roseAwesomeness ).accept( APPLICATION_JSON ).post( ClientResponse.class );
 
         assertEquals( 200, response.getStatus() );
-        assertEquals( 50.0, Double.valueOf( response.getEntity( String.class ) ) );
+        assertEquals( 50.0, Double.valueOf( response.getEntity( String.class ) ).doubleValue(), 0.0 );
     }
 
     @SuppressWarnings("unchecked")

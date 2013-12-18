@@ -30,7 +30,7 @@ public class Koan08b
     @BeforeClass
     public static void createDatabase() throws Exception
     {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator() );
+        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
     @AfterClass
@@ -48,7 +48,7 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "START doctor = node:characters(character='Doctor') RETURN doctor";
+        cql = "MATCH (doctor:Character {character: 'Doctor'}) RETURN doctor";
 
         // SNIPPET_END
 
@@ -80,7 +80,7 @@ public class Koan08b
 
         Iterator<String> iterator = result.javaColumnAs( "episode" );
 
-        assertEquals( 252l, count( iterator ) );
+        assertEquals( 263l, count( iterator ) );
     }
 
     private long count( Iterator<String> result )
@@ -104,8 +104,7 @@ public class Koan08b
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (cybermen:Species)-[:APPEARED_IN]->(episode:Episode) " +
-                "WHERE cybermen.species = 'Cyberman' " +
+        cql = "MATCH (cybermen:Species {species: 'Cyberman'})-[:APPEARED_IN]->(episode:Episode) " +
                 "RETURN episode";
 
         // SNIPPET_END
@@ -128,7 +127,9 @@ public class Koan08b
                 "Revenge of the Cybermen",
                 "The Wheel in Space",
                 "The Tomb of the Cybermen",
-                "The Moonbase" ) );
+                "The Moonbase",
+                "The Time of the Doctor",
+                "Nightmare in Silver") );
     }
 
     @Test
@@ -175,16 +176,15 @@ public class Koan08b
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            cql = "START doctor = node:characters(character= 'Doctor') ";
-            cql += "MATCH (doctor)<-[:ENEMY_OF|COMPANION_OF]-(other) ";
+            cql += "MATCH (doctor:Character {character: 'Doctor'})<-[:ENEMY_OF|COMPANION_OF]-(other) ";
             cql += "WHERE has(other.character) ";
-            cql += "RETURN distinct other.character";
+            cql += "RETURN DISTINCT other.character";
 
             // SNIPPET_END
 
             ExecutionResult result = engine.execute( cql );
 
-            assertEquals( 156, result.size() );
+            assertEquals( 159, result.size() );
             transaction.success();
         }
     }
