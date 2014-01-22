@@ -17,4 +17,4 @@ case "$os_lwr" in
 esac
 
 find src/koan/java -name *.java -print | xargs sed -f src/main/scripts/remove_snippets.sed $dashi
-find src/koan/java -name *.deleteme -print | xargs rm
+find src/koan/java -name *.deleteme -delete
