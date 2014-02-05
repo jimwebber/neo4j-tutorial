@@ -43,18 +43,17 @@ public class DatabaseHelper
         try
         {
             directory = File.createTempFile( "neo4j-koans", "dir" );
-//            System.out.println( String.format( "Created a new Neo4j database at [%s]",
-// directory.getAbsolutePath() ) );
-            System.out.println( System.lineSeparator() );
-            System.out.println( System.lineSeparator() );
-
-            System.out.println( "bin/neo4j stop" );
-            System.out.println( "rm -r data/graph.db/" );
-            System.out.println( String.format( "cp -r %s/ data/graph.db/", directory.getAbsolutePath() ) );
-            System.out.println( "bin/neo4j start" );
-
-            System.out.println( System.lineSeparator() );
-            System.out.println( System.lineSeparator() );
+            System.out.println( String.format( "Created a new Neo4j database at [%s]", directory.getAbsolutePath() ) );
+//            System.out.println( System.lineSeparator() );
+//            System.out.println( System.lineSeparator() );
+//
+//            System.out.println( "bin/neo4j stop" );
+//            System.out.println( "rm -r data/graph.db/" );
+//            System.out.println( String.format( "cp -r %s/ data/graph.db/", directory.getAbsolutePath() ) );
+//            System.out.println( "bin/neo4j start" );
+//
+//            System.out.println( System.lineSeparator() );
+//            System.out.println( System.lineSeparator() );
         }
         catch ( IOException e )
         {
