@@ -24,7 +24,7 @@ import static org.junit.Assert.fail;
  * <p/>
  * It will also introduce you to the earliest Doctor Who storylines!
  */
-public class Koan02
+public class SimpleCoreAPIFormerlyKoan02
 {
 
     private static GraphDatabaseService database;

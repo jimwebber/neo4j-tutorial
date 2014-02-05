@@ -31,7 +31,7 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnl
 
 // TODO: Move this to the core API koans
 
-public class Koan05
+public class AdvancedCoreApiFormerlyKoan05
 {
 
     private static EmbeddedDoctorWhoUniverse universe;

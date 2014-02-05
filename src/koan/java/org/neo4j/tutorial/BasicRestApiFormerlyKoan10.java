@@ -43,7 +43,7 @@ import static org.neo4j.tutorial.server.rest.RelationshipDescription.OUT;
 /**
  * In this Koan we use the default REST API to explore the Doctor Who universe.
  */
-public class Koan10
+public class BasicRestApiFormerlyKoan10
 {
 
     private static ServerDoctorWhoUniverse universe;
@@ -201,7 +201,8 @@ public class Koan10
     {
         try ( Transaction tx = db.beginTx() )
         {
-            Node doctorNode = db.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character", "Doctor" ).iterator().next();
+            Node doctorNode = db.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
+                    "Doctor" ).iterator().next();
 
             final PatternNode theDoctor = new PatternNode();
             theDoctor.addPropertyConstraint( "character", CommonValueMatchers.exact( "Doctor" ) );

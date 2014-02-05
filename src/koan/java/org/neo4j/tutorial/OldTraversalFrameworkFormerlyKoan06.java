@@ -26,7 +26,8 @@ import static org.junit.Assert.assertTrue;
  * In this Koan we start using the simple traversal framework to find
  * interesting information from the graph.
  */
-public class Koan06
+// TODO: consider deleting this, the API is deprecated anyway.
+public class OldTraversalFrameworkFormerlyKoan06
 {
     private static EmbeddedDoctorWhoUniverse universe;
 

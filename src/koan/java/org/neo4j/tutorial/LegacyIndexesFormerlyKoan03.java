@@ -28,7 +28,7 @@ import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
  */
 
 @Ignore("Turn this into a Koan on legacy indexes towards the end of the course")
-public class Koan03
+public class LegacyIndexesFormerlyKoan03
 {
 
     private static EmbeddedDoctorWhoUniverse universe;

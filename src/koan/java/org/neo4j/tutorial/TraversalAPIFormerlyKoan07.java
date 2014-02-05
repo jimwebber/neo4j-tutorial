@@ -12,7 +12,6 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.kernel.Traversal;
 import org.neo4j.kernel.Uniqueness;
 
 import static org.junit.Assert.assertThat;
@@ -24,7 +23,7 @@ import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.contains
  * In this Koan we start using the new traversal framework to find interesting
  * information from the graph about the Doctor's past life.
  */
-public class Koan07
+public class TraversalAPIFormerlyKoan07
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
@@ -50,13 +49,12 @@ public class Koan07
 
         try ( Transaction tx = database.beginTx() )
         {
-
             // YOUR CODE GOES HERE
             // Note: every doctor has participated in a regeneration, including the first and last Doctors
 
             // SNIPPET_START
 
-            regeneratedActors = Traversal.description()
+            regeneratedActors = database.traversalDescription()
                     .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                     .breadthFirst()
                     .evaluator( new Evaluator()
@@ -95,7 +93,7 @@ public class Koan07
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            firstDoctor = Traversal.description()
+            firstDoctor = database.traversalDescription()
                     .relationships( DoctorWhoRelationships.PLAYED, Direction.INCOMING )
                     .depthFirst()
                     .uniqueness( Uniqueness.NODE_GLOBAL )

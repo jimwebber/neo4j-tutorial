@@ -22,7 +22,7 @@ import static org.neo4j.tutorial.server.ServerBuilder.server;
  * to provide authenticated domain-specific set of Doctor Who resources inside
  * the Neo4j server.
  */
-public class Koan13
+public class SecureTheServerFormerlyKoan13
 {
 
     private static ServerDoctorWhoUniverse universe;

@@ -28,7 +28,7 @@ import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
  * In this Koan we use some of the pre-canned graph algorithms that come with
  * Neo4j to gain more insight into the Doctor's universe.
  */
-public class Koan09
+public class GraphAlgorithmsInJavaFormerlyKoan09
 {
     private static EmbeddedDoctorWhoUniverse universe;
 

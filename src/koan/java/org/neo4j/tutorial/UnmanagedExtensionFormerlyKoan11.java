@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertEquals;
  * In this Koan we enhance the default REST API with unmanaged (JAX-RS) extensions
  * to provide a domain-specific set of Doctor Who resources inside the Neo4j server.
  */
-public class Koan11
+public class UnmanagedExtensionFormerlyKoan11
 {
 
     private static ServerDoctorWhoUniverse universe;

@@ -26,8 +26,8 @@ import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificChar
  * relationships in the indexes automatically.
  */
 
-@Ignore("Convert this into a legacy auto index test towards the end of the koans")
-public class Koan04
+@Ignore("Convert this into a legacy auto index test towards the end of the koans, or better still consider deleting")
+public class LegacyAutoIndexesFormerlyKoan04
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
