@@ -23,7 +23,7 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnl
  * matching capabilities to RETURN subgraphs of information about the Doctor Who
  * universe.
  */
-public class Koan08b
+public class Koan4
 {
     private static EmbeddedDoctorWhoUniverse universe;
 

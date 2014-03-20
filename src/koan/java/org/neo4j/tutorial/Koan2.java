@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
  * In this Koan we learn how to create, update, and delete nodes and relationships in the
  * database using the Cypher language.
  */
-public class Koan08a
+public class Koan2
 {
     @Test
     public void shouldCreateASingleNode()

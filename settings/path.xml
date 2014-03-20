@@ -13,6 +13,8 @@
 
   <property name="additional.jars.dir" location="${download.dir}/jars"/>
 
+  <property name="lib.dir" location="lib"/>
+
   <property name="target.build" location="target/artifacts"/>
   <property name="main.src" location="src/main/java"/>
   <property name="target" location="target"/>
@@ -31,13 +33,7 @@
   <target name="donothingToMakeAValidAntFile"/>
 
   <path id="path.libs">
-    <fileset dir="${neo4j.install.dir}/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${neo4j.install.dir}/system/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${additional.jars.dir}">
+    <fileset dir="${lib.dir}">
       <include name="**/*.jar"/>
     </fileset>
   </path>

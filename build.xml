@@ -60,7 +60,19 @@
 
   <target name="download.neo4j.and.test.dependencies"
           depends="-download.check, -download.and.unzip.neo4j.windows, -download.and.uncompress.neo4j.unix, -download.additional.jars"
-          description="Downloads the most appropriate Neo4j version for the current platform"/>
+          description="Downloads the most appropriate Neo4j version for the current platform">
+    <copy todir="${lib.dir}">
+	    <fileset dir="${neo4j.install.dir}/lib">
+	      <include name="**/*.jar"/>
+	    </fileset>
+	    <fileset dir="${neo4j.install.dir}/system/lib">
+	      <include name="**/*.jar"/>
+	    </fileset>
+	    <fileset dir="${additional.jars.dir}">
+	      <include name="**/*.jar"/>
+	    </fileset>        
+	</copy>
+  </target>
 
   <target name="clean" description="Cleans the build, but leaves binary dependencies">
     <delete dir="target"/>
