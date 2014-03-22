@@ -7,6 +7,7 @@
   <property name="download.dir" location="downloads"/>
   <property name="neo4j.download.dir" location="${download.dir}/neo4j"/>
   <property name="neo4j.install.dir" location="${neo4j.download.dir}/neo4j-community-${neo4j.version}"/>
+  <property name="cached.db.dir" location=".doctorwhouniverse"/>
 
   <property name="neo4j.windows.distribution" value="neo4j-community-${neo4j.version}-windows.zip"/>
   <property name="neo4j.unix.distribution" value="neo4j-community-${neo4j.version}-unix.tar.gz"/>

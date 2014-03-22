@@ -1,5 +1,8 @@
 package org.neo4j.tutorial;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 
@@ -7,14 +10,24 @@ import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 public class DoctorWhoUniverseGenerator
 {
-    private final String dbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
-    private final GraphDatabaseService database;
+    private final static File cachedCleanDatabaseDirectory = new File( ".doctorwhouniverse" );
+    private final String currentDbDir;
+    private GraphDatabaseService database;
     private ExecutionEngine engine;
 
-    public DoctorWhoUniverseGenerator()
+    public DoctorWhoUniverseGenerator() throws IOException
     {
-        database = DatabaseHelper.createDatabase( dbDir );
-        engine = new ExecutionEngine( database, DEV_NULL );
+        if ( cachedDatabaseExists() )
+        {
+            currentDbDir = copyDatabaseFromCachedDirectoryToTempDirectory();
+            database = DatabaseHelper.createDatabase( currentDbDir );
+            return;
+        }
+        else
+        {
+            currentDbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
+            database = DatabaseHelper.createDatabase( currentDbDir );
+            engine = new ExecutionEngine( database, DEV_NULL );
 
 
 //        createActorsIndex();
@@ -23,14 +36,38 @@ public class DoctorWhoUniverseGenerator
 //        createSpeciesIndex();
 //        createPlanetsIndex();
 
-        addUniquenessConstraints();
+            addUniquenessConstraints();
 
-        addCharacters();
-        addActors();
-        addEpisodes();
-        addSpecies();
-        addPlanets();
-        addDalekProps();
+            addCharacters();
+            addActors();
+            addEpisodes();
+            addSpecies();
+            addPlanets();
+            addDalekProps();
+
+            database.shutdown();
+
+            createDatabaseCache( currentDbDir );
+
+            database = DatabaseHelper.createDatabase( currentDbDir );
+        }
+    }
+
+    private void createDatabaseCache( String currentDbDir ) throws IOException
+    {
+        org.apache.commons.io.FileUtils.copyDirectory( new File( currentDbDir ), cachedCleanDatabaseDirectory );
+    }
+
+    private boolean cachedDatabaseExists()
+    {
+        return cachedCleanDatabaseDirectory.exists() && cachedCleanDatabaseDirectory.isDirectory();
+    }
+
+    private String copyDatabaseFromCachedDirectoryToTempDirectory() throws IOException
+    {
+        String tmpDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
+        org.apache.commons.io.FileUtils.copyDirectory( cachedCleanDatabaseDirectory, new File( tmpDir ) );
+        return tmpDir;
     }
 
     private void addUniquenessConstraints()
@@ -75,7 +112,7 @@ public class DoctorWhoUniverseGenerator
 
     private void addActors()
     {
-        Actors actors = new Actors( database);
+        Actors actors = new Actors( database );
         actors.insert();
     }
 
@@ -112,7 +149,7 @@ public class DoctorWhoUniverseGenerator
     public String getCleanlyShutdownDatabaseDirectory()
     {
         database.shutdown();
-        return dbDir;
+        return currentDbDir;
     }
 
     public GraphDatabaseService getDatabase()

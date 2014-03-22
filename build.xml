@@ -80,9 +80,11 @@
     <delete dir="out"/>
   </target>
 
-  <target name="really.clean" description="Cleans the build and removes the Neo4j binaries (but not the download)."
+  <target name="really.clean"
+          description="Cleans the build, removes the cached database, and removes the Neo4j binaries (but not the download)."
           depends="clean">
     <delete dir="${neo4j.install.dir}"/>
+    <delete dir="${cached.db.dir}"/>
   </target>
 
   <target name="nuke"
