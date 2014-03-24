@@ -14,7 +14,7 @@ import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 /**
  * In this Koan we focus on paths in Cypher.
  */
-public class Koan08f
+public class Koan10
 {
     private static EmbeddedDoctorWhoUniverse universe;
 

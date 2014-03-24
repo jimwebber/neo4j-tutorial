@@ -1,5 +1,8 @@
 package org.neo4j.tutorial;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,13 +13,15 @@ import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.tooling.GlobalGraphOperations;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 
-public class Koan08d
+public class Koan8
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
@@ -84,6 +89,55 @@ public class Koan08d
 
         assertEquals( 0, executionResult.size() );
     }
+
+    @Test
+    public void shouldDeleteAllTheThings() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "MATCH (n)\n" +
+                "OPTIONAL MATCH (n)-[r]-()\n" +
+                "DELETE n,r";
+
+        // SNIPPET_END
+
+        engine.execute( cql );
+
+        assertThat( universe.getDatabase(), allNodesAndRelationshipsErased() );
+
+    }
+
+    private Matcher<GraphDatabaseService> allNodesAndRelationshipsErased()
+    {
+        return new TypeSafeMatcher<GraphDatabaseService>()
+        {
+            @Override
+            protected boolean matchesSafely( GraphDatabaseService graphDatabaseService )
+            {
+                try ( Transaction tx = graphDatabaseService.beginTx() )
+                {
+                    boolean result = new DatabaseHelper( graphDatabaseService ).destructivelyCount(
+                            GlobalGraphOperations.at( graphDatabaseService ).getAllNodes() ) == 0 &&
+                            new DatabaseHelper( graphDatabaseService ).destructivelyCount(
+                                    GlobalGraphOperations.at( graphDatabaseService ).getAllRelationships() ) == 0;
+                    tx.success();
+
+                    return result;
+                }
+            }
+
+            @Override
+            public void describeTo( Description description )
+            {
+                description.appendText( "" );
+            }
+        };
+    }
+
 
     private void polluteUniverseWithStarTrekData()
     {

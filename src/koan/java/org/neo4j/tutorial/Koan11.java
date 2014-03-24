@@ -4,10 +4,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.neo4j.cypher.CypherExecutionException;
 import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.cypher.ExecutionResult;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
@@ -27,8 +27,8 @@ public class Koan11
         universe.stop();
     }
 
-    @Test(expected = CypherExecutionException.class)
-    public void shouldRejectDuplicateActor()
+    @Test
+    public void shouldFindLengthOfTheShortestPathBetweenSarahJaneSmithAndSkaro() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
@@ -36,15 +36,15 @@ public class Koan11
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE CONSTRAINT ON (a:Actor) ASSERT a.actor IS UNIQUE";
+        cql = "MATCH path = shortestPath( (sarahJaneSmith:Character)-[*..50]-(skaro:Planet) )" +
+                "WHERE sarahJaneSmith.character = 'Sarah Jane Smith' " +
+                "AND skaro.planet = 'Skaro'"+
+                "RETURN length(path) as length";
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        ExecutionResult result = engine.execute( cql );
 
-        engine.execute( "CREATE (:Actor {actor: 'David Tennant'})" );
-
-        /* Acting trivia: American and British actors' unions demand that no two actors have the same name! */
-        fail( "Should not be able to create another actor called David Tennant" );
+        assertEquals( 3, result.javaColumnAs( "length" ).next() );
     }
 }

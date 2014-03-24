@@ -20,13 +20,12 @@ import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
-import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
 
 /**
  * In this Koan we focus on aggregate functions from the Cypher graph pattern matching language
  * to process some statistics about the Doctor Who universe.
  */
-public class Koan08c
+public class Koan7
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
@@ -40,32 +39,6 @@ public class Koan08c
     public static void closeTheDatabase()
     {
         universe.stop();
-    }
-
-    @Test
-    public void shouldReturnAnyWikpediaEntriesForCompanions()
-    {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
-        String cql = null;
-
-        // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "MATCH (doctor:Character)<-[:COMPANION_OF]-(companion:Character) " +
-                "WHERE doctor.character ='Doctor' " +
-                "AND has(companion.wikipedia) " +
-                "RETURN companion.wikipedia";
-
-
-        // SNIPPET_END
-
-        ExecutionResult result = engine.execute( cql );
-        Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia" );
-
-        assertThat( iterator, containsOnlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
-                "http://en.wikipedia.org/wiki/Amy_Pond",
-                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
-
     }
 
     @Test

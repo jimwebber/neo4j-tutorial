@@ -20,7 +20,7 @@ import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
  * the regenerations and the history of the Dalek props, with a focus on longer matches
  * and using aggregates to process the returned data.
  */
-public class Koan08e
+public class Koan9
 {
     private static EmbeddedDoctorWhoUniverse universe;
 
