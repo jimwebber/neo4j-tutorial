@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan11;
+package org.neo4j.tutorial.unmanaged_extension;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

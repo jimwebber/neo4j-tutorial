@@ -59,7 +59,7 @@ public class ManagedExtensionsFormerlyKoan12
     {
         // This unit test provides the client side HTTP actions and assertions.
         // Your work happens in
-        // org.neo4j.tutorial.koan12.AwesomenessServerPlugin
+        // org.neo4j.tutorial.managed_extension.AwesomenessServerPlugin
         // where you have to build the server plugin implementation to make this Koan pass.
 
         // Remember to configure src/koan/resources as test source in your IDE or the org.neo4j.server.plugins
@@ -82,7 +82,7 @@ public class ManagedExtensionsFormerlyKoan12
         response = client.resource( roseAwesomeness ).accept( APPLICATION_JSON ).post( ClientResponse.class );
 
         assertEquals( 200, response.getStatus() );
-        assertEquals( 50.0, Double.valueOf( response.getEntity( String.class ) ).doubleValue(), 0.0 );
+        assertEquals( 50.0, Double.valueOf( response.getEntity( String.class ) ), 0.0 );
     }
 
     @SuppressWarnings("unchecked")

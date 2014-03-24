@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan13;
+package org.neo4j.tutorial.security_rule;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +28,7 @@ public class UserNameAndPasswordForSalariesSecurityRule implements SecurityRule
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        uriPath = "/koan13";
+        uriPath = "/security_rule";
 
         // SNIPPET_END
 

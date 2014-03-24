@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan13;
+package org.neo4j.tutorial.security_rule;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

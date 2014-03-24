@@ -49,7 +49,7 @@ public class UnmanagedExtensionFormerlyKoan11
     public void shouldReturnTheDoctorsHomePlanetName() throws Exception
     {
         // This unit test provides the client side HTTP actions and assertions.
-        // Your work happens in org.neo4j.tutorial.koan11.HomePlanetUnmanagedExtension
+        // Your work happens in org.neo4j.tutorial.unmanaged_extension.HomePlanetUnmanagedExtension
         // where you have to build the server-side infrastructure to make this
         // Koan pass.
 

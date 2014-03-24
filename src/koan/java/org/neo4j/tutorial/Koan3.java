@@ -11,6 +11,7 @@ import org.neo4j.kernel.impl.util.StringLogger;
  */
 public class Koan3
 {
+    // TODO: write an exercise
     @Test
     public void shouldMERGE_ALL_THE_THINGS()
     {
@@ -21,11 +22,8 @@ public class Koan3
         // SNIPPET_START
 
 
-
         // SNIPPET_END
 
         engine.execute( cql );
-
-
     }
 }

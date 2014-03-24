@@ -1,4 +1,4 @@
-package org.neo4j.tutorial.koan12;
+package org.neo4j.tutorial.managed_extension;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.server.plugins.PluginTarget;
