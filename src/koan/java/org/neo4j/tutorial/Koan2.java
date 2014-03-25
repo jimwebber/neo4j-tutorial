@@ -51,8 +51,9 @@ public class Koan2
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-                "START n=node(*) WHERE has(n.firstname) AND n.firstname = 'Tom' AND  has(n.lastname) AND n.lastname =" +
-                        " 'Baker' return n" );
+                "MATCH (n {firstname: 'Tom', lastname: 'Baker'}) RETURN n" );
+
+        /* Geek question: if you've read ahead, what's the Big O cost of this match? */
 
         assertEquals( 1, executionResult.size() );
     }
@@ -74,11 +75,10 @@ public class Koan2
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-                "START a=node(*) \n" +
-                        "MATCH a<-[:ENEMY_OF]-b \n" +
-                        "WHERE has(a.character) AND a.character='Doctor' AND has(b.character) AND b.character = " +
-                        "'Master' \n" +
+                "MATCH (a {character: 'Doctor'})<-[:ENEMY_OF]-(b {character: 'Master'}) \n" +
                         "RETURN a, b \n" );
+
+        /* Same geek question: if you've read ahead, what's the Big O cost of this match? */
 
         assertFalse( executionResult.isEmpty() );
         assertEquals( 2, executionResult.columns().toList().size() );

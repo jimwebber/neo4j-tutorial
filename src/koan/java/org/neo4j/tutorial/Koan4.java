@@ -13,26 +13,50 @@ import static org.junit.Assert.assertEquals;
  */
 public class Koan4
 {
+
     @Test
-    public void shouldCreateASingleProperty()
+    public void shouldCreateALabelledNode()
     {
         ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
 
-        engine.execute( "CREATE ({actor: 'David Tennant'})" );
+        engine.execute( "CREATE (n {actor: 'David Tennant'}) RETURN n" );
 
-        String cql = null;
+        String cql = "MATCH (a {actor: 'David Tennant'})\n";
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "CREATE n";
+        cql += "SET a:Actor";
 
         // SNIPPET_END
 
         engine.execute( cql );
 
-        final ExecutionResult executionResult = engine.execute( "START n=node(*) return n" );
+        final ExecutionResult executionResult = engine.execute( "MATCH (a {actor: 'David Tennant'}) RETURN a.actor" );
 
-        assertEquals( 1, executionResult.size() );
+        assertEquals( "David Tennant", executionResult.javaColumnAs( "a.actor" ).next() );
+    }
+
+    @Test
+    public void shouldAddALabelToAnExistingNode()
+    {
+        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
+
+        engine.execute( "CREATE (n {actor: 'David Tennant'}) RETURN n" );
+
+        String cql = "MATCH (a {actor: 'David Tennant'})\n";
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql += "SET a:Actor";
+
+        // SNIPPET_END
+
+        engine.execute( cql );
+
+        final ExecutionResult executionResult = engine.execute( "MATCH (a {actor: 'David Tennant'}) RETURN a.actor" );
+
+        assertEquals( "David Tennant", executionResult.javaColumnAs( "a.actor" ).next() );
     }
 }
