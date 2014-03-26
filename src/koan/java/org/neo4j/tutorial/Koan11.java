@@ -11,6 +11,9 @@ import static org.junit.Assert.assertEquals;
 
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
+/**
+ * In this koan we call out to the (small!) algorithm library exposed to Cypher to peform shortest path calculations.
+ */
 public class Koan11
 {
     private static EmbeddedDoctorWhoUniverse universe;

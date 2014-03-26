@@ -21,6 +21,9 @@ import static org.junit.Assert.assertThat;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 
+/**
+ * In this Koan we learn how to erase structural elements of the graph, starting with Star Trek...
+ */
 public class Koan8
 {
     private static EmbeddedDoctorWhoUniverse universe;
@@ -120,10 +123,10 @@ public class Koan8
             {
                 try ( Transaction tx = graphDatabaseService.beginTx() )
                 {
-                    boolean result = new DatabaseHelper( graphDatabaseService ).destructivelyCount(
-                            GlobalGraphOperations.at( graphDatabaseService ).getAllNodes() ) == 0 &&
-                            new DatabaseHelper( graphDatabaseService ).destructivelyCount(
-                                    GlobalGraphOperations.at( graphDatabaseService ).getAllRelationships() ) == 0;
+                    boolean result = (new DatabaseHelper( graphDatabaseService ).destructivelyCount(
+                            GlobalGraphOperations.at( graphDatabaseService ).getAllNodes() ) == 0) &&
+                            (new DatabaseHelper( graphDatabaseService ).destructivelyCount(
+                                    GlobalGraphOperations.at( graphDatabaseService ).getAllRelationships() ) == 0);
                     tx.success();
 
                     return result;

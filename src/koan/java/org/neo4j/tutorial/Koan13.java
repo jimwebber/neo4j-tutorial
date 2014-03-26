@@ -11,6 +11,10 @@ import static org.junit.Assert.fail;
 
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
+/**
+ * This koan introduces Neo4j 2.x constraints, which are a bit like schema insofar as they allow you to control
+ * some aspects of the graph at design/runtime.
+ */
 public class Koan13
 {
     private static EmbeddedDoctorWhoUniverse universe;

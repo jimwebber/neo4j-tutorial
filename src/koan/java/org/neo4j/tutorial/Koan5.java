@@ -103,7 +103,7 @@ public class Koan5
 
         // SNIPPET_END
 
-        System.out.println( engine.execute( cql ).dumpToString() );
+        engine.execute( cql );
 
         assertThat( engine.execute( "MATCH (:Character {character: 'Amy Pond'})" +
                 "-[c:COMPANION_OF]->(:Character {character: 'Doctor'}) RETURN c.start, c.end" ),
