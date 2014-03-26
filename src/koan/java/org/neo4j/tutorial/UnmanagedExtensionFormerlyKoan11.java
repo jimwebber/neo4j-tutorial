@@ -33,7 +33,7 @@ public class UnmanagedExtensionFormerlyKoan11
         CommunityNeoServer server = ServerBuilder
                 .server()
                 .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
-                .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.koan11", "/koan11" )
+                .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.unmanaged_extension", "/tutorial" )
                 .build();
 
         universe = new ServerDoctorWhoUniverse( server );
@@ -56,7 +56,7 @@ public class UnmanagedExtensionFormerlyKoan11
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
 
-        WebResource resource = client.resource( "http://localhost:7474/koan11/Doctor/homeplanet" );
+        WebResource resource = client.resource( "http://localhost:7474/tutorial/Doctor/homeplanet" );
         ClientResponse response = resource.accept( MediaType.TEXT_PLAIN ).get( ClientResponse.class );
 
         assertEquals( 200, response.getStatus() );
