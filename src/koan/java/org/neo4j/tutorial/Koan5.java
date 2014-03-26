@@ -1,5 +1,6 @@
 package org.neo4j.tutorial;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import org.hamcrest.Description;
@@ -59,19 +60,63 @@ public class Koan5
         ResourceIterator<Object> iterator = engine.execute( "MATCH (:Character {character: 'Amy Pond'})" +
                 "<-[:PLAYED]-(a:Actor) RETURN a.actor" ).javaColumnAs( "a.actor" );
 
-        assertThat( asIterable( iterator ), containsExactly( "Karen Gillan", "Caitlin Blackwood" ) );
+        assertThat( iterator, containsExactly( "Karen Gillan", "Caitlin Blackwood" ) );
     }
 
-    private TypeSafeMatcher<Iterable<Object>> containsExactly( final String... actorNames )
+    @Test
+    public void shouldEnsureAmyAndRoryAreInLove()
+    {
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "MERGE (amy:Character {character: 'Amy Pond'})-[:LOVES]->(rory:Character {character: 'Rory Williams'})" +
+                "\n" +
+                "MERGE (amy:Character {character: 'Amy Pond'})<-[:LOVES]-(rory:Character {character: 'Rory " +
+                "Williams'})\n";
+
+        // SNIPPET_END
+
+        engine.execute( cql );
+
+        assertThat( engine.execute( "MATCH (:Character {character: 'Amy Pond'})-[loves:LOVES]->(:Character " +
+                "{character: 'Rory Williams'}) RETURN loves" ).javaColumnAs( "loves" ), numbersExactly( 1 ) );
+        assertThat( engine.execute( "MATCH (:Character {character: 'Amy Pond'})<-[loves:LOVES]-(:Character " +
+                "{character: 'Rory Williams'}) RETURN loves" ).javaColumnAs( "loves" ), numbersExactly( 1 ) );
+    }
+
+    private TypeSafeMatcher<ResourceIterator<Object>> numbersExactly( final int i )
+    {
+        return new TypeSafeMatcher<ResourceIterator<Object>>()
+        {
+
+            @Override
+            protected boolean matchesSafely( ResourceIterator<Object> relationships )
+            {
+                return i == DatabaseHelper.destructivelyCount( relationships );
+            }
+
+            @Override
+            public void describeTo( Description description )
+            {
+                description.appendText( "" );
+            }
+        };
+    }
+
+
+    private TypeSafeMatcher<Iterator<Object>> containsExactly( final String... actorNames )
     {
         final Set<String> actors = asSet( actorNames );
 
-        return new TypeSafeMatcher<Iterable<Object>>()
+        return new TypeSafeMatcher<Iterator<Object>>()
         {
             @Override
-            protected boolean matchesSafely( Iterable<Object> objects )
+            protected boolean matchesSafely( Iterator<Object> objects )
             {
-                for ( Object object : objects )
+                for ( Object object : asIterable( objects ) )
                 {
                     if ( !actors.remove( object ) )
                     {

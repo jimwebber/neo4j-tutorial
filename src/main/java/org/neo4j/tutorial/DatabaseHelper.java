@@ -2,10 +2,8 @@ package org.neo4j.tutorial;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.neo4j.graphdb.Direction;
@@ -129,32 +127,12 @@ public class DatabaseHelper
         }
     }
 
-    public List<Relationship> toListOfRelationships( Iterable<Relationship> iterable )
-    {
-        ArrayList<Relationship> rels = new ArrayList<>();
-        for ( Relationship r : iterable )
-        {
-            rels.add( r );
-        }
-        return rels;
-    }
-
-    public List<Node> toListOfNodes( Iterable<Node> nodes )
-    {
-        ArrayList<Node> rels = new ArrayList<>();
-        for ( Node n : nodes )
-        {
-            rels.add( n );
-        }
-        return rels;
-    }
-
-    public int destructivelyCount( Iterator iterator )
+    public static int destructivelyCount( Iterator iterator )
     {
         return destructivelyCount( IteratorUtil.asIterable( iterator ) );
     }
 
-    public int destructivelyCount( Iterable iterable )
+    public static int destructivelyCount( Iterable iterable )
     {
         int count = 0;
 

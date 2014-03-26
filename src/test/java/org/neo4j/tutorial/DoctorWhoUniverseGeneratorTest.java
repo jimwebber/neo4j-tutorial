@@ -32,6 +32,7 @@ import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_CONTINUE;
 import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Evaluation.INCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Uniqueness.NODE_GLOBAL;
+import static org.neo4j.helpers.collection.IteratorUtil.asList;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
@@ -260,7 +261,7 @@ public class DoctorWhoUniverseGeneratorTest
         int regenerationCount = 0;
         while ( true )
         {
-            List<Relationship> relationships = databaseHelper.toListOfRelationships( timelord.getRelationships(
+            List<Relationship> relationships = asList( timelord.getRelationships(
                     REGENERATED_TO, OUTGOING ) );
 
             if ( relationships.size() == 1 )
@@ -304,7 +305,7 @@ public class DoctorWhoUniverseGeneratorTest
             assertNotNull( timelord );
 
             Iterable<Relationship> relationships = timelord.getRelationships( COMES_FROM, OUTGOING );
-            List<Relationship> listOfRelationships = databaseHelper.toListOfRelationships( relationships );
+            List<Relationship> listOfRelationships = asList( relationships );
 
             assertEquals( 1, listOfRelationships.size() );
             assertTrue( listOfRelationships.get( 0 )
@@ -418,7 +419,8 @@ public class DoctorWhoUniverseGeneratorTest
             Iterable<Node> nodes = traverser.nodes();
             assertNotNull( nodes );
 
-            List<Node> enemiesOfEnemies = databaseHelper.toListOfNodes( nodes );
+
+            List<Node> enemiesOfEnemies = asList( nodes );
 
             int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 148;
             assertEquals( numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size() );
