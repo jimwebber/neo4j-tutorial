@@ -89,7 +89,7 @@ public class Koan5
     }
 
     @Test
-    public void shouldAddWhenAmyPondBecameACompanionToHerCompanionOfRelationship()
+    public void shouldDemarcateYearsWhenAmyPondWasACompanionOfTheDoctor()
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
         String cql = null;
