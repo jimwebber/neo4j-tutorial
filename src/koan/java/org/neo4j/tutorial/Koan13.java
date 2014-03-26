@@ -6,9 +6,11 @@ import org.junit.Test;
 
 import org.neo4j.cypher.CypherExecutionException;
 import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.Transaction;
 
 import static org.junit.Assert.fail;
 
+import static org.neo4j.graphdb.DynamicLabel.label;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
@@ -23,6 +25,13 @@ public class Koan13
     public static void createDatabase() throws Exception
     {
         universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
+        try ( Transaction tx = universe.getDatabase().beginTx() )
+        {
+            // Unique actors constraint is created by the universe, we'll drop it here...
+            universe.getDatabase().schema().getConstraints( label( "Actor" ) ).iterator().next().drop();
+            tx.success();
+        }
+
     }
 
     @AfterClass
