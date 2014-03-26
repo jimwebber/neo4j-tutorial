@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.hamcrest.Description;
@@ -10,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.kernel.impl.util.StringLogger;
 
@@ -74,8 +76,7 @@ public class Koan5
 
         cql = "MERGE (amy:Character {character: 'Amy Pond'})-[:LOVES]->(rory:Character {character: 'Rory Williams'})" +
                 "\n" +
-                "MERGE (amy:Character {character: 'Amy Pond'})<-[:LOVES]-(rory:Character {character: 'Rory " +
-                "Williams'})\n";
+                "MERGE (amy)<-[:LOVES]-(rory)\n";
 
         // SNIPPET_END
 
@@ -85,6 +86,52 @@ public class Koan5
                 "{character: 'Rory Williams'}) RETURN loves" ).javaColumnAs( "loves" ), numbersExactly( 1 ) );
         assertThat( engine.execute( "MATCH (:Character {character: 'Amy Pond'})<-[loves:LOVES]-(:Character " +
                 "{character: 'Rory Williams'}) RETURN loves" ).javaColumnAs( "loves" ), numbersExactly( 1 ) );
+    }
+
+    @Test
+    public void shouldAddWhenAmyPondBecameACompanionToHerCompanionOfRelationship()
+    {
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        String cql = null;
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "MERGE (:Character {character: 'Amy Pond'})-[c:COMPANION_OF]->(:Character {character: 'Doctor'})" +
+                "ON MATCH SET c.start = 2010, c.end = 2013";
+
+
+        // SNIPPET_END
+
+        System.out.println( engine.execute( cql ).dumpToString() );
+
+        assertThat( engine.execute( "MATCH (:Character {character: 'Amy Pond'})" +
+                "-[c:COMPANION_OF]->(:Character {character: 'Doctor'}) RETURN c.start, c.end" ),
+                hasCorrectDatesForStartAndEnd( 2010, 2013 ) );
+
+    }
+
+    private TypeSafeMatcher<ExecutionResult> hasCorrectDatesForStartAndEnd( final long start, final long end )
+    {
+        return new TypeSafeMatcher<ExecutionResult>()
+        {
+            @Override
+            protected boolean matchesSafely( ExecutionResult result )
+            {
+                Map<String, Object> map = result.javaIterator().next();
+
+                boolean answer = map.containsKey( "c.start" ) && map.get( "c.start" ).equals( start );
+                answer = answer && map.containsKey( "c.end" ) && map.get( "c.end" ).equals( end );
+
+                return answer;
+            }
+
+            @Override
+            public void describeTo( Description description )
+            {
+                description.appendText( "" );
+            }
+        };
     }
 
     private TypeSafeMatcher<ResourceIterator<Object>> numbersExactly( final int i )
