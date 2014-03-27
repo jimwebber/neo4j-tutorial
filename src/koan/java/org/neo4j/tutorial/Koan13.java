@@ -31,7 +31,6 @@ public class Koan13
             universe.getDatabase().schema().getConstraints( label( "Actor" ) ).iterator().next().drop();
             tx.success();
         }
-
     }
 
     @AfterClass
