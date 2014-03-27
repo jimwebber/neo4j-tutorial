@@ -3,8 +3,8 @@ package org.neo4j.tutorial;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.neo4j.cypher.ExecutionEngine;
@@ -26,16 +26,16 @@ import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
  */
 public class Koan8
 {
-    private static EmbeddedDoctorWhoUniverse universe;
+    private EmbeddedDoctorWhoUniverse universe;
 
-    @BeforeClass
-    public static void createDatabase() throws Exception
+    @Before
+    public void createDatabase() throws Exception
     {
         universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
     }
 
-    @AfterClass
-    public static void closeTheDatabase()
+    @After
+    public void closeTheDatabase()
     {
         universe.stop();
     }

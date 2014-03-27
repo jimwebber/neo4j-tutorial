@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javafx.util.Pair;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
@@ -146,7 +145,7 @@ public class Koan6
         };
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOwnersAndThings( final Set<Pair> pairs )
+    private TypeSafeMatcher<ExecutionResult> containsOwnersAndThings( final Set<Pair<String, String>> pairs )
     {
         return new TypeSafeMatcher<ExecutionResult>()
         {
@@ -182,7 +181,7 @@ public class Koan6
     }
 
 
-    private Pair pair( String character, String thing )
+    private Pair<String, String> pair( String character, String thing )
     {
         return new Pair( character, thing );
     }
@@ -460,5 +459,27 @@ public class Koan6
         assertEquals( Arrays.asList( "Master" ), next.get( "characters" ) );
         assertEquals( "135", next.get( "episode.episode" ) );
         assertEquals( "The Caves of Androzani", next.get( "episode.title" ) );
+    }
+
+    private class Pair<K, V>
+    {
+        private final K key;
+        private final V value;
+
+        public Pair( K key, V value )
+        {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey()
+        {
+            return key;
+        }
+
+        public V getValue()
+        {
+            return value;
+        }
     }
 }
