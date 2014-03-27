@@ -1,7 +1,5 @@
 package org.neo4j.tutorial;
 
-import java.util.Set;
-
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
@@ -12,14 +10,13 @@ import scala.collection.convert.Wrappers;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.helpers.collection.IteratorUtil.asSet;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
- * In this koan we learn about breaking apart queries using WITH
+ * In this koan we get to grips with collection functions.
  */
 public class Koan14
 {
@@ -38,101 +35,75 @@ public class Koan14
     }
 
     @Test
-    public void shouldSortCompanionsAlphabeticallyIntoACollection() throws Exception
+    public void shouldListTheFirstFiveEpisodes() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
-        String cql = "MATCH (c:Character)-[:COMPANION_OF]->(:Character {character: 'Doctor'})\n";
+        String cql = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql += "WITH c\n" +
-                "ORDER BY c.character\n" +
-                "RETURN collect(c.character) AS characters\n";
+        cql = "MATCH p=(e:Episode { episode: '1'})-[:NEXT*5..5]->(:Episode)\n" +
+                "RETURN extract( e in nodes(p) | e.title)  AS episodes\n";
 
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
 
-        assertThat( result, containsOrderedList( "Ace", "Adam Mitchell", "Adelaide Brooke", "Adric", "Amy Pond",
-                "Astrid Peth", "Barbara Wright", "Ben Jackson", "Clara Oswald", "Craig Owens", "Dodo Chaplet",
-                "Donna Noble", "Grace Holloway", "Hamish Wilson", "Harry Sullivan", "Ian Chesterton",
-                "Jack Harkness", "Jackson Lake", "Jamie McCrimmon", "Jo Grant", "K9", "Kamelion", "Katarina",
-                "Lady Christina de Souza", "Leela", "Liz Shaw", "Martha Jones", "Melanie Bush", "Mickey Smith",
-                "Nyssa", "Peri Brown", "Polly", "River Song", "Romana", "Rory Williams", "Rose Tyler",
-                "Rosita Farisi", "Sara Kingdom", "Sarah Jane Smith", "Steven Taylor", "Susan Foreman",
-                "Tegan Jovanka", "Vicki", "Victoria Waterfield", "Vislor Turlough", "Wilfred Mott", "Zoe Heriot" ) );
+        assertThat( result, containsOnly( "An Unearthly Child", "The Daleks", "The Edge of Destruction",
+                "Marco Polo", "The Keys of Marinus", "The Aztecs" ) );
     }
 
     @Test
-    public void shouldFindThePopularCompanionsWhoApprearedMoreThanTwentyTimes() throws Exception
+    public void shouldAddStoryArcOnRelationshipsBetweenEpisodes() throws Exception
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
-        String cql = "MATCH (ep:Episode)<-[:APPEARED_IN]-(companion:Character)" +
-                "-[:COMPANION_OF]->(:Character {character: 'Doctor'})\n";
+        String cql = "MATCH p=(startEp:Episode {title: 'The Ribos Operation'})-[:NEXT*]->" +
+                "(endEp:Episode {title: 'The Armageddon Factor'})\n";
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql += "WITH companion, count(ep) AS numberOfEpisodes\n" +
-                "WHERE numberOfEpisodes > 20\n" +
-                "RETURN companion.character AS companions";
+        cql += "FOREACH (r in relationships(p) | SET r.story_arc = 'The Key to Time')";
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        engine.execute( cql );
 
-        assertThat( result, containsOnlyCompanions( "Rory Williams", "Amy Pond", "Sarah Jane Smith", "Rose Tyler",
-                "Jamie McCrimmon" ) );
+        ExecutionResult result = engine.execute( "MATCH p=(startEp:Episode {title: 'The Ribos Operation'})" +
+                "-[:NEXT*]->(endEp:Episode {title: " +
+                "'The Armageddon Factor'})\n" +
+                " WITH relationships(p) AS rels \n" +
+                "RETURN length(extract(x IN rels | x.story_arc)) as count" );
+
+        assertEquals( 5, result.javaColumnAs( "count" ).next() );
+
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOrderedList( final String... companions )
+    private TypeSafeMatcher<ExecutionResult> containsOnly( final String... episodes )
     {
         return new TypeSafeMatcher<ExecutionResult>()
         {
             @Override
             protected boolean matchesSafely( ExecutionResult result )
             {
-                Wrappers.SeqWrapper characters = (Wrappers.SeqWrapper) result.javaColumnAs( "characters" ).next();
 
-                for ( int i = 0; i < companions.length; i++ )
+                Wrappers.SeqWrapper eps = (Wrappers.SeqWrapper) result.javaColumnAs( "episodes" ).next();
+
+                if ( eps.size() != episodes.length )
                 {
-                    if ( !companions[i].equals( characters.get( i ) ) )
+                    return false;
+                }
+
+                for ( String episode : episodes )
+                {
+                    if ( !eps.contains( episode ) )
                     {
                         return false;
                     }
                 }
 
                 return true;
-            }
-
-            @Override
-            public void describeTo( Description description )
-            {
-                description.appendText( "" );
-            }
-        };
-    }
-
-    private TypeSafeMatcher<ExecutionResult> containsOnlyCompanions( final String... companions )
-    {
-        return new TypeSafeMatcher<ExecutionResult>()
-        {
-            private final Set<String> theCompanions = asSet( companions );
-
-            @Override
-            protected boolean matchesSafely( ExecutionResult result )
-            {
-
-                for ( Object o : asIterable( result.javaColumnAs( "companions" ) ) )
-                {
-                    if ( !theCompanions.remove( o ) )
-                    {
-                        return false;
-                    }
-                }
-
-                return theCompanions.size() == 0;
             }
 
             @Override
