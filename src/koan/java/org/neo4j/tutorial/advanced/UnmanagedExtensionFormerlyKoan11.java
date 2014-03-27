@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import javax.ws.rs.core.MediaType;
 
@@ -12,6 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.neo4j.server.CommunityNeoServer;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.ServerDoctorWhoUniverse;
 import org.neo4j.tutorial.server.ServerBuilder;
 
 import static junit.framework.Assert.assertEquals;

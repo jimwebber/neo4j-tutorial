@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +22,9 @@ import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
+import org.neo4j.tutorial.DoctorWhoLabels;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.ServerDoctorWhoUniverse;
 import org.neo4j.tutorial.server.ServerBuilder;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
 import org.neo4j.tutorial.server.rest.RelationshipDescription;

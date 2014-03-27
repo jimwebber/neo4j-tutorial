@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +18,10 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.TraversalPosition;
 import org.neo4j.graphdb.Traverser;
 import org.neo4j.graphdb.Traverser.Order;
+import org.neo4j.tutorial.DoctorWhoLabels;
+import org.neo4j.tutorial.DoctorWhoRelationships;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,6 +16,10 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.Traversal;
+import org.neo4j.tutorial.DoctorWhoLabels;
+import org.neo4j.tutorial.DoctorWhoRelationships;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,6 +13,9 @@ import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.kernel.Uniqueness;
+import org.neo4j.tutorial.DoctorWhoRelationships;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertThat;
 

@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,6 +12,8 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

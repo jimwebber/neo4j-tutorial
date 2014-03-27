@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +14,8 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertThat;
 

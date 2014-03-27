@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.neo4j.server.CommunityNeoServer;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.ServerDoctorWhoUniverse;
 import org.neo4j.tutorial.security_rule.UserNameAndPasswordForSalariesSecurityRule;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;

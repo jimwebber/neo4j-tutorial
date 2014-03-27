@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import java.net.URI;
 import java.util.List;
@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
+import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.ServerDoctorWhoUniverse;
 import org.neo4j.tutorial.server.ServerBuilder;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;

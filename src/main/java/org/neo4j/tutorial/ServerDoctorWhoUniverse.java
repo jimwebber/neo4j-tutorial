@@ -62,7 +62,7 @@ public class ServerDoctorWhoUniverse
         }
     }
 
-    void stop()
+    public void stop()
     {
         server.stop();
     }

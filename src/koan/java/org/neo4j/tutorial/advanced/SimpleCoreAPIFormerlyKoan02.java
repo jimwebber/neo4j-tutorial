@@ -1,4 +1,4 @@
-package org.neo4j.tutorial;
+package org.neo4j.tutorial.advanced;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -9,6 +9,8 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.tutorial.DatabaseHelper;
+import org.neo4j.tutorial.DoctorWhoRelationships;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
