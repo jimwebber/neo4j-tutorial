@@ -8,10 +8,6 @@ quitWithMessage () {
 }
 
 [ "$#" -eq 2 ] || quitWithMessage "This script requires an argument for the root of the koans exercises, and an argument for the output directory. $# argument(s) provided"
-            
-echo "Downloading all neoclipse versions, this could take a while"
-                                                                 
-# ant download.all.neoclipse.versions
 
 KOANS_ROOT_DIR=$1
 
@@ -25,7 +21,8 @@ cp -r lib $OUTPUT_DIR
 cp -r build.xml	$OUTPUT_DIR	
 cp -r settings $OUTPUT_DIR
 cp -r src $OUTPUT_DIR
-cp -r tools $OUTPUT_DIR
+cp -r .doctorwhouniverse $OUTPUT_DIR
+cp -r downloads $OUTPUT_DIR
 
 popd
 
