@@ -13,12 +13,12 @@ import org.junit.Test;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.kernel.impl.util.StringLogger;
 
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.helpers.collection.IteratorUtil.asSet;
+import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this Koan we learn how to merge new nodes and relationships into an existing graph using
@@ -44,7 +44,7 @@ public class Koan5
     @Test
     public void shouldBringActorsKarenGillanCaitlinBlackwoodIntoTheAmyPondSubgraph()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // Hint: Amy Pond is definitely in the graph, and the actors may be too. How can MERGE help?
@@ -53,7 +53,7 @@ public class Koan5
         // SNIPPET_START
 
         cql = "MERGE (amy:Character {character: 'Amy Pond'})<-[:PLAYED]-(:Actor {actor: 'Karen Gillan'})\n" +
-                "MERGE (amy)<-[:PLAYED]-(:Actor {actor: 'Caitlin Blackwood', age: 6})";
+                "MERGE (amy)<-[:PLAYED]-(:Actor {actor: 'Caitlin Blackwood'})";
 
         // SNIPPET_END
 
@@ -68,7 +68,7 @@ public class Koan5
     @Test
     public void shouldEnsureAmyAndRoryAreInLove()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -90,7 +90,7 @@ public class Koan5
     @Test
     public void shouldDemarcateYearsWhenAmyPondWasACompanionOfTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), StringLogger.DEV_NULL );
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
         // YOUR CODE GOES HERE
