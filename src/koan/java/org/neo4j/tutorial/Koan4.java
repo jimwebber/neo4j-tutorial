@@ -114,7 +114,7 @@ public class Koan4
 
         engine.execute( "CREATE ({actor: 'David Tennant'})" );
 
-        String cql = "MATCH (a {actor: 'David Tennant'})\n";
+        String cql = "MATCH (a:Actor {actor: 'David Tennant'})\n";
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
