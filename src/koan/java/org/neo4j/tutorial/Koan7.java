@@ -93,9 +93,8 @@ public class Koan7
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (freema:Actor)-[:PLAYED]->()-[:APPEARED_IN]->(episode:Episode)<-[:APPEARED_IN]-(david:Actor) " +
-                "WHERE freema.actor = 'Freema Agyeman' " +
-                "AND david.actor = 'David Tennant' " +
+        cql = "MATCH (freema:Actor {actor: 'Freema Agyeman'})-[:PLAYED]->()-[:APPEARED_IN]->(episode:Episode)" +
+                "<-[:APPEARED_IN]-(david:Actor {actor: 'David Tennant'}) " +
                 "RETURN min(episode.episode) as earliest";
 
         // SNIPPET_END
