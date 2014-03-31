@@ -74,9 +74,8 @@ public class Koan5
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MERGE (amy:Character {character: 'Amy Pond'})-[:LOVES]->(rory:Character {character: 'Rory Williams'})" +
-                "\n" +
-                "MERGE (amy)<-[:LOVES]-(rory)\n";
+        cql = "MERGE (amy:Character {character: 'Amy Pond'})-[:LOVES]->(rory:Character {character: 'Rory Williams'}) " +
+                "MERGE (amy)<-[:LOVES]-(rory)";
 
         // SNIPPET_END
 
