@@ -102,7 +102,7 @@ public class Koan4
 
         engine.execute( cql );
 
-        final ExecutionResult executionResult = engine.execute( "MATCH (a {actor: 'David Tennant'}) RETURN a.actor" );
+        final ExecutionResult executionResult = engine.execute( "MATCH (a:Actor {actor: 'David Tennant'}) RETURN a.actor" );
 
         assertEquals( "David Tennant", executionResult.javaColumnAs( "a.actor" ).next() );
     }
