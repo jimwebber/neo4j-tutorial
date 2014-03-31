@@ -60,7 +60,7 @@ public class Koan7
 
         Long actorsCount = (Long) result.javaColumnAs( "numberOfActorsWhoPlayedTheDoctor" ).next();
 
-        assertEquals( 13l, actorsCount.longValue() );
+        assertEquals( (long) 13, actorsCount.longValue() );
     }
 
     @Test

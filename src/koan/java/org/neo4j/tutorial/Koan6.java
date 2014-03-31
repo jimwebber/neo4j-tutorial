@@ -69,7 +69,8 @@ public class Koan6
                 pair( "Doctor", "Sonic Screwdriver" ),
                 pair( "Master", "Tardis" ),
                 pair( "Rani", "Tardis" ),
-                pair( "Meddling Monk", "Tardis" ) ) ) );
+                pair( "Meddling Monk", "Tardis" ),
+                pair( "Ace", null ) ) ) );
     }
 
     @Test
@@ -152,7 +153,7 @@ public class Koan6
                     for ( Pair pair : pairs )
                     {
                         if ( pair.getKey().equals( stringObjectMap.get( "c.character" ) ) &&
-                                pair.getValue().equals( stringObjectMap.get( "t.thing" ) ) )
+                                stringObjectMap.get( "t.thing" ).equals( pair.getValue() ) )
                         {
                             numberOfPairs--;
                             break;
