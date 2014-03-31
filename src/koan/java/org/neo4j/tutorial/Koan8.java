@@ -59,7 +59,7 @@ public class Koan8
 
         // SNIPPET_END
 
-        engine.execute( cql );
+//        engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute( deletedKirkQuery );
 
