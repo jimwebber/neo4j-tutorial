@@ -3,7 +3,7 @@
 <project name="path" default="donothingToMakeAValidAntFile"
          basedir=".">
 
-  <property name="neo4j.version" value="2.0.1"/>
+  <property name="neo4j.version" value="2.0.2"/>
   <property name="download.dir" location="downloads"/>
   <property name="neo4j.download.dir" location="${download.dir}/neo4j"/>
   <property name="neo4j.install.dir" location="${neo4j.download.dir}/neo4j-community-${neo4j.version}"/>
