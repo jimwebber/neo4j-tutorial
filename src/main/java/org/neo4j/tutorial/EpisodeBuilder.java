@@ -1,18 +1,17 @@
 package org.neo4j.tutorial;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.neo4j.cypher.ExecutionEngine;
 
 import static java.lang.String.format;
+import static java.util.Collections.addAll;
 
 import static org.neo4j.tutorial.ShortIdGenerator.shortId;
 
 public class EpisodeBuilder
 {
-
     private String title;
     private List<String> companionNames = new ArrayList<>();
     private String episodeNumber = null;
@@ -53,25 +52,25 @@ public class EpisodeBuilder
 
     public EpisodeBuilder doctor( String... actorNames )
     {
-        Collections.addAll( doctorActors, actorNames );
+        addAll( doctorActors, actorNames );
         return this;
     }
 
     public EpisodeBuilder companion( String... namesOfCompanions )
     {
-        Collections.addAll( companionNames, namesOfCompanions );
+        addAll( companionNames, namesOfCompanions );
         return this;
     }
 
     public EpisodeBuilder enemySpecies( String... enemySpecies )
     {
-        Collections.addAll( this.enemySpecies, enemySpecies );
+        addAll( this.enemySpecies, enemySpecies );
         return this;
     }
 
     public EpisodeBuilder enemy( String... enemies )
     {
-        Collections.addAll( this.enemies, enemies );
+        addAll( this.enemies, enemies );
         return this;
     }
 
@@ -229,13 +228,13 @@ public class EpisodeBuilder
 
     public EpisodeBuilder alliedSpecies( String... alliedSpecies )
     {
-        Collections.addAll( this.alliedSpecies, alliedSpecies );
+        addAll( this.alliedSpecies, alliedSpecies );
         return this;
     }
 
     public EpisodeBuilder others( String... others )
     {
-        Collections.addAll( this.others, others );
+        addAll( this.others, others );
         return this;
     }
 

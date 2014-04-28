@@ -60,7 +60,8 @@ public class DoctorWhoUniverseGenerator
 
     private boolean cachedDatabaseExists()
     {
-        return cachedCleanDatabaseDirectory.exists() && cachedCleanDatabaseDirectory.isDirectory();
+        return false; // for debugging
+//        return cachedCleanDatabaseDirectory.exists() && cachedCleanDatabaseDirectory.isDirectory();
     }
 
     private String copyDatabaseFromCachedDirectoryToTempDirectory() throws IOException

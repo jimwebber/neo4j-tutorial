@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.neo4j.helpers.collection.MapUtil;
+import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.logging.ClassicLoggingService;
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.configuration.Configurator;
 import org.neo4j.server.configuration.PropertyFileConfigurator;
@@ -15,6 +17,8 @@ import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecified
 import org.neo4j.server.configuration.validation.Validator;
 import org.neo4j.server.database.CommunityDatabase;
 import org.neo4j.server.database.Database;
+
+import static org.neo4j.kernel.logging.ConsoleLogger.DEV_NULL;
 
 public class ServerBuilder
 {
@@ -45,13 +49,12 @@ public class ServerBuilder
         }
         File configFile = createPropertiesFiles();
 
-        return new CommunityNeoServer(
-                new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), configFile ) )
+        return new CommunityNeoServer( new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), configFile, DEV_NULL), new ClassicLoggingService( new Config(  ) ) )
         {
             @Override
             protected Database createDatabase()
             {
-                return new CommunityDatabase( configurator );
+                return new CommunityDatabase( configurator, logging );
             }
         };
     }

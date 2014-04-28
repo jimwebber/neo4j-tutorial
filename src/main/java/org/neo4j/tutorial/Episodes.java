@@ -144,18 +144,18 @@ public class Episodes
                 .others( "War Doctor" )
                 .fact( engine );
         episode( "Special" ).title( "The Night of the Doctor" )
-                .doctor( "Paul McGann, John Hurt" )
+                .doctor( "Paul McGann", "John Hurt" )
                 .allies( "Sisterhood of Karn" )
                 .others( "War Doctor" )
                 .fact( engine );
         episode( 240 ).title( "The Day of the Doctor" )
-                .doctor( "David Tennant, Matt Smith, John Hurt" )
+                .doctor( "David Tennant", "Matt Smith", "John Hurt" )
                 .companion( "Clara Oswald" )
                 .enemySpecies( "Zygon" )
                 .others( "War Doctor" )
                 .fact( engine );
         episode( 241 ).title( "The Time of the Doctor" )
-                .doctor( "Matt Smith, Peter Capaldi" )
+                .doctor( "Matt Smith", "Peter Capaldi" )
                 .companion( "Clara Oswald" )
                 .allies( "Tasha Lem" )
                 .enemySpecies( "Cyberman", "Dalek" )
