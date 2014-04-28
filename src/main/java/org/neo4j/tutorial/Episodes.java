@@ -1420,6 +1420,7 @@ public class Episodes
                 .doctor( "William Hartnell" )
                 .doctor( "Patrick Troughton" )
                 .companion( "Polly", "Ben Jackson" )
+                .enemySpecies( "Cyberman" )
                 .fact( engine );
     }
 
