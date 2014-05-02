@@ -33,7 +33,6 @@
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interactivity-api/1.0-alpha-4/plexus-interactivity-api-1.0-alpha-4.jar"    dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/commons-cli/commons-cli/1.0/commons-cli-1.0.jar"                                                      dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/sonatype/plexus/plexus-build-api/0.0.4/plexus-build-api-0.0.4.jar"                                dest="${additional.jars.dir}/"/>
-    <get src="http://repo.maven.apache.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar"                                                                    dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-filtering/1.1/maven-filtering-1.1.jar"                                  dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.13/plexus-interpolation-1.13.jar"                          dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/2.0.5/plexus-utils-2.0.5.jar"                                        dest="${additional.jars.dir}/"/>
@@ -41,7 +40,7 @@
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-compiler-javac/1.9.1/plexus-compiler-javac-1.9.1.jar"                      dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-compiler-api/1.9.1/plexus-compiler-api-1.9.1.jar"                          dest="${additional.jars.dir}/"/>
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar"                                            dest="${additional.jars.dir}/"/>
-    <get src="http://repo1.maven.org/maven2/junit/junit/4.4/junit-4.4.jar" dest="${additional.jars.dir}/"/>
+    <get src="http://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.jar" dest="${additional.jars.dir}/"/>
     <get src="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar" dest="${additional.jars.dir}/"/>
   </target>
 

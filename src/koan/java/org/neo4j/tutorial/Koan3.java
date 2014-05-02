@@ -130,7 +130,8 @@ public class Koan3
                 "The Tomb of the Cybermen",
                 "The Moonbase",
                 "The Time of the Doctor",
-                "Nightmare in Silver" ) );
+                "Nightmare in Silver",
+                "The Tenth Planet") );
     }
 
     @Test

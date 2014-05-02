@@ -50,16 +50,14 @@ public class Koan8
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (doctor:Character {character: 'Doctor'})<-[r:COMPANION_OF]-(companion:Character) " +
-                "WHERE has(companion.firstname) AND companion.firstname='James' " +
-                "AND has(companion.initial) AND companion.initial='T' " +
-                "AND has(companion.lastname) AND companion.lastname='Kirk' " +
-                "DELETE r, companion";
+        cql = "MATCH (:Character {character: 'Doctor'})<-[r:COMPANION_OF]-" +
+                "(c:Character {firstname: 'James', initial: 'T', lastname: 'Kirk'}) " +
+                "DELETE r, c";
 
 
         // SNIPPET_END
 
-//        engine.execute( cql );
+        engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute( deletedKirkQuery );
 
@@ -88,7 +86,8 @@ public class Koan8
         final ExecutionResult executionResult = engine.execute(
                 "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Character) " +
                         "WHERE HAS (actor.salary) " +
-                        "RETURN actor" );
+                        "RETURN actor"
+        );
 
         assertEquals( 0, executionResult.size() );
     }
