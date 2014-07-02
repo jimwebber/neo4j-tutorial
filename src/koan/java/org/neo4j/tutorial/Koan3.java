@@ -168,7 +168,7 @@ public class Koan3
     }
 
     @Test
-    public void shouldReturnAnyWikpediaEntriesForCompanions()
+    public void shouldReturnAnyWikipediaEntriesForCompanions()
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
