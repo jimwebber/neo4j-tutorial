@@ -188,7 +188,8 @@ public class Koan3
 
         assertThat( iterator, containsOnlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
                 "http://en.wikipedia.org/wiki/Amy_Pond",
-                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
+                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)",
+                "http://en.wikipedia.org/wiki/Clara_Oswald") );
 
     }
 
