@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
-import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsOnlyWikipediaEntries;
+import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsExactlyWikipediaEntries;
 
 /**
  * In this Koan we learn the basics of the Cypher query language, focusing on the
@@ -180,16 +180,15 @@ public class Koan3
                 "WHERE has(companion.wikipedia) " +
                 "RETURN companion.wikipedia";
 
-
         // SNIPPET_END
 
         ExecutionResult result = engine.execute( cql );
         Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia" );
 
-        assertThat( iterator, containsOnlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
+        assertThat( iterator, containsExactlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
                 "http://en.wikipedia.org/wiki/Amy_Pond",
-                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)" ) );
-
+                "http://en.wikipedia.org/wiki/River_Song_(Doctor_Who)",
+                "http://en.wikipedia.org/wiki/Clara_Oswald" ) );
     }
 
     @Test

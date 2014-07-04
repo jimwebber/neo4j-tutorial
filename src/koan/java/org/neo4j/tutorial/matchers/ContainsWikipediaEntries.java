@@ -42,7 +42,12 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
             String s = candidateStrings.next();
             if ( s != null )
             {
-                entries.remove( s );
+                boolean removed = entries.remove( s );
+
+                if ( !removed )
+                {
+                    return false;
+                }
             }
             else
             {
@@ -55,7 +60,7 @@ public class ContainsWikipediaEntries extends TypeSafeMatcher<Iterator<String>>
     }
 
     @Factory
-    public static Matcher<Iterator<String>> containsOnlyWikipediaEntries( String... wikepediaEntries )
+    public static Matcher<Iterator<String>> containsExactlyWikipediaEntries( String... wikepediaEntries )
     {
         return new ContainsWikipediaEntries( wikepediaEntries );
     }
