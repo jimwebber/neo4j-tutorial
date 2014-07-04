@@ -43,7 +43,7 @@ public class Koan9
         String cql = null;
 
         // YOUR CODE GOES HERE
-		// Should find the prop part that is used in the most episodes
+        // Should find the prop part that is used in the most episodes
         // SNIPPET_START
 
         cql = "(episode:Episode)<-[:USED_IN]-(:Props)" +
