@@ -122,7 +122,7 @@ public class Koan6
             {
                 for ( PropertyContainer container : propertyContainers )
                 {
-                    if ( !(container.hasProperty( "visited" ) && container.getProperty( "visited" ).equals( "true" )) )
+                    if ( container.hasProperty( "visited" ) && container.getProperty( "visited" ).equals( true ) )
                     {
                         return true;
                     }
