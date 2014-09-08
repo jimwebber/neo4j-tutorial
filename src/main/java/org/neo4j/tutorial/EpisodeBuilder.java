@@ -52,6 +52,14 @@ public class EpisodeBuilder
 
     public EpisodeBuilder doctor( String... actorNames )
     {
+        for ( String actor : actorNames )
+        {
+            if ( actor.contains( "," ) )
+            {
+                throw new RuntimeException( "Doctor actor appears to have inappropriate punctuation in name. Perhaps " +
+                        "you've written the builder call incorrectly." );
+            }
+        }
         addAll( doctorActors, actorNames );
         return this;
     }

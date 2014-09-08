@@ -81,7 +81,7 @@ public class Koan3
 
         Iterator<String> iterator = result.javaColumnAs( "episode" );
 
-        assertEquals( 263l, count( iterator ) );
+        assertEquals( 266l, count( iterator ) );
     }
 
     private long count( Iterator<String> result )
@@ -211,7 +211,7 @@ public class Koan3
 
             ExecutionResult result = engine.execute( cql );
 
-            assertEquals( 159, result.size() );
+            assertEquals( 162, result.size() );
             transaction.success();
         }
     }

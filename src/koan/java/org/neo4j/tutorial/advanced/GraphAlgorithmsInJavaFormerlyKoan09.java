@@ -25,6 +25,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import static org.neo4j.graphdb.Direction.BOTH;
+import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
+import static org.neo4j.tutorial.DoctorWhoLabels.EPISODE;
+import static org.neo4j.tutorial.DoctorWhoRelationships.APPEARED_IN;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnlySpecificNodes;
 import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
@@ -65,7 +69,7 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
             // SNIPPET_START
 
             PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                    Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
+                    Traversal.expanderForTypes( APPEARED_IN, BOTH ), 2 );
             paths = pathFinder.findAllPaths( rose, daleks );
 
             // SNIPPET_END
@@ -84,8 +88,8 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
         HashSet<Node> roseVersusDaleksEpisodes = new HashSet<>();
         for ( String title : roseVersusDaleksEpisodeTitles )
         {
-            roseVersusDaleksEpisodes.add( universe.getDatabase().findNodesByLabelAndProperty( DoctorWhoLabels
-                    .EPISODE, "title", title ).iterator().next() );
+            roseVersusDaleksEpisodes.add( universe.getDatabase().findNodesByLabelAndProperty(
+                    EPISODE, "title", title ).iterator().next() );
         }
         return roseVersusDaleksEpisodes;
     }
@@ -97,9 +101,9 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node delgado = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+            Node delgado = database.findNodesByLabelAndProperty( ACTOR, "actor",
                     "Roger Delgado" ).iterator().next();
-            Node simm = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
+            Node simm = database.findNodesByLabelAndProperty( ACTOR, "actor",
                     "John Simm" ).iterator().next();
             Path path = null;
 
@@ -122,32 +126,37 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
     }
 
     @Test
-    public void shouldRevealEpisodeWhenTennantRegeneratedToSmith()
+    public void shouldFindEpisodesWhereMattSmithAndDavidTennantAppeared()
     {
         GraphDatabaseService database = universe.getDatabase();
         try ( Transaction tx = database.beginTx() )
         {
-            Node tennant = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
-                    "David Tennant" ).iterator().next();
-            Node smith = database.findNodesByLabelAndProperty( DoctorWhoLabels.ACTOR, "actor",
-                    "Matt Smith" ).iterator().next();
-            Path path = null;
+            Node tennant = database.findNodesByLabelAndProperty( ACTOR, "actor", "David Tennant" ).iterator().next();
+            Node smith = database.findNodesByLabelAndProperty( ACTOR, "actor", "Matt Smith" ).iterator().next();
+            Iterable<Path> path = null;
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
             PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                    Traversal.expanderForTypes( DoctorWhoRelationships.APPEARED_IN, Direction.BOTH ), 2 );
-            path = pathFinder.findSinglePath( tennant, smith );
+                    Traversal.expanderForTypes( APPEARED_IN, BOTH ), 2 );
+
+            path = pathFinder.findAllPaths( tennant, smith );
+
+            System.out.println( path );
 
             // SNIPPET_END
 
             tx.success();
 
             assertNotNull( path );
-            Node endOfTimeEpisode = database.findNodesByLabelAndProperty( DoctorWhoLabels.EPISODE, "title",
+            Node endOfTime = database.findNodesByLabelAndProperty( EPISODE, "title",
                     "The End of Time" ).iterator().next();
-            assertThat( path, containsOnlySpecificNodes( tennant, smith, endOfTimeEpisode ) );
+
+            Node dayOfTheDoctor = database.findNodesByLabelAndProperty( EPISODE, "title",
+                    "The Day of the Doctor" ).iterator().next();
+
+            assertThat( path, containsOnlySpecificNodes( tennant, smith, dayOfTheDoctor, endOfTime ) );
         }
     }
 }

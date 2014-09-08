@@ -10,7 +10,7 @@ import org.hamcrest.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 
-public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
+public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Iterable<Path>>
 {
 
     private final HashSet<Node> nodes = new HashSet<>();
@@ -30,25 +30,23 @@ public class ContainsOnlySpecificNodes extends TypeSafeMatcher<Path>
     }
 
     @Override
-    public boolean matchesSafely( Path path )
+    public boolean matchesSafely( Iterable<Path> paths )
     {
-        for ( Node n : path.nodes() )
+        for ( Path path : paths )
         {
-            if ( nodes.contains( n ) )
+            for ( Node n : path.nodes() )
             {
-                nodes.remove( n );
-            }
-            else
-            {
-                return false;
+                if ( nodes.contains( n ) )
+                {
+                    nodes.remove( n );
+                }
             }
         }
-
         return nodes.size() == 0;
     }
 
     @Factory
-    public static <T> Matcher<Path> containsOnlySpecificNodes( Node... nodes )
+    public static <T> Matcher<Iterable<Path>> containsOnlySpecificNodes( Node... nodes )
     {
         return new ContainsOnlySpecificNodes( nodes );
     }

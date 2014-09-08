@@ -67,8 +67,7 @@ public class ManagedExtensionsFormerlyKoan12
         // Remember to configure src/koan/resources as test source in your IDE or the org.neo4j.server.plugins
         // .ServerPlugin
         // file will not be found and this unit test will fail (the Ant build will still be ok)
-        // See: http://www.markhneedham.com/blog/2011/06/09/intellij-adding-resources-with-unusual-extensions-onto
-        // -the-classpath/
+        // See: http://www.markhneedham.com/blog/2011/06/09/intellij-adding-resources-with-unusual-extensions-onto-the-classpath/
         // You'll need to add *ServerPlugin* onto your classpath accordingly.
 
         ClientConfig config = new DefaultClientConfig();

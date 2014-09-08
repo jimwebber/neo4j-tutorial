@@ -422,7 +422,7 @@ public class DoctorWhoUniverseGeneratorTest
 
             List<Node> enemiesOfEnemies = asList( nodes );
 
-            int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 148;
+            int numberOfIndividualAndSpeciesEnemiesInTheDatabase = 151;
             assertEquals( numberOfIndividualAndSpeciesEnemiesInTheDatabase, enemiesOfEnemies.size() );
 
             assertTrue( isInList( getNodeFromDatabase( SPECIES, "Dalek" ), enemiesOfEnemies ) );
@@ -492,7 +492,7 @@ public class DoctorWhoUniverseGeneratorTest
     {
         try ( Transaction tx = database.beginTx() )
         {
-            int numberOfEnemies = 113;
+            int numberOfEnemies = 116;
 
             Node theDoctor = universe.theDoctor();
 

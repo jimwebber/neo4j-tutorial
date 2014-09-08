@@ -92,12 +92,33 @@ public class Episodes
             season32();
             season33();
             season34();
+            season35();
 
 
             EpisodeBuilder.reset();
 
             tx.success();
         }
+    }
+
+    private void season35()
+    {
+        episode( 242 ).title( "Deep Breath" )
+                .doctor( "Peter Capaldi", "Matt Smith" )
+                .companion( "Clara Oswald" )
+                .enemy( "Half-Face Man" )
+                .fact( engine );
+        episode( 243 ).title( "Into the Dalek" )
+                .doctor( "Peter Capaldi" )
+                .companion( "Clara Oswald" )
+                .enemy( "Dalek" )
+                .fact( engine );
+        episode( 244 ).title( "Robot of Sherwood" )
+                .doctor( "Peter Capaldi" )
+                .companion( "Clara Oswald" )
+                .enemy( "Sheriff of Nottingham" )
+                .allies( "Robin Hood" )
+                .fact( engine );
     }
 
     private void season34()
