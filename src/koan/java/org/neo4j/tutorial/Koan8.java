@@ -84,7 +84,7 @@ public class Koan8
         engine.execute( cql );
 
         final ExecutionResult executionResult = engine.execute(
-                "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Character) " +
+                "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Actor) " +
                         "WHERE HAS (actor.salary) " +
                         "RETURN actor"
         );
