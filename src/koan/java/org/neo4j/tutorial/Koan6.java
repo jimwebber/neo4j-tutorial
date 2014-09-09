@@ -84,7 +84,7 @@ public class Koan6
         // SNIPPET_START
 
         cql = "MATCH (a)\n" +
-                "OPTIONAL MATCH (a)-[r]-()\n" +
+                "OPTIONAL MATCH (a)-[r]->()\n" +
                 "SET a.visited = true \n" +
                 "SET r.visited = true \n";
 
@@ -122,12 +122,12 @@ public class Koan6
             {
                 for ( PropertyContainer container : propertyContainers )
                 {
-                    if ( !(container.hasProperty( "visited" ) && container.getProperty( "visited" ).equals( "true" )) )
+                    if ( !(container.hasProperty( "visited" ) || !container.getProperty( "visited" ).equals( "true" )) )
                     {
-                        return true;
+                        return false;
                     }
                 }
-                return false;
+                return true;
             }
 
             @Override
