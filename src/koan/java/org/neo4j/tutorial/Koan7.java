@@ -161,10 +161,8 @@ public class Koan7
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (rose:Character)-[:APPEARED_IN]->(episode:Episode), " +
-                "(doctor:Character)-[:ENEMY_OF]->(enemy:Species)-[:APPEARED_IN]->(episode:Episode) " +
-                "WHERE rose.character = 'Rose Tyler'" +
-                "AND doctor.character = 'Doctor' " +
+        cql = "MATCH (rose:Character {character: 'Rose Tyler'})-[:APPEARED_IN]->(episode:Episode), " +
+                "(doctor:Character {character:'Doctor'})-[:ENEMY_OF]->(enemy:Species)-[:APPEARED_IN]->(episode:Episode) " +
                 "AND has(enemy.species)  " +
                 "RETURN DISTINCT enemy.species AS enemySpecies";
 
