@@ -77,6 +77,7 @@ public class Koan6
     @Test
     public void shouldVisitAllNodesAndRelationships() throws Exception
     {
+        // add a visited=true property to every node and relationship
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
 
@@ -93,11 +94,11 @@ public class Koan6
 
         ExecutionResult result = engine.execute( cql );
 
-        assertThat( universe.getDatabase(), allNodesAndRelsVisited() );
+        assertThat( universe.getDatabase(), allNodesAndRelationshipsNowHaveAVisitedPropertySetToTrue() );
 
     }
 
-    private TypeSafeMatcher<GraphDatabaseService> allNodesAndRelsVisited()
+    private TypeSafeMatcher<GraphDatabaseService> allNodesAndRelationshipsNowHaveAVisitedPropertySetToTrue()
     {
         return new TypeSafeMatcher<GraphDatabaseService>()
         {
