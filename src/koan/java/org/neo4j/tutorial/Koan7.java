@@ -163,7 +163,6 @@ public class Koan7
 
         cql = "MATCH (rose:Character {character: 'Rose Tyler'})-[:APPEARED_IN]->(episode:Episode), " +
                 "(doctor:Character {character:'Doctor'})-[:ENEMY_OF]->(enemy:Species)-[:APPEARED_IN]->(episode:Episode) " +
-                "AND has(enemy.species)  " +
                 "RETURN DISTINCT enemy.species AS enemySpecies";
 
 

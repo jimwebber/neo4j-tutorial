@@ -41,7 +41,7 @@ public class Species
                     .isEnemyOfSpecies( "Human" )
                     .fact( engine );
             species( "Devil" )
-                    .isEnemyOf( "Doctor", "Rose Tyler" )
+                    .isEnemyOf( "Doctor" )
                     .isFrom( "Impossible Planet" )
                     .fact( engine );
             species( "Cyberman" )
