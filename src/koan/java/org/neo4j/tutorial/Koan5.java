@@ -88,7 +88,7 @@ public class Koan5
     }
 
     @Test
-    public void shouldDemarcateYearsWhenAmyPondWasACompanionOfTheDoctor()
+    public void shouldDemarcateYearsWhenAmyPondWasACompanionOfTheDoctorUsingOnMatchClauseOfMerge()
     {
         ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
         String cql = null;
