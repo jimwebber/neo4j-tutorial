@@ -12,6 +12,7 @@ import scala.collection.convert.Wrappers;
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
@@ -84,6 +85,33 @@ public class Koan15
 
         assertThat( result, containsOnlyCompanions( "Rory Williams", "Amy Pond", "Sarah Jane Smith", "Rose Tyler",
                 "Jamie McCrimmon" ) );
+    }
+
+    @Test
+    public void shouldFindTheNumberOfRegenerationsInTotalForTheDoctor() throws Exception
+    {
+        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        String cql = null;
+
+        /* Can't just count (actor)-[:PLAYED]->(doctor) relationships because of Richard Hurndall */
+
+        // Hint: think about the structure of the first and last doctors
+
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
+
+        cql = "MATCH (doc:Character {character:'Doctor'})<-[:PLAYED]-(first:Actor)-[:REGENERATED_TO]->(),\n" +
+                "(doc)<-[:PLAYED]-(last:Actor)<-[:REGENERATED_TO]-() \n" +
+                "WHERE not((first)<-[:REGENERATED_TO]-()) AND not(last-[:REGENERATED_TO]->())\n" +
+                "WITH first,last\n" +
+                "MATCH path = (first)-[:REGENERATED_TO*]->(last)\n" +
+                "RETURN LENGTH(path) as regenerations";
+
+        // SNIPPET_END
+
+        ExecutionResult result = engine.execute( cql );
+
+        assertEquals( 12, result.javaColumnAs( "regenerations" ).next() );
     }
 
     private TypeSafeMatcher<ExecutionResult> containsOrderedList( final String... companions )
