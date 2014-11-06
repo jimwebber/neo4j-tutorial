@@ -52,7 +52,8 @@ public class Koan5
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MERGE (amy:Character {character: 'Amy Pond'})<-[:PLAYED]-(:Actor {actor: 'Karen Gillan'})\n" +
+        cql = "MERGE (amy:Character {character: 'Amy Pond'})\n" +
+                "MERGE (amy)<-[:PLAYED]-(:Actor {actor: 'Karen Gillan'})\n" +
                 "MERGE (amy)<-[:PLAYED]-(:Actor {actor: 'Caitlin Blackwood'})";
 
         // SNIPPET_END
@@ -74,8 +75,10 @@ public class Koan5
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MERGE (amy:Character {character: 'Amy Pond'})-[:LOVES]->(rory:Character {character: 'Rory Williams'}) " +
-                "MERGE (amy)<-[:LOVES]-(rory)";
+        cql = "MERGE (amy:Character {character: 'Amy Pond'})\n" +
+                "MERGE (rory:Character {character: 'Rory Williams'})\n" +
+                "MERGE (amy)<-[:LOVES]-(rory)\n" +
+                "MERGE (amy)-[:LOVES]->(rory)";
 
         // SNIPPET_END
 
