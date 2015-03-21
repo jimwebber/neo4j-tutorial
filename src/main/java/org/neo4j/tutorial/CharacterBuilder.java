@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
@@ -52,7 +52,7 @@ public class CharacterBuilder
         return this;
     }
 
-    public void fact( ExecutionEngine engine )
+    public void fact( GraphDatabaseService db)
     {
         if ( regenerations.size() > 0 && singleActorName != null )
         {
@@ -221,7 +221,7 @@ public class CharacterBuilder
         sb.append( System.lineSeparator() );
         sb.append( System.lineSeparator() );
 
-        engine.execute( sb.toString() );
+        db.execute( sb.toString() );
     }
 
     public CharacterBuilder loves( String... loverNames )

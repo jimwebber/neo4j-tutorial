@@ -1,6 +1,6 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import static java.lang.String.format;
 
@@ -24,7 +24,7 @@ public class SpeciesBuilder
         this.speciesName = speciesName;
     }
 
-    public void fact( ExecutionEngine engine )
+    public void fact( GraphDatabaseService db)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -69,7 +69,7 @@ public class SpeciesBuilder
             }
         }
 
-        engine.execute( sb.toString() );
+        db.execute( sb.toString() );
     }
 
     public SpeciesBuilder isFrom( String planet )

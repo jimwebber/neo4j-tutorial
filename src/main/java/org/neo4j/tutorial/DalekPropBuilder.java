@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
@@ -54,9 +54,9 @@ public class DalekPropBuilder
      * In this method we quickly whizz through the database and remove those synthetic
      * uniqueness properties (transient_id)
      */
-    public static void cleanUp( ExecutionEngine engine )
+    public static void cleanUp( GraphDatabaseService db )
     {
-        engine.execute( "MATCH (part:Part), (props:Props) REMOVE part.transient_id, props.transient_id" );
+        db.execute( "MATCH (part:Part), (props:Props) REMOVE part.transient_id, props.transient_id" );
     }
 
     public DalekPropBuilder operators( String... operators )
@@ -159,7 +159,7 @@ public class DalekPropBuilder
         }
     }
 
-    public void fact( ExecutionEngine engine, Set<Part> knownParts )
+    public void fact( GraphDatabaseService db, Set<Part> knownParts )
     {
         StringBuilder sb = new StringBuilder();
 
@@ -240,6 +240,6 @@ public class DalekPropBuilder
             sb.append( format( "MERGE (%s)-[:VOICED]->(%s)", voiceId, propsId ) );
         }
 
-        engine.execute( sb.toString() );
+        db.execute( sb.toString() );
     }
 }

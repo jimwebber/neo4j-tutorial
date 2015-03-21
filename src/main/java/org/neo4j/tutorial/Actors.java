@@ -1,22 +1,18 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.ActorBuilder.actor;
 
 public class Actors
 {
 
     private final GraphDatabaseService db;
-    private final ExecutionEngine engine;
 
     public Actors( GraphDatabaseService db )
     {
         this.db = db;
-        this.engine = new ExecutionEngine( db, DEV_NULL );
     }
 
     public void insert()
@@ -24,18 +20,18 @@ public class Actors
         try ( Transaction tx = db.beginTx() )
         {
             actor( "David Tennant" ).wikipedia( "http://en.wikipedia.org/wiki/David_Tennant" ).played( "Doctor" )
-                    .salary( 1000000 ).fact( engine );
+                    .salary( 1000000 ).fact( db );
             actor( "Matt Smith" ).wikipedia( "http://en.wikipedia.org/wiki/Matt_Smith_(actor)" ).played( "Doctor" )
-                    .salary( 200000 ).fact( engine );
+                    .salary( 200000 ).fact( db );
             actor( "Alex Kingston" ).wikipedia( "http://en.wikipedia.org/wiki/Alex_Kingston" ).played( "River Song" )
-                    .fact( engine );
-            actor( "Karen Gillan" ).played( "Amy Pond" ).fact( engine );
-            actor( "Arthur Darvill" ).played( "Rory Williams" ).fact( engine );
-            actor( "Freema Agyeman" ).played( "Martha Jones", "Adeola Oshodi" ).fact( engine );
-            actor( "Jenna-Louise Coleman" ).played( "Clara Oswald" ).fact( engine );
-            actor( "Sophie Aldred" ).played( "Ace" ).fact( engine );
-            actor( "Timothy Dalton" ).played( "Rassilon" ).fact( engine );
-            actor( "Richard Mathews" ).played( "Rassilon" ).fact( engine );
+                    .fact( db );
+            actor( "Karen Gillan" ).played( "Amy Pond" ).fact( db );
+            actor( "Arthur Darvill" ).played( "Rory Williams" ).fact( db );
+            actor( "Freema Agyeman" ).played( "Martha Jones", "Adeola Oshodi" ).fact( db );
+            actor( "Jenna-Louise Coleman" ).played( "Clara Oswald" ).fact( db );
+            actor( "Sophie Aldred" ).played( "Ace" ).fact( db );
+            actor( "Timothy Dalton" ).played( "Rassilon" ).fact( db );
+            actor( "Richard Mathews" ).played( "Rassilon" ).fact( db );
 
             tx.success();
         }

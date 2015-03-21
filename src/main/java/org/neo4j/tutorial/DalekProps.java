@@ -3,11 +3,9 @@ package org.neo4j.tutorial;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DalekPropBuilder.Shoulder.shoulder;
 import static org.neo4j.tutorial.DalekPropBuilder.Skirt.skirt;
 import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
@@ -15,7 +13,6 @@ import static org.neo4j.tutorial.DalekPropBuilder.dalekProps;
 public class DalekProps
 {
     private final GraphDatabaseService db;
-    private final ExecutionEngine engine;
 
     // This is a bit of a hack, we remember parts we've seen in this set, and if we haven't seen them,
     // then we add the original prop relationship
@@ -24,7 +21,6 @@ public class DalekProps
     public DalekProps( GraphDatabaseService db )
     {
         this.db = db;
-        this.engine = new ExecutionEngine( db, DEV_NULL );
     }
 
     public void insert()
@@ -38,7 +34,7 @@ public class DalekProps
                     .addProp( shoulder( "Dalek 4" ), skirt( "Dalek 4" ), "Dalek 4" )
                     .operators( "Robert Jewell", "Kevin Manser", "Gerald Taylor", "Michael Summerton", "Peter Murphy" )
                     .voices( "Peter Hawkins", "David Graham" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Dalek Invasion of Earth" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 1" ), "Dalek 1" )
                     .addProp( shoulder( "Dalek 2" ), skirt( "Dalek 2" ), "Dalek 2" )
@@ -49,12 +45,12 @@ public class DalekProps
                     .operators( "Robert Jewell", "Kevin Manser", "Gerald Taylor", "Nick Evans", "Peter Murphy",
                             "Ken Tyllsen" )
                     .voices( "Peter Hawkins", "David Graham" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Space Museum" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 1" ), "Dalek 1" )
                     .operators( "Murphy Grumbar" )
                     .voices( "Peter Hawkins" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Chase" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 1" ), "Dalek 1" )
                     .addProp( shoulder( "Dalek 2" ), skirt( "Dalek 2" ), "Dalek 2" )
@@ -63,7 +59,7 @@ public class DalekProps
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 7" ), "Dalek 7" )
                     .operators( "John Scott Martin", "Robert Jewell", "Kevin Manser", "Gerald Taylor" )
                     .voices( "Peter Hawkins", "David Graham" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Daleks' Master Plan" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 1" ), "Dalek 1" )
                     .addProp( shoulder( "Dalek 2" ), skirt( "Dalek 2" ), "Dalek 2" )
@@ -71,7 +67,7 @@ public class DalekProps
                     .addProp( shoulder( "Dalek 6" ), skirt( "Dalek 6" ), "Dalek 6" )
                     .operators( "John Scott Martin", "Robert Jewell", "Kevin Manser", "Gerald Taylor" )
                     .voices( "Peter Hawkins", "David Graham" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Power of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 1" ), "Dalek 1" )
                     .addProp( shoulder( "Dalek 2" ), skirt( "Dalek 2" ), "Dalek 2" )
@@ -79,7 +75,7 @@ public class DalekProps
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 7" ), "Dalek 7" )
                     .operators( "John Scott Martin", "Robert Jewell", "Kevin Manser", "Gerald Taylor" )
                     .voices( "Peter Hawkins" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Evil of the Daleks" )
                     .addProp( shoulder( "Dalek 2" ), skirt( "Dalek 1" ), "Dalek Two-1" )
                     .addProp( shoulder( "Dalek 5" ), skirt( "Dalek 6" ), "Dalek Five-6" )
@@ -89,10 +85,10 @@ public class DalekProps
                     .addSkirt( skirt( "Dalek 2" ) )
                     .operators( "John Scott Martin", "Robert Jewell", "Kevin Manser", "Gerald Taylor" )
                     .voices( "Peter Hawkins" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The War Games" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 8" ), "Dalek Seven-8" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Day of the Daleks" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 2" ), "Dalek Seven-2" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 5" ), "Dalek One-5" )
@@ -100,14 +96,14 @@ public class DalekProps
                     .addSkirt( skirt( "Dalek 1" ) )
                     .operators( "John Scott Martin", "Ricky Newby", "Murphy Grumbar" )
                     .voices( "Oliver Gilbert", "Peter Messaline" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Frontier in Space" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 2" ), "Dalek Seven-2" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 5" ), "Dalek One-5" )
                     .addProp( shoulder( "Dalek 6" ), skirt( "Dalek 7" ), "Dalek Six-7" )
                     .operators( "John Scott Martin", "Cy Town", "Murphy Grumbar" )
                     .voices( "Michael Wisher" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Planet of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 5" ), "Dalek One-5" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 2" ), "Dalek Seven-2" )
@@ -122,7 +118,7 @@ public class DalekProps
                     .addProp( shoulder( "Goon VII" ), skirt( "Goon VII" ), "Goon VII" )
                     .operators( "John Scott Martin", "Cy Town", "Murphy Grumbar", "Tony Starr" )
                     .voices( "Michael Wisher", "Roy Skelton" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Death to the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 2" ), "Dalek Seven-2" )
@@ -132,7 +128,7 @@ public class DalekProps
                     .addProp( shoulder( "Goon III" ), skirt( "Goon III" ), "Goon III" )
                     .operators( "John Scott Martin", "Cy Town", "Murphy Grumbar" )
                     .voices( "Michael Wisher" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Genesis of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Dalek 2" ), "Dalek Seven-2" )
@@ -143,7 +139,7 @@ public class DalekProps
                     .addProp( shoulder( "Goon V" ), skirt( "Goon VI" ), "Dalek V-VI" )
                     .operators( "John Scott Martin", "Cy Town", "Keith Ashley" )
                     .voices( "Michael Wisher" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Destiny of the Daleks" )
                     .addProp( shoulder( "Dalek 6" ), skirt( "Dalek 5" ), "Dalek Six-5" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Goon II" ), "Dalek Seven-II" )
@@ -151,12 +147,12 @@ public class DalekProps
                     .addProp( shoulder( "Goon V" ), skirt( "Goon VI" ), "Dalek V-VI" )
                     .operators( "Mike Mungarvan", "Cy Town", "Toby Byrne", "Tony Starr" )
                     .voices( "David Gooderson", "Roy Skelton" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "The Five Doctors" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .operators( "John Scott Martin" )
                     .voices( "Roy Skelton" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Resurrection of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .addProp( shoulder( "Dalek 6" ), skirt( "Exhibition" ), "Dalek Six-Ex" )
@@ -164,7 +160,7 @@ public class DalekProps
                     .addProp( shoulder( "Goon V" ), skirt( "Dalek 5" ), "Dalek V-5" )
                     .operators( "John Scott Martin", "Cy Town", "Tony Starr", "Toby Byrne" )
                     .voices( "Royce Mills", "Brian Miller" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Revelation of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .addProp( shoulder( "Dalek 6" ), skirt( "Exhibition" ), "Dalek Six-Ex" )
@@ -175,7 +171,7 @@ public class DalekProps
                     .addProp( shoulder( "Necros 3" ), skirt( "Necros 3" ), "Necros 3" )
                     .operators( "John Scott Martin", "Cy Town", "Tony Starr", "Toby Byrne" )
                     .voices( "Royce Mills", "Roy Skelton" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
             dalekProps( "Remembrance of the Daleks" )
                     .addProp( shoulder( "Dalek 1" ), skirt( "Dalek 7" ), "Dalek One-7" )
                     .addProp( shoulder( "Dalek 7" ), skirt( "Goon V" ), "Dalek Seven-V" )
@@ -190,9 +186,9 @@ public class DalekProps
                     .operators( "John Scott Martin", "Cy Town", "Tony Starr", "Hugh Spight", "David Harrison",
                             "Norman Bacon", "Nigel Wild" )
                     .voices( "Royce Mills", "Roy Skelton", "Brian Miller" )
-                    .fact( engine, knownParts );
+                    .fact( db, knownParts );
 
-            DalekPropBuilder.cleanUp( engine );
+            DalekPropBuilder.cleanUp( db );
 
             tx.success();
         }

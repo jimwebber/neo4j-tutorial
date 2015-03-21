@@ -20,12 +20,9 @@ public class EmbeddedDoctorWhoUniverse
     {
         try ( Transaction tx = database.beginTx() )
         {
-            final ResourceIterable<Node> nodes = database.findNodesByLabelAndProperty(
-                    CHARACTER, "character", "Doctor" );
-
+            Node doctor = database.findNode(CHARACTER, "character", "Doctor");
             tx.success();
-
-            return nodes.iterator().next();
+            return doctor;
         }
     }
 

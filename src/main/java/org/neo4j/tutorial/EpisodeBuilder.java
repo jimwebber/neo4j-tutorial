@@ -3,7 +3,7 @@ package org.neo4j.tutorial;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import static java.lang.String.format;
 import static java.util.Collections.addAll;
@@ -82,7 +82,7 @@ public class EpisodeBuilder
         return this;
     }
 
-    public void fact( ExecutionEngine engine )
+    public void fact( GraphDatabaseService db )
     {
         checkEpisodeNumberAndTitle();
 
@@ -212,7 +212,7 @@ public class EpisodeBuilder
 
         previousEpisode = new Episode( episodeNumber, title );
 
-        engine.execute( sb.toString() );
+        db.execute( sb.toString() );
     }
 
     private void checkEpisodeNumberAndTitle()

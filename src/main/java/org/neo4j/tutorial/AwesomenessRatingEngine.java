@@ -1,15 +1,9 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 
 import static java.lang.System.lineSeparator;
 
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 public class AwesomenessRatingEngine
 {
@@ -24,8 +18,6 @@ public class AwesomenessRatingEngine
     {
         try ( Transaction transaction = db.beginTx() )
         {
-            ExecutionEngine engine = new ExecutionEngine( db, DEV_NULL );
-
             String cql = String.format( "MATCH(doc:Character {character: 'Doctor'}), (n:%s {%s})",
                     expandLabels( node ), expandNodeProperties( node ) ) +
                     lineSeparator() +
@@ -34,10 +26,10 @@ public class AwesomenessRatingEngine
                     "RETURN length(p) as hops";
 
 
-            ExecutionResult result = engine.execute( cql );
+            Result result = db.execute( cql );
             transaction.success();
 
-            int hops = Integer.valueOf( String.valueOf( result.javaColumnAs( "hops" ).next() ) );
+            int hops = Integer.valueOf( String.valueOf( result.columnAs( "hops" ).next() ) );
 
             return 100 / ((hops + 1) * 1.0);
         }

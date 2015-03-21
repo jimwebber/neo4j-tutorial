@@ -6,17 +6,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.ResourceIterable;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.Traverser;
@@ -33,7 +25,6 @@ import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Evaluation.INCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Uniqueness.NODE_GLOBAL;
 import static org.neo4j.helpers.collection.IteratorUtil.asList;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 import static org.neo4j.tutorial.DoctorWhoLabels.EPISODE;
@@ -59,7 +50,6 @@ public class DoctorWhoUniverseGeneratorTest
     private static EmbeddedDoctorWhoUniverse universe;
     private static GraphDatabaseService database;
     private static DatabaseHelper databaseHelper;
-    private static ExecutionEngine engine;
 
     @BeforeClass
     public static void startDatabase() throws Exception
@@ -67,7 +57,6 @@ public class DoctorWhoUniverseGeneratorTest
         universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
         database = universe.getDatabase();
         databaseHelper = new DatabaseHelper( database );
-        engine = new ExecutionEngine( database, DEV_NULL );
     }
 
     @AfterClass
@@ -91,7 +80,7 @@ public class DoctorWhoUniverseGeneratorTest
                 count++;
             }
 
-            ExecutionResult result = engine.execute( "MATCH (ep:Episode) RETURN count(ep) AS episodeCount" );
+            Result result = database.execute( "MATCH (ep:Episode) RETURN count(ep) AS episodeCount" );
             assertEquals( count, Integer.valueOf( result.columnAs( "episodeCount" ).next().toString() ).intValue() );
 
             while ( ep.hasRelationship( PREVIOUS, OUTGOING ) )
@@ -111,7 +100,7 @@ public class DoctorWhoUniverseGeneratorTest
     {
         try ( Transaction tx = database.beginTx() )
         {
-            final ExecutionResult result = engine.execute( "MATCH (p:Planet) RETURN count(p) AS planetCount" );
+            final Result result = database.execute( "MATCH (p:Planet) RETURN count(p) AS planetCount" );
 
             int numberOfPlanetsMentionedInTVEpisodes = 447;
             assertEquals( numberOfPlanetsMentionedInTVEpisodes, Integer.valueOf( result.columnAs( "planetCount" )
@@ -191,7 +180,7 @@ public class DoctorWhoUniverseGeneratorTest
         {
             int numberOfSpecies = 55;
 
-            ExecutionResult result = engine.execute( "MATCH (s:Species) RETURN count(s) AS speciesCount" );
+            Result result = database.execute( "MATCH (s:Species) RETURN count(s) AS speciesCount" );
             assertEquals( numberOfSpecies, Integer.valueOf( result.columnAs( "speciesCount" ).next().toString() )
                     .intValue() );
 
@@ -223,8 +212,7 @@ public class DoctorWhoUniverseGeneratorTest
         {
             int numberOfDoctorsRegenerations = 12;
 
-            Node firstDoctor = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "William Hartnell" ).iterator().next();
+            Node firstDoctor = database.findNodes( ACTOR, "actor", "William Hartnell").next();
             assertNotNull( firstDoctor );
 
             assertEquals( numberOfDoctorsRegenerations,
@@ -241,13 +229,11 @@ public class DoctorWhoUniverseGeneratorTest
         {
             int numberOfMastersRegenerations = 7;
 
-            final ResourceIterable<Node> nodes = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "Roger Delgado" );
+            final ResourceIterator<Node> nodes = database.findNodes(ACTOR, "actor", "Roger Delgado");
 
             assertEquals( 1, databaseHelper.destructivelyCount( nodes ) );
 
-            Node currentMaster = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "Roger Delgado" ).iterator().next();
+            Node currentMaster = database.findNodes(ACTOR, "actor", "Roger Delgado").next();
 
             assertEquals( numberOfMastersRegenerations, countOutgoingRegeneratedToRelationshipsStartingWith(
                     currentMaster ) );
@@ -317,7 +303,7 @@ public class DoctorWhoUniverseGeneratorTest
 
     private Node getNodeFromDatabase( Label label, String value )
     {
-        return database.findNodesByLabelAndProperty( label, label.name().toLowerCase(), value ).iterator().next();
+        return database.findNode( label, label.name().toLowerCase(), value );
     }
 
     @Test

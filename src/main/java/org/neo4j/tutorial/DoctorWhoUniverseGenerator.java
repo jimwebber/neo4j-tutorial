@@ -3,17 +3,13 @@ package org.neo4j.tutorial;
 import java.io.File;
 import java.io.IOException;
 
-import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
-
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 public class DoctorWhoUniverseGenerator
 {
     private final static File cachedCleanDatabaseDirectory = new File( ".doctorwhouniverse" );
     private final String currentDbDir;
     private GraphDatabaseService database;
-    private ExecutionEngine engine;
 
     public DoctorWhoUniverseGenerator() throws IOException
     {
@@ -21,20 +17,11 @@ public class DoctorWhoUniverseGenerator
         {
             currentDbDir = copyDatabaseFromCachedDirectoryToTempDirectory();
             database = DatabaseHelper.createDatabase( currentDbDir );
-            return;
         }
         else
         {
             currentDbDir = DatabaseHelper.createTempDatabaseDir().getAbsolutePath();
             database = DatabaseHelper.createDatabase( currentDbDir );
-            engine = new ExecutionEngine( database, DEV_NULL );
-
-
-//        createActorsIndex();
-//        createEpisodeIndex();
-//        createCharactersIndex();
-//        createSpeciesIndex();
-//        createPlanetsIndex();
 
             addUniquenessConstraints();
 
@@ -73,42 +60,17 @@ public class DoctorWhoUniverseGenerator
 
     private void addUniquenessConstraints()
     {
-        engine.execute( "CREATE CONSTRAINT ON (a:Actor) ASSERT a.actor IS UNIQUE" );
-        engine.execute( "CREATE CONSTRAINT ON (c:Character) ASSERT c.character IS UNIQUE" );
-        engine.execute( "CREATE CONSTRAINT ON (e:Episode) ASSERT e.title IS UNIQUE" );
-        engine.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
-        engine.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
-        engine.execute( "CREATE CONSTRAINT ON (s:Species) ASSERT s.species IS UNIQUE" );
-    }
-
-    private void createPlanetsIndex()
-    {
-        createIndex( "Planet", "planet" );
-    }
-
-    private void createSpeciesIndex()
-    {
-        createIndex( "Species", "species" );
-    }
-
-    private void createCharactersIndex()
-    {
-        createIndex( "Character", "character" );
-    }
-
-    private void createEpisodeIndex()
-    {
-        createIndex( "Episode", "episode" );
-    }
-
-    private void createActorsIndex()
-    {
-        createIndex( "Actor", "actor" );
+        database.execute( "CREATE CONSTRAINT ON (a:Actor) ASSERT a.actor IS UNIQUE" );
+        database.execute( "CREATE CONSTRAINT ON (c:Character) ASSERT c.character IS UNIQUE" );
+        database.execute( "CREATE CONSTRAINT ON (e:Episode) ASSERT e.title IS UNIQUE" );
+        database.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
+        database.execute( "CREATE CONSTRAINT ON (p:Planet) ASSERT p.planet IS UNIQUE" );
+        database.execute( "CREATE CONSTRAINT ON (s:Species) ASSERT s.species IS UNIQUE" );
     }
 
     private void createIndex( String label, String property )
     {
-        engine.execute( String.format( "CREATE INDEX ON :%s(%s)", label, property ) );
+        database.execute( String.format( "CREATE INDEX ON :%s(%s)", label, property ) );
     }
 
     private void addActors()
