@@ -29,7 +29,7 @@ public class AwesomenessRatingEngine
             String cql = String.format( "MATCH(doc:Character {character: 'Doctor'}), (n:%s {%s})",
                     expandLabels( node ), expandNodeProperties( node ) ) +
                     lineSeparator() +
-                    "MATCH p=shortestPath( (n)-[*..15]-(doc) )" +
+                    "MATCH p=shortestPath( (n)-[*0..15]-(doc) )" +
                     lineSeparator() +
                     "RETURN length(p) as hops";
 
