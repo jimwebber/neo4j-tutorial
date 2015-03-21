@@ -58,7 +58,7 @@ public class BasicRestApiFormerlyKoan10
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
                 .build();
 
         universe = new ServerDoctorWhoUniverse( server );

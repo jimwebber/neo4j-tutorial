@@ -6,6 +6,7 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.cypher.ExecutionEngine;
@@ -28,25 +29,22 @@ import static org.neo4j.tutorial.DatabaseHelper.destructivelyCount;
  */
 public class Koan12
 {
-    private static EmbeddedDoctorWhoUniverse universe;
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-        dropAnyExistingSpeciesIndexOrConstraints();
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
+    public static void dropAnyExistingSpeciesIndexOrConstraints() {
+        try (Transaction tx = neo4jResource.getGraphDatabaseService().beginTx()) {
+            // Species index is implied by the universe's uniqueness constraint, so we'll drop that as part of setup
+            neo4jResource.getGraphDatabaseService().schema().getConstraints(label("Species")).iterator().next().drop();
+            tx.success();
+        }
     }
 
     @Test
     public void shouldCreateAnIndexOfSpecies()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -56,15 +54,15 @@ public class Koan12
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute( cql );
 
-        assertThat( universe.getDatabase(), hasIndex( "Species" ) );
+        assertThat( db, hasIndex("Species") );
     }
 
     @Test
     public void shouldDropSpeciesIndex() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -74,9 +72,9 @@ public class Koan12
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute( cql );
 
-        assertThat( universe.getDatabase(), hasNoSuchIndex( "Species" ) );
+        assertThat( db, hasNoSuchIndex("Species") );
     }
 
     private TypeSafeMatcher<GraphDatabaseService> hasNoSuchIndex( String indexName )
@@ -84,11 +82,11 @@ public class Koan12
         return new TypeSafeMatcher<GraphDatabaseService>()
         {
             @Override
-            protected boolean matchesSafely( GraphDatabaseService graphDatabaseService )
+            protected boolean matchesSafely( GraphDatabaseService db )
             {
-                try ( Transaction tx = universe.getDatabase().beginTx() )
+                try ( Transaction tx = db.beginTx() )
                 {
-                    return destructivelyCount( universe.getDatabase().schema()
+                    return destructivelyCount( db.schema()
                             .getIndexes( label( "Species" ) ).iterator() ) == 0;
                 }
             }
@@ -103,9 +101,10 @@ public class Koan12
 
     private void waitForIndexToBeBuilt( Label label, long timeout, TimeUnit timeUnit )
     {
-        try ( Transaction tx = universe.getDatabase().beginTx() )
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
+        try ( Transaction tx = db.beginTx() )
         {
-            universe.getDatabase().schema().awaitIndexOnline( universe.getDatabase()
+            db.schema().awaitIndexOnline( db
                     .schema()
                     .getIndexes( label ).iterator().next(),
                     timeout, timeUnit );
@@ -120,11 +119,11 @@ public class Koan12
             @Override
             protected boolean matchesSafely( GraphDatabaseService db )
             {
-                try ( Transaction tx = universe.getDatabase().beginTx() )
+                try ( Transaction tx = db.beginTx() )
                 {
                     waitForIndexToBeBuilt( label( "Species" ), 30, SECONDS );
 
-                    IndexDefinition species = universe.getDatabase()
+                    IndexDefinition species = db
                             .schema()
                             .getIndexes( label( "Species" ) )
                             .iterator()
@@ -151,13 +150,4 @@ public class Koan12
     }
 
 
-    private static void dropAnyExistingSpeciesIndexOrConstraints()
-    {
-        try ( Transaction tx = universe.getDatabase().beginTx() )
-        {
-            // Species index is implied by the universe's uniqueness constraint, so we'll drop that as part of setup
-            universe.getDatabase().schema().getConstraints( label( "Species" ) ).iterator().next().drop();
-            tx.success();
-        }
-    }
 }

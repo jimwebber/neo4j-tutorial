@@ -3,17 +3,14 @@ package org.neo4j.tutorial;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this Koan we use the Cypher graph pattern matching language to investigate
@@ -22,24 +19,13 @@ import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
  */
 public class Koan9
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldFindTheHardestWorkingPropPartInShowbiz() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -52,9 +38,9 @@ public class Koan9
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertHardestWorkingPropParts( result.javaIterator(), "Dalek 1", "shoulder", 15l );
+        assertHardestWorkingPropParts( result, "Dalek 1", "shoulder", 15l );
     }
 
     private void assertHardestWorkingPropParts( Iterator<Map<String, Object>> results, Object... partsAndCounts )

@@ -36,7 +36,7 @@ public class SecureTheServerFormerlyKoan13
 
         CommunityNeoServer server =
                 server()
-                        .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
+                        .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
                         .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.security_rule", "/security_rule" )
                         .withSecurityRules( UserNameAndPasswordForSalariesSecurityRule.class )
                         .build();

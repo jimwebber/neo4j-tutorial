@@ -2,20 +2,18 @@ package org.neo4j.tutorial;
 
 import java.util.Iterator;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.Result;
+import org.neo4j.helpers.collection.IteratorUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnlyTitles;
 import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsExactlyWikipediaEntries;
 
@@ -26,24 +24,14 @@ import static org.neo4j.tutorial.matchers.ContainsWikipediaEntries.containsExact
  */
 public class Koan3
 {
-    private static EmbeddedDoctorWhoUniverse universe;
 
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldFindAndReturnTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -53,10 +41,10 @@ public class Koan3
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
-        Iterator<Node> containsTheDoctor = result.javaColumnAs( "doctor" );
+        Result result = db.execute( cql );
+        Iterator<Node> containsTheDoctor = result.columnAs("doctor" );
 
-        assertEquals( containsTheDoctor.next(), universe.theDoctor() );
+        assertEquals( containsTheDoctor.next(), neo4jResource.theDoctor() );
     }
 
     @Test
@@ -66,7 +54,7 @@ public class Koan3
         // Some episodes are two-parters with the same episode number, others use schemes like
         // 218a and 218b as their episode numbers seemingly just to be difficult!
 
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -77,29 +65,16 @@ public class Koan3
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        Iterator<String> iterator = result.javaColumnAs( "episode" );
-
-        assertEquals( 266l, count( iterator ) );
-    }
-
-    private long count( Iterator<String> result )
-    {
-        long count = 0;
-        while ( result.hasNext() )
-        {
-            count++;
-            result.next();
-        }
-
-        return count;
+        Iterator<String> iterator = result.columnAs("episode");
+        assertEquals( 266l, IteratorUtil.count(iterator) );
     }
 
     @Test
     public void shouldFindAllTheEpisodesInWhichTheCybermenAppeared() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -110,11 +85,11 @@ public class Koan3
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        Iterator<Node> episodes = result.javaColumnAs( "episode" );
+        Iterator<Node> episodes = result.columnAs("episode");
 
-        assertThat( asIterable( episodes ), containsOnlyTitles( universe.getDatabase(),
+        assertThat( asIterable( episodes ), containsOnlyTitles( db,
                 "Closing Time",
                 "A Good Man Goes to War",
                 "The Pandorica Opens",
@@ -137,7 +112,7 @@ public class Koan3
     @Test
     public void shouldFindEpisodesWhereTennantAndRoseBattleTheDaleks() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
 
@@ -154,12 +129,12 @@ public class Koan3
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        Iterator<Node> episodes = result.javaColumnAs( "episode" );
+        Iterator<Node> episodes = result.columnAs("episode");
 
         assertThat( asIterable( episodes ),
-                containsOnlyTitles( universe.getDatabase(),
+                containsOnlyTitles( db,
                         "Journey's End",
                         "The Stolen Earth",
                         "Doomsday",
@@ -170,7 +145,7 @@ public class Koan3
     @Test
     public void shouldReturnAnyWikpediaEntriesForCompanions()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -182,8 +157,8 @@ public class Koan3
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
-        Iterator<String> iterator = result.javaColumnAs( "companion.wikipedia" );
+        Result result = db.execute( cql );
+        Iterator<String> iterator = result.columnAs("companion.wikipedia");
 
         assertThat( iterator, containsExactlyWikipediaEntries( "http://en.wikipedia.org/wiki/Rory_Williams",
                 "http://en.wikipedia.org/wiki/Amy_Pond",
@@ -194,25 +169,20 @@ public class Koan3
     @Test
     public void shouldFindIndividualCompanionsAndEnemiesOfTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = "";
 
-        try ( Transaction transaction = universe.getDatabase().beginTx() )
-        {
+        // YOUR CODE GOES HERE
+        // SNIPPET_START
 
-            // YOUR CODE GOES HERE
-            // SNIPPET_START
+        cql += "MATCH (doctor:Character {character: 'Doctor'})<-[:ENEMY_OF|COMPANION_OF]-(other) ";
+        cql += "WHERE has(other.character) ";
+        cql += "RETURN DISTINCT other.character";
 
-            cql += "MATCH (doctor:Character {character: 'Doctor'})<-[:ENEMY_OF|COMPANION_OF]-(other) ";
-            cql += "WHERE has(other.character) ";
-            cql += "RETURN DISTINCT other.character";
+        // SNIPPET_END
 
-            // SNIPPET_END
+        Result result = db.execute(cql);
 
-            ExecutionResult result = engine.execute( cql );
-
-            assertEquals( 162, result.size() );
-            transaction.success();
-        }
+        assertEquals(162, IteratorUtil.count(result));
     }
 }

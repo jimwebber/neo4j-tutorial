@@ -5,12 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -18,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOnlySpecificStrings;
 
 /**
@@ -27,24 +25,13 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificStrings.containsOn
  */
 public class Koan7
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldCountTheNumberOfActorsKnownToHavePlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -56,9 +43,9 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        Long actorsCount = (Long) result.javaColumnAs( "numberOfActorsWhoPlayedTheDoctor" ).next();
+        Long actorsCount = (Long) result.columnAs("numberOfActorsWhoPlayedTheDoctor").next();
 
         assertEquals( (long) 13, actorsCount.longValue() );
     }
@@ -66,7 +53,7 @@ public class Koan7
     @Test
     public void shouldFindEarliestAndLatestRegenerationYears()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -77,9 +64,9 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        Map<String, Object> map = result.javaIterator().next();
+        Map<String, Object> map = result.next();
         assertEquals( 2013l, map.get( "latest" ) );
         assertEquals( 1966l, map.get( "earliest" ) );
     }
@@ -87,7 +74,7 @@ public class Koan7
     @Test
     public void shouldFindTheEarliestEpisodeWhereFreemaAgyemanAndDavidTennantWorkedTogether() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -99,15 +86,15 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertEquals( "177", result.javaColumnAs( "earliest" ).next() );
+        assertEquals( "177", result.columnAs("earliest").next() );
     }
 
     @Test
     public void shouldFindAverageSalaryOfActorsWhoPlayedTheDoctor()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -120,15 +107,15 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertEquals( 600000.0, result.javaColumnAs( "cash" ).next() );
+        assertEquals( 600000.0, result.columnAs("cash").next() );
     }
 
     @Test
     public void shouldListTheEnemySpeciesAndCharactersForEachEpisodeWithPeterDavisonOrderedByIncreasingEpisodeNumber()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -143,19 +130,19 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        final List<String> columnNames = result.javaColumns();
+        final List<String> columnNames = result.columns();
         assertThat( columnNames,
                 containsOnlySpecificStrings( "episode.episode", "episode.title", "species", "characters" ) );
 
-        assertDavisonEpisodesRetrievedCorrectly( result.javaIterator() );
+        assertDavisonEpisodesRetrievedCorrectly( result );
     }
 
     @Test
     public void shouldFindTheEnemySpeciesThatRoseTylerFought()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -168,8 +155,8 @@ public class Koan7
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
-        Iterator<String> enemySpecies = result.javaColumnAs( "enemySpecies" );
+        Result result = db.execute( cql );
+        Iterator<String> enemySpecies = result.columnAs("enemySpecies");
 
         assertThat( asIterable( enemySpecies ),
                 containsOnlySpecificStrings( "Krillitane", "Sycorax", "Cyberman", "Dalek", "Auton", "Slitheen",

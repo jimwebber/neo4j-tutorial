@@ -43,7 +43,7 @@ public class ManagedExtensionsFormerlyKoan12
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
                 .build();
 
         universe = new ServerDoctorWhoUniverse( server );

@@ -34,7 +34,7 @@ public class UnmanagedExtensionFormerlyKoan11
 
         CommunityNeoServer server = ServerBuilder
                 .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
+                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
                 .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.unmanaged_extension", "/tutorial" )
                 .build();
 

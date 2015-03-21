@@ -4,44 +4,30 @@ import java.util.Set;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 import scala.collection.convert.Wrappers;
-
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import static org.neo4j.helpers.collection.IteratorUtil.asSet;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this koan we learn about breaking apart queries using WITH
  */
 public class Koan15
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldSortCompanionsAlphabeticallyIntoACollection() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = "MATCH (c:Character)-[:COMPANION_OF]->(:Character {character: 'Doctor'})\n";
 
         // YOUR CODE GOES HERE
@@ -53,7 +39,7 @@ public class Koan15
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
         assertThat( result, containsOrderedList( "Ace", "Adam Mitchell", "Adelaide Brooke", "Adric", "Amy Pond",
                 "Astrid Peth", "Barbara Wright", "Ben Jackson", "Clara Oswald", "Craig Owens", "Dodo Chaplet",
@@ -68,7 +54,7 @@ public class Koan15
     @Test
     public void shouldFindThePopularCompanionsWhoApprearedMoreThanTwentyTimes() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = "MATCH (ep:Episode)<-[:APPEARED_IN]-(companion:Character)" +
                 "-[:COMPANION_OF]->(:Character {character: 'Doctor'})\n";
 
@@ -81,7 +67,7 @@ public class Koan15
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
         assertThat( result, containsOnlyCompanions( "Rory Williams", "Amy Pond", "Sarah Jane Smith", "Rose Tyler",
                 "Jamie McCrimmon" ) );
@@ -90,7 +76,7 @@ public class Koan15
     @Test
     public void shouldFindTheNumberOfRegenerationsInTotalForTheDoctor() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         /* Can't just count (actor)-[:PLAYED]->(doctor) relationships because of Richard Hurndall */
@@ -109,19 +95,19 @@ public class Koan15
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertEquals( 12, result.javaColumnAs( "regenerations" ).next() );
+        assertEquals( 12, result.columnAs( "regenerations" ).next() );
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOrderedList( final String... companions )
+    private TypeSafeMatcher<Result> containsOrderedList( final String... companions )
     {
-        return new TypeSafeMatcher<ExecutionResult>()
+        return new TypeSafeMatcher<Result>()
         {
             @Override
-            protected boolean matchesSafely( ExecutionResult result )
+            protected boolean matchesSafely( Result result )
             {
-                Wrappers.SeqWrapper characters = (Wrappers.SeqWrapper) result.javaColumnAs( "characters" ).next();
+                Wrappers.SeqWrapper characters = (Wrappers.SeqWrapper) result.columnAs( "characters" ).next();
 
                 for ( int i = 0; i < companions.length; i++ )
                 {
@@ -142,17 +128,17 @@ public class Koan15
         };
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOnlyCompanions( final String... companions )
+    private TypeSafeMatcher<Result> containsOnlyCompanions( final String... companions )
     {
-        return new TypeSafeMatcher<ExecutionResult>()
+        return new TypeSafeMatcher<Result>()
         {
             private final Set<String> theCompanions = asSet( companions );
 
             @Override
-            protected boolean matchesSafely( ExecutionResult result )
+            protected boolean matchesSafely( Result result )
             {
 
-                for ( Object o : asIterable( result.javaColumnAs( "companions" ) ) )
+                for ( Object o : asIterable( result.columnAs( "companions" ) ) )
                 {
                     if ( !theCompanions.remove( o ) )
                     {

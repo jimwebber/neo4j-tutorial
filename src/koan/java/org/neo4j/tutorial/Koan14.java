@@ -2,42 +2,27 @@ package org.neo4j.tutorial;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 import scala.collection.convert.Wrappers;
-
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this koan we get to grips with collection functions.
  */
 public class Koan14
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldListTheFirstFiveEpisodes() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -48,7 +33,7 @@ public class Koan14
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
         assertThat( result, containsOnly( "An Unearthly Child", "The Daleks", "The Edge of Destruction",
                 "Marco Polo", "The Keys of Marinus", "The Aztecs" ) );
@@ -57,7 +42,7 @@ public class Koan14
     @Test
     public void shouldAddStoryArcOnRelationshipsBetweenEpisodes() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = "MATCH p=(startEp:Episode {title: 'The Ribos Operation'})-[:NEXT*]->" +
                 "(endEp:Episode {title: 'The Armageddon Factor'})\n";
 
@@ -68,27 +53,27 @@ public class Koan14
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute( cql );
 
-        ExecutionResult result = engine.execute( "MATCH p=(startEp:Episode {title: 'The Ribos Operation'})" +
+        Result result = db.execute( "MATCH p=(startEp:Episode {title: 'The Ribos Operation'})" +
                 "-[:NEXT*]->(endEp:Episode {title: " +
                 "'The Armageddon Factor'})\n" +
                 " WITH relationships(p) AS rels \n" +
                 "RETURN length(extract(x IN rels | x.story_arc)) as count" );
 
-        assertEquals( 5, result.javaColumnAs( "count" ).next() );
+        assertEquals( 5, result.columnAs( "count" ).next() );
 
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOnly( final String... episodes )
+    private TypeSafeMatcher<Result> containsOnly( final String... episodes )
     {
-        return new TypeSafeMatcher<ExecutionResult>()
+        return new TypeSafeMatcher<Result>()
         {
             @Override
-            protected boolean matchesSafely( ExecutionResult result )
+            protected boolean matchesSafely( Result result )
             {
 
-                Wrappers.SeqWrapper eps = (Wrappers.SeqWrapper) result.javaColumnAs( "episodes" ).next();
+                Wrappers.SeqWrapper eps = (Wrappers.SeqWrapper) result.columnAs( "episodes" ).next();
 
                 if ( eps.size() != episodes.length )
                 {
