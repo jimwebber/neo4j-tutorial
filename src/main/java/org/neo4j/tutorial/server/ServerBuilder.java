@@ -9,12 +9,9 @@ import java.util.Properties;
 
 import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.logging.ConsoleLogger;
-import org.neo4j.kernel.logging.DevNullLoggingService;
 import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.configuration.Configurator;
 import org.neo4j.server.configuration.PropertyFileConfigurator;
-import org.neo4j.server.configuration.validation.DatabaseLocationMustBeSpecifiedRule;
-import org.neo4j.server.configuration.validation.Validator;
 
 public class ServerBuilder
 {
@@ -46,8 +43,7 @@ public class ServerBuilder
         File configFile = createPropertiesFiles();
 
         return new CommunityNeoServer(
-                new PropertyFileConfigurator( new Validator( new DatabaseLocationMustBeSpecifiedRule() ), configFile,
-                        ConsoleLogger.DEV_NULL ), new DevNullLoggingService()
+                new PropertyFileConfigurator( configFile, ConsoleLogger.DEV_NULL), null //new DevNullLoggingService()
         );
     }
 

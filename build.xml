@@ -42,6 +42,8 @@
     <get src="http://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar"                                            dest="${additional.jars.dir}/"/>
     <get src="http://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.jar" dest="${additional.jars.dir}/"/>
     <get src="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar" dest="${additional.jars.dir}/"/>
+    <get src="http://central.maven.org/maven2/org/neo4j/test/neo4j-harness/${neo4j.version}/neo4j-harness-${neo4j.version}.jar" dest="${additional.jars.dir}/"/>
+    <get src="http://central.maven.org/maven2/org/neo4j/neo4j-kernel/${neo4j.version}/neo4j-kernel-${neo4j.version}-tests.jar" dest="${additional.jars.dir}/"/>
   </target>
 
   <target name="-download.and.unzip.neo4j.windows" if="isWindows" depends="-make.download.dirs"
