@@ -16,4 +16,16 @@
       <fail if="tests.failed.or.errored" message="Build failed on Koan@{number}"/>
     </sequential>
   </macrodef>
+
+  <macrodef name="advancedkoan">
+    <attribute name="number" default="1"/>
+    <sequential>
+      <echo>Running Koan@{number}</echo>
+      <fileset id="koan.source.files" dir="${koan.src}">
+        <include name="**/*FormerlyKoan@{number}*.java"/>
+      </fileset>
+      <run_junit_tests testclasspath="path.koan" testfileset="koan.source.files" outputdir="${koan.reports}"/>
+      <fail if="tests.failed.or.errored" message="Build failed on FormerlyKoan@{number}"/>
+    </sequential>
+  </macrodef>
 </project>
