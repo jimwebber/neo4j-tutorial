@@ -1,5 +1,6 @@
 package org.neo4j.tutorial;
 
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -10,12 +11,13 @@ import static org.junit.Assert.assertNotNull;
  */
 public class Koan1
 {
+
+    @ClassRule
+    public static DoctorWhoUniverseResource neo4j = new DoctorWhoUniverseResource();
+
     @Test
     public void justEmitsThePathToTheDatabase() throws Exception
     {
-        EmbeddedDoctorWhoUniverse universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator()
-                .getDatabase() );
-        assertNotNull( universe.getDatabase() );
-        universe.stop();
+        assertNotNull( neo4j.getGraphDatabaseService() );
     }
 }

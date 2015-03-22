@@ -3,8 +3,6 @@ package org.neo4j.tutorial.advanced;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -13,9 +11,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tutorial.DoctorWhoRelationships;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
 import org.neo4j.tutorial.DoctorWhoUniverseResource;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
