@@ -6,29 +6,25 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.kernel.Traversal;
-import org.neo4j.tutorial.DoctorWhoLabels;
-import org.neo4j.tutorial.DoctorWhoRelationships;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
+import org.neo4j.tutorial.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.graphdb.Direction.BOTH;
+import static org.neo4j.graphdb.Direction.OUTGOING;
 import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 import static org.neo4j.tutorial.DoctorWhoLabels.EPISODE;
 import static org.neo4j.tutorial.DoctorWhoRelationships.APPEARED_IN;
+import static org.neo4j.tutorial.DoctorWhoRelationships.REGENERATED_TO;
 import static org.neo4j.tutorial.matchers.ContainsOnlySpecificNodes.containsOnlySpecificNodes;
 import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
 
@@ -38,38 +34,25 @@ import static org.neo4j.tutorial.matchers.PathsMatcher.consistPreciselyOf;
  */
 public class GraphAlgorithmsInJavaFormerlyKoan09
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldRevealTheEpisodesWhereRoseTylerFoughtTheDaleks()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node rose = database.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
-                    "Rose Tyler" ).iterator().next();
-            Node daleks = database.findNodesByLabelAndProperty( DoctorWhoLabels.SPECIES, "species",
-                    "Dalek" ).iterator().next();
+            Node rose = database.findNode(DoctorWhoLabels.CHARACTER, "character", "Rose Tyler");
+            Node daleks = database.findNode(DoctorWhoLabels.SPECIES, "species", "Dalek");
             Iterable<Path> paths = null;
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
             PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                    Traversal.expanderForTypes( APPEARED_IN, BOTH ), 2 );
+                    PathExpanders.forType(APPEARED_IN) , 2 );
             paths = pathFinder.findAllPaths( rose, daleks );
 
             // SNIPPET_END
@@ -88,7 +71,7 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
         HashSet<Node> roseVersusDaleksEpisodes = new HashSet<>();
         for ( String title : roseVersusDaleksEpisodeTitles )
         {
-            roseVersusDaleksEpisodes.add( universe.getDatabase().findNodesByLabelAndProperty(
+            roseVersusDaleksEpisodes.add( neo4jResource.getGraphDatabaseService().findNodesByLabelAndProperty(
                     EPISODE, "title", title ).iterator().next() );
         }
         return roseVersusDaleksEpisodes;
@@ -97,21 +80,19 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
     @Test
     public void shouldFindTheNumberOfMasterRegenerationsTheEasyWay()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node delgado = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "Roger Delgado" ).iterator().next();
-            Node simm = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "John Simm" ).iterator().next();
+            Node delgado = database.findNode(ACTOR, "actor", "Roger Delgado");
+            Node simm = database.findNode(ACTOR, "actor", "John Simm");
             Path path = null;
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
             PathFinder<Path> pathFinder = GraphAlgoFactory.shortestPath(
-                    Traversal.expanderForTypes( DoctorWhoRelationships.REGENERATED_TO, Direction.OUTGOING ), 100 );
+                    PathExpanders.forTypeAndDirection(REGENERATED_TO, OUTGOING), 100);
             path = pathFinder.findSinglePath( delgado, simm );
 
             // SNIPPET_END
@@ -128,18 +109,18 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
     @Test
     public void shouldFindEpisodesWhereMattSmithAndDavidTennantAppeared()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
         try ( Transaction tx = database.beginTx() )
         {
-            Node tennant = database.findNodesByLabelAndProperty( ACTOR, "actor", "David Tennant" ).iterator().next();
-            Node smith = database.findNodesByLabelAndProperty( ACTOR, "actor", "Matt Smith" ).iterator().next();
+            Node tennant = database.findNode(ACTOR, "actor", "David Tennant");
+            Node smith = database.findNode( ACTOR, "actor", "Matt Smith" );
             Iterable<Path> path = null;
 
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
             PathFinder<Path> pathFinder = GraphAlgoFactory.pathsWithLength(
-                    Traversal.expanderForTypes( APPEARED_IN, BOTH ), 2 );
+                    PathExpanders.forType(APPEARED_IN), 2 );
 
             path = pathFinder.findAllPaths( tennant, smith );
 
@@ -149,12 +130,10 @@ public class GraphAlgorithmsInJavaFormerlyKoan09
 
             tx.success();
 
-            assertNotNull( path );
-            Node endOfTime = database.findNodesByLabelAndProperty( EPISODE, "title",
-                    "The End of Time" ).iterator().next();
+            assertNotNull(path);
+            Node endOfTime = database.findNode(EPISODE, "title", "The End of Time");
 
-            Node dayOfTheDoctor = database.findNodesByLabelAndProperty( EPISODE, "title",
-                    "The Day of the Doctor" ).iterator().next();
+            Node dayOfTheDoctor = database.findNode(EPISODE, "title", "The Day of the Doctor");
 
             assertThat( path, containsOnlySpecificNodes( tennant, smith, dayOfTheDoctor, endOfTime ) );
         }

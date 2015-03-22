@@ -8,8 +8,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphdb.DynamicRelationshipType;
@@ -20,12 +19,10 @@ import org.neo4j.graphmatching.CommonValueMatchers;
 import org.neo4j.graphmatching.PatternMatch;
 import org.neo4j.graphmatching.PatternMatcher;
 import org.neo4j.graphmatching.PatternNode;
-import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.DoctorWhoLabels;
 import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.ServerDoctorWhoUniverse;
-import org.neo4j.tutorial.server.ServerBuilder;
+import org.neo4j.tutorial.DoctorWhoUniverseServerResource;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
 import org.neo4j.tutorial.server.rest.RelationshipDescription;
 import org.neo4j.tutorial.server.rest.TraversalDescription;
@@ -49,26 +46,8 @@ import static org.neo4j.tutorial.server.rest.RelationshipDescription.OUT;
 public class BasicRestApiFormerlyKoan10
 {
 
-    private static ServerDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
-
-        CommunityNeoServer server = ServerBuilder
-                .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
-                .build();
-
-        universe = new ServerDoctorWhoUniverse( server );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    public static DoctorWhoUniverseServerResource neo4j = new DoctorWhoUniverseServerResource();
 
     @Test
     public void shouldCountTheEnemiesOfTheDoctor() throws Exception
@@ -81,7 +60,7 @@ public class BasicRestApiFormerlyKoan10
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        WebResource resource = client.resource( universe.theDoctor().get( "incoming_relationships" ) + "/ENEMY_OF" );
+        WebResource resource = client.resource( neo4j.theDoctor().get( "incoming_relationships" ) + "/ENEMY_OF" );
         response = resource.accept( APPLICATION_JSON ).get( String.class );
 
         // SNIPPET_END
@@ -115,7 +94,7 @@ public class BasicRestApiFormerlyKoan10
         traversal.setMaxDepth( 3 );
 
         WebResource resource = client.resource(
-                universe.theDoctor().get( "traverse" ).toString().replace( "{returnType}", "fullpath" ) );
+                neo4j.theDoctor().get( "traverse" ).toString().replace( "{returnType}", "fullpath" ) );
         String requestJson = traversal.toJson();
 
         response = resource
@@ -143,15 +122,15 @@ public class BasicRestApiFormerlyKoan10
         String PLAYED = "PLAYED";
         String INCARNATION_OF = "INCARNATION_OF";
 
-        Map<String, Object> theDoctorJson = universe.theDoctor();
+        Map<String, Object> theDoctorJson = neo4j.theDoctor();
         String theDoctorUri = theDoctorJson.get( "self" ).toString();
 
-        Map<String, Object> williamHartnellJson = universe.getJsonFor(
-                universe.createUriForNode( "Actor", "actor", "William Hartnell" ) );
-        Map<String, Object> richardHurndallJson = universe.getJsonFor(
-                universe.createUriForNode( "Actor", "actor", "Richard Hurndall" ) );
-        Map<String, Object> patrickTroughtonJson = universe.getJsonFor(
-                universe.createUriForNode( "Actor", "actor", "Patrick Troughton" ) );
+        Map<String, Object> williamHartnellJson = neo4j.getJsonFor(
+                neo4j.createUriForNode( "Actor", "actor", "William Hartnell" ) );
+        Map<String, Object> richardHurndallJson = neo4j.getJsonFor(
+                neo4j.createUriForNode( "Actor", "actor", "Richard Hurndall" ) );
+        Map<String, Object> patrickTroughtonJson = neo4j.getJsonFor(
+                neo4j.createUriForNode( "Actor", "actor", "Patrick Troughton" ) );
 
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
@@ -176,7 +155,7 @@ public class BasicRestApiFormerlyKoan10
 
         // SNIPPET_END
 
-        assertFirstAndSecondDoctorCreatedAndLinkedToActors( universe.getServer().getDatabase().getGraph() );
+        assertFirstAndSecondDoctorCreatedAndLinkedToActors( neo4j.getGraphDatabaseService() );
     }
 
     private void assertActorsAndInvasionEpisodes( EpisodeSearchResults results )
@@ -204,8 +183,7 @@ public class BasicRestApiFormerlyKoan10
     {
         try ( Transaction tx = db.beginTx() )
         {
-            Node doctorNode = db.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
-                    "Doctor" ).iterator().next();
+            Node doctorNode = db.findNode(DoctorWhoLabels.CHARACTER, "character", "Doctor");
 
             final PatternNode theDoctor = new PatternNode();
             theDoctor.addPropertyConstraint( "character", CommonValueMatchers.exact( "Doctor" ) );

@@ -3,10 +3,7 @@ package org.neo4j.tutorial.advanced;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -14,8 +11,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
+import org.neo4j.tutorial.DoctorWhoUniverseResource;
 
 import static org.junit.Assert.assertThat;
 
@@ -31,24 +27,13 @@ import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificChar
 @Ignore("Convert this into a legacy auto index test towards the end of the koans, or better still consider deleting")
 public class LegacyAutoIndexesFormerlyKoan04
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldCreateAnAutoIndexForAllTheCharacters()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
         Set<String> allCharacterNames = getAllCharacterNames();
         AutoIndexer<Node> charactersAutoIndex = null;
 
@@ -83,9 +68,9 @@ public class LegacyAutoIndexesFormerlyKoan04
 
     private Set<String> getAllCharacterNames()
     {
-        try ( Transaction tx = universe.getDatabase().beginTx() )
+        try ( Transaction tx = neo4jResource.getGraphDatabaseService().beginTx() )
         {
-            Index<Node> characters = universe.getDatabase()
+            Index<Node> characters = neo4jResource.getGraphDatabaseService()
                     .index()
                     .forNodes( "characters" );
             IndexHits<Node> results = characters.query( "character", "*" );

@@ -7,14 +7,10 @@ import javax.ws.rs.core.Context;
 
 import com.sun.jersey.api.NotFoundException;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 
 import static java.lang.System.lineSeparator;
-
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
-
 
 @Path("/{character}")
 public class HomePlanetUnmanagedExtension
@@ -26,14 +22,12 @@ public class HomePlanetUnmanagedExtension
     @Path("/homeplanet")
     public String findHomePlanetFor( @PathParam("character") String character, @Context GraphDatabaseService db )
     {
-        ExecutionEngine engine = new ExecutionEngine( db, DEV_NULL );
-
         String cql = "MATCH (doctor:Character {character: 'Doctor'})-[:COMES_FROM]->(home:Planet)" +
                 lineSeparator() +
                 "RETURN home.planet";
 
-        ExecutionResult result = engine.execute( cql );
-        String planet = (String) result.javaColumnAs( "home.planet" ).next();
+        Result result = db.execute( cql );
+        String planet = (String) result.columnAs( "home.planet" ).next();
 
         if ( planet != null )
         {

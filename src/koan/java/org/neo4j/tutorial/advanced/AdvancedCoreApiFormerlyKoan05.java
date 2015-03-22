@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -13,6 +14,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tutorial.DoctorWhoRelationships;
 import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
+import org.neo4j.tutorial.DoctorWhoUniverseResource;
 import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
 
 import static org.junit.Assert.assertEquals;
@@ -36,29 +38,17 @@ import static org.neo4j.tutorial.matchers.ContainsOnlySpecificTitles.containsOnl
 
 public class AdvancedCoreApiFormerlyKoan05
 {
-
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldCountTheNumberOfDoctorsRegeneratedForms()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node doctor = universe.theDoctor();
+            Node doctor = neo4jResource.theDoctor();
 
             int numberOfRegenerations = 0;
 
@@ -88,7 +78,7 @@ public class AdvancedCoreApiFormerlyKoan05
     {
         Set<Node> humanCompanions = new HashSet<>();
 
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
@@ -96,11 +86,10 @@ public class AdvancedCoreApiFormerlyKoan05
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            Node human = database.findNodesByLabelAndProperty( SPECIES, "species",
-                    "Human" ).iterator().next();
+            Node human = database.findNode(SPECIES, "species", "Human");
 
 
-            for ( Relationship rel : universe.theDoctor()
+            for ( Relationship rel : neo4jResource.theDoctor()
                     .getRelationships( INCOMING,
                             DoctorWhoRelationships.COMPANION_OF ) )
             {
@@ -133,7 +122,7 @@ public class AdvancedCoreApiFormerlyKoan05
     @Test
     public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
@@ -142,9 +131,8 @@ public class AdvancedCoreApiFormerlyKoan05
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            Node roseTyler = database.findNodesByLabelAndProperty( CHARACTER, "character",
-                    "Rose Tyler" ).iterator().next();
-            Node daleks = database.findNodesByLabelAndProperty( SPECIES, "species", "Dalek" ).iterator().next();
+            Node roseTyler = database.findNode(CHARACTER, "character", "Rose Tyler");
+            Node daleks = database.findNode( SPECIES, "species", "Dalek" );
 
 
             for ( Relationship roseAppearedIn : roseTyler.getRelationships( OUTGOING, APPEARED_IN ) )
@@ -163,7 +151,7 @@ public class AdvancedCoreApiFormerlyKoan05
 
             tx.success();
             assertThat( episodesWhereRoseFightsTheDaleks,
-                    containsOnlyTitles( universe.getDatabase(), "Army of Ghosts", "The Stolen Earth", "Doomsday",
+                    containsOnlyTitles( neo4jResource.getGraphDatabaseService(), "Army of Ghosts", "The Stolen Earth", "Doomsday",
                             "Journey's End", "Bad Wolf",
                             "The Parting of the Ways", "Dalek" ) );
         }

@@ -1,9 +1,6 @@
 package org.neo4j.tutorial.advanced;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -12,8 +9,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
+import org.neo4j.tutorial.DoctorWhoUniverseResource;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -33,31 +29,20 @@ import static org.neo4j.tutorial.matchers.ContainsSpecificCompanions.contains;
 public class LegacyIndexesFormerlyKoan03
 {
 
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldRetrieveCharactersIndexFromTheDatabase()
     {
         Index<Node> characters = null;
 
-        try ( Transaction tx = universe.getDatabase().beginTx() )
+        try ( Transaction tx = neo4jResource.getGraphDatabaseService().beginTx() )
         {
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            characters = universe.getDatabase()
+            characters = neo4jResource.getGraphDatabaseService()
                     .index()
                     .forNodes( "characters" );
 
@@ -75,7 +60,7 @@ public class LegacyIndexesFormerlyKoan03
     @Test
     public void addingToALegacyIndexShouldBeHandledAsAMutatingOperation()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         Node abigailPettigrew = createAbigailPettigrew( database );
 
@@ -109,7 +94,7 @@ public class LegacyIndexesFormerlyKoan03
     public void shouldFindSpeciesBeginningWithCapitalLetterSAndEndingWithLowerCaseLetterNUsingLuceneQuery()
             throws Exception
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
         IndexHits<Node> species = null;
 
         //HINT: while the naming convention in the Doctor Who indexes is
@@ -146,7 +131,7 @@ public class LegacyIndexesFormerlyKoan03
     @Test
     public void shouldEnsureDatabaseAndIndexInSyncWhenCyberleaderIsDeleted() throws Exception
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
         Node cyberleader = retriveCyberleaderFromIndex( database );
 
         // YOUR CODE GOES HERE

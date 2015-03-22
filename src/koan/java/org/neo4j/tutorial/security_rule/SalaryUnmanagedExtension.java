@@ -7,11 +7,8 @@ import javax.ws.rs.core.Context;
 
 import com.sun.jersey.api.NotFoundException;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.kernel.impl.util.StringLogger;
-
+import org.neo4j.graphdb.Result;
 
 @Path("/{actor}")
 public class SalaryUnmanagedExtension
@@ -20,15 +17,14 @@ public class SalaryUnmanagedExtension
     @Path("/salary")
     public String findSalaryForActor( @PathParam("actor") String actor, @Context GraphDatabaseService db )
     {
-        ExecutionEngine engine = new ExecutionEngine( db, StringLogger.DEV_NULL );
         String cql = null;
 
         cql = "MATCH (actor:Actor) " +
                 "WHERE has(actor.salary)" +
                 "RETURN actor.salary as salary";
 
-        ExecutionResult result = engine.execute( cql );
-        Object salary = result.javaColumnAs( "salary" ).next();
+        Result result = db.execute( cql );
+        Object salary = result.columnAs( "salary" ).next();
 
         if ( salary != null )
         {

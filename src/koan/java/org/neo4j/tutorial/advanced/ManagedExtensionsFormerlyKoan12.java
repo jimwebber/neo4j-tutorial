@@ -9,15 +9,11 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.server.CommunityNeoServer;
 import org.neo4j.server.rest.domain.JsonHelper;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.ServerDoctorWhoUniverse;
-import org.neo4j.tutorial.server.ServerBuilder;
+import org.neo4j.tutorial.DoctorWhoUniverseServerResource;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -34,27 +30,8 @@ import static org.junit.Assert.assertEquals;
 public class ManagedExtensionsFormerlyKoan12
 {
 
-    private static ServerDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
-
-        CommunityNeoServer server = ServerBuilder
-                .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
-                .build();
-
-        universe = new ServerDoctorWhoUniverse( server );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
-
+    @ClassRule
+    public static DoctorWhoUniverseServerResource neo4j = new DoctorWhoUniverseServerResource();
 
     @Test
     public void shouldFindAwesomenessRatingsRoseTyler() throws Exception
@@ -73,8 +50,8 @@ public class ManagedExtensionsFormerlyKoan12
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
 
-        WebResource resource = client.resource(
-                "http://localhost:7474/db/data/label/Character/nodes?character=%22Rose+Tyler%22" );
+        WebResource resource = client.resource(neo4j.getBaseUrl() +
+                "db/data/label/Character/nodes?character=%22Rose+Tyler%22" );
         ClientResponse response = resource.accept( APPLICATION_JSON ).get( ClientResponse.class );
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response.getEntity( String.class ) );

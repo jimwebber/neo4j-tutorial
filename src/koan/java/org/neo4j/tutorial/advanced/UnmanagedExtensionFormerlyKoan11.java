@@ -7,14 +7,10 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.server.CommunityNeoServer;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.ServerDoctorWhoUniverse;
-import org.neo4j.tutorial.server.ServerBuilder;
+import org.neo4j.tutorial.DoctorWhoUniverseServerResource;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -25,27 +21,9 @@ import static junit.framework.Assert.assertEquals;
 public class UnmanagedExtensionFormerlyKoan11
 {
 
-    private static ServerDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
-
-        CommunityNeoServer server = ServerBuilder
-                .server()
-                .usingDatabaseDir( doctorWhoUniverseGenerator.generate() )
-                .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.unmanaged_extension", "/tutorial" )
-                .build();
-
-        universe = new ServerDoctorWhoUniverse( server );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    public static DoctorWhoUniverseServerResource neo4j = new DoctorWhoUniverseServerResource()
+        .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.unmanaged_extension", "/tutorial" );
 
     @Test
     public void shouldReturnTheDoctorsHomePlanetName() throws Exception
@@ -58,7 +36,7 @@ public class UnmanagedExtensionFormerlyKoan11
         ClientConfig config = new DefaultClientConfig();
         Client client = Client.create( config );
 
-        WebResource resource = client.resource( "http://localhost:7474/tutorial/Doctor/homeplanet" );
+        WebResource resource = client.resource( neo4j.getBaseUrl() +  "tutorial/Doctor/homeplanet" );
         ClientResponse response = resource.accept( MediaType.TEXT_PLAIN ).get( ClientResponse.class );
 
         assertEquals( 200, response.getStatus() );
