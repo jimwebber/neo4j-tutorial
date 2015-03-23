@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.neo4j.cypher.ExecutionEngine;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import static java.lang.String.format;
 
@@ -45,7 +45,7 @@ public class ActorBuilder
         return this;
     }
 
-    public void fact( ExecutionEngine engine )
+    public void fact( GraphDatabaseService graphDatabaseService)
     {
         StringBuilder sb = new StringBuilder();
         for ( String characterName : characterNames )
@@ -77,6 +77,6 @@ public class ActorBuilder
             sb.append( format( "SET a2.salary= %d", cash ) );
         }
 
-        engine.execute( sb.toString() );
+        graphDatabaseService.execute( sb.toString() );
     }
 }

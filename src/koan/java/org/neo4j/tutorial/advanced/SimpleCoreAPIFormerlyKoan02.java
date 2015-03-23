@@ -1,7 +1,6 @@
 package org.neo4j.tutorial.advanced;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphdb.Direction;
@@ -11,6 +10,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tutorial.DatabaseHelper;
 import org.neo4j.tutorial.DoctorWhoRelationships;
+import org.neo4j.tutorial.Neo4jEmbeddedResource;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,27 +29,13 @@ import static org.junit.Assert.fail;
 public class SimpleCoreAPIFormerlyKoan02
 {
 
-    private static GraphDatabaseService database;
-    private static DatabaseHelper databaseHelper;
-
-
-    @BeforeClass
-    public static void createADatabase()
-    {
-        database = DatabaseHelper.createDatabase();
-        databaseHelper = new DatabaseHelper( database );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        database.shutdown();
-        database = null;
-    }
-
+    @ClassRule
+    static public Neo4jEmbeddedResource neo4jResource = new Neo4jEmbeddedResource();
+    
     @Test
     public void shouldCreateANodeInTheDatabase()
     {
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node node = null;
 
         // HINT: mutation operations need to be wrapped in transactions
@@ -61,28 +47,29 @@ public class SimpleCoreAPIFormerlyKoan02
         // SNIPPET_START
 
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            node = database.createNode();
+            node = db.createNode();
             tx.success();
         }
 
         // SNIPPET_END
 
-        assertTrue( databaseHelper.nodeExistsInDatabase( node ) );
+        assertTrue(new DatabaseHelper(db).nodeExistsInDatabase( node ) );
     }
 
     @Test
     public void shouldCreateSomePropertiesOnANode()
     {
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node theDoctor = null;
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            theDoctor = database.createNode();
+            theDoctor = db.createNode();
             theDoctor.setProperty( "firstname", "William" );
             theDoctor.setProperty( "lastname", "Hartnell" );
             tx.success();
@@ -90,11 +77,11 @@ public class SimpleCoreAPIFormerlyKoan02
 
         // SNIPPET_END
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            assertTrue( databaseHelper.nodeExistsInDatabase( theDoctor ) );
+            assertTrue(new DatabaseHelper(db).nodeExistsInDatabase(theDoctor));
 
-            Node storedNode = database.getNodeById( theDoctor.getId() );
+            Node storedNode = db.getNodeById( theDoctor.getId() );
             assertEquals( "William", storedNode.getProperty( "firstname" ) );
             assertEquals( "Hartnell", storedNode.getProperty( "lastname" ) );
 
@@ -105,6 +92,7 @@ public class SimpleCoreAPIFormerlyKoan02
     @Test
     public void shouldRelateTwoNodes()
     {
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node theDoctor = null;
         Node susan = null;
         Relationship companionRelationship = null;
@@ -116,12 +104,12 @@ public class SimpleCoreAPIFormerlyKoan02
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            theDoctor = database.createNode();
+            theDoctor = db.createNode();
             theDoctor.setProperty( "character", "Doctor" );
 
-            susan = database.createNode();
+            susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
@@ -133,9 +121,9 @@ public class SimpleCoreAPIFormerlyKoan02
 
         // SNIPPET_END
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            Relationship storedCompanionRelationship = database.getRelationshipById( companionRelationship.getId() );
+            Relationship storedCompanionRelationship = db.getRelationshipById( companionRelationship.getId() );
             assertNotNull( storedCompanionRelationship );
             assertNotNull( storedCompanionRelationship.getType().equals( DoctorWhoRelationships.COMPANION_OF ) );
             assertEquals( susan, storedCompanionRelationship.getStartNode() );
@@ -147,13 +135,14 @@ public class SimpleCoreAPIFormerlyKoan02
     @Test
     public void shouldRemoveStarTrekInformation()
     {
-        /* Captain Kirk has no business being in our database, so set phasers to kill */
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
+        /* Captain Kirk has no business being in our db, so set phasers to kill */
         Node captainKirk = createPollutedDatabaseContainingStarTrekReferences();
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
 
             // This is the tricky part, you have to remove the active
@@ -179,7 +168,7 @@ public class SimpleCoreAPIFormerlyKoan02
         catch ( Exception e )
         {
             // If the exception is thrown, we've removed Captain Kirk from the
-            // database
+            // db
             assertNotNull( e );
         }
     }
@@ -187,12 +176,13 @@ public class SimpleCoreAPIFormerlyKoan02
     @Test
     public void shouldRemoveIncorrectEnemyOfRelationshipBetweenSusanAndTheDoctor()
     {
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();
 
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
             Iterable<Relationship> relationships = susan.getRelationships( DoctorWhoRelationships.ENEMY_OF,
                     Direction.OUTGOING );
@@ -211,21 +201,22 @@ public class SimpleCoreAPIFormerlyKoan02
 
         // SNIPPET_END
 
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            assertEquals( 1, databaseHelper.destructivelyCountRelationships( susan.getRelationships() ) );
+            assertEquals( 1, new DatabaseHelper(db).destructivelyCountRelationships( susan.getRelationships() ) );
             tx.success();
         }
     }
 
     private Node createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor()
     {
-        try ( Transaction tx = database.beginTx() )
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
+        try ( Transaction tx = db.beginTx() )
         {
-            Node theDoctor = database.createNode();
+            Node theDoctor = db.createNode();
             theDoctor.setProperty( "character", "Doctor" );
 
-            Node susan = database.createNode();
+            Node susan = db.createNode();
             susan.setProperty( "firstname", "Susan" );
             susan.setProperty( "lastname", "Campbell" );
 
@@ -239,13 +230,14 @@ public class SimpleCoreAPIFormerlyKoan02
 
     private Node createPollutedDatabaseContainingStarTrekReferences()
     {
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node captainKirk = null;
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = db.beginTx() )
         {
-            Node theDoctor = database.createNode();
+            Node theDoctor = db.createNode();
             theDoctor.setProperty( "character", "The Doctor" );
 
-            captainKirk = database.createNode();
+            captainKirk = db.createNode();
             captainKirk.setProperty( "firstname", "James" );
             captainKirk.setProperty( "initial", "T" );
             captainKirk.setProperty( "lastname", "Kirk" );

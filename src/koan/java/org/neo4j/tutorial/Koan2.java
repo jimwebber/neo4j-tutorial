@@ -1,13 +1,13 @@
 package org.neo4j.tutorial;
 
+import org.junit.Rule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.kernel.impl.util.StringLogger;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
+import org.neo4j.helpers.collection.IteratorUtil;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 /**
  * In this Koan we learn how to create, update, and delete nodes and relationships in the
@@ -15,10 +15,14 @@ import static org.junit.Assert.assertFalse;
  */
 public class Koan2
 {
+
+    @Rule
+    public Neo4jEmbeddedResource neo4jResource = new Neo4jEmbeddedResource();
+
     @Test
     public void shouldCreateASingleNode()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
+        GraphDatabaseService graphDatabaseService = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -28,17 +32,17 @@ public class Koan2
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        graphDatabaseService.execute(cql);
 
-        final ExecutionResult executionResult = engine.execute( "START n=node(*) return n" );
+        final Result result = graphDatabaseService.execute("START n=node(*) return n");
 
-        assertEquals( 1, executionResult.size() );
+        assertEquals( 1, IteratorUtil.count(result) );
     }
 
     @Test
     public void shouldCreateASingleNodeWithSomeProperties()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -48,20 +52,20 @@ public class Koan2
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute(cql);
 
-        final ExecutionResult executionResult = engine.execute(
+        final Result result = db.execute(
                 "MATCH (n {firstname: 'Tom', lastname: 'Baker'}) RETURN n" );
 
         /* Geek question: if you've read ahead, what's the Big O cost of this match? */
 
-        assertEquals( 1, executionResult.size() );
+        assertEquals( 1, IteratorUtil.count(result) );
     }
 
     @Test
     public void shouldCreateASimpleConnectedGraph()
     {
-        ExecutionEngine engine = new ExecutionEngine( DatabaseHelper.createDatabase(), StringLogger.DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -72,16 +76,15 @@ public class Koan2
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute(cql);
 
-        final ExecutionResult executionResult = engine.execute(
+        final Result result = db.execute(
                 "MATCH (a {character: 'Doctor'})<-[:ENEMY_OF]-(b {character: 'Master'}) \n" +
                         "RETURN a, b \n" );
 
         /* Same geek question: if you've read ahead, what's the Big O cost of this match? */
 
-        assertFalse( executionResult.isEmpty() );
-        assertEquals( 2, executionResult.columns().toList().size() );
-        assertEquals( 1, executionResult.size() );
+        assertEquals( 2, result.columns().size() );
+        assertEquals( 1, IteratorUtil.count(result) );
     }
 }

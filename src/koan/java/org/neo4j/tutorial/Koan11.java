@@ -1,39 +1,25 @@
 package org.neo4j.tutorial;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Result;
 
 import static org.junit.Assert.assertEquals;
-
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this koan we call out to the (small!) algorithm library exposed to Cypher to peform shortest path calculations.
  */
 public class Koan11
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldFindLengthOfTheShortestPathBetweenSarahJaneSmithAndSkaro() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -44,8 +30,8 @@ public class Koan11
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertEquals( 3, result.javaColumnAs( "length" ).next() );
+        assertEquals( 3, result.columnAs( "length" ).next() );
     }
 }

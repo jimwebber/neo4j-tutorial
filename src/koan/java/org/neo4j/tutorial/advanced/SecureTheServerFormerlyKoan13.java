@@ -4,20 +4,15 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.server.CommunityNeoServer;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.ServerDoctorWhoUniverse;
+import org.neo4j.tutorial.DoctorWhoUniverseServerResource;
 import org.neo4j.tutorial.security_rule.UserNameAndPasswordForSalariesSecurityRule;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.neo4j.tutorial.server.ServerBuilder.server;
 
 /**
  * In this Koan we mix an unmanaged (JAX-RS) extension with security rules to provide
@@ -27,28 +22,10 @@ import static org.neo4j.tutorial.server.ServerBuilder.server;
 public class SecureTheServerFormerlyKoan13
 {
 
-    private static ServerDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        DoctorWhoUniverseGenerator doctorWhoUniverseGenerator = new DoctorWhoUniverseGenerator();
-
-        CommunityNeoServer server =
-                server()
-                        .usingDatabaseDir( doctorWhoUniverseGenerator.getCleanlyShutdownDatabaseDirectory() )
-                        .withThirdPartyJaxRsPackage( "org.neo4j.tutorial.security_rule", "/security_rule" )
-                        .withSecurityRules( UserNameAndPasswordForSalariesSecurityRule.class )
-                        .build();
-
-        universe = new ServerDoctorWhoUniverse( server );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    public static DoctorWhoUniverseServerResource neo4j = new DoctorWhoUniverseServerResource()
+            .withThirdPartyJaxRsPackage("org.neo4j.tutorial.security_rule", "/security_rule")
+            .withConfig("org.neo4j.server.rest.security_rules", UserNameAndPasswordForSalariesSecurityRule.class.getName());
 
     @Test
     public void regularRESTAPIShouldNotBeSecured()

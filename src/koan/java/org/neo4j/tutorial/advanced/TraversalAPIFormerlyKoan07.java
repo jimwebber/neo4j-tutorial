@@ -1,7 +1,6 @@
 package org.neo4j.tutorial.advanced;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphdb.Direction;
@@ -12,10 +11,9 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.kernel.Uniqueness;
+import org.neo4j.graphdb.traversal.Uniqueness;
 import org.neo4j.tutorial.DoctorWhoRelationships;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
+import org.neo4j.tutorial.DoctorWhoUniverseResource;
 
 import static org.junit.Assert.assertThat;
 
@@ -28,27 +26,16 @@ import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.contains
  */
 public class TraversalAPIFormerlyKoan07
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldDiscoverHowManyDoctorActorsHaveParticipatedInARegeneration() throws Exception
     {
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = neo4jResource.theDoctor();
         TraversalDescription regeneratedActors = null;
 
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
@@ -85,10 +72,10 @@ public class TraversalAPIFormerlyKoan07
     @Test
     public void shouldFindTheFirstDoctor()
     {
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = neo4jResource.theDoctor();
         TraversalDescription firstDoctor = null;
 
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {

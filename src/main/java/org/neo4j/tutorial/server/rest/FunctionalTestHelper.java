@@ -1,25 +1,19 @@
 package org.neo4j.tutorial.server.rest;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.server.CommunityNeoServer;
+import java.net.URI;
 
 public final class FunctionalTestHelper
 {
-    private final CommunityNeoServer server;
+    private final URI baseUri;
 
-    public FunctionalTestHelper( CommunityNeoServer server )
+    public FunctionalTestHelper( URI baseUri )
     {
-        if ( server.getDatabase() == null )
-        {
-            throw new RuntimeException( "Server must be started before using " + getClass().getName() );
-        }
-        this.server = server;
+        this.baseUri = baseUri;
     }
 
     public String dataUri()
     {
-        return server.baseUri()
-                .toString() + "db/data/";
+        return baseUri.toString() + "db/data/";
     }
 
     public String nodeUri()
@@ -42,10 +36,10 @@ public final class FunctionalTestHelper
         return relationshipUri() + "/" + id;
     }
 
-    public GraphDatabaseService getDatabase()
+    /*public GraphDatabaseService getDatabase()
     {
         return server.getDatabase().getGraph();
-    }
+    }*/
 
     public String nodeUri( String label, String key, String value )
     {

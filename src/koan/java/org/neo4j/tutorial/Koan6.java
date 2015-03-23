@@ -5,16 +5,10 @@ import java.util.Set;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
 
@@ -23,31 +17,20 @@ import static java.lang.String.format;
 import static org.junit.Assert.assertThat;
 
 import static org.neo4j.helpers.collection.IteratorUtil.asSet;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 
 /**
  * In this Koan we use OPTIONAL MATCH to loosen the pattern to include optionally connected nodes.
  */
 public class Koan6
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldReturnTheCharactersAndTheThingsTheyOwn() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // Hint: use 'c' for character column name and 't' for thing column name
@@ -62,7 +45,7 @@ public class Koan6
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
         assertThat( result, containsOwnersAndThings( asSet(
                 pair( "Doctor", "Tardis" ),
@@ -78,7 +61,7 @@ public class Koan6
     public void shouldVisitAllNodesAndRelationships() throws Exception
     {
         // add a visited=true property to every node and relationship
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -92,9 +75,9 @@ public class Koan6
 
         // SNIPPET_END
 
-        ExecutionResult result = engine.execute( cql );
+        Result result = db.execute( cql );
 
-        assertThat( universe.getDatabase(), allNodesAndRelationshipsNowHaveAVisitedPropertySetToTrue() );
+        assertThat( db, allNodesAndRelationshipsNowHaveAVisitedPropertySetToTrue() );
 
     }
 
@@ -139,18 +122,16 @@ public class Koan6
         };
     }
 
-    private TypeSafeMatcher<ExecutionResult> containsOwnersAndThings( final Set<Pair<String, String>> pairs )
+    private TypeSafeMatcher<Result> containsOwnersAndThings( final Set<Pair<String, String>> pairs )
     {
-        return new TypeSafeMatcher<ExecutionResult>()
+        return new TypeSafeMatcher<Result>()
         {
             int numberOfPairs = pairs.size();
 
             @Override
-            protected boolean matchesSafely( ExecutionResult executionResult )
+            protected boolean matchesSafely( Result result )
             {
-                ResourceIterator<Map<String, Object>> mapResourceIterator = executionResult.javaIterator();
-
-                for ( Map<String, Object> stringObjectMap : IteratorUtil.asIterable( mapResourceIterator ) )
+                for ( Map<String, Object> stringObjectMap : IteratorUtil.asIterable( result ) )
                 {
                     for ( Pair pair : pairs )
                     {

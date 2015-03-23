@@ -2,21 +2,12 @@ package org.neo4j.tutorial;
 
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.ResourceIterable;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.Traverser;
@@ -33,7 +24,6 @@ import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Evaluation.INCLUDE_AND_PRUNE;
 import static org.neo4j.graphdb.traversal.Uniqueness.NODE_GLOBAL;
 import static org.neo4j.helpers.collection.IteratorUtil.asList;
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.ACTOR;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 import static org.neo4j.tutorial.DoctorWhoLabels.EPISODE;
@@ -50,36 +40,20 @@ import static org.neo4j.tutorial.DoctorWhoRelationships.REGENERATED_TO;
 
 /**
  * Be careful when adding tests here - each test in this class uses the same
- * database instance and so can pollute. This was done for performance reasons
- * since loading the database for each test takes a long time, even on fast
+ * neo4j.getGraphDatabaseService() instance and so can pollute. This was done for performance reasons
+ * since loading the neo4j.getGraphDatabaseService() for each test takes a long time, even on fast
  * hardware.
  */
 public class DoctorWhoUniverseGeneratorTest
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-    private static GraphDatabaseService database;
-    private static DatabaseHelper databaseHelper;
-    private static ExecutionEngine engine;
-
-    @BeforeClass
-    public static void startDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-        database = universe.getDatabase();
-        databaseHelper = new DatabaseHelper( database );
-        engine = new ExecutionEngine( database, DEV_NULL );
-    }
-
-    @AfterClass
-    public static void stopDatabase()
-    {
-        database.shutdown();
-    }
+    
+    @ClassRule
+    public static DoctorWhoUniverseResource neo4j = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldHaveCorrectNextAndPreviousLinks()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node ep = getNodeFromDatabase( EPISODE, "1" );
 
@@ -91,7 +65,7 @@ public class DoctorWhoUniverseGeneratorTest
                 count++;
             }
 
-            ExecutionResult result = engine.execute( "MATCH (ep:Episode) RETURN count(ep) AS episodeCount" );
+            Result result = neo4j.getGraphDatabaseService().execute("MATCH (ep:Episode) RETURN count(ep) AS episodeCount");
             assertEquals( count, Integer.valueOf( result.columnAs( "episodeCount" ).next().toString() ).intValue() );
 
             while ( ep.hasRelationship( PREVIOUS, OUTGOING ) )
@@ -109,9 +83,9 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberOfPlanets()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
-            final ExecutionResult result = engine.execute( "MATCH (p:Planet) RETURN count(p) AS planetCount" );
+            final Result result = neo4j.getGraphDatabaseService().execute("MATCH (p:Planet) RETURN count(p) AS planetCount");
 
             int numberOfPlanetsMentionedInTVEpisodes = 447;
             assertEquals( numberOfPlanetsMentionedInTVEpisodes, Integer.valueOf( result.columnAs( "planetCount" )
@@ -123,7 +97,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void theDoctorsRegenerationsShouldBeDated()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node nextDoctor = getNodeFromDatabase( ACTOR, "William Hartnell" );
 
@@ -154,11 +128,11 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberOfHumans()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node humanSpeciesNode = getNodeFromDatabase( SPECIES, "Human" );
 
-            int numberOfHumansFriendliesInTheDB = databaseHelper.destructivelyCountRelationships(
+            int numberOfHumansFriendliesInTheDB = new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCountRelationships(
                     humanSpeciesNode.getRelationships( IS_A, INCOMING ) );
 
             int knownNumberOfHumans = 57;
@@ -170,13 +144,13 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldBe8TimelordsInTheUniverse()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node timelordSpeciesNode = getNodeFromDatabase( SPECIES, "Timelord" );
 
-            int numberOfTimelordsInTheDb = databaseHelper.destructivelyCountRelationships(
+            int numberOfTimelordsInTheDb = new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCountRelationships(
                     timelordSpeciesNode.getRelationships(
-                            IS_A, INCOMING ) );
+                            IS_A, INCOMING));
 
             int knownNumberOfTimelords = 9;
             assertEquals( knownNumberOfTimelords, numberOfTimelordsInTheDb );
@@ -187,11 +161,11 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberOfSpecies()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfSpecies = 55;
 
-            ExecutionResult result = engine.execute( "MATCH (s:Species) RETURN count(s) AS speciesCount" );
+            Result result = neo4j.getGraphDatabaseService().execute("MATCH (s:Species) RETURN count(s) AS speciesCount");
             assertEquals( numberOfSpecies, Integer.valueOf( result.columnAs( "speciesCount" ).next().toString() )
                     .intValue() );
 
@@ -202,16 +176,16 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHave12ActorsThatHavePlayedTheDoctor()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfDoctors = 13; // 13 Because the first doctor was played by 2
             // actors over the course of the franchise
 
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4j.theDoctor();
 
             assertNotNull( theDoctor );
-            assertEquals( numberOfDoctors, databaseHelper.destructivelyCountRelationships(
-                    theDoctor.getRelationships( PLAYED, INCOMING ) ) );
+            assertEquals( numberOfDoctors, new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCountRelationships(
+                    theDoctor.getRelationships(PLAYED, INCOMING)) );
             tx.success();
         }
     }
@@ -219,12 +193,11 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldBeTenRegenerationRelationshipsBetweenTheElevenDoctors()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfDoctorsRegenerations = 12;
 
-            Node firstDoctor = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "William Hartnell" ).iterator().next();
+            Node firstDoctor = neo4j.getGraphDatabaseService().findNodes(ACTOR, "actor", "William Hartnell").next();
             assertNotNull( firstDoctor );
 
             assertEquals( numberOfDoctorsRegenerations,
@@ -237,17 +210,15 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldBeSevenRegenerationRelationshipsBetweenTheEightMasters()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfMastersRegenerations = 7;
 
-            final ResourceIterable<Node> nodes = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "Roger Delgado" );
+            final ResourceIterator<Node> nodes = neo4j.getGraphDatabaseService().findNodes(ACTOR, "actor", "Roger Delgado");
 
-            assertEquals( 1, databaseHelper.destructivelyCount( nodes ) );
+            assertEquals( 1, new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCount(nodes) );
 
-            Node currentMaster = database.findNodesByLabelAndProperty( ACTOR, "actor",
-                    "Roger Delgado" ).iterator().next();
+            Node currentMaster = neo4j.getGraphDatabaseService().findNodes(ACTOR, "actor", "Roger Delgado").next();
 
             assertEquals( numberOfMastersRegenerations, countOutgoingRegeneratedToRelationshipsStartingWith(
                     currentMaster ) );
@@ -281,14 +252,14 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHave8Masters()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfMasters = 8;
             Node theMaster = getNodeFromDatabase( CHARACTER, "Master" );
 
             assertNotNull( theMaster );
-            assertEquals( numberOfMasters, databaseHelper.destructivelyCountRelationships(
-                    theMaster.getRelationships( PLAYED, INCOMING ) ) );
+            assertEquals( numberOfMasters, new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCountRelationships(
+                    theMaster.getRelationships(PLAYED, INCOMING)) );
             tx.failure();
         }
     }
@@ -296,7 +267,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void timelordsShouldComeFromGallifrey()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node gallifrey = getNodeFromDatabase( PLANET, "Gallifrey" );
             Node timelord = getNodeFromDatabase( SPECIES, "Timelord" );
@@ -317,16 +288,16 @@ public class DoctorWhoUniverseGeneratorTest
 
     private Node getNodeFromDatabase( Label label, String value )
     {
-        return database.findNodesByLabelAndProperty( label, label.name().toLowerCase(), value ).iterator().next();
+        return neo4j.getGraphDatabaseService().findNode(label, label.name().toLowerCase(), value);
     }
 
     @Test
     public void shortestPathBetweenDoctorAndMasterShouldBeLengthOneTypeEnemyOf()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node theMaster = getNodeFromDatabase( CHARACTER, "Master" );
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4j.theDoctor();
 
             int maxDepth = 5; // No more than 5, or we find Kevin Bacon!
             PathFinder<Path> shortestPathFinder = GraphAlgoFactory.shortestPath( Traversal.expanderForAllTypes(),
@@ -343,7 +314,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void daleksShouldBeEnemiesOfTheDoctor()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node dalek = getNodeFromDatabase( SPECIES, "Dalek" );
             assertNotNull( dalek );
@@ -358,7 +329,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void cybermenShouldBeEnemiesOfTheDoctor()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node cyberman = getNodeFromDatabase( SPECIES, "Cyberman" );
             assertNotNull( cyberman );
@@ -370,7 +341,7 @@ public class DoctorWhoUniverseGeneratorTest
 
     private boolean containsTheDoctor( Iterable<Relationship> enemiesOf )
     {
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = neo4j.theDoctor();
 
         for ( Relationship r : enemiesOf )
         {
@@ -386,7 +357,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldFindEnemiesOfTheMastersEnemies()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             Node theMaster = getNodeFromDatabase( CHARACTER, "Master" );
 
@@ -448,10 +419,10 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldBeCorrectNumberOfEnemySpecies()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfEnemySpecies = 43;
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4j.theDoctor();
 
             Iterable<Relationship> relationships = theDoctor.getRelationships( ENEMY_OF, INCOMING );
             int enemySpeciesFound = 0;
@@ -472,17 +443,17 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberOfCompanionsInTotal()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfCompanions = 47;
 
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4j.theDoctor();
 
             assertNotNull( theDoctor );
 
-            assertEquals( numberOfCompanions, databaseHelper.destructivelyCountRelationships( theDoctor
+            assertEquals( numberOfCompanions, new DatabaseHelper(neo4j.getGraphDatabaseService()).destructivelyCountRelationships(theDoctor
                     .getRelationships(
-                            COMPANION_OF, INCOMING ) ) );
+                            COMPANION_OF, INCOMING)) );
             tx.failure();
         }
     }
@@ -490,11 +461,11 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void shouldHaveCorrectNumberofIndividualEnemyCharactersInTotal()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             int numberOfEnemies = 116;
 
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4j.theDoctor();
 
             assertNotNull( theDoctor );
 
@@ -517,7 +488,7 @@ public class DoctorWhoUniverseGeneratorTest
     @Test
     public void severalSpeciesShouldBeEnemies()
     {
-        try ( Transaction tx = database.beginTx() )
+        try ( Transaction tx = neo4j.getGraphDatabaseService().beginTx() )
         {
             assertTrue( areMututalEnemySpecies( "Dalek", "Cyberman" ) );
             assertTrue( areMututalEnemySpecies( "Dalek", "Human" ) );

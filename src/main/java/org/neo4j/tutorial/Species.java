@@ -1,21 +1,17 @@
 package org.neo4j.tutorial;
 
-import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.SpeciesBuilder.species;
 
 public class Species
 {
     private final GraphDatabaseService db;
-    private final ExecutionEngine engine;
 
     public Species( GraphDatabaseService db )
     {
         this.db = db;
-        this.engine = new ExecutionEngine( db, DEV_NULL );
     }
 
     public void insert()
@@ -25,99 +21,99 @@ public class Species
             species( "Timelord" )
                     .isEnemyOfSpecies( "Dalek" )
                     .isFrom( "Gallifrey" )
-                    .fact( engine );
+                    .fact( db );
             species( "Abrobvian" )
                     .isEnemyOf( "Doctor" )
                     .isFrom( "Clom" )
-                    .fact( engine );
-            species( "Android" ).fact( engine );
+                    .fact( db );
+            species( "Android" ).fact( db );
             species( "Auton" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Human" )
                     .isFrom( "Polymos" )
-                    .fact( engine );
+                    .fact( db );
             species( "Axon" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Human" )
-                    .fact( engine );
+                    .fact( db );
             species( "Devil" )
                     .isEnemyOf( "Doctor" )
                     .isFrom( "Impossible Planet" )
-                    .fact( engine );
+                    .fact( db );
             species( "Cyberman" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Dalek" )
                     .isFrom( "Mondas" )
-                    .fact( engine );
+                    .fact( db );
             species( "Dalek" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Cyberman", "Thaal", "Mechonoids", "Human" )
                     .isFrom( "Skaro" )
-                    .fact( engine );
+                    .fact( db );
             species( "Gargoyle" )
                     .isEnemyOf( "Doctor" )
-                    .fact( engine );
+                    .fact( db );
             species( "Ice Warrior" )
                     .isEnemyOf( "Doctor" )
                     .isFrom( "Mars" )
-                    .fact( engine );
+                    .fact( db );
             species( "Human" )
                     .isFrom( "Earth" )
-                    .fact( engine );
+                    .fact( db );
             species( "Humanoid" )
-                    .fact( engine );
+                    .fact( db );
             species( "Jagrafess" )
                     .isEnemyOf( "Doctor" )
-                    .fact( engine );
+                    .fact( db );
             species( "Jagaroth" )
-                    .fact( engine );
+                    .fact( db );
             species( "Kaled" )
                     .isEnemyOf( "Doctor" )
                     .isFrom( "Skaro" )
-                    .fact( engine );
+                    .fact( db );
             species( "Kastrian" )
                     .isFrom( "Kastria" )
-                    .fact( engine );
+                    .fact( db );
             species( "Mechonoids" )
                     .isFrom( "Mechanus" )
-                    .fact( engine );
+                    .fact( db );
             species( "Ood" )
                     .isFrom( "Ood Sphere" )
-                    .fact( engine );
+                    .fact( db );
             species( "Osiron" )
                     .isEnemyOf( "Doctor" )
-                    .fact( engine );
-            species( "Robotic Canine" ).fact( engine );
+                    .fact( db );
+            species( "Robotic Canine" ).fact( db );
             species( "Sea Devil" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Human" )
                     .isFrom( "Earth" )
-                    .fact( engine );
+                    .fact( db );
             species( "Silurian" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Human" )
                     .isFrom( "Earth" )
-                    .fact( engine );
+                    .fact( db );
             species( "Skarasen" )
                     .isEnemyOf( "Doctor" )
-                    .fact( engine );
+                    .fact( db );
             species( "Slitheen" )
                     .isEnemyOf( "Doctor" )
                     .isEnemyOfSpecies( "Human" )
                     .isFrom( "Raxacoricofallapatorius" )
-                    .fact( engine );
+                    .fact( db );
             species( "Sontaran" )
                     .isEnemyOf( "Doctor", "Martha Jones" )
                     .isEnemyOfSpecies( "Human" )
                     .isFrom( "Sontar" )
-                    .fact( engine );
+                    .fact( db );
             species( "Trion" )
                     .isFrom( "Trion" )
-                    .fact( engine );
+                    .fact( db );
             species( "Vashta Nerada" )
                     .isEnemyOf( "Doctor", "Donna Noble" )
-                    .fact( engine );
-            species( "Voord" ).fact( engine );
+                    .fact( db );
+            species( "Voord" ).fact( db );
             tx.success();
         }
     }

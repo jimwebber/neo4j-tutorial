@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import org.neo4j.graphdb.Direction;
@@ -18,10 +17,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.TraversalPosition;
 import org.neo4j.graphdb.Traverser;
 import org.neo4j.graphdb.Traverser.Order;
-import org.neo4j.tutorial.DoctorWhoLabels;
-import org.neo4j.tutorial.DoctorWhoRelationships;
-import org.neo4j.tutorial.DoctorWhoUniverseGenerator;
-import org.neo4j.tutorial.EmbeddedDoctorWhoUniverse;
+import org.neo4j.tutorial.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -33,27 +29,16 @@ import static org.junit.Assert.assertTrue;
 // TODO: consider deleting this, the API is deprecated anyway.
 public class OldTraversalFrameworkFormerlyKoan06
 {
-    private static EmbeddedDoctorWhoUniverse universe;
-
-    @BeforeClass
-    public static void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @AfterClass
-    public static void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @ClassRule
+    static public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldFindAllCompanions()
     {
-        Node theDoctor = universe.theDoctor();
+        Node theDoctor = neo4jResource.theDoctor();
         Traverser t = null;
 
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
@@ -77,7 +62,7 @@ public class OldTraversalFrameworkFormerlyKoan06
     @Test
     public void shouldFindAllDalekProps()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
@@ -131,12 +116,11 @@ public class OldTraversalFrameworkFormerlyKoan06
     @Test
     public void shouldFindAllTheEpisodesTheMasterAndDavidTennantWereInTogether()
     {
-        GraphDatabaseService database = universe.getDatabase();
+        GraphDatabaseService database = neo4jResource.getGraphDatabaseService();
 
         try ( Transaction tx = database.beginTx() )
         {
-            Node theMaster = database.findNodesByLabelAndProperty( DoctorWhoLabels.CHARACTER, "character",
-                    "Master" ).iterator().next();
+            Node theMaster = database.findNode(DoctorWhoLabels.CHARACTER, "character", "Master");
             Traverser t = null;
 
 

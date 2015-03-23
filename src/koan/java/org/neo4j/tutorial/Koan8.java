@@ -3,22 +3,15 @@ package org.neo4j.tutorial;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
-import org.neo4j.cypher.ExecutionEngine;
-import org.neo4j.cypher.ExecutionResult;
-import org.neo4j.graphdb.DynamicRelationshipType;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.tooling.GlobalGraphOperations;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertFalse;
 
-import static org.neo4j.kernel.impl.util.StringLogger.DEV_NULL;
 import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
 
 /**
@@ -26,25 +19,14 @@ import static org.neo4j.tutorial.DoctorWhoLabels.CHARACTER;
  */
 public class Koan8
 {
-    private EmbeddedDoctorWhoUniverse universe;
-
-    @Before
-    public void createDatabase() throws Exception
-    {
-        universe = new EmbeddedDoctorWhoUniverse( new DoctorWhoUniverseGenerator().getDatabase() );
-    }
-
-    @After
-    public void closeTheDatabase()
-    {
-        universe.stop();
-    }
+    @Rule
+    public DoctorWhoUniverseResource neo4jResource = new DoctorWhoUniverseResource();
 
     @Test
     public void shouldRemoveCaptainKirkFromTheDatabase()
     {
         polluteUniverseWithStarTrekData();
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -57,17 +39,17 @@ public class Koan8
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute( cql );
 
-        final ExecutionResult executionResult = engine.execute( deletedKirkQuery );
+        final Result result = db.execute( deletedKirkQuery );
 
-        assertEquals( 0, executionResult.size() );
+        assertFalse(result.hasNext());
     }
 
     @Test
     public void shouldRemoveSalaryDataFromDoctorActors()
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -81,21 +63,21 @@ public class Koan8
         // SNIPPET_END
 
         // Just for now, while we're converting the builder code to Cypher
-        engine.execute( cql );
+        db.execute( cql );
 
-        final ExecutionResult executionResult = engine.execute(
+        final Result result = db.execute(
                 "MATCH (doctor:Character {character: 'Doctor'})<-[:PLAYED]-(actor:Actor) " +
                         "WHERE HAS (actor.salary) " +
                         "RETURN actor"
         );
 
-        assertEquals( 0, executionResult.size() );
+        assertFalse(result.hasNext());
     }
 
     @Test
     public void shouldDeleteAllTheThings() throws Exception
     {
-        ExecutionEngine engine = new ExecutionEngine( universe.getDatabase(), DEV_NULL );
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService(); 
         String cql = null;
 
         // YOUR CODE GOES HERE
@@ -107,9 +89,9 @@ public class Koan8
 
         // SNIPPET_END
 
-        engine.execute( cql );
+        db.execute( cql );
 
-        assertThat( universe.getDatabase(), allNodesAndRelationshipsErased() );
+        assertThat( db, allNodesAndRelationshipsErased() );
 
     }
 
@@ -143,11 +125,11 @@ public class Koan8
 
     private void polluteUniverseWithStarTrekData()
     {
-        GraphDatabaseService db = universe.getDatabase();
+        GraphDatabaseService db = neo4jResource.getGraphDatabaseService();
         Node captainKirk = null;
         try ( Transaction tx = db.beginTx() )
         {
-            Node theDoctor = universe.theDoctor();
+            Node theDoctor = neo4jResource.theDoctor();
 
             captainKirk = db.createNode();
             captainKirk.setProperty( "firstname", "James" );
