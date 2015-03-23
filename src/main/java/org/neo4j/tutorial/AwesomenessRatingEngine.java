@@ -1,6 +1,7 @@
 package org.neo4j.tutorial;
 
 import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 import static java.lang.System.lineSeparator;
 
@@ -24,7 +25,6 @@ public class AwesomenessRatingEngine
                     "MATCH p=shortestPath( (n)-[*0..15]-(doc) )" +
                     lineSeparator() +
                     "RETURN length(p) as hops";
-
 
             Result result = db.execute( cql );
             transaction.success();

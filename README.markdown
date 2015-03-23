@@ -99,7 +99,9 @@ Authors <a name="authors">
    
 Contributors <a name="contributors">
 -------
- 
+
+[Stefan Armbruster](http://blog.armbruster-it.de/), [darthvader42](https://twitter.com/darthvader42)
+
 [Glen Ford](http://usersource.net/), [@glen_ford](http://twitter.com/glen_ford)
 
 Alistair Jones, [@apcj](http://twitter.com/apcj)

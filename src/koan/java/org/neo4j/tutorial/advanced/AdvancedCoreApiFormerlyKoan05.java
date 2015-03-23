@@ -82,7 +82,7 @@ public class AdvancedCoreApiFormerlyKoan05
             // YOUR CODE GOES HERE
             // SNIPPET_START
 
-            Node human = database.findNode(SPECIES, "species", "Human");
+            Node human = database.findNode( SPECIES, "species", "Human" );
 
 
             for ( Relationship rel : neo4jResource.theDoctor()
