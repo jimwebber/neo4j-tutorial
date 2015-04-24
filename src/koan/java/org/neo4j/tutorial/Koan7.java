@@ -121,11 +121,12 @@ public class Koan7
         // YOUR CODE GOES HERE
         // SNIPPET_START
 
-        cql = "MATCH (davison:Actor {actor: 'Peter Davison'})-[:APPEARED_IN]->(episode:Episode)<-[:APPEARED_IN]-" +
-                "(enemy)-[:ENEMY_OF]->(:Character {character: 'Doctor'})"
-                + "RETURN episode.episode, episode.title, collect(enemy.species) AS species, "
-                + "collect(enemy.character) AS characters "
-                + "ORDER BY episode.episode";
+        cql = "MATCH (a:Actor {actor: 'Peter Davison'})-[:APPEARED_IN]->(episode:Episode), " +
+                "(d:Character {character: 'Doctor'}) " +
+                "OPTIONAL MATCH (episode:Episode)<-[:APPEARED_IN]-(s:Species)-[:ENEMY_OF]->(d) " +
+                "OPTIONAL MATCH (episode:Episode)<-[:APPEARED_IN]-(c:Character)-[:ENEMY_OF]->(d) " +
+                "RETURN DISTINCT episode.episode, episode.title, collect(DISTINCT s.species) AS species, collect(DISTINCT c.character) AS characters " +
+                "ORDER BY episode.episode ASC";
 
 
         // SNIPPET_END
